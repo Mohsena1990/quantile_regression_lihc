@@ -11,7 +11,8 @@ from risk_category import assign_hqrtm, assign_traditional_lihc
 # Config
 # =========================
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DATA_PATH = REPO_ROOT / "ENABLE.EU_dataset_survey of households.xlsx"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_PATH = PROJECT_ROOT / "ENABLE.EU_dataset_survey of households.xlsx"
 OUTPUT_CLEAN = "preprocessed_data_clean.csv"
 OUTPUT_LIHC = "df_lihc.csv"
 OUTPUT_HQRTM_60 = "df_hqrtm_60.csv"

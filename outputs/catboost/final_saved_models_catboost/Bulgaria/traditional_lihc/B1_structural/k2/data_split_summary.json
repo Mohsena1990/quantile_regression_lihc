@@ -1,0 +1,20 @@
+{
+    "country": "Bulgaria",
+    "dataset": "traditional_lihc",
+    "model_name": "B1_structural",
+    "k": 2,
+    "train_size": 750,
+    "test_size": 250,
+    "train_class_counts": {
+        "No risk": 467,
+        "Income risk": 145,
+        "Expenditure risk": 101,
+        "Double risk": 37
+    },
+    "test_class_counts": {
+        "No risk": 151,
+        "Income risk": 58,
+        "Expenditure risk": 31,
+        "Double risk": 10
+    }
+}

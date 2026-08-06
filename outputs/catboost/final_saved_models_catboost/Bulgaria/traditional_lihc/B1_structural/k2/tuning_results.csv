@@ -1,0 +1,9 @@
+trial,mean_score,std_score,iterations,learning_rate,depth,l2_leaf_reg,verbose,loss_function,eval_metric,task_type,bootstrap_type,subsample,bagging_temperature
+3,0.2813787313587562,0.003346458574767064,1000,0.1,6,30,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.9,
+4,0.2809902098026301,0.005516520906999167,1000,0.03,8,30,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.7,
+1,0.278530971200935,0.003761937178929864,500,0.05,6,3,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.7,
+7,0.27701123604873573,0.0032464702435126003,500,0.03,8,10,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.9,
+6,0.27656304479826754,0.006076547737158267,500,0.1,8,30,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.7,
+2,0.2730862820594039,0.001348104615442991,300,0.03,6,10,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.7,
+8,0.2729010746610185,0.005943793144502829,1000,0.1,4,3,0,MultiClass,TotalF1:average=Macro,CPU,Bayesian,,0.0
+5,0.2600719299963221,0.005022105410073668,1000,0.01,8,3,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.85,

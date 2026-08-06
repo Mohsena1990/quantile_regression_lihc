@@ -1,0 +1,20 @@
+{
+    "country": "Italy",
+    "dataset": "traditional_lihc",
+    "model_name": "B1_structural",
+    "k": 4,
+    "train_size": 768,
+    "test_size": 257,
+    "train_class_counts": {
+        "No risk": 572,
+        "Expenditure risk": 145,
+        "Income risk": 42,
+        "Double risk": 9
+    },
+    "test_class_counts": {
+        "No risk": 198,
+        "Expenditure risk": 41,
+        "Income risk": 14,
+        "Double risk": 4
+    }
+}

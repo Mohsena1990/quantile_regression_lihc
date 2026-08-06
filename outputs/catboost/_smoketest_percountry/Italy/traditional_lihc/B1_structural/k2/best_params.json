@@ -1,0 +1,12 @@
+{
+    "iterations": 1000,
+    "learning_rate": 0.1,
+    "depth": 6,
+    "l2_leaf_reg": 30,
+    "verbose": 0,
+    "loss_function": "MultiClass",
+    "eval_metric": "TotalF1:average=Macro",
+    "task_type": "CPU",
+    "bootstrap_type": "Bernoulli",
+    "subsample": 0.9
+}

@@ -3,7 +3,6 @@ import seaborn as sns
 import pandas as pd
 from sklearn.metrics import (
     confusion_matrix,
-    accuracy_score,
     f1_score as sk_f1_score,
     roc_curve,
     auc,

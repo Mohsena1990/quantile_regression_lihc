@@ -565,11 +565,7 @@
 
 
 import os, json, pandas as pd, numpy as np, matplotlib.pyplot as plt, seaborn as sns
-from sklearn.metrics import confusion_matrix, roc_curve, auc, precision_recall_curve, average_precision_score
-from sklearn.preprocessing import label_binarize
-from sklearn.calibration import calibration_curve
-import shap
-from shap import TreeExplainer, summary_plot, dependence_plot
+from shap import summary_plot, dependence_plot
 from catboost import CatBoostClassifier, Pool  # Use CatBoostClassifier for clarity
 
 # ------------------ CONFIGURATION ------------------
@@ -622,7 +618,9 @@ print('********************************** 2 ************************************
 # ------------------ HELPER ------------------
 def savefig(path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    plt.savefig(path, dpi=900, bbox_inches="tight", facecolor="white")
+    root, _ = os.path.splitext(path)
+    plt.savefig(f"{root}.png", dpi=900, bbox_inches="tight", facecolor="white")
+    plt.savefig(f"{root}.pdf", bbox_inches="tight", facecolor="white")
     plt.close()
 
 # ============================================================

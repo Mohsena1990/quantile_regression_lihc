@@ -1,0 +1,19 @@
+{
+    "dataset": "traditional_lihc",
+    "model_name": "B1_structural",
+    "k": 2,
+    "train_size": 4896,
+    "test_size": 1633,
+    "train_class_counts": {
+        "No risk": 3394,
+        "Expenditure risk": 731,
+        "Income risk": 585,
+        "Double risk": 186
+    },
+    "test_class_counts": {
+        "No risk": 1083,
+        "Expenditure risk": 301,
+        "Income risk": 182,
+        "Double risk": 67
+    }
+}

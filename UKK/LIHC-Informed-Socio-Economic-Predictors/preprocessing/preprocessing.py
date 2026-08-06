@@ -1,7 +1,7 @@
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
 
 from missing_values import drop_feature
 from risk_category import assign_hqrtm, assign_traditional_lihc
@@ -10,7 +10,8 @@ from risk_category import assign_hqrtm, assign_traditional_lihc
 # =========================
 # Config
 # =========================
-DATA_PATH = r"/home/mohsen/project/qiantile_regression_lihc/ENABLE.EU_dataset_survey of households.xlsx"
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DATA_PATH = REPO_ROOT / "ENABLE.EU_dataset_survey of households.xlsx"
 OUTPUT_CLEAN = "preprocessed_data_clean.csv"
 OUTPUT_LIHC = "df_lihc.csv"
 OUTPUT_HQRTM_60 = "df_hqrtm_60.csv"
@@ -143,9 +144,20 @@ def print_country_summary(df: pd.DataFrame, label_col: str, title: str) -> None:
 # Load
 # =========================
 df = pd.read_excel(DATA_PATH, sheet_name=0).copy()
+
+# Drop countries with structurally incomplete survey coverage: France (2),
+# Norway (6), Poland (7), and the UK (11) have 0% valid SettlementSize
+# responses (the question was never recorded for these countries, not
+# scattered individual non-response -- no per-country imputation can
+# recover it). The remaining 7 countries have 0% missing.
+EXCLUDED_COUNTRIES = [2, 6, 7, 11]
+print(f"Dropping countries with incomplete survey coverage: {EXCLUDED_COUNTRIES}")
+print(df.loc[df['Country'].isin(EXCLUDED_COUNTRIES), 'Country'].value_counts().sort_index())
+df = df[~df["Country"].isin(EXCLUDED_COUNTRIES)].reset_index(drop=True)
+
 df_raw = df.copy()
 
-print("Initial shape:", df.shape)
+print("Initial shape (after country filter):", df.shape)
 print(df["Country"].value_counts(dropna=False).sort_index())
 
 # =========================
@@ -176,14 +188,19 @@ df["C3"] = (
     .fillna("Missing")
 )
 
+# Impute missing SettlementSize with the per-country mode *before* mapping
+# to strings -- doing this after mapping (as before) is a no-op, because by
+# then every missing value has already been replaced by the literal string
+# "No answer" and groupby(...).transform(fillna) has no NaN left to fill.
+df["SettlementSize"] = pd.to_numeric(df["SettlementSize"], errors="coerce")
+df["SettlementSize"] = df.groupby("Country")["SettlementSize"].transform(
+    lambda x: x.fillna(x.mode().iloc[0] if not x.mode().empty else x.median())
+)
+
 df["SettlementSize"] = (
     df["SettlementSize"]
     .map({1: "1", 2: "2", 3: "3", 4: "4", 5: "5"})
     .fillna("No answer")
-)
-
-df["SettlementSize"] = df.groupby("Country")["SettlementSize"].transform(
-    lambda x: x.fillna(x.mode().iloc[0] if not x.mode().empty else x.median())
 )
 
 df["H9"] = df["H9"].fillna(df["H9"].mode().iloc[0] if not df["H9"].mode().empty else 1)
@@ -235,12 +252,29 @@ df["income_bracket"] = df.groupby("Country")["S9MONTH"].transform(
 
 df["approx_income"] = df.apply(decile_to_income, axis=1)
 
+# Needed before total_expenditure below: whether a household's main
+# heating source is electric (H6A1) or an electric heat pump (H6A10)
+# determines whether its heating cost is already inside its electricity
+# bill (moved up from later in this file, where it was originally
+# computed only for use as a model feature).
+for col in HEATING_FEATURES:
+    df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
+df["main_heating_source"] = df[HEATING_FEATURES].idxmax(axis=1)
+
 df["H8A_EUR"] = df.apply(
     lambda row: row["H8A"] * EXCHANGE_RATES.get(row["Country"], 1.0) if pd.notna(row["H8A"]) else np.nan,
     axis=1
 )
 df["H8B_EUR"] = df.apply(
     lambda row: row["H8B"] * EXCHANGE_RATES.get(row["Country"], 1.0) if pd.notna(row["H8B"]) else np.nan,
+    axis=1
+)
+df["H7A1_EUR"] = df.apply(
+    lambda row: row["H7A1"] * EXCHANGE_RATES.get(row["Country"], 1.0) if pd.notna(row["H7A1"]) else np.nan,
+    axis=1
+)
+df["H7A2_EUR"] = df.apply(
+    lambda row: row["H7A2"] * EXCHANGE_RATES.get(row["Country"], 1.0) if pd.notna(row["H7A2"]) else np.nan,
     axis=1
 )
 
@@ -251,7 +285,44 @@ df["num_elderly"] = df["S1Ac3"].fillna(0) + df["S1Bc3"].fillna(0)
 df["children_present"] = (df["num_children"] > 0).astype(int)
 df["elderly_present"] = (df["num_elderly"] > 0).astype(int)
 
-df["total_expenditure"] = df[["H8A_EUR", "H8B_EUR"]].sum(axis=1, min_count=1) * 12
+# ---------------------------------------------------------------------
+# total_expenditure = annual electricity cost + annual heating fuel cost.
+#
+# H8A is a MONTHLY electricity bill, H8B an ANNUAL one. These were
+# previously summed together and the sum multiplied by 12 regardless,
+# which is only correct when H8A alone is present; it corrupted ~11% of
+# households (mixed units when both are present, 12x inflation when only
+# H8B is present). Coalesce instead: prefer the already-annual H8B, fall
+# back to H8A x 12.
+#
+# H7A1/H7A2 (heating fuel cost) were previously excluded from
+# total_expenditure entirely, even though for any household not heating
+# with electricity, heating fuel is typically the dominant energy cost.
+# H7A2 is already a full heating-season total; H7A1 is per-month and is
+# annualized using H7AA (number of months heating was actually paid for
+# -- heating is seasonal, not a flat 12 months), defaulting to a 6-month
+# heating season when H7AA wasn't answered.
+#
+# Heating cost is only ADDED separately when it isn't already inside the
+# electricity bill: households whose main heating source is electricity
+# (H6A1) or an electric heat pump (H6A10) have heating billed through
+# electricity already, so adding H7 on top would double-count it.
+# ---------------------------------------------------------------------
+electricity_annual_cost = df["H8B_EUR"].combine_first(df["H8A_EUR"] * 12)
+
+months_heated = pd.to_numeric(df["H7AA"], errors="coerce").clip(lower=1, upper=12)
+heating_annual_from_monthly = df["H7A1_EUR"] * months_heated.fillna(6)
+heating_annual_cost = df["H7A2_EUR"].combine_first(heating_annual_from_monthly)
+
+heating_billed_via_electricity = df["main_heating_source"].isin(["H6A1", "H6A10"])
+both_missing = electricity_annual_cost.isna() & heating_annual_cost.isna()
+electricity_plus_heating = electricity_annual_cost.add(heating_annual_cost, fill_value=0).where(~both_missing)
+
+df["total_expenditure"] = np.where(
+    heating_billed_via_electricity,
+    electricity_annual_cost,
+    electricity_plus_heating,
+)
 df["exp_observed_flag"] = df["total_expenditure"].notna().astype(int)
 df["total_expenditure"] = df.groupby("Country")["total_expenditure"].transform(lambda x: x.fillna(x.median()))
 df["log_expenditure"] = np.log1p(df["total_expenditure"])
@@ -284,12 +355,7 @@ df["heating_control"] = df.groupby("Country")["heating_control"].transform(
     lambda x: x.fillna(x.mode().iloc[0] if not x.mode().empty else x.median())
 )
 
-for col in HEATING_FEATURES:
-    df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
-
-df["main_heating_source"] = df[HEATING_FEATURES].idxmax(axis=1)
-# for col in HEATING_FEATURES:
-#     df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
+# main_heating_source is computed earlier now (needed for total_expenditure).
 
 # X_heating = StandardScaler().fit_transform(df[HEATING_FEATURES])
 # df["heating_strategy"] = KMeans(n_clusters=5, random_state=42, n_init=10).fit_predict(X_heating)

@@ -1,0 +1,20 @@
+{
+    "country": "Hungary",
+    "dataset": "traditional_lihc",
+    "model_name": "B1_structural",
+    "k": 4,
+    "train_size": 766,
+    "test_size": 256,
+    "train_class_counts": {
+        "No risk": 602,
+        "Expenditure risk": 122,
+        "Income risk": 31,
+        "Double risk": 11
+    },
+    "test_class_counts": {
+        "No risk": 194,
+        "Expenditure risk": 47,
+        "Income risk": 11,
+        "Double risk": 4
+    }
+}

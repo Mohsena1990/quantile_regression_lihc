@@ -1,0 +1,20 @@
+{
+    "country": "Germany",
+    "dataset": "hqrtm_q65",
+    "model_name": "B1_structural",
+    "k": 2,
+    "train_size": 533,
+    "test_size": 178,
+    "train_class_counts": {
+        "No risk": 320,
+        "Expenditure risk": 113,
+        "Income risk": 75,
+        "Double risk": 25
+    },
+    "test_class_counts": {
+        "No risk": 107,
+        "Expenditure risk": 43,
+        "Income risk": 19,
+        "Double risk": 9
+    }
+}

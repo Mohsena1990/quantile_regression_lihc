@@ -1,0 +1,20 @@
+{
+    "country": "Bulgaria",
+    "dataset": "hqrtm_q65",
+    "model_name": "B1_structural",
+    "k": 4,
+    "train_size": 750,
+    "test_size": 250,
+    "train_class_counts": {
+        "No risk": 413,
+        "Expenditure risk": 155,
+        "Income risk": 128,
+        "Double risk": 54
+    },
+    "test_class_counts": {
+        "No risk": 129,
+        "Expenditure risk": 53,
+        "Income risk": 53,
+        "Double risk": 15
+    }
+}

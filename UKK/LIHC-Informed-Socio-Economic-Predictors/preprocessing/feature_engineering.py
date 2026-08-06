@@ -1,6 +1,5 @@
 import pandas as pd
 
-import pandas as pd
 
 def get_categorical_features(df, max_unique_absolute=11):
     """

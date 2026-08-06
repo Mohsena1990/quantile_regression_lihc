@@ -1,0 +1,4 @@
+trial,mean_score,std_score,iterations,learning_rate,depth,l2_leaf_reg,verbose,loss_function,eval_metric,task_type,bootstrap_type,subsample
+1,0.3145553282437863,0.008056635289421151,500,0.05,6,3,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.7
+3,0.311578168483342,0.007682632156655789,1000,0.1,6,30,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.9
+2,0.3046828382429859,0.024779096551972118,300,0.03,6,10,0,MultiClass,TotalF1:average=Macro,CPU,Bernoulli,0.7

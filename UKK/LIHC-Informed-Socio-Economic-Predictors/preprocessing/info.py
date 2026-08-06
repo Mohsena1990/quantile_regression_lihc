@@ -1,10 +1,12 @@
 
 # import the reuqired packages (libraries and modules)
 
+from pathlib import Path
+
 import pandas as pd
 
-
-dir = r"/home/mohsen/project/qiantile_regression_lihc/df_hqrtm_60.csv"
+REPO_ROOT = Path(__file__).resolve().parents[3]
+dir = REPO_ROOT / "df_hqrtm_60.csv"
 df = pd.read_csv(dir)
 
 # df['SettlementSize'].isnull().sum()
@@ -50,7 +52,7 @@ print("========================================")
 
 import pandas as pd
 
-dir = "/home/mohsen/project/qiantile_regression_lihc/df_hqrtm_60.csv"
+dir = REPO_ROOT / "df_hqrtm_60.csv"
 df = pd.read_csv(dir, low_memory=False)
 
 # Map SettlementSize

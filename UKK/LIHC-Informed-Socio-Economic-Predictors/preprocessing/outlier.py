@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
 
 
 
@@ -256,12 +257,6 @@ def plot_outliers_per_feature(df, pause=True):
 #     plt.show()
 
 
-
-import seaborn as sns
-
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 def remove_right_tail(df, features=None, keep_fraction=0.98, plot=True):
     """

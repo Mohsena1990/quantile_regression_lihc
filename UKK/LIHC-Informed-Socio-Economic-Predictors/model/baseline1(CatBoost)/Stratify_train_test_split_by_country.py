@@ -3,7 +3,7 @@ import random
 import numpy as np
 import pandas as pd
 from imblearn.over_sampling import SMOTE, SMOTENC
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedKFold
 
 
 def _build_smote_sampler(
@@ -266,6 +266,97 @@ def country_stratified_group_split(
         print(train_counts_before)
         if missing_train_classes:
             print("Missing training classes in this fold:", missing_train_classes)
+        if use_smote:
+            print("Training class counts after SMOTE:")
+            print(pd.Series(y_tr).value_counts())
+        print("Validation class counts:")
+        print(y_val.value_counts())
+
+        folds.append((X_tr, X_val, y_tr, y_val))
+
+    return folds
+
+
+def class_stratified_k_fold_split(
+    df,
+    inputs,
+    target,
+    n_splits=5,
+    random_state=42,
+    use_smote=False,
+    categorical_cols=None,
+    sampling_strategy="not majority",
+):
+    """
+    Plain class-stratified K-fold CV split (no country grouping).
+
+    Use this instead of country_stratified_group_split when df has
+    already been filtered to a single country -- that function requires
+    n_splits <= number of unique countries in the group column, which is
+    always 1 in that case and would raise immediately. Raises ValueError
+    up front if any class has fewer than n_splits members, since
+    StratifiedKFold would otherwise silently produce folds missing that
+    class entirely rather than erroring.
+
+    Returns
+    -------
+    list
+        List of tuples: (X_tr, X_val, y_tr, y_val)
+    """
+    X = df[inputs].copy()
+    y = df[target].copy()
+
+    class_counts = y.value_counts()
+    if len(class_counts) < 2:
+        raise ValueError(f"Only {len(class_counts)} class(es) present; need at least 2.")
+    if class_counts.min() < n_splits:
+        raise ValueError(
+            f"Smallest class ({class_counts.idxmin()}) has {class_counts.min()} samples, "
+            f"fewer than n_splits={n_splits}."
+        )
+
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
+    categorical_cols = categorical_cols or []
+    categorical_cols = [c for c in categorical_cols if c in X.columns]
+
+    folds = []
+    for fold_id, (train_idx, val_idx) in enumerate(skf.split(X, y), start=1):
+        X_tr = X.iloc[train_idx].copy()
+        X_val = X.iloc[val_idx].copy()
+        y_tr = y.iloc[train_idx].copy()
+        y_val = y.iloc[val_idx].copy()
+
+        for col in X_tr.columns:
+            if col in categorical_cols:
+                X_tr[col] = X_tr[col].astype(str).fillna("missing")
+                if col in X_val.columns:
+                    X_val[col] = X_val[col].astype(str).fillna("missing")
+            else:
+                X_tr[col] = pd.to_numeric(X_tr[col], errors="coerce")
+                X_tr[col] = X_tr[col].replace([np.inf, -np.inf], np.nan)
+                X_tr[col] = X_tr[col].fillna(X_tr[col].median())
+
+                if col in X_val.columns:
+                    X_val[col] = pd.to_numeric(X_val[col], errors="coerce")
+                    X_val[col] = X_val[col].replace([np.inf, -np.inf], np.nan)
+                    X_val[col] = X_val[col].fillna(X_tr[col].median())
+
+        train_counts_before = y_tr.value_counts()
+
+        if use_smote:
+            sampler = _build_smote_sampler(
+                X_tr=X_tr,
+                y_tr=y_tr,
+                categorical_cols=categorical_cols,
+                sampling_strategy=sampling_strategy,
+                random_state=random_state,
+            )
+            if sampler is not None:
+                X_tr, y_tr = sampler.fit_resample(X_tr, y_tr)
+
+        print(f"\nFold {fold_id}")
+        print("Training class counts before SMOTE:")
+        print(train_counts_before)
         if use_smote:
             print("Training class counts after SMOTE:")
             print(pd.Series(y_tr).value_counts())

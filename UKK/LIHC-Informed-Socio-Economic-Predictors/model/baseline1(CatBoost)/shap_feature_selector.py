@@ -1,8 +1,10 @@
+import os
+
 import numpy as np
 import pandas as pd
 import shap
 import matplotlib.pyplot as plt
-from typing import List, Optional, Dict
+from typing import List, Optional
 from CatBoost import CatBoostML
 
 
@@ -196,7 +198,9 @@ class SHAPAnalyzer:
         plt.tight_layout()
 
         if output_path:
-            plt.savefig(output_path, dpi=300, bbox_inches="tight")
+            root, _ = os.path.splitext(output_path)
+            plt.savefig(f"{root}.png", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{root}.pdf", bbox_inches="tight")
             plt.close()
         else:
             plt.show()
@@ -228,7 +232,9 @@ class SHAPAnalyzer:
         plt.tight_layout()
 
         if output_path:
-            plt.savefig(output_path, dpi=300, bbox_inches="tight")
+            root, _ = os.path.splitext(output_path)
+            plt.savefig(f"{root}.png", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{root}.pdf", bbox_inches="tight")
             plt.close()
         else:
             plt.show()

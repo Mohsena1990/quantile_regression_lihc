@@ -1,0 +1,10 @@
+quantile,feature_set,slope_pooling,n_valid,n_total,double_risk_rate_overall
+0.6,baseline,fully_pooled,6529,6529,0.11916066778986062
+0.6,+SettlementSize,fully_pooled,6529,6529,0.11885434216572216
+0.6,baseline,partial_pooling,6529,6529,0.12926941338642978
+0.65,baseline,fully_pooled,6529,6529,0.1066013172001838
+0.65,+SettlementSize,fully_pooled,6529,6529,0.10690764282432226
+0.65,baseline,partial_pooling,6529,6529,0.10797978250880687
+0.7,baseline,fully_pooled,6529,6529,0.08822177975187624
+0.7,+SettlementSize,fully_pooled,6529,6529,0.08837494256394547
+0.7,baseline,partial_pooling,6529,6529,0.09051922193291469

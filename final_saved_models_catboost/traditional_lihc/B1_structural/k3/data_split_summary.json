@@ -2,18 +2,18 @@
     "dataset": "traditional_lihc",
     "model_name": "B1_structural",
     "k": 3,
-    "train_size": 8448,
-    "test_size": 2817,
+    "train_size": 4896,
+    "test_size": 1633,
     "train_class_counts": {
-        "No risk": 6150,
-        "Expenditure risk": 1207,
-        "Income risk": 867,
-        "Double risk": 224
+        "No risk": 3471,
+        "Expenditure risk": 654,
+        "Income risk": 617,
+        "Double risk": 154
     },
     "test_class_counts": {
-        "No risk": 2040,
-        "Expenditure risk": 437,
-        "Income risk": 273,
-        "Double risk": 67
+        "No risk": 1148,
+        "Expenditure risk": 236,
+        "Income risk": 202,
+        "Double risk": 47
     }
 }

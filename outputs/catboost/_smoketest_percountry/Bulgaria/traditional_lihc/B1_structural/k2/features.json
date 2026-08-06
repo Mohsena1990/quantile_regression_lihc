@@ -1,0 +1,22 @@
+{
+    "country": "Bulgaria",
+    "dataset": "traditional_lihc",
+    "model_name": "B1_structural",
+    "features": [
+        "floor_area",
+        "house_age",
+        "dwelling_type",
+        "insulation_count",
+        "main_heating_source",
+        "heating_control",
+        "household_size",
+        "children_present",
+        "elderly_present"
+    ],
+    "cat_features": [
+        "dwelling_type",
+        "main_heating_source",
+        "heating_control"
+    ],
+    "k": 2
+}

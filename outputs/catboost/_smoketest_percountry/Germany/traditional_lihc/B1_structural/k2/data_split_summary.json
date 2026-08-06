@@ -1,0 +1,20 @@
+{
+    "country": "Germany",
+    "dataset": "traditional_lihc",
+    "model_name": "B1_structural",
+    "k": 2,
+    "train_size": 533,
+    "test_size": 178,
+    "train_class_counts": {
+        "No risk": 346,
+        "Expenditure risk": 87,
+        "Income risk": 81,
+        "Double risk": 19
+    },
+    "test_class_counts": {
+        "No risk": 118,
+        "Expenditure risk": 32,
+        "Income risk": 21,
+        "Double risk": 7
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "country": "Hungary",
+    "dataset": "hqrtm_q65",
+    "model_name": "B1_structural",
+    "k": 4,
+    "train_size": 766,
+    "test_size": 256,
+    "train_class_counts": {
+        "No risk": 523,
+        "Expenditure risk": 201,
+        "Income risk": 34,
+        "Double risk": 8
+    },
+    "test_class_counts": {
+        "No risk": 163,
+        "Expenditure risk": 78,
+        "Income risk": 11,
+        "Double risk": 4
+    }
+}

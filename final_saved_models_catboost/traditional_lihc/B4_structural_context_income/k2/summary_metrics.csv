@@ -1,2 +1,0 @@
-dataset,model_name,k,cv_accuracy_mean,cv_accuracy_std,cv_macro_f1_mean,cv_macro_f1_std,cv_weighted_f1_mean,cv_weighted_f1_std,test_accuracy,test_macro_f1,test_weighted_f1,test_macro_precision,test_macro_recall
-traditional_lihc,B4_structural_context_income,2,0.574200442783131,0.024960554686760818,0.39908388124409766,0.032453966635831305,0.6138348450010016,0.012520829295966086,0.6485623003194888,0.5544855011982386,0.6863690485410264,0.5474391998436315,0.6142748956268176

@@ -1,2 +1,0 @@
-dataset,model_name,k,cv_accuracy_mean,cv_accuracy_std,cv_macro_f1_mean,cv_macro_f1_std,cv_weighted_f1_mean,cv_weighted_f1_std,test_accuracy,test_macro_f1,test_weighted_f1,test_macro_precision,test_macro_recall
-traditional_lihc,B2_structural_socioeconomic,5,0.6443956333954781,0.05325401309194516,0.4031589554774543,0.07763378543378889,0.6529439747201883,0.04554998070084196,0.6869009584664537,0.5079009137319421,0.699776943238495,0.49246555320637897,0.5442371784908109

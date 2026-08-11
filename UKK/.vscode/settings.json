@@ -1,6 +1,0 @@
-{
-     "python.defaultInterpreterPath": "C:\\Users\\SISLab\\anaconda3\\python.exe",
-    "python.terminal.activateEnvironment": true,
-"python-envs.defaultEnvManager": "ms-python.python:system",
-"python-envs.defaultPackageManager": "ms-python.python:pip"
-   }

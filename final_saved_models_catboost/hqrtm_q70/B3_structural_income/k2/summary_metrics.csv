@@ -1,2 +1,0 @@
-dataset,model_name,k,cv_accuracy_mean,cv_accuracy_std,cv_macro_f1_mean,cv_macro_f1_std,cv_weighted_f1_mean,cv_weighted_f1_std,test_accuracy,test_macro_f1,test_weighted_f1,test_macro_precision,test_macro_recall
-hqrtm_q70,B3_structural_income,2,0.46134929277290965,0.004979127188761975,0.38126178468078936,0.0051881675683622406,0.4851963408239382,0.012047495437008877,0.5353212637557685,0.4722496634547275,0.5497689616872076,0.45541359758586414,0.5096534975857266

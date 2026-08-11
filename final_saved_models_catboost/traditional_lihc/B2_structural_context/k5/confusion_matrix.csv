@@ -1,5 +1,0 @@
-,pred_Double risk,pred_Expenditure risk,pred_Income risk,pred_No risk
-true_Double risk,42,7,25,2
-true_Expenditure risk,54,180,49,121
-true_Income risk,73,28,159,37
-true_No risk,102,535,319,1084

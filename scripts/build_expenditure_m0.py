@@ -12,7 +12,7 @@ from lib.expenditure.currency import convert_local_to_eur
 from lib.expenditure.reconstruct import annual_electricity_cost,annual_heating_cost,combine_energy_cost
 from measurement.families.van_hove import country_thresholds,label_with_thresholds
 from scripts.prepare_country_references import BASE,parse_jsonstat,publish
-CURRENCY={'Bulgaria':'BGN','Hungary':'HUF','Italy':'EUR','Poland':'PLN','Spain':'EUR'}
+CURRENCY={'Bulgaria':'BGN','Hungary':'HUF','Italy':'EUR','Poland':'PLN'}
 def currency_reference()->pd.DataFrame:
  import urllib.request
  url=f'{BASE}/ert_bil_eur_a?lang=EN&time=2017'; payload=json.load(urllib.request.urlopen(url)); raw=parse_jsonstat(payload); selected=raw.loc[raw.statinfo.eq('AVG')&raw.currency.isin(['HUF','PLN'])]
@@ -69,7 +69,7 @@ def main():
  cols=['UID','Country','NUTS1','H7A1','H7A2','H7A88','H7AA','H8A','H8B','S9MONTH','w','H6A1'];d=retained_cohort(pd.read_excel(ROOT/'data/raw/ENABLE.EU_dataset_survey of households.xlsx',sheet_name=HOUSEHOLD_SHEET,usecols=cols));d['income_bracket']=pd.to_numeric(d.S9MONTH,errors='coerce').where(lambda x:x.between(1,10))
  heat=d.apply(lambda r:annual_heating_cost(r.H7A2,r.H7A1,r.H7AA,no_heating=(r.H7A88==1)),axis=1);electric=d.apply(lambda r:annual_electricity_cost(r.H8B,r.H8A),axis=1);d['heating_cost_local']=[x[0] for x in heat];d['heating_cost_source']=[x[1] for x in heat];d['electricity_cost_local']=[x[0] for x in electric];d['electricity_cost_source']=[x[1] for x in electric];both=d.apply(lambda r:combine_energy_cost(r.heating_cost_local,r.electricity_cost_local),axis=1);d['observed_energy_cost_local']=[x[0] for x in both];d['energy_cost_completeness']=[x[1] for x in both];d['electric_heating_double_count_risk']=pd.to_numeric(d.H6A1,errors='coerce').gt(0)&d.observed_energy_cost_local.notna()
  rates=currency_reference();rates.to_csv(ROOT/'artifacts/reference/currency_conversion.csv',index=False);d['energy_cost_currency']=d.country.map(CURRENCY);d['observed_energy_cost_eur_reference']=convert_local_to_eur(d,rates);d['cost_outlier_flag']=d.groupby('country').observed_energy_cost_eur_reference.transform(lambda x:x.gt(x.quantile(.995)))
- d.to_parquet(ROOT/'artifacts/data/harmonised_observed_cost.parquet',index=False)
+ (ROOT/'artifacts/data').mkdir(parents=True,exist_ok=True);(ROOT/'artifacts/predictions').mkdir(parents=True,exist_ok=True);d.to_parquet(ROOT/'artifacts/data/harmonised_observed_cost.parquet',index=False)
  summary=d.groupby('country').agg(cohort_n=('UID','size'),heating_eligible_n=('heating_cost_local','count'),electricity_eligible_n=('electricity_cost_local','count'),observed_cost_eligible_n=('observed_energy_cost_eur_reference','count'),income_eligible_n=('income_bracket','count'),m0_eligible_n=('UID',lambda s:int((d.loc[s.index,'observed_energy_cost_eur_reference'].notna()&d.loc[s.index,'income_bracket'].notna()).sum())),electric_double_count_risk_n=('electric_heating_double_count_risk','sum')).reset_index();publish(summary,'table04_energy_expenditure_summary');publish(rates,'table_currency_conversion')
  split=build_split_registry(d,ROOT/'artifacts/splits/household_split_v1.json',seed=42);d=d.merge(split,on=['UID','country','NUTS1'],validate='one_to_one')
  eligible=d.dropna(subset=['observed_energy_cost_eur_reference','income_bracket']).copy();full_t=country_thresholds(eligible);desc=label_with_thresholds(eligible,full_t);desc['label_scope']='descriptive_full_cohort';desc['threshold_basis']='full eligible country cohort'

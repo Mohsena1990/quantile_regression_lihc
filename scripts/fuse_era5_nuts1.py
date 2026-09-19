@@ -1,8 +1,8 @@
-"""Fuse ERA5-Land daily temperatures to NUTS1 with a strict 24/24 QC gate."""
+"""Fuse ERA5-Land daily temperatures to NUTS1 with a strict QC gate: every NUTS1 region of the retained cohort must be fused."""
 from __future__ import annotations
 import argparse,hashlib,json,sys
 from pathlib import Path
-import geopandas as gpd,numpy as np,pandas as pd,xarray as xr
+import geopandas as gpd,pandas as pd,xarray as xr
 import matplotlib.pyplot as plt
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from lib.climate.degree_days import climate_summary
@@ -15,7 +15,7 @@ from scripts.build_policy_maps import country_label_points,_label_countries
 # configuration's box. Each entry's files must already exist (acquire_era5_land.py --configuration
 # <name>) -- this script never submits a download itself. A region matched by more than one
 # source raises an error rather than silently picking one (see the `matched_regions` guard below).
-SUPPLEMENTARY_SOURCES={'annual_2017':['annual_2017_canarias']}
+SUPPLEMENTARY_SOURCES={}  # the Canary Islands request only served Spain, which is no longer in the cohort
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def load_temperature(path):
@@ -54,9 +54,9 @@ def main():
    matched_regions.add(code)
   source_hashes.append({'source_configuration':src,'mean_sha256':sha(src_mean_path),'minimum_sha256':sha(src_min_path)})
  daily=pd.DataFrame(daily).merge(country_by_nuts,on='NUTS1',validate='many_to_one');result=pd.DataFrame(rows).merge(country_by_nuts,on='NUTS1',validate='one_to_one');found=set(result.NUTS1);missing=sorted(expected_regions-found)
- daily_ok=not daily.duplicated(['NUTS1','date']).any() and len(daily)==len(expected)*24;finite_ok=bool(daily[['temperature_mean','temperature_minimum']].notna().all().all());range_ok=bool(daily.temperature_mean.between(-80,60).all() and daily.temperature_minimum.between(-90,55).all());order_ok=bool(daily.temperature_mean.ge(daily.temperature_minimum-1e-8).all());degree_ok=bool(result.hdd.ge(0).all() and result.cdd.ge(0).all() and result.frost_days.between(0,len(expected)).all());prefix_ok=all(code[:2] in {'BG','HU','IT','PL','ES'} for code in found)
- qc={'configuration':a.configuration,'dataset':'derived-era5-land-daily-statistics','request_id':manifest.get('request_id'),'source_configurations':source_names,'source_request_ids':request_ids,'start':str(start.date()),'end':str(end.date()),'temperature_conversion':'Celsius = Kelvin - 273.15','aggregation_method':'unweighted arithmetic mean of identical ERA5 grid-point membership for daily mean and daily minimum (NaN sea/lake pixels skipped)','nuts_version':'NUTS 2016 GISCO 1M EPSG:4326','nuts_geometry_sha256':sha(nuts_path),'raw_sources_sha256':source_hashes,'expected_regions':24,'fused_regions':len(found),'coverage':len(found)/24,'missing_regions':missing,'expected_days':len(expected),'daily_rows':len(daily),'no_duplicate_date_region':daily_ok,'all_day_counts_valid':daily_ok,'no_missing_regional_temperature':finite_ok,'mean_ge_minimum':order_ok,'reasonable_celsius_ranges':range_ok,'degree_day_checks':degree_ok,'country_prefix_check':prefix_ok,'all_grid_points_positive':bool(result.grid_points.gt(0).all())}
- failures=[k for k,v in {'coverage':len(found)==24 and not missing,'daily':daily_ok,'finite':finite_ok,'order':order_ok,'range':range_ok,'degree':degree_ok,'country':prefix_ok,'grid':qc['all_grid_points_positive']}.items() if not v]
+ daily_ok=not daily.duplicated(['NUTS1','date']).any() and len(daily)==len(expected)*len(expected_regions);finite_ok=bool(daily[['temperature_mean','temperature_minimum']].notna().all().all());range_ok=bool(daily.temperature_mean.between(-80,60).all() and daily.temperature_minimum.between(-90,55).all());order_ok=bool(daily.temperature_mean.ge(daily.temperature_minimum-1e-8).all());degree_ok=bool(result.hdd.ge(0).all() and result.cdd.ge(0).all() and result.frost_days.between(0,len(expected)).all());prefix_ok=all(code[:2] in {'BG','HU','IT','PL','ES'} for code in found)
+ qc={'configuration':a.configuration,'dataset':'derived-era5-land-daily-statistics','request_id':manifest.get('request_id'),'source_configurations':source_names,'source_request_ids':request_ids,'start':str(start.date()),'end':str(end.date()),'temperature_conversion':'Celsius = Kelvin - 273.15','aggregation_method':'unweighted arithmetic mean of identical ERA5 grid-point membership for daily mean and daily minimum (NaN sea/lake pixels skipped)','nuts_version':'NUTS 2016 GISCO 1M EPSG:4326','nuts_geometry_sha256':sha(nuts_path),'raw_sources_sha256':source_hashes,'expected_regions':len(expected_regions),'fused_regions':len(found),'coverage':len(found)/len(expected_regions),'missing_regions':missing,'expected_days':len(expected),'daily_rows':len(daily),'no_duplicate_date_region':daily_ok,'all_day_counts_valid':daily_ok,'no_missing_regional_temperature':finite_ok,'mean_ge_minimum':order_ok,'reasonable_celsius_ranges':range_ok,'degree_day_checks':degree_ok,'country_prefix_check':prefix_ok,'all_grid_points_positive':bool(result.grid_points.gt(0).all())}
+ failures=[k for k,v in {'coverage':len(found)==len(expected_regions) and not missing,'daily':daily_ok,'finite':finite_ok,'order':order_ok,'range':range_ok,'degree':degree_ok,'country':prefix_ok,'grid':qc['all_grid_points_positive']}.items() if not v]
  qc['qc_all_clear']=not failures
  (folder/f'nuts1_{a.configuration}.qc.json').write_text(json.dumps(qc,indent=2)+'\n');daily.to_parquet(folder/f'nuts1_daily_{a.configuration}.parquet',index=False)
  if failures:raise SystemExit(f'BLOCKED_ERA5_QC: {failures}')

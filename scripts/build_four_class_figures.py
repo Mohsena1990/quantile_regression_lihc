@@ -20,7 +20,8 @@ FAMILIES = json.loads((ROOT / "config/pipeline.json").read_text())["families"]
 # status roles rather than the categorical hue ramp.
 RISK_ORDER = ["No Risk", "Income Risk", "Expenditure Risk", "Double Risk"]
 RISK_COLOR = {"No Risk": "#0ca30c", "Income Risk": "#fab219", "Expenditure Risk": "#ec835a", "Double Risk": "#d03b3b"}
-COUNTRY_ORDER = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRY_ORDER = list(RETAINED_COUNTRY_NAMES)
 SURFACE, GRID, INK, INK_MUTED = "#fcfcfb", "#e1e0d9", "#0b0b0b", "#898781"
 
 # Every measurement step that can carry a four-class label.

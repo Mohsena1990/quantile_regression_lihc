@@ -37,7 +37,8 @@ RISK_SHORT = ["No", "Income", "Expend.", "Double"]
 MODELS = ["catboost", "hierarchical_catboost"]
 MODEL_LABEL = {name: classifier_code(name) for name in MODELS}
 LEGEND_CAPTION = "C0=CatBoost  |  C1=Hierarchical CatBoost"
-COUNTRY_ORDER = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRY_ORDER = list(RETAINED_COUNTRY_NAMES)
 COLUMN_ORDER = COUNTRY_ORDER + ["All countries"]
 
 

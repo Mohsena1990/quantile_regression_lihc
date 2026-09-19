@@ -30,7 +30,8 @@ from lib.labels.income_harmonization import harmonized_income_percentile
 from lib.reporting.figures import save_figure
 from measurement.families.model_based import fit_measurement_strategy
 
-COUNTRY_ORDER = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRY_ORDER = list(RETAINED_COUNTRY_NAMES)
 COMP = [f"S1{g}c{i}" for g in ("A", "B") for i in (1, 2, 3)]
 RISK_ORDER = ["No Risk", "Income Risk", "Expenditure Risk", "Double Risk"]
 RISK_COLOR = {"No Risk": "#0ca30c", "Income Risk": "#fab219", "Expenditure Risk": "#ec835a", "Double Risk": "#d03b3b"}
@@ -84,7 +85,7 @@ def main() -> None:
         print("No non-M0 champions in table_family_champions_final.csv -- run scripts/select_family_champions.py first.")
         return
     champ = champions.iloc[0]
-    family, quantile = champ.family, float(champ.quantile)
+    family, quantile = champ["family"], float(champ["quantile"])   # bracket access: Series.quantile is a method, not the column
     print(f"Using champion: {family} (quantile={quantile:.3f})")
 
     d = load_frame(cfg)

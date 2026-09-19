@@ -10,7 +10,7 @@ from urllib.request import urlopen
 import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 BASE="https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
-GEOS={"BG":"Bulgaria","HU":"Hungary","IT":"Italy","PL":"Poland","ES":"Spain"}
+GEOS={"BG":"Bulgaria","HU":"Hungary","IT":"Italy","PL":"Poland"}
 
 def parse_jsonstat(payload:dict)->pd.DataFrame:
     dims=payload["id"]; categories=[]

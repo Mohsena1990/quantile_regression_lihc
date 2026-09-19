@@ -31,7 +31,6 @@ BLOCKED = ("#eeece4", "#898781")
 
 LANES = ["DATA", "MEASURE", "LABEL", "SCREEN", "SELECT", "A0-A2 / B", "REPORT"]
 LANE_H = 1.5
-LEFT_MARGIN = 1.9
 TOTAL_W = 12.6
 
 

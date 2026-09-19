@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import pytest
 from lib.identification.labels import CLASS_NAMES, _need_threshold_oof, support_table, viability
 from lib.identification.protocol import oof_proba, summarise
 from lib.identification.factors import add_factors

@@ -1,443 +1,230 @@
-Energy-poverty measurement redesign
-====================================
+Energy-poverty identification with machine learning: predictors, cross-country comparison and targeting errors
+================================================================================================================
 
-This project asks a social-science question with machine-learning tools: **which
-observable household and dwelling factors are associated with energy poverty, and
-does that association differ by country?** Screening classifiers are the
-measurement instrument for that question, not the deliverable -- a classifier's
-job here is to test how well a given energy-poverty definition can be
-reconstructed from observable household characteristics, so that SHAP/feature
-analysis on top of it tells you which factors actually carry the signal.
+Which observable household and dwelling factors identify energy-poor households, are those factors the same in
+different countries, and what does an imperfect classifier mean for a support scheme that has to target them?
 
-Two benchmarks anchor the comparison: **M0**, a direct replica of Van Hove et al.'s
-country-Q80-on-raw-expenditure benchmark, and **M2/M5/M7**, three genuinely
-different regression methods (linear quantile regression / GAM / gradient-boosted
-quantile regression) that instead model each household's *conditional* high-cost
-threshold from its own dwelling and composition. See
-`AUDIT_AND_REPAIR_REPORT.md` for the full reproducibility audit trail.
+The study extends Van Hove, Dalla Longa & van der Zwaan (2022), "Identifying predictors for energy poverty in Europe
+using machine learning", *Energy & Buildings* 264:112064, on the same ENABLE.EU household survey and the same four
+"low income x high expenditure" classes (No Risk, Income Risk, Expenditure Risk, Double Risk), with CatBoost and SHAP.
+It adds: a need-based cost threshold, an explicit universal-vs-contextual test, honest uncertainty, and a
+targeting-error ("managerial implications") layer. Target venue: *Energy Policy*.
 
-Skeleton created 2026-08-11 (see git tag `legacy-before-measurement-redesign-20260811`
-for the prior codebase). Major redesign 2026-08-26: predictor selection, model
-suite, and reporting layer rebuilt around the goal above -- see "What changed on
-2026-08-26" below if you're picking this up mid-transition.
+Countries in the analysis: **Bulgaria, Hungary, Italy, Poland** (17 NUTS1 regions). Spain was screened and removed
+because it cannot carry every stage of the analysis -- see [`docs/country_screening.md`](docs/country_screening.md).
 
-Pipeline overview
-------------------
+Study design
+------------
 
-```mermaid
-flowchart TD
-    ENABLE["ENABLE.EU household survey<br/>data/raw"] --> COHORT
-    REF["Governed external reference data<br/>Eurostat prices, EU-SILC, EC oil bulletin,<br/>NUTS geometries<br/>artifacts/reference"] --> M_A1
-    ERA5["ERA5-Land climate<br/>strict 24/24 NUTS1 gate"] --> M_A1
+| Decision | Choice |
+|---|---|
+| Cohort | 4,047 households in four countries; immutable 60/20/20 train/validation/test split by household hash (`artifacts/splits/household_split_v1.json`). **The test partition is never read by any analysis** (see "Reproducibility locks"). |
+| Income axis | **Headline: Van Hove's fixed rule, income bracket <= 3.** Sensitivities: frozen survey-weighted percentile <= 0.30, and two *dynamic* rules -- household-size-adjusted income, and income net of energy cost per equivalent adult, each below 60% of the Eurostat national median. |
+| Cost axis | **Headline: a need-based threshold** -- per-country regression of energy cost on floor area, household size, dwelling type/age and climate, out of fold, at q = 0.63. Van Hove's country-wide Q80 of raw cost is the benchmark and replication. |
+| Income as a predictor | **Both states**: excluded (proxy targeting, where income cannot be observed) and included (Van Hove's design; income from a benefits or tax register). |
+| Information tiers | T1 structural (dwelling, household, fuel, climate) -> T2 + socio-economic items -> T3 + welfare screen (S7 aid received, S8 income adequacy). |
+| Importance | mean abs(SHAP) (CatBoost's built-in exact TreeSHAP), permutation importance and partial dependence, all on held-out CV folds (Van Hove found SHAP and permutation can disagree). |
+| Evaluation | Repeated 5-fold CV over train + validation, household-bootstrap 95% CIs, a chance baseline, and **every metric**: accuracy, balanced accuracy, precision, recall, specificity, F1, ROC-AUC, PR-AUC, MCC, kappa, log-loss, Brier -- per class and per axis (`lib/identification/metrics.py`). |
 
-    COHORT["Retained cohort +<br/>immutable train / validation / test split"] --> M0
-    COHORT --> M_A0
-    COHORT --> M_A1
-    COHORT --> A0BUILD["Build A0: recursive feature addition<br/>from Van Hove's 6 non-income predictors,<br/>scored on C0+C1 together"]
-    A0BUILD --> M_A0
+Why the design differs from a naive reading of Van Hove -- three defects found and fixed, each with a regression test:
 
-    subgraph MEASURE["Energy-cost measurement / threshold generation"]
-        M0["M0 (R0)<br/>Van Hove benchmark"]
-        M_A0["M2/M5/M7 (R1-R3), config A0<br/>household-only"]
-        M_A1["M2/M5/M7 (R1-R3), config A1<br/>A0 + climate"]
-    end
+1. **The low-income cutoff moved with the data it was given.** The first harmonisation computed its bracket count from
+   whichever rows it received, so the same household was low-income in one partition and not in another. Now a fixed
+   integer rule (headline) or a frozen, cohort-wide lookup (`artifacts/reference/income_bracket_percentiles.csv`).
+2. **"Don't know" codes were used as numbers** (dwelling age 99 for 6-15% of households). Now missing.
+3. **A cost threshold conditioned on the classifier's own inputs makes the label independent of them** (pooled AUC 0.51),
+   so nothing can be learned. The headline threshold conditions on physical need only.
 
-    M0 --> CLASS
-    M_A0 --> CLASS
-    M_A1 --> CLASS
+Flow (one scatter figure per step)
+----------------------------------
 
-    CLASS["HighCost / LowCost<br/>x<br/>LowIncome / HigherIncome<br/>(harmonized cross-country percentile)"] --> FOURCLASS
-    FOURCLASS["Four energy-poverty classes<br/>No Risk / Income Risk / Expenditure Risk / Double Risk"] --> SCREEN
+| Step | What | Script | Figure |
+|---|---|---|---|
+| 1 | Cost threshold: observed cost against the need-based threshold, with Q80 | `build_step_scatter_figures.py` | `step1_cost_threshold` |
+| 2 | Income x cost quadrants (Van Hove Fig. 4 style); static vs dynamic income | `build_step_scatter_figures.py` | `step2_income_cost_quadrants`, `step2b_income_dynamic_vs_static` |
+| 3 | Predictor discovery: SHAP + permutation + PDP, universal vs contextual, leave-one-country-out test | `build_predictor_discovery.py` | `discovery_*` |
+| 4 | Four-class classification, all metrics, local / pooled / leave-one-country-out | `build_identification_benchmark.py`, `build_identification_sensitivity.py` | `step4_prediction_space` |
+| 5 | Cross-country factor comparison (solid fuel, dwelling age, elderly, household size; climate) | `build_factor_comparison.py` | `factor_*`, `country_transfer_link` |
+| 6 | **Managerial implications**: households missed / wrongly included per 1,000, by information tier | `build_managerial_implications.py` | `managerial_*` |
+| check | Replication of Van Hove's importance ranking; hardship as a policy-anchored target | `replicate_vanhove_importance.py`, `build_hardship_target_check.py` | `vanhove_replication_importance` |
 
-    subgraph SCREENING["2 screening classifiers (C0-C1)"]
-        SCREEN["C0 CatBoost / C1 Hierarchical CatBoost<br/>cost-sensitive class weighting (fixed)"]
-    end
+All scripts are in `scripts/`; tables go to `outputs/tables/`, figures to `outputs/figures/` (600 dpi PNG + vector PDF).
 
-    SCREEN --> SELECT["Validation-based selection<br/>per-family champion, OOF calibration"]
-    SELECT --> LOCK["Locked final-test comparison<br/>test_unlock_authorized: false by default"]
-    SELECT --> DIAG["Best-configuration confusion matrix,<br/>classifier comparison, income ablation"]
-
-    FOURCLASS -. per household, own country only .-> FEATSEL
-    subgraph PERCOUNTRY["Per-country / whole layer: A0-A2"]
-        FEATSEL["A0-A2 fixed feature-config selection<br/>5 countries + pooled Whole scope<br/>A2 (+ country context) is Whole-scope only"]
-        FEATSEL --> BFAM["B0, B2, B5, B7<br/>stitched per-country winning-config measurements"]
-        BFAM --> SCREEN2["Per-country CatBoost / Hier. CatBoost"]
-        FEATSEL --> BEST["table_best_overall.csv<br/>best A-config x M-family x classifier, per country + Whole"]
-    end
-    SCREEN2 --> DIAG2["Per-country confusion matrices<br/>+ B-family NUTS1 policy maps, incl. by-feature segmentation"]
-    BEST --> SPLIT["outputs/paper (headline table + winning-cell confusion matrix)<br/>outputs/appendix (everything else)"]
-```
-
-Symbol legend
--------------
-
-Figures and tables use short paper-facing codes instead of full internal names
-(`lib/reporting/codes.py`, `outputs/tables/table_symbol_legend.csv`):
+A second, older layer sits underneath and supplies the regression and mapping material (codes below): the cost-threshold
+regression families, validation-based classifier selection with a locked test stage, the per-country / pooled
+feature-configuration comparison, and NUTS1 policy maps. Its numbers come from a single train/validation split, so the
+headline classification results are the repeated-CV ones from steps 3-6, not the old champion tables.
 
 | Code | Meaning |
 |---|---|
 | **R0** | M0 -- Van Hove country-Q80 benchmark |
 | **R1-R3** | M2 / M5 / M7 -- linear quantile regression / GAM / gradient-boosted quantile regression, each at its own OOF-calibrated quantile |
-| **C0-C1** | CatBoost / Hierarchical CatBoost (the third classifier, ARM-Net, was removed -- see below) |
-| **A0** | This project's standard predictor set: Van Hove's 6 non-income predictors + whatever else a recursive search finds actually helps (`scripts/build_a0_predictor_selection.py`) |
-| **A1** | A0 + climate (HDD/CDD/temperature/frost days) |
-| **A2** | A1 + country economic context (price/income/rent/tenure) -- Whole scope only |
+| **C0-C1** | CatBoost / Hierarchical CatBoost (cost-sensitive class weights) |
+| **A0** | Predictor core found by a recursive search (`build_a0_predictor_selection.py`), starting from Van Hove's six non-income predictors |
+| **A1 / A2** | A0 + climate / A1 + country economic context (pooled scope only) |
 
-Combo naming: `A{config}R{regression}C{classifier}`, e.g. `A0R2C1` = config A0,
-regression method R2 (M5, GAM), classifier C1 (Hierarchical CatBoost). Generate the
-legend table with `python scripts/build_symbol_legend.py`.
+Combo names read `A{config}R{regression}C{classifier}`, e.g. `A0R2C1`. `scripts/build_symbol_legend.py` writes the legend.
 
-How A0 (the predictor set) is built
-------------------------------------
+Results
+-------
 
-Rather than hand-picking a feature list, `scripts/build_a0_predictor_selection.py`
-runs a **recursive (forward) feature-addition search**:
+Regenerated by `bash scripts/run_full_pipeline.sh` on 2026-09-19. Development households only (train + validation); the
+locked test partition was not read. Intervals are 95% household bootstrap over repeat-averaged out-of-fold predictions;
+"chance" is a classifier drawing classes at random from the training prior.
 
-1. Start from Van Hove et al.'s 6 non-income predictors (floor area, household
-   size, dwelling detachment, dwelling age, respondent age, heating strategy) --
-   their 7th predictor, income bracket, is deliberately excluded (see "Why income
-   is excluded" below).
-2. At each step, try adding every remaining candidate feature (the full engineered
-   household set only -- climate and country context are added later, as A1 and
-   A2, never as A0 candidates) one at a time; fit **both** C0 and C1 with it
-   added; keep whichever single candidate improves their averaged validation
-   macro-F1 the most.
-3. Repeat until no candidate improves the score by more than a small tolerance.
-4. Write the winning list into `config/pipeline.json`'s `features` key -- this
-   becomes A0, used identically everywhere in the pipeline (pooled and
-   per-country). One shared predictor set means "the effect of factor X" means
-   the same model term in every country -- the reason A3/A4 (the old per-country
-   auto-selected configs) were removed.
+**1. Label support** (need-based cost axis, income bracket <= 3). Every class has at least 30 households in all four countries.
 
-`scripts/audit_vanhove_replication.py` runs alongside this as a separate sanity
-check: it fits Van Hove's *exact* 7-predictor design, income included, to verify
-this project's data/labels reproduce their reported result (accuracy > ~71%) when
-using their own methodology -- confirming any gap in the production (income
--excluded) numbers is a deliberate design choice, not a modelling defect.
+| Country | Households | No Risk | Income Risk | Expenditure Risk | Double Risk |
+|---|---|---|---|---|---|
+| Bulgaria | 584 | 224 | 145 | 144 | 71 |
+| Hungary | 646 | 103 | 306 | 78 | 159 |
+| Italy | 382 | 124 | 110 | 99 | 49 |
+| Poland | 384 | 36 | 205 | 31 | 112 |
 
-Why income is excluded
-------------------------
+**2. Four-class identification** (tier T2, best of the logistic / two-axis / CatBoost models per country; `table_identification_headline.csv`
+carries all 200+ columns -- per-class precision, recall, specificity, F1, ROC-AUC, PR-AUC, and both binary axes -- with CIs).
 
-Van Hove's own design includes income bracket as both half the label (the "low
-income" axis) and a predictor -- they say so explicitly, and note that a
-classifier given income can nearly perfectly relearn that half of the four-class
-problem, leaving the *other* predictors to only separate the two harder
-sub-problems (Double Risk vs. Income Risk within low income; Expenditure Risk vs.
-No Risk within higher income). This project's actual question -- which
-observable factors identify at-risk households -- is not well served by a
-predictor that can trivially reconstruct the label. Income is therefore excluded
-from every production predictor set and enforced absent by test
-(`tests/test_governance.py`); `scripts/compare_income_ablation.py` is the one
-deliberate exception, quantifying how much of any performance gap against Van
-Hove's published number is this shortcut rather than genuine signal in the other
-predictors.
+| Country | Income | Accuracy | Precision (macro) | Recall (macro) | F1 (macro) [95% CI] | ROC-AUC (macro) | MCC | Chance F1 |
+|---|---|---|---|---|---|---|---|---|
+| Bulgaria | excluded | 0.473 | 0.474 | 0.478 | 0.455 [0.419, 0.488] | 0.749 | 0.305 | 0.254 |
+| Hungary | excluded | 0.390 | 0.370 | 0.397 | 0.372 [0.343, 0.406] | 0.694 | 0.162 | 0.234 |
+| Italy | excluded | 0.439 | 0.422 | 0.423 | 0.419 [0.373, 0.457] | 0.696 | 0.242 | 0.261 |
+| Poland | excluded | 0.418 | 0.353 | 0.387 | 0.352 [0.307, 0.394] | 0.702 | 0.160 | 0.253 |
+| Bulgaria | included | 0.617 | 0.610 | 0.618 | 0.603 [0.567, 0.641] | 0.883 | 0.485 | 0.254 |
+| Hungary | included | 0.545 | 0.537 | 0.538 | 0.535 [0.497, 0.567] | 0.833 | 0.344 | 0.234 |
+| Italy | included | 0.592 | 0.565 | 0.567 | 0.564 [0.523, 0.603] | 0.861 | 0.446 | 0.261 |
+| Poland | included | 0.578 | 0.547 | 0.550 | 0.544 [0.485, 0.605] | 0.839 | 0.340 | 0.253 |
 
-Income-bracket harmonization
--------------------------------
+More information helps without income (macro-F1, T1 -> T3: Bulgaria 0.44 -> 0.46, Hungary 0.34 -> 0.39, Italy 0.37 -> 0.46,
+Poland 0.30 -> 0.38) and little with it (0.51-0.59 -> 0.54-0.60). A country's own model beats a pooled one and a model
+trained on the other three countries (e.g. Poland 0.35 local, 0.32 pooled, 0.24 leave-one-country-out).
 
-ENABLE's income question uses country-specific, undocumented-in-EUR ordinal
-brackets (10-12 categories depending on country). A flat `bracket <= 3` rule
-applied the same way in every country produced a "low income" share ranging from
-22% to 80% across countries -- a bracket-scale artifact, not a real income
-difference. `lib/labels/income_harmonization.py` fixes this: each household's
-bracket is converted to a country-normalized percentile (bracket k of that
-country's own N categories -> the `[(k-1)/N, k/N)` population slice), so
-"low income" means the same relative standing in every country.
+**3. Van Hove replication.** With their labels (country Q80, income bracket <= 3) and income as a predictor, the pipeline reaches
+accuracy 0.65-0.72 and macro-F1 0.54-0.71 per country; the pooled seven-predictor design reaches 0.66-0.74 accuracy (paper: ~0.71).
+Importance on held-out folds ranks income first by a wide margin (100 vs 9 for the runner-up) and puts floor area in the top three,
+as they report; house detachment ranks above household size here, which differs from the paper (Spearman 0.6 against their order).
 
-What changed on 2026-08-26
------------------------------
+**4. Universal vs contextual predictors** (top-6 stability under both SHAP and permutation importance in every country).
+Only **income** is strictly universal (income axis and four-class target, income included). Without income nothing is strictly
+universal: household size and dishwasher age (an appliance-age wealth proxy) pass in 3 of 4 countries on the income axis;
+the cost axis has no strictly universal predictor (heating control passes in 3 of 4 countries once income is included). A factors-only model built without the held-out country falls short of that
+country's own full model by 0.01-0.14 macro-F1 (largest without income: Bulgaria 0.14, Poland 0.12).
 
-A large restructuring, in one place for anyone picking this up mid-transition:
+**5. Same factor, different meaning by country** (adjusted logit marginal effects, percentage points; `table_factor_*`).
+Solid-fuel heating moves the cost axis by -14.5 pp in Bulgaria but +8.6 pp in Hungary, and the effects differ across countries
+(p = 0.012); it also differs on the income axis (p = 0.006; Italy -17.7 pp against +11.6 to +17.9 pp elsewhere). Elderly
+respondents (p = 0.049) and large households (p = 0.037) differ on the income axis; dwelling age shows no significant
+heterogeneity. The income axis is identifiable (AUC 0.81-0.84) and transfers (leave-one-country-out AUC 0.77-0.82); the cost axis
+is barely identifiable (AUC 0.54-0.61, transfer 0.50-0.54).
 
-- **Predictor set is now built, not hand-listed** -- see "How A0 is built" above.
-- **M3/M4/M6/M8 removed.** An empirical correlation audit found their predictions
-  correlated 0.86-0.98 (Spearman) with the retained M2/M5/M7 trio -- redundant
-  evidence, not independent methods, given the shared ~0.15-0.23 R² ceiling on
-  this data. See `measurement/families/model_based/estimators.py`'s docstring.
-- **ARM-Net removed.** Statistically indistinguishable from CatBoost/Hierarchical
-  CatBoost on macro-F1, worse-calibrated on log-loss, no SHAP-native
-  interpretation path.
-- **The H/HC and \*_BASE feature-ablation axes are gone**, folded into the single
-  A0 -> A1 -> A2 staged config: A1 is what "HC" used to mean, and the *_BASE
-  ablation is superseded by the recursive search itself, which measures each
-  feature's marginal value directly instead of a crude enriched-vs-base
-  comparison.
-- **cost_sensitive/balanced_bootstrap/SMOTENC removed as a compared axis.**
-  Cost-sensitive class weighting is now the single fixed imbalance-handling
-  method everywhere, chosen because it needs no synthetic data and works even on
-  small per-country groups (e.g. Spain's Double Risk class, ~2% prevalence).
-- **Confusion matrices are generated only for the single best configuration**, not
-  one grid per measurement x classifier x stage.
-- **New reporting layer**: Nightingale (stacked polar area) charts for regression/
-  classification/SHAP metrics, a two-state (income-excluded vs. included)
-  threshold scatter, and policy maps segmented by household factor (dwelling
-  type, heating fuel, respondent gender, settlement type) -- see below.
-- **A0/A1/A2 de-duplicated via `stack_features()`.** The recursive search
-  legitimately picked `ctx_gas_price`, `frost_days`, and `temperature_mean` into
-  A0 because they helped C0/C1 -- but those same columns also live in
-  `climate_features`/`CONTEXT_COLUMNS`, so a plain `A0 + climate_features` (A1)
-  or `A1 + CONTEXT_COLUMNS` (A2) concatenation would pass a duplicate column
-  name into the model matrix and break `pd.api.types.is_numeric_dtype`.
-  `lib/features/household_features.py`'s `stack_features()` de-duplicates,
-  order-preserving, and every A1/A2 construction site now goes through it.
-  Also fixed a matching bug this exposed in `build_evaluation_summary.py`'s
-  Adjusted-R² predictor count, which compared `feature_config == "H"` -- a
-  string that stopped existing once champions were tagged `"A0"`/`"A1"`, so it
-  silently over-counted predictors for every A0 champion.
-- **`scripts/build_comparison_cohorts.py` removed.** Orphaned by the same
-  restructuring: it hardcoded now-nonexistent `m{family}_h.parquet` prediction
-  paths from the retired H/HC naming, wasn't called by `run_full_pipeline.sh`,
-  and nothing downstream consumed its `common_four_class_cohort*.parquet`
-  output. `data/cohorts.py`'s underlying `common_comparison_uids`/
-  `method_native_uids` helpers are untouched and still unit-tested.
+**6. Managerial implications -- who a scheme misses and who it wrongly includes** (rule: assist households predicted Double Risk;
+per 1,000 households screened; `table_managerial_*`).
 
-Study design (decided 2026-09-19)
----------------------------------
+| Country | Double Risk share | Information | Missed | Wrongly included | Recall | Precision |
+|---|---|---|---|---|---|---|
+| Bulgaria | 12% | T1 structural | 79 | 146 | 0.35 | 0.23 |
+| | | T3 + welfare screen | 74 | 127 | 0.39 | 0.27 |
+| | | T3 + income register | 56 | 108 | 0.54 | 0.38 |
+| Hungary | 25% | T1 structural | 152 | 211 | 0.38 | 0.31 |
+| | | T3 + welfare screen | 163 | 186 | 0.34 | 0.31 |
+| | | T3 + income register | 128 | 209 | 0.48 | 0.36 |
+| Italy | 13% | T1 structural | 79 | 166 | 0.39 | 0.23 |
+| | | T3 + welfare screen | 86 | 142 | 0.33 | 0.23 |
+| | | T3 + income register | 75 | 133 | 0.42 | 0.29 |
+| Poland | 29% | T1 structural | 159 | 194 | 0.46 | 0.41 |
+| | | T3 + welfare screen | 162 | 194 | 0.44 | 0.40 |
+| | | T3 + income register | 137 | 211 | 0.53 | 0.42 |
 
-Base: Van Hove, Dalla Longa & van der Zwaan (2022), *Energy & Buildings* 264:112064 -- the same ENABLE.EU survey,
-the same four "income x expenditure" classes, CatBoost + SHAP. Extensions: a need-based cost threshold, an explicit
-universal-vs-contextual test, honest uncertainty, and a policy (targeting-error) layer. Target venue: *Energy Policy*.
+Even with an income register, a scheme misses 46-59% of Double-Risk households and 58-71% of the households it assists are not
+Double Risk. Survey-style information (T2, T3) barely changes the picture; only the register lowers errors, in every country and
+for every weighting of a missed household against a wrongly included one (1x, 2x, 5x).
 
-| Decision | Choice |
-|---|---|
-| Countries | Bulgaria, Hungary, Italy, Poland enter every stage; **Spain is dropped** from the per-country four-class stages (21 Double-Risk households < 30, and 6 of 8 factor cells estimable). Rule: `viability()` in `lib/identification/labels.py`. |
-| Income axis | **Headline: Van Hove's fixed rule, bracket <= 3.** Sensitivities: frozen percentile <= 0.30, and two DYNAMIC rules (household-size-adjusted / residual-after-energy-cost income below 60% of the national median). `scripts/build_identification_sensitivity.py` |
-| Cost axis | **Headline: need-based threshold** (per-country regression on floor area, size, dwelling, climate; out-of-fold). Van Hove's country Q80 is the benchmark/replication. |
-| Income as predictor | **Both states**: excluded (proxy targeting) and included (Van Hove's design). |
-| Importance | mean\|SHAP\|, permutation importance and partial dependence, on held-out CV folds (Van Hove found SHAP and permutation can disagree). |
-| Evaluation | Repeated 5-fold CV over train+validation with household-bootstrap 95% CIs; chance baseline; **every metric**: accuracy, balanced accuracy, precision, recall, specificity, F1, ROC-AUC, PR-AUC, MCC, kappa, log-loss, Brier, per class and per axis (`lib/identification/metrics.py`). The locked test partition is untouched (unlock once, at the end, if at all). |
+**7. Sensitivity to the income rule** (macro-F1 income excluded / included, tier T2, best of the logistic and two-axis models -- CatBoost is left out here, so the bracket <= 3 column sits slightly below section 2):
 
-Flow, one scatter figure per step (`scripts/build_step_scatter_figures.py`):
-1. cost threshold -> `step1_cost_threshold`; 2. income x cost quadrants -> `step2_income_cost_quadrants`, `step2b_income_dynamic_vs_static`;
-3. predictor discovery, universality, PDP -> `scripts/build_predictor_discovery.py` (`discovery_*`);
-4. classification of the four classes -> `scripts/build_identification_benchmark.py`, `step4_prediction_space`;
-5. cross-country factor comparison -> `scripts/build_factor_comparison.py`;
-6. **Managerial implications** -> `scripts/build_managerial_implications.py`: missed vs wrongly-included households per 1,000, by information tier and country
-   (`table_managerial_*`, `managerial_targeting_frontier`, `managerial_errors_per_1000`).
-Credibility check against the base paper: `scripts/replicate_vanhove_importance.py`.
+| Country | bracket <= 3 | percentile <= 0.30 | dynamic: equivalised | dynamic: residual after energy |
+|---|---|---|---|---|
+| Bulgaria | 0.45 / 0.57 | 0.46 / 0.54 | 0.33 / 0.47 | 0.38 / 0.50 |
+| Hungary | 0.37 / 0.51 | 0.41 / 0.46 | 0.36 / 0.46 | 0.38 / 0.48 |
+| Italy | 0.42 / 0.52 | 0.42 / 0.52 | 0.43 / 0.52 | 0.40 / 0.47 |
+| Poland | 0.35 / 0.47 | 0.41 / 0.54 | 0.47 / 0.49 | 0.43 / 0.47 |
 
-Identification-accuracy audit (2026-09-19)
--------------------------------------------
+The dynamic rules label far fewer households low-income (Hungary 23-47% against 72%) and leave Italy's Double-Risk class under 30
+households under the equivalised rule; conclusions about country ranking depend on the income rule, which is why the fixed rule
+is the headline and the others are reported beside it.
 
-Why the per-country macro-F1 was weak (0.27-0.43, Spain 0.23-0.40), found by auditing the labels
-and the evaluation rather than tuning models:
+**8. External validity.** Self-reported hardship (survey item S8, "difficult / very difficult on present income") is 52% among Income Risk and 57%
+among Double Risk households against 23% for No Risk -- but 21% for Expenditure Risk. The income axis tracks hardship; the cost axis
+(spending relative to physical need) does not. Hardship itself is identifiable (AUC 0.73-0.82 from socio-economic items, 0.79-0.88
+with income) and is reported as a policy-anchored alternative target (`table_hardship_identification.csv`).
 
-1. **Partition-dependent income label (bug, fixed).** The v1 low-income rule computed N = max(bracket)
-   over whichever rows it was given, so the cutoff moved between train/validation/test. Spain's
-   bracket 3 was low-income in validation/test but not train (v1 low-income share: 5.0% in train,
-   7.9% validation, 17.7% test), leaving **1 Double-Risk household in Spain's training set**. It also assumed equal-mass
-   brackets: Hungary came out 72% low-income, Spain 10%. Now a frozen survey-weighted empirical
-   bracket->percentile table (`scripts/build_income_bracket_reference.py`,
-   `artifacts/reference/income_bracket_percentiles.csv`) gives 22-42% everywhere and identical labels
-   in every partition. Audit: `outputs/tables/table_income_label_shift_audit.csv`.
-2. **H2 "don't know" (99) was fed to the models as the number 99** (5.8-14.7% of households); now NaN
-   in `engineer()` (same for H1 == 9).
-3. **The expenditure axis was unlearnable by construction.** R1-R3 thresholds condition on the same
-   features the classifier sees, so the label is ~independent of its inputs (pooled AUC 0.51). The
-   identification labels now use a *need-only* threshold (floor area, size, dwelling, HDD/CDD).
-4. **Tiny validation sets, winners picked on noise.** Per-country validation had 63-164 households.
-   `lib/identification/` scores everything with repeated 5-fold CV over train+validation (test stays
-   locked), household-bootstrap 95% CIs and a random-prior chance floor (~0.23-0.26 macro-F1).
-5. **Some claims are not supportable.** `table_identification_support.csv` gates each country: Spain has
-   21 Double-Risk households (< 30), so its four-class per-country result is withdrawn; Spain is
-   reported on the two binary axes and via the pooled model.
+**9. Older layer** (single train/validation split, ~80-160 households per country per split -- not the headline). The recursive search
+now selects `has_solid_fuel_heating` as the seventh A0 predictor. Family champions by validation macro-F1: R1 (M2, q = 0.51) 0.46,
+R2 (M5) 0.44, R0 (Van Hove) 0.43, R3 (M7) 0.41; per-country winners 0.35-0.47 (`table_best_overall.csv`). Regression metrics for the
+threshold models (MAE, RMSE, R-squared, pinball loss, coverage) are in `table_evaluation_summary.csv`. Figures: NUTS1 Double-Risk policy
+maps (`policy_map_*`), confusion matrices, Nightingale metric charts.
 
-`scripts/build_identification_benchmark.py` -> `table_identification_{support,benchmark,headline}.csv`:
-information tiers T1 structural / T2 + socio-economic / T3 + welfare screen (S7 bill aid, S8 subjective
-income adequacy) x models x local / pooled / leave-one-country-out. Income itself stays excluded.
-`scripts/build_factor_comparison.py` links interpretation to accuracy (solid-fuel, dwelling age, elderly,
-household size; climate as moderator): `table_factor_{effects,heterogeneity,pairs,triples,
-accuracy_contribution}.csv`, `table_country_link.csv`, four `factor_*`/`country_transfer_link` figures.
-`scripts/build_hardship_target_check.py` tests a policy-anchored target (self-reported hardship, S8 >= 3).
+Data
+----
 
-**Not yet regenerated:** every artifact produced before this date (M0 labels, `m*_a0/a1.parquet`,
-OOF calibration, the 258-run screening matrix, family champions, per-country layer, B-family, policy
-maps) carries the old income labels and H2 coding. They need `bash scripts/run_full_pipeline.sh`
-(multi-hour) before their numbers are quoted; the identification tables above do not depend on them.
+* **ENABLE.EU household survey (2018)** -- place the workbook at `data/raw/ENABLE.EU_dataset_survey of households.xlsx`.
+  It is not redistributed here (git-ignored). Van Hove et al. cite the source as
+  `http://www.enable-eu.com/wp-content/uploads/2019/10/enable_eu_dataset_households.zip`.
+* Fetched by the pipeline (network needed): Eurostat income deciles, rent burden, tenure, electricity/gas prices and
+  exchange rates; the European Commission Weekly Oil Bulletin; GISCO NUTS 2016 geometries.
+* ERA5-Land 2017 daily temperature (Copernicus CDS; credentials in `~/.cdsapirc` only on a cache miss).
+* External reference data is country- or region-level and lives under `artifacts/reference/`; household microdata under `data/raw/`.
 
-New diagnostics and reporting
---------------------------------
-
-All read already-computed outputs; nothing here re-fits a model.
-
-- `scripts/build_nightingale_metrics.py` -- three stacked polar-area (Nightingale
-  rose) charts: regression metrics by R-code, classification metrics by R-code x
-  classifier, and SHAP feature effectiveness by country. Deliberately not a radar
-  chart: each wedge is a separated, stacked bar radiating outward, not a
-  continuous line web.
-  (`outputs/figures/nightingale_{regression_metrics,classification_metrics,shap_features}.png/.pdf`)
-- `scripts/build_threshold_scatter_income_states.py` -- the project's single best
-  configuration's high-cost threshold plotted against observed cost, points
-  coloured by the resulting four-class outcome, in two panel rows: income
-  excluded vs. income included. Shows directly how adding income reshapes which
-  households cross into each risk class, not just the aggregate prevalence shift.
-  (`outputs/figures/threshold_scatter_income_states.png/.pdf`)
-- `scripts/build_policy_maps_by_feature.py` -- NUTS1 Double-Risk choropleths
-  segmented by household factor (dwelling type, primary heating fuel, respondent
-  gender, settlement type), two contrasting categories per factor. This is the
-  project's actual headline output: not "how well does the model score" but
-  "where does each observable factor matter, and by how much."
-  (`outputs/figures/policy_map_by_feature.png/.pdf`)
-- `scripts/build_regression_threshold_figures.py` -- per R-code, per country: how
-  the fitted high-cost threshold sits against the observed cost distribution.
-- `scripts/audit_shap_feature_effectiveness.py` -- SHAP-CatBoost materiality audit
-  across A0/A1/A2; flags features below a 1% importance-share threshold as
-  pruning candidates (diagnostic only, nothing pruned automatically).
-- `scripts/build_scenario_simulation.py` -- what-if four-class prevalence table
-  for every (scope, A-config, R-code, C-code) combination.
-- `scripts/build_evaluation_summary.py` -- one table joining full regression
-  metrics (MAE, MAPE, RMSE, R², Adjusted R², pinball loss, coverage error) with
-  full classification metrics (Accuracy, Precision, Recall, F1, ROC-AUC, Log Loss,
-  Double-Risk F1/recall, balanced accuracy) per R-code x classifier.
-- `scripts/build_swimlane_flowchart.py` / `scripts/build_data_flow_diagram.py` --
-  process and data-flow diagrams using the R0-R3/C0-C1/A0-A2 codes.
-
-Running the pipeline
----------------------
-
-All commands run from the project root. Full ordered reference (including the
-ERA5/A1 stage and the locked final-test step):
-[`docs/running_the_pipeline.md`](docs/running_the_pipeline.md).
+Running it
+----------
 
 ```bash
 pip install -r requirement.txt
-
-# Run every step below in one command (stops on the first failure):
-bash scripts/run_full_pipeline.sh
-```
-
-Or step by step, same order as `scripts/run_full_pipeline.sh`:
-
-```bash
-# Diagnostics + governed external reference data -- prepare_country_references.py
-# hits the live Eurostat API (network required)
-python scripts/audit_enable_workbook.py
-python scripts/validate_nuts.py
-python scripts/prepare_country_references.py
-python scripts/prepare_energy_prices.py
-python scripts/prepare_heating_oil_prices.py
-
-# Data construction, M0 benchmark, immutable household split
-python scripts/build_expenditure_m0.py
-
-# ERA5-Land climate
-python scripts/acquire_era5_land.py --configuration annual_2017
-python scripts/fuse_era5_nuts1.py --configuration annual_2017
-
-# Build A0 (the standard predictor set) and check it against Van Hove's own design
-python scripts/build_a0_predictor_selection.py
-python scripts/audit_vanhove_replication.py
-
-# M2/M5/M7, config A0 then A1. Quantile is discovered per family by a continuous
-# OOF calibration search, so build_oof_predictions.py runs BEFORE
-# run_model_measurements.py.
-python scripts/build_oof_predictions.py --feature A0
-python scripts/run_model_measurements.py --feature A0
-python scripts/build_oof_predictions.py --feature A1
-python scripts/run_model_measurements.py --feature A1
-python scripts/compare_income_ablation.py
-
-# Screening: C0/C1, cost-sensitive weighting throughout, all 7 M0/A0/A1 measurements
-python scripts/run_screening_matrix.py
-
-# Family champions, classifier comparison, best-configuration confusion matrix, freeze
-python scripts/select_family_champions.py
-python scripts/build_classifier_comparison.py
-python scripts/build_confusion_matrices.py
-python scripts/freeze_validation_selection.py
-python scripts/build_quantile_sensitivity.py
-
-# Gates, manifests, figures/tables
-python scripts/check_milestone_gates.py
-python scripts/build_pipeline_status.py
-python scripts/build_progressive_outputs.py
-python scripts/build_four_class_figures.py
-python scripts/build_policy_maps.py
-python scripts/build_policy_maps_by_feature.py
-
-# Per-country/whole feature-selection layer (A0-A2) and B-family
-python scripts/run_percountry_feature_selection.py
-python scripts/build_b_measurements.py
-python scripts/build_b_confusion_matrices.py
-python scripts/build_b_policy_maps.py
-python scripts/build_paper_appendix_outputs.py
-
-# Symbol legend and paper-facing diagnostics
-python scripts/build_symbol_legend.py
-python scripts/build_regression_threshold_figures.py
-python scripts/build_threshold_scatter_income_states.py
-python scripts/audit_shap_feature_effectiveness.py
-python scripts/build_scenario_simulation.py
-python scripts/build_evaluation_summary.py
-python scripts/build_nightingale_metrics.py
-python scripts/build_swimlane_flowchart.py
-python scripts/build_data_flow_diagram.py
-
-# Tests
+bash scripts/run_full_pipeline.sh        # every stage below, in order; stops at the first failure; ~3-5 hours end to end
 python -m pytest tests/ -q
 ```
 
-Figures are written to `outputs/figures/` as both a 600dpi PNG and a vector PDF;
-tables to `outputs/tables/` as CSV (+ `.tex`/`.xlsx` where applicable). See
-`AUDIT_AND_REPAIR_REPORT.md` for the full scientific/reproducibility audit trail
-and `outputs/tables/audit_scientific_issues.csv` for the itemised findings log.
+Step-by-step commands and what each writes: [`docs/running_the_pipeline.md`](docs/running_the_pipeline.md).
+Sources for every methodological choice: [`docs/methodology_sources.md`](docs/methodology_sources.md).
+The full audit trail (defects found, fixes, what still limits a claim): [`AUDIT_AND_REPAIR_REPORT.md`](AUDIT_AND_REPAIR_REPORT.md).
 
 Repository layout
---------------------
+-----------------
 
-Library code (climate, evaluation, expenditure, features, geography, imbalance,
-labels, reporting, screening, tuning) lives under `lib/`; the M0/M2/M5/M7 registry
-and families under `measurement/`; data ingestion under `data/`. `scripts/` holds
-every entry point; nothing under `lib/` or `measurement/` is runnable directly.
-
-The raw ENABLE workbook lives at
-`data/raw/ENABLE.EU_dataset_survey of households.xlsx`; `data/external/` is
-reserved for any future externally-sourced household-level microdata. Governed
-external reference data actually in use today (Eurostat electricity/gas prices,
-EU-SILC income/rent/tenure, the EC Weekly Oil Bulletin, NUTS geometries) is
-country- or region-level, not household microdata, and lives under
-`artifacts/reference/` instead (see `scripts/prepare_country_references.py`,
-`scripts/prepare_energy_prices.py`, `scripts/prepare_heating_oil_prices.py`) --
-`data/raw/`+`data/external/` and `artifacts/reference/` are deliberately different
-tiers, not duplicates of each other.
-
-Per-country feature selection and the B-family
---------------------------------------------------
-
-`scripts/run_percountry_feature_selection.py` fits a genuinely separate model per
-country -- not a pooled model sliced by country -- plus a pooled "Whole" scope
-evaluated the same way. For each of the 3 M2/M5/M7 champion families and each of 6
-scopes (5 countries + pooled `Whole`), the **same fixed A0/A1/A2 predictor stages**
-are evaluated on that scope's own train/validation split. A feature config paired
-with a family is named `am_id`, e.g. `A1M2`.
-
-Winners are selected per `(scope, family, config, classifier)` in
-`outputs/tables/table_config_comparison.csv`, then collapsed three ways:
-`table_percountry_winners.csv` (feeds the B-family below), `table_whole_winners.csv`
-(pooled), and `table_best_overall.csv` (the single best family/config/classifier
-per country and overall -- the headline comparison).
-
-The per-country winner feeds B0/B2/B5/B7: `scripts/build_b_measurements.py` refits
-each family's four-class labels using, for every household, its own country's
-winning config, then stitches the 5 countries into one dataset per family
-(`artifacts/predictions/b{family}.parquet`; B0 = M0 unchanged).
-`scripts/build_b_confusion_matrices.py` and `scripts/build_b_policy_maps.py`
-mirror the pooled confusion-matrix/policy-map scripts for these results.
-`scripts/build_paper_appendix_outputs.py` builds a curated copy layer on top:
-`outputs/paper/` gets the headline table + one winning-cell confusion matrix;
-`outputs/appendix/` gets a copy of everything else already produced.
+| Path | Contents |
+|---|---|
+| `data/` | ENABLE workbook ingestion and cohort rules (`enable.py`; `RETAINED_COUNTRY_CODES` defines the four countries) |
+| `lib/identification/` | Study core: `data` (development frame, tiers), `labels` (income and cost axes, support gate), `protocol` (repeated CV), `metrics`, `discovery` (SHAP/permutation/PDP, universality), `factors` |
+| `lib/labels/` | Four-class ontology and the income rules (`bracket3`, `percentile`, `equiv60`, `residual60`) |
+| `lib/features/`, `lib/climate/`, `lib/expenditure/`, `lib/geography/` | Household features, degree days, cost reconstruction and currency, NUTS validation |
+| `lib/screening/`, `lib/tuning/`, `lib/imbalance/`, `lib/evaluation/`, `lib/reporting/` | Older layer: classifiers, quantile/regression search, class weights, cost metrics and split registry, figure helpers and symbol codes |
+| `measurement/` | M0 (Van Hove) and M2/M5/M7 cost-threshold estimators |
+| `scripts/` | Every entry point (nothing under `lib/` or `measurement/` is runnable) |
+| `config/pipeline.json` | Seed, split path, families, the A0 feature list (overwritten by the A0 search), climate features, quantile search bounds |
+| `tests/` | Label stability, metric definitions against scikit-learn, CV leakage guard, managerial arithmetic, governance, ERA5 gates |
+| `docs/` | Pipeline commands, methodology sources, country screening |
 
 Reproducibility locks
 ---------------------
 
-Execution is governed by `artifacts/manifests/milestone_gates.json`
-(`scripts/check_milestone_gates.py`), four sequential gates each requiring the
-prior one closed: **gate_1_m0** (M0 thresholds/class-distribution materialized
-for all 5 countries), **gate_2_a0_models** (all A0 measurements AVAILABLE +
-OOF calibration written), **gate_3_era5** (ERA5-Land 24/24 NUTS1 QC clear), and
-**gate_4_a1_models** (all A1 measurements AVAILABLE). Model selection over all 7
-M0/A0/A1 measurements is (re-)frozen via `scripts/freeze_validation_selection.py`
-(`choices_frozen: true`) with test unlocking set to `false`. Test evaluation
-remains mechanically locked pending explicit, human-authorized edit of
-`test_unlock_authorized` in `artifacts/manifests/final_selection_frozen.json` --
-no script sets it automatically.
+* **Test partition.** Selection is frozen on validation data by `scripts/freeze_validation_selection.py`
+  (`artifacts/manifests/final_selection_frozen.json`, `test_unlock_authorized: false`). No script sets the flag; the
+  locked final-test stage (`scripts/run_screening.py --stage final_test`) needs a deliberate, human edit and is not part
+  of `run_full_pipeline.sh`. All identification-study scripts read only train + validation households.
+* **Immutable split.** `scripts/build_expenditure_m0.py` refuses to regenerate the split registry if any household is
+  missing from it; a new split must be a new versioned file.
+* **Milestone gates.** `scripts/check_milestone_gates.py` closes four sequential gates (M0 labels, A0 models, ERA5 QC over
+  every cohort NUTS1 region, A1 models).
+* **Seeds.** `config/pipeline.json` `seed`; CatBoost and CV seeds are fixed in code.
+
+Limitations
+-----------
+
+* Survey cross-section (2018), about 1,000 households per country, with income only as an ordinal bracket and cost
+  self-reported (21-44% of heating costs missing in Italy and Poland, unrelated to income). Associations, not causal effects.
+* The headline income rule is a fixed bracket cutoff, so low-income shares differ by country (Bulgaria 37%, Hungary 72%,
+  Italy 42%, Poland 83%); the percentile and dynamic rules are reported as sensitivities. The dynamic rules rest on an
+  EUR proxy built from an ordinal bracket.
+* The cost axis (spending relative to physical need) is not validated against self-reported hardship; the income axis is.
+* Accuracy without income is modest; the value of the analysis is the comparison across information tiers, the
+  cross-country differences, and the size of the targeting errors -- not a single accuracy figure.
+* Poland's Expenditure Risk class is small under the headline income rule (about 30 households in development data).

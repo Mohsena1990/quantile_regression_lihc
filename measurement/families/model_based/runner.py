@@ -1,6 +1,6 @@
 """Leakage-safe model measurement labels for M2/M5/M7."""
 from __future__ import annotations
-import numpy as np,pandas as pd
+import pandas as pd
 from lib.labels.four_class import allocate_risk_class
 from lib.labels.income_harmonization import low_income_flag
 from .estimators import fit_family

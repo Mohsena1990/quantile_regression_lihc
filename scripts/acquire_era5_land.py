@@ -4,13 +4,9 @@ import argparse,hashlib,json
 from pathlib import Path
 import cdsapi,pandas as pd
 ROOT=Path(__file__).resolve().parents[1]
-PERIODS={'annual_2017':('2017-01-01','2017-12-31','PRIMARY'),'heating_season_2017_18':('2017-11-01','2018-02-28','SENSITIVITY'),'normal_1991_2020':('1991-01-01','2020-12-31','SENSITIVITY'),'annual_2017_canarias':('2017-01-01','2017-12-31','SUPPLEMENTARY')}
-# Default area is the mainland-Europe bounding box [North, West, South, East]. ES7 (Canarias,
-# lat ~27.6-29.4N, lon ~-18.2 to -13.4E) falls entirely south of that box's 34N boundary and was
-# never covered by the primary annual_2017 request (see AUDIT_AND_REPAIR_REPORT.md ISS "ERA5
-# Canary Islands gap"). annual_2017_canarias is a supplementary, separately-named request (same
-# dataset/variable/period) covering just that region, padded ~0.5-0.6 degrees beyond ES7's bounds.
-AREAS={'annual_2017_canarias':[30,-19,27,-13]}
+PERIODS={'annual_2017':('2017-01-01','2017-12-31','PRIMARY'),'heating_season_2017_18':('2017-11-01','2018-02-28','SENSITIVITY'),'normal_1991_2020':('1991-01-01','2020-12-31','SENSITIVITY')}
+# Default area is the mainland-Europe bounding box [North, West, South, East], which covers every retained country.
+AREAS={}
 DEFAULT_AREA=[72,-25,34,45]
 def main():
  p=argparse.ArgumentParser();p.add_argument('--configuration',choices=PERIODS,default='annual_2017');p.add_argument('--force',action='store_true');a=p.parse_args();start,end,role=PERIODS[a.configuration]

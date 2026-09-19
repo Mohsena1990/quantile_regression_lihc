@@ -8,7 +8,6 @@ P_final = (1-alpha_c)*P_global + alpha_c*P_country, alpha_c = n_c/(n_c+lambda).
 from __future__ import annotations
 import numpy as np
 import pandas as pd
-import pytest
 
 from lib.screening.models import _blend_hierarchical, _country_experts, _prep_frame, fit_screening_model
 

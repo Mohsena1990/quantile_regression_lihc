@@ -361,3 +361,44 @@ Italy/Poland/Spain) is unrelated to income, so it costs sample size but does not
 the recorded-cost axis relative to need is **not** externally validated (hardship 0.65-0.72 among
 low-income vs 0.24-0.27 otherwise, no difference by cost position), while the income axis is.
 The test partition was not read by any of this work; `test_unlock_authorized` is unchanged.
+
+
+## 25. Cleanup and full rerun (2026-09-19)
+
+Scope: remove Spain from the analysis, remove dead code, rerun the whole pipeline from a cleared state, refresh the
+documentation. The prior state is preserved at git tag `pre-cleanup-20260919` (almost all code was untracked before it).
+
+**Spain.** Removed from the cohort by one constant (`data/enable.py: RETAINED_COUNTRY_CODES`, now four countries; 4,047
+households, 17 NUTS1 regions). Evidence and gates in `docs/country_screening.md`. Consequences handled in code: a shared
+`RETAINED_COUNTRY_NAMES` replaced eight hardcoded country lists; the ERA5 QC gates no longer hardcode 24 regions
+(`fuse_era5_nuts1.py` coverage and daily-row checks, `check_milestone_gates.py`, and the mirrored gate test); the Canary
+Islands download (Spain only) was dropped; Spain entries removed from the Eurostat/oil-bulletin/currency country maps.
+
+**Dead code removed.** `data/cohorts.py` (only its own unit test used it), `scripts/make_lihc_requirements_xlsx.py` (read a CSV
+no script writes; `audit_enable_workbook.py` already publishes the xlsx), two obsolete tests, ARM-Net citation (model removed
+earlier), unused imports/variables/constants found with pyflakes (12 files). `scripts/run_screening.py` looked unwired but is
+the engine `run_screening_matrix.py` calls via subprocess, so it stays.
+
+**Defects a clean run exposed (all fixed):**
+1. `build_income_bracket_reference.py` read a parquet that `build_expenditure_m0.py` creates later -> reordered.
+2. `compare_income_ablation.py` read `table_family_champions.csv` before `select_family_champions.py` wrote it -> reordered.
+3. `build_expenditure_m0.py` assumed `artifacts/data/` existed -> creates it; the pipeline script now creates every output directory.
+4. `fuse_era5_nuts1.py` daily-row check hardcoded `days * 24 regions` -> `days * len(cohort regions)`.
+5. `build_threshold_scatter_income_states.py` used `champ.quantile` on a Series (returns the method, not the column; the pandas
+   shadowing bug noted in earlier sessions) -> bracket access.
+6. My own cleanup script pasted `build_nightingale_metrics.py` twice (an index of `None` turned a slice into the whole file);
+   pyflakes reported the duplicated `from __future__` line and the file was restored from the tag and edited correctly.
+`run_full_pipeline.sh` gained per-step banners with timestamps and a `START_AT=scripts/<name>.py` resume option.
+
+**What ran.** The pipeline was executed in three segments (first to A1 measurements, then to the policy maps, then to the end)
+because of defects 2 and 5; every stage ran with its final code and the last stage is the test suite: 67 passed, 0 skipped.
+The stale generated artifacts (old predictions, manifests, frozen selections, ~100 MB) were moved out of the repository before the
+run so nothing from the previous state could leak into the new outputs; the immutable household split, ERA5 NetCDF cache and
+reference data were kept. `final_selection_frozen.json` shows `choices_frozen: true`, `test_unlock_authorized: false`.
+
+**Changed by the rerun.** The recursive predictor search now picks `has_solid_fuel_heating` instead of `ac_age` as the seventh A0
+predictor, so every A0-based number moved slightly; all figures in the README results section come from the regenerated tables.
+
+**Still limiting a claim.** No uninterrupted single-shot run of the final script was made (segments, above). The cost axis is not
+validated against self-reported hardship. Dynamic income rules use an EUR proxy from an ordinal bracket. The test partition has not
+been used and is not unlocked.

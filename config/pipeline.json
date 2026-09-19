@@ -15,7 +15,7 @@
     "H2",
     "respondent_age",
     "primary_heating_fuel",
-    "ac_age"
+    "has_solid_fuel_heating"
   ],
   "climate_features": [
     "hdd",

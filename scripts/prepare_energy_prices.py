@@ -7,7 +7,7 @@ import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 from data.enable import HOUSEHOLD_SHEET,retained_cohort
 from scripts.prepare_country_references import fetch,publish
-GEOS={'BG':'Bulgaria','HU':'Hungary','IT':'Italy','PL':'Poland','ES':'Spain'}
+GEOS={'BG':'Bulgaria','HU':'Hungary','IT':'Italy','PL':'Poland'}
 FUEL_COLUMNS={'electricity':'H6A1','district_heating':'H6A2','gas':'H6A3','wood':'H6A4','coal_coke':'H6A5','pellets':'H6A6','heating_oil':'H6A7','waste':'H6A8','biomass':'H6A9','heat_pump':'H6A10','other':'H6A11'}
 
 def main()->None:

@@ -46,24 +46,24 @@ def test_load_temperature_still_rejects_unreasonable_kelvin_range(tmp_path):
 
 def _gate_3_status(qc: dict) -> str:
     """Mirrors scripts/check_milestone_gates.py's gate_3_era5 condition exactly."""
-    return "CLOSED" if qc.get("coverage") == 1 and qc.get("fused_regions") == 24 and qc.get("qc_all_clear") else "IN_PROGRESS"
+    return "CLOSED" if qc.get("coverage") == 1 and qc.get("fused_regions") == qc.get("expected_regions") and qc.get("qc_all_clear") else "IN_PROGRESS"
 
 
 def test_gate_3_closes_on_the_key_fusion_actually_writes():
-    qc = {"coverage": 1, "fused_regions": 24, "qc_all_clear": True}
+    qc = {"coverage": 1, "fused_regions": 17, "expected_regions": 17, "qc_all_clear": True}
     assert _gate_3_status(qc) == "CLOSED"
 
 
 def test_gate_3_stays_open_when_qc_incomplete():
-    qc = {"coverage": 1, "fused_regions": 24, "qc_all_clear": False}
+    qc = {"coverage": 1, "fused_regions": 17, "expected_regions": 17, "qc_all_clear": False}
     assert _gate_3_status(qc) == "IN_PROGRESS"
 
 
 def test_gate_3_regression_the_old_nonexistent_key_would_never_close():
     """Characterizes the bug found during audit: check_milestone_gates.py used to key off
     'all_day_counts_valid', which fuse_era5_nuts1.py never wrote, so a genuinely complete
-    fusion (coverage=1, fused_regions=24) could never close the gate."""
-    qc = {"coverage": 1, "fused_regions": 24, "qc_all_clear": True}
-    old_buggy_status = "CLOSED" if qc.get("coverage") == 1 and qc.get("fused_regions") == 24 and qc.get("all_day_counts_valid") else "IN_PROGRESS"
+    fusion (coverage=1, fused_regions=17 of 17) could never close the gate."""
+    qc = {"coverage": 1, "fused_regions": 17, "expected_regions": 17, "qc_all_clear": True}
+    old_buggy_status = "CLOSED" if qc.get("coverage") == 1 and qc.get("fused_regions") == qc.get("expected_regions") and qc.get("all_day_counts_valid") else "IN_PROGRESS"
     assert old_buggy_status == "IN_PROGRESS"  # the bug: permanently stuck despite success
     assert _gate_3_status(qc) == "CLOSED"  # the fix

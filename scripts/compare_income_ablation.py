@@ -44,7 +44,8 @@ from lib.reporting.codes import regression_code
 from lib.screening.models import fit_screening_model
 from measurement.families.model_based import fit_measurement_strategy
 
-COUNTRIES = ("Bulgaria", "Hungary", "Italy", "Poland", "Spain")
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRIES = RETAINED_COUNTRY_NAMES
 COMP = [f"S1{g}c{i}" for g in ("A", "B") for i in (1, 2, 3)]
 
 

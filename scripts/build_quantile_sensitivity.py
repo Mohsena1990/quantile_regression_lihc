@@ -26,7 +26,6 @@ from __future__ import annotations
 import json, sys
 from pathlib import Path
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -62,7 +61,6 @@ def main() -> None:
         base = pd.read_parquet(src)
         features = hc_features if champ.feature_config == "A1" else h_features
         train = base[base.partition.eq("train")]
-        val = base[base.partition.eq("validation")]
         for q in QUANTILE_SWEEP:
             try:
                 _, measured = fit_measurement_strategy(family, train, base, features=features,

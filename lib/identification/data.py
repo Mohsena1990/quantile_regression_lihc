@@ -18,14 +18,14 @@ import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from data.enable import HOUSEHOLD_SHEET, retained_cohort
+from data.enable import HOUSEHOLD_SHEET, RETAINED_COUNTRY_NAMES, retained_cohort
 from lib.features.household_features import BASE_RAW_COLUMNS, RAW_COLUMNS as FEATURE_RAW_COLUMNS, engineer, stack_features
 from lib.labels.income_harmonization import harmonized_income_percentile
 
 ROOT = Path(__file__).resolve().parents[2]
 COMP = [f"S1{g}c{i}" for g in ("A", "B") for i in (1, 2, 3)]
 DEV_PARTITIONS = ("train", "validation")
-COUNTRIES = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+COUNTRIES = list(RETAINED_COUNTRY_NAMES)
 NOMINAL = {"H1", "employment_status", "primary_heating_fuel", "gender"}  # one-hot in linear models
 SOCIO_ECONOMIC = ["education_level", "employment_status", "vehicle_count", "gender", "area_type",
                   "tv_age", "dishwasher_age", "heating_control", "elderly_count", "children_count"]

@@ -7,7 +7,12 @@ HOUSEHOLD_SHEET = "ENABLE.EU_dataset_HH"
 QUESTION_SHEET = "variables (questions) labels"
 VALUE_SHEET = "variables value (answers) label"
 COUNTRIES = {1: "Bulgaria", 2: "France", 3: "Germany", 4: "Hungary", 5: "Italy", 6: "Norway", 7: "Poland", 8: "Serbia", 9: "Spain", 10: "Ukraine", 11: "United Kingdom"}
-RETAINED_COUNTRY_CODES = frozenset({1, 4, 5, 7, 9})
+# Bulgaria, Hungary, Italy, Poland. Spain (code 9) was screened and removed: it fails the per-country support and
+# estimability gates (21 Double-Risk households, 4 solid-fuel households) -- see docs/country_screening.md. A country
+# that does not carry every stage of the analysis is not in the analysis, so this one constant defines the cohort for
+# every downstream stage.
+RETAINED_COUNTRY_CODES = frozenset({1, 4, 5, 7})
+RETAINED_COUNTRY_NAMES = tuple(COUNTRIES[c] for c in sorted(RETAINED_COUNTRY_CODES))
 MISSING_CODES = frozenset({98, 99, 999, 9999, 99999, "#NULL!"})
 
 def read_dictionary(path: str | Path) -> tuple[pd.DataFrame, pd.DataFrame]:

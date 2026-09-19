@@ -70,8 +70,6 @@ def test_headline_bracket3_rule_is_a_fixed_cutoff_independent_of_other_rows():
 
 def test_dynamic_rules_move_with_household_size_and_energy_cost():
     from lib.labels.income_harmonization import equivalence_scale, income_proxy_frame
-    c = _cohort().assign(country=lambda d: d.country.map({"A": "Bulgaria", "B": "Poland"}))   # needs a real Eurostat country
-    ref = build_bracket_percentile_table(c.bracket, c.country)
     n = 4
     bracket = pd.Series([3.0] * n); country = pd.Series(["Bulgaria"] * n)
     adults = pd.Series([1, 2, 2, 2]); kids = pd.Series([0, 0, 2, 4])

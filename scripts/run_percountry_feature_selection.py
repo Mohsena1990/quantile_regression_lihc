@@ -46,7 +46,8 @@ from lib.features.country_context import CONTEXT_COLUMNS, add_country_context
 from lib.features.household_features import stack_features
 from measurement.families.model_based import fit_measurement_strategy
 
-COUNTRIES = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRIES = list(RETAINED_COUNTRY_NAMES)
 SCOPES = COUNTRIES + ["Whole"]
 CLASSIFIERS = ["catboost", "hierarchical_catboost"]
 PRED_DIR = ROOT / "artifacts/predictions/percountry"

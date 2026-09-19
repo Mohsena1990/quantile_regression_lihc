@@ -18,7 +18,6 @@ Outputs:
 from __future__ import annotations
 import sys
 from pathlib import Path
-import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,7 +26,7 @@ from data.enable import HOUSEHOLD_SHEET, retained_cohort
 from lib.features.household_features import BASE_RAW_COLUMNS, RAW_COLUMNS as FEATURE_RAW_COLUMNS, engineer
 from lib.reporting.codes import regression_code
 from lib.reporting.figures import save_figure
-from scripts.build_policy_maps import load_geometries, country_label_points, _draw_choropleth, MIN_N
+from scripts.build_policy_maps import load_geometries, country_label_points, _draw_choropleth
 
 COMP = [f"S1{g}c{i}" for g in ("A", "B") for i in (1, 2, 3)]
 # (column, {category shown: raw value(s) it matches}) -- two contrasting categories per
@@ -70,7 +69,7 @@ def main() -> None:
     label_points = country_label_points(geo)
     ncols = 2
     nrows = len(SEGMENTS)
-    # The 5-country bounding box (Spain-Poland) is much wider than tall in lat/lon --
+    # The 4-country bounding box (Italy-Poland) is much wider than tall in lat/lon --
     # match panel aspect to that so geopandas' equal-aspect plot doesn't leave large
     # empty vertical margins inside each cell.
     minx, miny, maxx, maxy = geo.total_bounds

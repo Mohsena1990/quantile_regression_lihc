@@ -3,18 +3,9 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-from data.cohorts import common_comparison_uids
 from lib.geography.validation import validate_nuts_coverage
 
 ROOT = Path(__file__).resolve().parents[1]
-
-def test_common_cohort_is_intersection():
- sets={f'M{i}':{'2','3'} if i else {'1','2','3'} for i in range(9)}
- assert common_comparison_uids(sets)=={'2','3'}
-
-def test_common_cohort_requires_all_families():
- with pytest.raises(ValueError,match='Missing family'):
-  common_comparison_uids({'M0':{'1'}})
 
 def test_nuts_validation_never_truncates_codes():
  result=validate_nuts_coverage(['BG3','HU1'],['BG3','HU1','ITC']); assert result['complete']

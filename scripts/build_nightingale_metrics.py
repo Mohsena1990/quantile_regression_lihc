@@ -31,6 +31,7 @@ import numpy as np
 import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from data.enable import RETAINED_COUNTRY_NAMES
 SURFACE, INK, INK_MUTED = "#ffffff", "#1a1a1a", "#7a7570"
 # Pastel orange / pink / grey family, interpolated so any segment count gets a
 # distinct, harmonious tone from the same three-hue corporate palette.
@@ -128,7 +129,7 @@ def build_classification() -> None:
 
 def build_shap(top_n: int = 10) -> None:
     d = pd.read_csv(ROOT / "outputs/tables/table_shap_feature_effectiveness.csv")
-    countries = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+    countries = list(RETAINED_COUNTRY_NAMES)
     d = d[d.config.eq("A0") & d.scope.isin(countries)]
     if d.empty:
         print("SKIP SHAP Nightingale: no A0/per-country rows in table_shap_feature_effectiveness.csv")

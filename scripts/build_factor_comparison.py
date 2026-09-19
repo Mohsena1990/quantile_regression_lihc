@@ -39,7 +39,7 @@ CONTROLS = ["H3_z", "hdd_z"]  # household size is itself a factor (large_hh); a 
 AXES = {"li": "Low income", "hc": "Over-spends vs comparable homes"}
 # categorical slots 1-5 of the reference palette, fixed order; marker shape = second, non-colour encoding
 COUNTRY_STYLE = {"Bulgaria": ("#2a78d6", "o"), "Hungary": ("#eb6834", "s"), "Italy": ("#1baf7a", "^"),
-                 "Poland": ("#eda100", "D"), "Spain": ("#e87ba4", "v")}
+                 "Poland": ("#eda100", "D")}
 INK, INK2, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#fcfcfb"
 SEQ = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95"]
 
@@ -211,7 +211,6 @@ def fig_forest(eff: pd.DataFrame) -> None:
 def fig_pairs(pairs: pd.DataFrame) -> None:
     fig, axes = plt.subplots(4, 5, figsize=(12.5, 10.2))
     fig.patch.set_facecolor(SURFACE)
-    a_f, b_f = None, None
     for r, ((fa, fb), outcome) in enumerate(itertools.product(PAIRS, ("li", "hc"))):
         for k, c in enumerate(COUNTRIES):
             ax = axes[r, k]

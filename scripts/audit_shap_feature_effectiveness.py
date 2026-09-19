@@ -34,7 +34,8 @@ from lib.tuning.feature_selection import rank_features_shap
 from lib.features.country_context import CONTEXT_COLUMNS, add_country_context
 from lib.features.household_features import stack_features
 
-COUNTRIES = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRIES = list(RETAINED_COUNTRY_NAMES)
 SCOPES = COUNTRIES + ["Whole"]
 CONFIGS = ["A0", "A1", "A2"]
 MATERIALITY_THRESHOLD = 0.01  # a feature's share of the full context-pool |SHAP| mass below
@@ -61,7 +62,7 @@ def main() -> None:
     rows: list[dict] = []
     pool_shares: dict[tuple[str, str], pd.Series] = {}  # (family, scope) -> full context-pool share
     for champ in champions.itertuples():
-        family, quantile = champ.family, champ.quantile
+        family = champ.family
         src = ROOT / f"artifacts/predictions/m{family[1:]}_a1.parquet"
         if not src.exists():
             print(f"SKIP {family}: {src.name} not found")

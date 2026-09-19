@@ -28,7 +28,8 @@ sys.path.insert(0, str(ROOT))
 from lib.reporting.figures import save_figure
 from lib.reporting.codes import REGRESSION_CODES, REGRESSION_DESCRIPTIONS
 
-COUNTRY_ORDER = ["Bulgaria", "Hungary", "Italy", "Poland", "Spain"]
+from data.enable import RETAINED_COUNTRY_NAMES
+COUNTRY_ORDER = list(RETAINED_COUNTRY_NAMES)
 # Same LowCost/HighCost status colors as scripts/build_four_class_figures.py:COST_COLOR,
 # reused here rather than re-derived so the two-state cost split reads identically
 # across every figure in the paper.

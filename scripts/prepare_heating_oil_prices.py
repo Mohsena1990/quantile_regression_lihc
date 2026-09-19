@@ -2,7 +2,7 @@
 from pathlib import Path
 import pandas as pd
 ROOT=Path(__file__).resolve().parents[1];src=ROOT/'artifacts/reference/weekly_oil_bulletin_history.xlsx'
-CODES={'Bulgaria':'BG','Hungary':'HU','Italy':'IT','Poland':'PL','Spain':'ES'};KWH_PER_LITRE=10.0
+CODES={'Bulgaria':'BG','Hungary':'HU','Italy':'IT','Poland':'PL'};KWH_PER_LITRE=10.0
 raw=pd.read_excel(src,sheet_name='Prices with taxes',header=0);dates=pd.to_datetime(raw.iloc[:,0],errors='coerce',format='mixed');rows=[]
 for country,code in CODES.items():
  col=f'{code}_price_with_tax_heating_oil';values=pd.to_numeric(raw[col],errors='coerce');v=values[dates.dt.year.eq(2018)]

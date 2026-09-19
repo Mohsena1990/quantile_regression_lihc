@@ -28,7 +28,7 @@ MIN_N = 20  # below this, a NUTS1 region is shown as "insufficient sample", neve
 RISK_ORDER = ["No Risk", "Income Risk", "Expenditure Risk", "Double Risk"]
 RISK_COLOR = {"No Risk": "#0ca30c", "Income Risk": "#fab219", "Expenditure Risk": "#ec835a", "Double Risk": "#d03b3b"}
 INSUFFICIENT_COLOR = "#e1e0d9"
-COUNTRY_CODES = {"Bulgaria": "BG", "Hungary": "HU", "Italy": "IT", "Poland": "PL", "Spain": "ES"}
+COUNTRY_CODES = {"Bulgaria": "BG", "Hungary": "HU", "Italy": "IT", "Poland": "PL"}
 
 
 def load_geometries() -> gpd.GeoDataFrame:
@@ -39,7 +39,7 @@ def load_geometries() -> gpd.GeoDataFrame:
 def country_label_points(geo: gpd.GeoDataFrame) -> dict[str, tuple[float, float]]:
     """One label point per country (ISO2 code), placed inside the country's own
     dissolved geometry via representative_point() -- safe for concave/multi-part
-    shapes (e.g. Italy, Spain with the Canary Islands) where a bounding-box or
+    shapes (e.g. Italy with Sicily and Sardinia) where a bounding-box or
     convex-hull centroid can fall outside the landmass or over the sea."""
     dissolved = geo.dissolve(by="CNTR_CODE")
     points = dissolved.geometry.representative_point()

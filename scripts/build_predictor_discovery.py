@@ -10,7 +10,7 @@ in two states: income EXCLUDED (proxy targeting) and INCLUDED (Van Hove's own de
   3. PDP for the selected factors; out-of-fold SHAP dependence
   4. leave-one-country-out universality test: select the factors WITHOUT country H, train a factors-only model on
      the other countries, score H, and compare with H's own full model
-Only countries passing the four-class support gate enter (Spain fails: 21 Double-Risk households).
+Only countries passing the four-class support gate enter (Spain failed it and left the cohort: docs/country_screening.md).
 Development partitions only.
 
 Outputs (outputs/tables): table_predictor_stability.csv, table_universal_predictors.csv, table_pdp.csv,
@@ -32,13 +32,13 @@ from lib.identification.data import load_development_frame, tier_features
 from lib.identification.discovery import (TARGETS, fold_importance, partial_dependence, select_universal, summarise_stability)
 from lib.identification.factors import FEATURE_DOMAIN
 from lib.identification.labels import add_labels, support_table, viability
-from lib.identification.protocol import fit_predict_proba, loco_proba, oof_proba, summarise
+from lib.identification.protocol import loco_proba, oof_proba, summarise
 from lib.reporting.figures import save_figure
 
 STATES = ("excluded", "included")
 UNIVERSAL_MODELS = ("lr4", "cb4")
 COUNTRY_STYLE = {"Bulgaria": ("#2a78d6", "o"), "Hungary": ("#eb6834", "s"), "Italy": ("#1baf7a", "^"),
-                 "Poland": ("#eda100", "D"), "Spain": ("#e87ba4", "v")}
+                 "Poland": ("#eda100", "D")}
 DOMAIN_COLOR = {"Dwelling & efficiency": "#2a78d6", "Heating & appliances": "#eb6834", "Household": "#1baf7a",
                 "Socio-economic": "#eda100", "Climate": "#e87ba4", "Income": "#0b0b0b", "Welfare screen": "#4a3aa7"}
 INK, INK2, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#fcfcfb"

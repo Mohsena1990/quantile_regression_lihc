@@ -10,8 +10,7 @@ pip install -r requirement.txt
 ```
 
 The ENABLE.EU household workbook must be present at
-`data/raw/ENABLE.EU_dataset_survey of households.xlsx` (already present in this
-checkout). ERA5-Land acquisition additionally requires valid Copernicus CDS API
+`data/raw/ENABLE.EU_dataset_survey of households.xlsx` (not committed; see the README's "Data"). ERA5-Land acquisition additionally requires valid Copernicus CDS API
 credentials in `~/.cdsapirc`.
 
 Library code lives under `lib/` (climate, evaluation, expenditure, features,
@@ -27,22 +26,22 @@ runnable directly.
 
 ```bash
 python scripts/audit_enable_workbook.py                 # dictionary/coverage audit (diagnostic)
-python scripts/validate_nuts.py                         # NUTS1 24/24 geography check
+python scripts/validate_nuts.py                         # NUTS1 geography check (every cohort region must exist in GISCO)
 python scripts/prepare_country_references.py             # income/rent/tenure country context (--year 2018 default)
 python scripts/prepare_energy_prices.py                 # 2018 Eurostat electricity/gas prices + fuel coverage table
 python scripts/prepare_heating_oil_prices.py             # heating-oil price series
-python scripts/build_income_bracket_reference.py        # FREEZE cohort-wide bracket->percentile table first (all low-income labels use it)
 python scripts/build_expenditure_m0.py                  # observed cost, immutable split (household_split_v1.json), M0 benchmark
+python scripts/build_income_bracket_reference.py        # freeze the cohort-wide bracket->percentile table (used by the percentile sensitivity)
 ```
 
 ## 2. ERA5-Land climate
 
-Fusion passes the strict 24/24 NUTS1 QC gate (see `AUDIT_AND_REPAIR_REPORT.md`
-§9/§21 for the acquisition history):
+Fusion must cover every NUTS1 region of the retained cohort (17 regions in the four countries) to pass the QC gate
+(see `AUDIT_AND_REPAIR_REPORT.md` §9/§21 for the acquisition history):
 
 ```bash
 python scripts/acquire_era5_land.py --configuration annual_2017   # skips download if files already present
-python scripts/fuse_era5_nuts1.py --configuration annual_2017     # fuses + runs the 24/24 QC gate
+python scripts/fuse_era5_nuts1.py --configuration annual_2017     # fuses + runs the region-coverage QC gate
 ```
 
 ## 3. Build A0, the standard predictor set
@@ -50,8 +49,8 @@ python scripts/fuse_era5_nuts1.py --configuration annual_2017     # fuses + runs
 `scripts/build_a0_predictor_selection.py` runs a recursive (forward)
 feature-addition search starting from Van Hove et al.'s 6 non-income predictors
 (floor area, household size, dwelling detachment, dwelling age, respondent age,
-heating strategy) -- their 7th, income bracket, is deliberately excluded (see the
-main README's "Why income is excluded"). At each step it tries every remaining
+heating strategy) -- their 7th, income bracket, is excluded from this legacy predictor set (the identification study reports
+both income-excluded and income-included states; see the README's "Study design"). At each step it tries every remaining
 candidate feature, fits **both** C0 and C1 with it added, and keeps whichever
 single candidate improves their averaged validation macro-F1 the most, until
 nothing improves it further. The winning list overwrites `config/pipeline.json`'s
@@ -82,7 +81,6 @@ python scripts/build_oof_predictions.py --feature A0
 python scripts/run_model_measurements.py --feature A0
 python scripts/build_oof_predictions.py --feature A1
 python scripts/run_model_measurements.py --feature A1
-python scripts/compare_income_ablation.py       # Van-Hove-style income-included vs income-excluded ablation
 ```
 
 Every M2/M5/M7 family additionally tunes a small internal hyperparameter grid via
@@ -121,6 +119,7 @@ rather than silently persisting garbage predictions.
 
 ```bash
 python scripts/select_family_champions.py     # per-family best A0/A1 by OOF calibration error, then that
+python scripts/compare_income_ablation.py       # Van-Hove-style income-included vs income-excluded ablation
                                                # champion's screening performance (4 families x 2 classifiers)
 python scripts/build_classifier_comparison.py # table + 5-panel figure comparing the 2 classifiers
 python scripts/build_confusion_matrices.py    # ONE confusion-matrix figure, for the single best configuration
@@ -158,7 +157,7 @@ python scripts/run_screening.py --measurement <name> --stage final_test
 ## 8. Per-country/whole feature selection and the B-family
 
 ```bash
-python scripts/run_percountry_feature_selection.py  # A0-A2 x (5 countries + pooled Whole) x 3 families x 2 classifiers
+python scripts/run_percountry_feature_selection.py  # A0-A2 x (4 countries + pooled Whole) x 3 families x 2 classifiers
 python scripts/build_b_measurements.py               # B0 (=M0) + B2/B5/B7: stitch each country's own winning config
 python scripts/build_b_confusion_matrices.py         # confusion-matrix figure for the single best B-family
 python scripts/build_b_policy_maps.py                # NUTS1 choropleths for the B-family results

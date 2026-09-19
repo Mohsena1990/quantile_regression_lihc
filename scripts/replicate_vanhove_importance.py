@@ -44,7 +44,6 @@ def main() -> None:
         out.append(pd.DataFrame({"method": label, "feature": norm.columns, "importance_norm": norm.mean().values, "fold_sd": norm.std().values}))
     t = pd.concat(out, ignore_index=True)
     t["feature_name"] = t.feature.map(NAMES)
-    vh_rank = {f: i for i, f in enumerate(VH_ORDER)}
     rows = []
     for m, d in t.groupby("method"):
         d = d.set_index("feature").loc[VH_ORDER]

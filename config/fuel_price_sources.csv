@@ -1,0 +1,12 @@
+fuel,primary_source,status,unit_conversion,uncertainty_rule,notes
+electricity,Eurostat nrg_pc_204,AVAILABLE,reported EUR/kWh,semester range,Household band 2500-4999 kWh
+gas,Eurostat nrg_pc_202,AVAILABLE,reported EUR/kWh,semester range,Household band 20-199 GJ
+fuel_oil,European Commission Weekly Oil Bulletin,AVAILABLE,EUR/1000L divided by net kWh/1000L,country-period price and calorific-value uncertainty,Do not substitute transport diesel
+wood,national official statistics,RETRIEVAL_REQUIRED,reported unit converted using sourced moisture-specific calorific value,country/source range,No harmonised Eurostat household retail-price series
+pellets,national official statistics,RETRIEVAL_REQUIRED,EUR/tonne divided by sourced kWh/tonne,country/source range,No harmonised Eurostat household retail-price series
+coal,national official statistics,RETRIEVAL_REQUIRED,reported mass price divided by sourced net calorific value,country/source range,No harmonised household retail-price series
+district_heat,national regulator/statistical office,RETRIEVAL_REQUIRED,reported tariff converted to EUR/kWh,fixed/variable tariff scenario,No harmonised 2018 EU household tariff
+biomass,national official statistics,RETRIEVAL_REQUIRED,fuel-specific,source range,Block generic biomass until fuel specified
+waste,none,BLOCKED_UNSUPPORTED,,not applicable,Household fuel definition and price are not defensible
+other,none,BLOCKED_UNSUPPORTED,,not applicable,Free-text source requires manual coding
+heat_pump,Eurostat nrg_pc_204,AVAILABLE,electric input priced as electricity,COP sensitivity,Ambient heat is not purchased fuel

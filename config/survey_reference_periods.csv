@@ -1,0 +1,6 @@
+country,fieldwork_start,fieldwork_end,reference_date,reference_period_method,source,confidence,notes
+Bulgaria,2017-11-01,2017-11-30,,pending country reference-period derivation,ENABLE T3,medium,Reference date intentionally unset pending expenditure recall-period decision
+Hungary,2018-01-01,2018-02-05,,pending country reference-period derivation,ENABLE T3,medium,Reference date intentionally unset pending expenditure recall-period decision
+Italy,2017-11-29,2017-12-11,,pending country reference-period derivation,ENABLE T3,medium,Reference date intentionally unset pending expenditure recall-period decision
+Poland,,,,external fieldwork source required,ENABLE T3,low,T3 contains #NULL! for all retained records
+Spain,,,,external fieldwork source required,ENABLE T3,low,T3 contains #NULL! for all retained records

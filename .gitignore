@@ -7,3 +7,9 @@ __pycache__/
 .venv
 .env
 *.tgz
+catboost_info/
+.pytest_cache/
+
+# raw survey microdata: not redistributed here (ENABLE.EU, see README "Data")
+data/raw/
+data/external/

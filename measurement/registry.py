@@ -1,71 +1,70 @@
-"""Measurement registry and programmatic asserts for the redesign.
+"""Canonical measurement specifications for the LIHC redesign.
 
-This module defines measurement families M0..M8, feature configurations H/HC,
-and functions to assert the expected counts of configured measurement
-combinations (core and sensitivity). Use this at CI time to ensure the
-implementation matches the agreed experimental design.
+Quantile is no longer a registry axis: for M2/M5/M7 it is a per-(family, feature) FIT
+OUTPUT discovered by lib/tuning/quantile_search.py's continuous calibration search
+(5-fold OOF, minimising absolute calibration error over q in [0.50, 0.80]), not a
+design-time choice enumerated here. M0 (Van Hove, country Q80) keeps its quantile
+fixed by its own external methodological definition and was never part of this
+registry's quantile axis.
 """
+from __future__ import annotations
 from dataclasses import dataclass
-from typing import List
+from typing import Iterable, Sequence
 
+FAMILIES = {"M0": "Van Hove observed-expenditure country-Q80 benchmark", "M2": "Linear quantile regression", "M5": "GAM", "M7": "Gradient-boosted quantile regression"}
+FEATURE_CONFIGS = ("H", "HC")
+BENCHMARK_FAMILIES = frozenset({"M0"})
 
-FAMILIES = {
-    "M0": "Van Hove observed-expenditure country-Q80 benchmark",
-    "M1": "historical_official_lihc_benchmark",
-    "M2": "Linear Quantile Regression",
-    "M3": "Gamma GLM",
-    "M4": "Tweedie Regression",
-    "M5": "GAM",
-    "M6": "Gradient-Boosted Mean Regression",
-    "M7": "Gradient-Boosted Quantile Regression",
-    "M8": "Multilevel Gamma/Lognormal",
-}
+@dataclass(frozen=True, slots=True)
+class FamilyStage:
+    """Scientific availability of a measurement family and its downstream uses."""
+    status: str
+    required_cost: str
+    four_class: str
+    screening_eligible: bool
+    blocker: str | None = None
 
-FEATURE_CONFIGS = ["H", "HC"]  # H: household-only, HC: household + climate
+FAMILY_STAGES: dict[str, FamilyStage] = {}
 
-CORE_QUANTILES = [0.60, 0.65, 0.70]
-SENSITIVITY_QUANTILES = [0.80]
-
-
-@dataclass
-class RegistrySummary:
+@dataclass(frozen=True, slots=True)
+class MeasurementSpec:
     family: str
-    feature: str
-    quantile: float | None
+    feature: str | None = None
+    def __post_init__(self) -> None:
+        if self.family not in FAMILIES:
+            raise ValueError(f"Unknown measurement family: {self.family}")
+        benchmark = self.family in BENCHMARK_FAMILIES
+        if benchmark and self.feature is not None:
+            raise ValueError(f"{self.family} is a benchmark and has no feature axis")
+        if not benchmark and self.feature not in FEATURE_CONFIGS:
+            raise ValueError(f"Unknown feature configuration: {self.feature}")
+    @property
+    def experiment_id(self) -> str:
+        if self.family in BENCHMARK_FAMILIES:
+            return self.family.lower()
+        return f"{self.family.lower()}_{self.feature.lower()}"
 
+RegistrySummary = MeasurementSpec
 
-def build_registry(families: List[str], features: List[str], quantiles: List[float]) -> List[RegistrySummary]:
-    rows = []
-    for f in families:
-        if f in ("M0", "M1"):
-            # Benchmarks: no quantile axis (M0 uses country 80th percentile, M1 is rule-based)
-            rows.append(RegistrySummary(family=f, feature="-", quantile=None))
-            continue
-        for feat in features:
-            for q in quantiles:
-                rows.append(RegistrySummary(family=f, feature=feat, quantile=q))
+def build_registry(families: Iterable[str] = FAMILIES, features: Sequence[str] = FEATURE_CONFIGS) -> list[MeasurementSpec]:
+    rows: list[MeasurementSpec] = []
+    for family in families:
+        if family in BENCHMARK_FAMILIES:
+            rows.append(MeasurementSpec(family))
+        else:
+            rows.extend(MeasurementSpec(family, feature) for feature in features)
+    ids = [row.experiment_id for row in rows]
+    if len(ids) != len(set(ids)):
+        raise ValueError("Registry contains duplicate experiment IDs")
     return rows
 
+def core_registry() -> list[MeasurementSpec]:
+    return build_registry()
 
-def assert_expected_counts(core_only: bool = True) -> None:
-    """Assert the expected counts described in the project specification.
-
-    Raises AssertionError if counts do not match.
-    """
-    model_families = [k for k in FAMILIES.keys() if k not in ("M0", "M1")]
-    # core: 7 models x 2 features x 3 quantiles = 42; + 2 benchmarks = 44
-    core_expected = len(model_families) * len(FEATURE_CONFIGS) * len(CORE_QUANTILES) + 2
-    registry_core = build_registry(list(FAMILIES.keys()), FEATURE_CONFIGS, CORE_QUANTILES)
-    assert len(registry_core) == core_expected, f"Core registry length {len(registry_core)} != expected {core_expected}"
-
-    if not core_only:
-        # sensitivity: add Q80 for the 7 models
-        registry_sens = build_registry(list(FAMILIES.keys()), FEATURE_CONFIGS, CORE_QUANTILES + SENSITIVITY_QUANTILES)
-        sens_expected = len(model_families) * len(FEATURE_CONFIGS) * (len(CORE_QUANTILES) + len(SENSITIVITY_QUANTILES)) + 2
-        assert len(registry_sens) == sens_expected, f"Sensitivity registry length {len(registry_sens)} != expected {sens_expected}"
-
+def assert_expected_counts() -> None:
+    assert len(core_registry()) == 7  # M0 + 3 families x {H, HC}
 
 if __name__ == "__main__":
-    # quick smoke check
-    assert_expected_counts(core_only=True)
-    print("Registry core counts OK")
+    assert_expected_counts()
+    print("Registry counts OK (7 = M0 + 3 families x {H, HC}; "
+          "quantile is now a per-family fit output, not a registry axis)")

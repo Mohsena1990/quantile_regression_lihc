@@ -1,0 +1,7 @@
+parameter,dimension,codes_or_levels,low,base,high,unit,status,source,notes
+floor_area,H3,1|2|3|4|5,35|54|78|105.5|160,35|54|78|105.5|160,35|54|78|105.5|160,m2,ADAPTED,ENABLE dictionary,Closed-band midpoints; H3=6/7 blocked
+heat_loss_rate,H2,1|2|3|4|5|6|7|8,2.4|2.1|1.8|1.5|1.2|1.0|0.8|0.6,3.2|2.8|2.4|2.0|1.7|1.4|1.1|0.85,4.0|3.5|3.0|2.6|2.2|1.9|1.5|1.2,W/m2K,SENSITIVITY_ASSUMPTION,BREDEM-aligned archetype mapping,Not observed household fabric
+exposure,H1,1|2|3|4,1|0.85|0.72|0.62,1|0.85|0.72|0.62,1|0.85|0.72|0.62,multiplier,ADAPTED,BREDEM Table 22 concept,Apartment factors are documented approximations
+water_heating_fuel,not observed,space-heating fuel,blocked,explicit same-as-space assumption,blocked,,SENSITIVITY_ASSUMPTION,Project decision,Builder records assumption
+cooking_fuel,not observed,electric cooking,blocked,explicit electric assumption,blocked,,SENSITIVITY_ASSUMPTION,Project decision,Builder records assumption
+H6A3_fuel,H6A3,natural gas or propane/bottled gas,blocked,blocked,blocked,,BLOCKED_AMBIGUOUS,ENABLE dictionary,Natural-gas tariff must not be assigned to LPG without distinction

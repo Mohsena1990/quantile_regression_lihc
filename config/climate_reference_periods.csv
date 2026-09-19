@@ -1,0 +1,4 @@
+configuration,start_date,end_date,role,hdd_base_c,cdd_base_c,household_t3_required,notes
+annual_2017,2017-01-01,2017-12-31,actual_period_candidate,18,22,false,Common NUTS1 calendar-year exposure
+heating_season_2017_18,2017-11-01,2018-02-28,heating_period_candidate,18,22,false,Common survey-period winter exposure
+normal_1991_2020,1991-01-01,2020-12-31,structural_climate_sensitivity,18,22,false,Long-run structural climate normal

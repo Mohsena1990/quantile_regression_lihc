@@ -165,8 +165,30 @@ and Italy do better at low q (Bulgaria 0.49 at 0.50 against 0.41 at 0.80; Italy 
 out, and Poland falls below the 30-household support gate at q >= 0.70. Country comparisons are therefore made at one stated q
 with the sweep beside them.
 
-**10. Test evaluation -- pre-registered, pending.** The model for every country x cost definition x income state x tier cell was frozen
-from development cross-validation and committed in `config/final_selection.json` before the test partition was touched.
+**10. Test evaluation (single look, pre-registered).** The model for every country x cost definition x income state x tier cell was frozen
+from development cross-validation and committed (`556c054`) before the test partition was touched; the owner's authorisation was
+committed separately (`7dfe397`); the evaluation ran once on 2026-09-20 on the 810 test households, of which 477 have a valid cost and income bracket and are
+evaluated (Bulgaria 145, Hungary 156, Italy 84, Poland 92). `table_final_test_*.csv` carry every metric with 95% bootstrap CIs.
+
+| Country | Income | Test households | Accuracy | F1 (macro) [95% CI] | ROC-AUC (macro) | MCC | Chance F1 | Development CV F1 |
+|---|---|---|---|---|---|---|---|---|
+| Bulgaria | excluded | 145 | 0.524 | 0.497 [0.410, 0.576] | 0.780 | 0.357 | 0.228 | 0.455 |
+| Hungary | excluded | 156 | 0.404 | 0.396 [0.319, 0.461] | 0.744 | 0.210 | 0.237 | 0.372 |
+| Italy | excluded | 84 | 0.393 | 0.390 [0.270, 0.481] | 0.723 | 0.195 | 0.242 | 0.419 |
+| Poland | excluded | 92 | 0.337 | **0.248 [0.167, 0.317]** | 0.612 | -0.009 | 0.174 | 0.352 |
+| Bulgaria | included | 145 | 0.669 | 0.639 [0.556, 0.710] | 0.879 | 0.551 | 0.228 | 0.603 |
+| Hungary | included | 156 | 0.590 | 0.583 [0.486, 0.660] | 0.864 | 0.417 | 0.237 | 0.535 |
+| Italy | included | 84 | 0.488 | 0.474 [0.355, 0.566] | 0.825 | 0.314 | 0.242 | 0.564 |
+| Poland | included | 92 | 0.587 | 0.542 [0.399, 0.665] | 0.843 | 0.331 | 0.174 | 0.544 |
+
+Across all 24 need-based cells (three tiers x two income states x four countries) the development estimate lies inside the test 95% CI
+in 20 and the mean test-minus-development macro-F1 is -0.008: the repeated-CV numbers did not overstate performance. With Van Hove's own
+labels (country Q80, income included, tier T2) the test accuracy is 0.63-0.78 and macro-F1 0.57-0.72, in line with the paper's 60-74%
+true-positive rates. **Poland without income is the exception**: on test it is not distinguishable from chance (MCC -0.01), and its test
+partition holds only 13 No-Risk and 5 Expenditure-Risk households, so the Poland income-excluded estimate should not be leaned on.
+Managerial errors on the test households (`table_final_test_managerial.csv`) keep the development conclusion: with an income register a scheme
+still misses 36-82% of Double-Risk households and 53-81% of those it assists are not Double Risk; survey-style information does not
+reduce the errors reliably (test intervals are wide -- 14 to 44 Double-Risk households per country).
 
 Data
 ----
@@ -237,4 +259,5 @@ Limitations
 * The cost axis (spending relative to physical need) is not validated against self-reported hardship; the income axis is.
 * Accuracy without income is modest; the value of the analysis is the comparison across information tiers, the
   cross-country differences, and the size of the targeting errors -- not a single accuracy figure.
-* Poland's Expenditure Risk class is small under the headline income rule (about 30 households in development data).
+* Poland's Expenditure Risk class is small under the headline income rule (31 households in development data, 5 in the test partition); Poland without income is not distinguishable from chance on the test households.
+* Test partitions hold 84-156 eligible households per country, so test intervals are wide (macro-F1 CIs of about +-0.08 to +-0.13).

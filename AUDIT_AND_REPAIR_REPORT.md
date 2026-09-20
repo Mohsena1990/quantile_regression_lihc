@@ -402,3 +402,32 @@ predictor, so every A0-based number moved slightly; all figures in the README re
 **Still limiting a claim.** No uninterrupted single-shot run of the final script was made (segments, above). The cost axis is not
 validated against self-reported hardship. Dynamic income rules use an EUR proxy from an ordinal bracket. The test partition has not
 been used and is not unlocked.
+
+
+## 26. Retirement of the classifier-selection layer and the single test evaluation (2026-09-20)
+
+**Retired** (recoverable at tag `pre-cleanup-20260919`): screening matrix, family champions, freeze/lock stage, per-country and pooled
+feature-configuration comparison, stitched per-country datasets, NUTS1 policy maps, Nightingale/scenario/evaluation summaries, diagrams,
+symbol codes, country-context features, unused config files and rent/tenure downloads, and their tests. The layer used a single
+train/validation split (63-164 households per country) to pick winners; repeated CV with bootstrap CIs supersedes it. Kept: data
+preparation, Van Hove M0, the A0 search, the M2/M5/M7 cost-threshold estimators (now with a comparison consumer) and the climate stage.
+
+**Cost quantile.** The layer's OOF calibration returns its lower search bound (M5 exactly 0.50, M2 0.505) after the label fixes, so the
+headline q = 0.63 is a stated design choice with a 0.50-0.80 sweep. Country conclusions depend on q for Bulgaria and Italy.
+
+**Test partition.** Access is possible only through `lib/identification/final_test.py`; it needs `test_unlock_authorized`, a named
+`authorized_by` and no earlier `test_accessed_at` in `config/final_selection.json`, and records the access before returning data. Order of
+events (git history): pre-registration `556c054` (frozen model per cell, authorisation false) -> authorisation `7dfe397` -> one run of
+`scripts/run_final_test.py` -> result commit. A dry run (train -> validation) validated the code first. A second run is refused.
+Test thresholds are learned from development households only (`apply_labels`, unit-tested).
+
+**Result.** 810 test households, 477 eligible (valid cost and income). Development CV did not overstate performance (mean test-minus-development macro-F1 -0.008; development
+inside the test CI in 20/24 cells). Poland without income is at chance on test. Details and every metric: README "Results" 10 and
+`outputs/tables/table_final_test_*.csv`.
+
+**Verification.** The whole slimmed pipeline ran once from a cleared state, uninterrupted, and reproduced every development result
+bit for bit (maximum absolute difference 0.0 over 144 cells; identical A0 and model choices); 62 tests pass.
+
+**Still limiting a claim.** One test look with 84-156 households per country gives wide intervals; the cost axis is not validated
+against self-reported hardship; dynamic income rules use an EUR proxy from an ordinal bracket; results are associations from a 2018
+survey.

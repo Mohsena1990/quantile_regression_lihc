@@ -1,8 +1,8 @@
-"""Development-partition household frame for the identification protocol.
+"""Household frames for the identification study.
 
-Returns ONLY train + validation households. The test partition is locked
-(`artifacts/manifests/final_selection_frozen.json`, `test_unlock_authorized: false`); nothing in
-this package can load it -- there is deliberately no parameter for it.
+`load_development_frame()` returns ONLY train + validation households; it has no parameter for the test
+partition. The test partition can be read only through `lib/identification/final_test.py`, which refuses unless
+`config/final_selection.json` records an explicit human authorisation and no earlier test evaluation (one look, ever).
 
 Information tiers (what a policymaker must collect to reach a given accuracy):
   T1  structural   A0 (dwelling/household/fuel core from config/pipeline.json) + climate
@@ -11,7 +11,7 @@ Information tiers (what a policymaker must collect to reach a given accuracy):
   T3  + welfare screen   S7 (received public energy-bill aid) and S8 (subjective income
                          adequacy, 1 comfortable .. 4 very difficult). These are survey answers a
                          targeting scheme can ask; they are NOT inputs to the income-bracket label
-                         (S9MONTH), unlike income itself, which stays excluded everywhere.
+                         (S9MONTH). Income itself is a separate switch (`include_income`).
 """
 from __future__ import annotations
 import json
@@ -53,6 +53,12 @@ def tier_features(cfg: dict | None = None, *, include_income: bool = False) -> d
 def load_development_frame() -> pd.DataFrame:
     """One row per train/validation household with features, cost, income bracket, weights.
     Sentinel codes are already NaN (H1/H2 via engineer(); S7/S8 here)."""
+    return _load_frame(DEV_PARTITIONS)
+
+
+def _load_frame(partitions: tuple[str, ...]) -> pd.DataFrame:
+    """Shared loader. Callers outside this package must use load_development_frame(); the only other caller is the
+    guarded final-test module."""
     cfg = json.loads((ROOT / "config/pipeline.json").read_text())
     base = pd.read_parquet(ROOT / "artifacts/data/harmonised_observed_cost.parquet")[
         ["UID", "income_bracket", "w", "observed_energy_cost_eur_reference"]]
@@ -69,7 +75,7 @@ def load_development_frame() -> pd.DataFrame:
     split = json.loads((ROOT / cfg["split"]).read_text())["assignments"]
     part = {str(a["household_id"]): a["partition"] for a in split}
     d["partition"] = d.UID.astype(str).map(part)
-    d = d[d.partition.isin(DEV_PARTITIONS)].copy()
+    d = d[d.partition.isin(partitions)].copy()
     d["income_bracket"] = pd.to_numeric(d.income_bracket, errors="coerce").where(lambda s: s.between(1, 10))
     d["cost"] = pd.to_numeric(d.observed_energy_cost_eur_reference, errors="coerce")
     d["income_percentile"] = harmonized_income_percentile(d.income_bracket, d.country)

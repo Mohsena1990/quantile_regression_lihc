@@ -32,7 +32,10 @@ from lib.labels.income_harmonization import (HEADLINE_INCOME_RULE, INCOME_RULES,
 from .data import NEED_FEATURES
 
 COST_KINDS = ("raw_q80", "need_adjusted")
-DEFAULT_Q = 0.63          # the M2 champion's OOF-calibrated pooled quantile (table_family_champions_final)
+# Design constant, swept 0.50-0.80 in scripts/build_identification_q_sensitivity.py. It was first set from the M2 family's
+# pooled OOF-calibrated quantile (0.63); after the label fixes that calibration returns the search boundary (~0.5), i.e.
+# "above the conditional median", which is too permissive a definition of high cost, so q stays a stated design choice.
+DEFAULT_Q = 0.63
 LOW_INCOME_BOUNDARY = 0.30
 CLASS_NAMES = {0: "No Risk", 1: "Income Risk", 2: "Expenditure Risk", 3: "Double Risk"}
 
@@ -44,17 +47,27 @@ def _need_design(frame: pd.DataFrame) -> ColumnTransformer:
         ("c", make_pipeline(SimpleImputer(strategy="most_frequent"), OneHotEncoder(handle_unknown="ignore", drop="first")), ["H1"])])
 
 
-def _need_threshold_oof(g: pd.DataFrame, q: float, *, folds: int, seed: int) -> np.ndarray:
-    """Out-of-fold conditional q-quantile (in EUR) of cost given need, for one country."""
+def _fit_need_model(g: pd.DataFrame, q: float):
+    """Per-country quantile regression of log cost on physical need only; returns a fitted pipeline."""
     x = g[NEED_FEATURES].copy()
     x["H1"] = x["H1"].astype("object")
     logc = np.log(g["cost"].where(g["cost"] > 0))
+    fit = logc.notna().to_numpy()
+    model = make_pipeline(_need_design(g), QuantileRegressor(quantile=q, alpha=0.001, solver="highs"))
+    return model.fit(x[fit], logc[fit])
+
+
+def _predict_threshold(model, g: pd.DataFrame) -> np.ndarray:
+    x = g[NEED_FEATURES].copy()
+    x["H1"] = x["H1"].astype("object")
+    return np.exp(model.predict(x))
+
+
+def _need_threshold_oof(g: pd.DataFrame, q: float, *, folds: int, seed: int) -> np.ndarray:
+    """Out-of-fold conditional q-quantile (in EUR) of cost given need, for one country."""
     thr = np.full(len(g), np.nan)
     for tr, te in KFold(folds, shuffle=True, random_state=seed).split(g):
-        fit = logc.iloc[tr].notna().to_numpy()
-        model = make_pipeline(_need_design(g), QuantileRegressor(quantile=q, alpha=0.001, solver="highs"))
-        model.fit(x.iloc[tr][fit], logc.iloc[tr][fit])
-        thr[te] = np.exp(model.predict(x.iloc[te]))
+        thr[te] = _predict_threshold(_fit_need_model(g.iloc[tr], q), g.iloc[te])
     return thr
 
 
@@ -117,3 +130,26 @@ def viability(support: pd.DataFrame, *, min_per_class: int = 30, min_axis: int =
     s["axis_ok"] = ((s["low_income_n"] >= min_axis) & (s["n"] - s["low_income_n"] >= min_axis)
                     & (s["high_cost_n"] >= min_axis) & (s["n"] - s["high_cost_n"] >= min_axis))
     return s
+
+
+def apply_labels(dev: pd.DataFrame, test: pd.DataFrame, *, cost_kind: str, income_rule: str = HEADLINE_INCOME_RULE,
+                 q: float = DEFAULT_Q) -> pd.DataFrame:
+    """Label `test` households with thresholds learned from `dev` ONLY (per country): the need-based regression is
+    fit on every eligible development household, Q80 is the development cost quantile. `test` costs never touch a
+    threshold. Returns the eligible test households with li, hc, y, threshold."""
+    if income_rule != HEADLINE_INCOME_RULE:
+        raise ValueError("the final test uses the headline income rule only")
+    dev_l = add_labels(dev, cost_kind=cost_kind, income_rule=income_rule, q=q)
+    t = test[test["cost"].notna() & test["income_bracket"].between(1, 10)].copy().reset_index(drop=True)
+    t["li"] = low_income_flag(t["income_bracket"], t["country"], rule="bracket3").astype(int)
+    t["threshold"] = np.nan
+    for country, idx in t.groupby("country").groups.items():
+        g_dev = dev_l[dev_l.country == country]
+        if cost_kind == "raw_q80":
+            t.loc[idx, "threshold"] = g_dev["cost"].quantile(0.8)
+        else:
+            t.loc[idx, "threshold"] = _predict_threshold(_fit_need_model(g_dev, q), t.loc[idx])
+    t["hc"] = (t["cost"] > t["threshold"]).astype(int)
+    t["y"] = t["li"] + 2 * t["hc"]
+    t["cost_kind"], t["income_rule"] = cost_kind, income_rule
+    return t

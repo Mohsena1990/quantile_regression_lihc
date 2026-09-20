@@ -46,24 +46,21 @@ Flow (one scatter figure per step)
 | 4 | Four-class classification, all metrics, local / pooled / leave-one-country-out | `build_identification_benchmark.py`, `build_identification_sensitivity.py` | `step4_prediction_space` |
 | 5 | Cross-country factor comparison (solid fuel, dwelling age, elderly, household size; climate) | `build_factor_comparison.py` | `factor_*`, `country_transfer_link` |
 | 6 | **Managerial implications**: households missed / wrongly included per 1,000, by information tier | `build_managerial_implications.py` | `managerial_*` |
+| 7 | **Single test evaluation** of the pre-registered models (one look, human-authorised) | `freeze_identification_selection.py`, `run_final_test.py` | `table_final_test_*` |
 | check | Replication of Van Hove's importance ranking; hardship as a policy-anchored target | `replicate_vanhove_importance.py`, `build_hardship_target_check.py` | `vanhove_replication_importance` |
+| check | Sensitivity to the cost-threshold quantile; agreement between three regression estimators of the threshold | `build_identification_q_sensitivity.py`, `build_threshold_estimator_comparison.py` | `table_cost_quantile_sensitivity`, `table_threshold_*` |
 
 All scripts are in `scripts/`; tables go to `outputs/tables/`, figures to `outputs/figures/` (600 dpi PNG + vector PDF).
 
-A second, older layer sits underneath and supplies the regression and mapping material (codes below): the cost-threshold
-regression families, validation-based classifier selection with a locked test stage, the per-country / pooled
-feature-configuration comparison, and NUTS1 policy maps. Its numbers come from a single train/validation split, so the
-headline classification results are the repeated-CV ones from steps 3-6, not the old champion tables.
-
-| Code | Meaning |
-|---|---|
-| **R0** | M0 -- Van Hove country-Q80 benchmark |
-| **R1-R3** | M2 / M5 / M7 -- linear quantile regression / GAM / gradient-boosted quantile regression, each at its own OOF-calibrated quantile |
-| **C0-C1** | CatBoost / Hierarchical CatBoost (cost-sensitive class weights) |
-| **A0** | Predictor core found by a recursive search (`build_a0_predictor_selection.py`), starting from Van Hove's six non-income predictors |
-| **A1 / A2** | A0 + climate / A1 + country economic context (pooled scope only) |
-
-Combo names read `A{config}R{regression}C{classifier}`, e.g. `A0R2C1`. `scripts/build_symbol_legend.py` writes the legend.
+Cost-threshold estimators. Three regression families estimate a household's conditional high-cost threshold and are compared
+on validation data (`build_threshold_estimator_comparison.py`): **M2** linear quantile regression, **M5** a spline-basis GAM and
+**M7** gradient-boosted quantile regression, each at an out-of-fold calibrated quantile, plus Van Hove's **M0** country-wide Q80
+as the benchmark. The recursive predictor search (`build_a0_predictor_selection.py`) fixes the household-feature core **A0** that
+forms tier T1 together with climate. The study's own headline threshold is the simple per-country quantile regression on
+physical need described above; the estimator comparison shows how much the flag changes if a different estimator is used.
+(An earlier validation-split classifier-selection layer -- champions, per-country configuration comparison, stitched
+per-country datasets, NUTS1 policy maps -- was retired on 2026-09-20 because repeated CV supersedes it; it is preserved at git tag
+`pre-cleanup-20260919`.)
 
 Results
 -------
@@ -157,11 +154,19 @@ among Double Risk households against 23% for No Risk -- but 21% for Expenditure 
 (spending relative to physical need) does not. Hardship itself is identifiable (AUC 0.73-0.82 from socio-economic items, 0.79-0.88
 with income) and is reported as a policy-anchored alternative target (`table_hardship_identification.csv`).
 
-**9. Older layer** (single train/validation split, ~80-160 households per country per split -- not the headline). The recursive search
-now selects `has_solid_fuel_heating` as the seventh A0 predictor. Family champions by validation macro-F1: R1 (M2, q = 0.51) 0.46,
-R2 (M5) 0.44, R0 (Van Hove) 0.43, R3 (M7) 0.41; per-country winners 0.35-0.47 (`table_best_overall.csv`). Regression metrics for the
-threshold models (MAE, RMSE, R-squared, pinball loss, coverage) are in `table_evaluation_summary.csv`. Figures: NUTS1 Double-Risk policy
-maps (`policy_map_*`), confusion matrices, Nightingale metric charts.
+**9. Cost-threshold choices.** *Estimator:* linear quantile regression (M2), a GAM (M5) and gradient-boosted quantile regression (M7)
+predict cost from physical need equally poorly (validation R-squared 0.13 / 0.17 / 0.15; MAE
+519-582 EUR), and they flag largely the same households as high-cost (Cohen's kappa
+0.62-0.72 between estimators, 0.64-0.68 against the headline
+need-based flag; `table_threshold_*`). The label therefore does not hinge on the estimator. *Quantile:* the out-of-fold calibration
+search returns its lower bound (about 0.5), so q = 0.63 is a stated design choice and is swept from 0.50 to 0.80
+(`table_cost_quantile_sensitivity.csv`): Hungary and Poland are stable (macro-F1 0.34-0.37 and 0.32-0.36 without income), Bulgaria
+and Italy do better at low q (Bulgaria 0.49 at 0.50 against 0.41 at 0.80; Italy 0.43 against 0.32) as the high-cost class thins
+out, and Poland falls below the 30-household support gate at q >= 0.70. Country comparisons are therefore made at one stated q
+with the sweep beside them.
+
+**10. Test evaluation -- pre-registered, pending.** The model for every country x cost definition x income state x tier cell was frozen
+from development cross-validation and committed in `config/final_selection.json` before the test partition was touched.
 
 Data
 ----
@@ -179,7 +184,7 @@ Running it
 
 ```bash
 pip install -r requirement.txt
-bash scripts/run_full_pipeline.sh        # every stage below, in order; stops at the first failure; ~3-5 hours end to end
+bash scripts/run_full_pipeline.sh        # every stage in order; stops at the first failure; ~1-1.5 hours end to end
 python -m pytest tests/ -q
 ```
 
@@ -196,24 +201,29 @@ Repository layout
 | `lib/identification/` | Study core: `data` (development frame, tiers), `labels` (income and cost axes, support gate), `protocol` (repeated CV), `metrics`, `discovery` (SHAP/permutation/PDP, universality), `factors` |
 | `lib/labels/` | Four-class ontology and the income rules (`bracket3`, `percentile`, `equiv60`, `residual60`) |
 | `lib/features/`, `lib/climate/`, `lib/expenditure/`, `lib/geography/` | Household features, degree days, cost reconstruction and currency, NUTS validation |
-| `lib/screening/`, `lib/tuning/`, `lib/imbalance/`, `lib/evaluation/`, `lib/reporting/` | Older layer: classifiers, quantile/regression search, class weights, cost metrics and split registry, figure helpers and symbol codes |
+| `lib/screening/`, `lib/tuning/`, `lib/imbalance/`, `lib/evaluation/`, `lib/reporting/` | Classifiers and class weights used by the A0 search, quantile/regression search for M2/M5/M7, cost metrics and split registry, figure helper |
 | `measurement/` | M0 (Van Hove) and M2/M5/M7 cost-threshold estimators |
 | `scripts/` | Every entry point (nothing under `lib/` or `measurement/` is runnable) |
 | `config/pipeline.json` | Seed, split path, families, the A0 feature list (overwritten by the A0 search), climate features, quantile search bounds |
-| `tests/` | Label stability, metric definitions against scikit-learn, CV leakage guard, managerial arithmetic, governance, ERA5 gates |
+| `config/final_selection.json` | Pre-registered model choices and the test-access record (see "Reproducibility locks") |
+| `tests/` | Label stability, metric definitions against scikit-learn, CV leakage guard, managerial arithmetic, test-access guard, governance, ERA5 gates |
 | `docs/` | Pipeline commands, methodology sources, country screening |
 
 Reproducibility locks
 ---------------------
 
-* **Test partition.** Selection is frozen on validation data by `scripts/freeze_validation_selection.py`
-  (`artifacts/manifests/final_selection_frozen.json`, `test_unlock_authorized: false`). No script sets the flag; the
-  locked final-test stage (`scripts/run_screening.py --stage final_test`) needs a deliberate, human edit and is not part
-  of `run_full_pipeline.sh`. All identification-study scripts read only train + validation households.
+* **Test partition -- one look.** Every analysis reads train + validation households only (`lib/identification/data.py` has no
+  test path). The single evaluation goes through `lib/identification/final_test.py`, which refuses unless
+  `config/final_selection.json` records `test_unlock_authorized: true` and a named `authorized_by`, and refuses again once
+  `test_accessed_at` is set -- even if the first attempt crashed. The model choices in that file are frozen from development
+  results and **committed before the test is touched**, so the commit history shows the pre-registration. `run_final_test.py
+  --dry-run` rehearses the same code on train -> validation without reading test data.
 * **Immutable split.** `scripts/build_expenditure_m0.py` refuses to regenerate the split registry if any household is
   missing from it; a new split must be a new versioned file.
 * **Milestone gates.** `scripts/check_milestone_gates.py` closes four sequential gates (M0 labels, A0 models, ERA5 QC over
   every cohort NUTS1 region, A1 models).
+* **Country gate.** `lib/identification/labels.py:viability` refuses per-country four-class claims for any class with fewer than
+  30 households; Spain was removed by this rule (`docs/country_screening.md`).
 * **Seeds.** `config/pipeline.json` `seed`; CatBoost and CV seeds are fixed in code.
 
 Limitations

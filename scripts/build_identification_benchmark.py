@@ -25,7 +25,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lib.identification.data import COUNTRIES, load_development_frame, tier_features
-from lib.identification.labels import CLASS_NAMES, COST_KINDS, add_labels, support_table, viability
+from lib.identification.labels import CLASS_NAMES, COST_KINDS, DEFAULT_Q, add_labels, support_table, viability
 from lib.identification.protocol import MODELS, loco_proba, oof_proba, summarise
 from lib.labels.income_harmonization import HEADLINE_INCOME_RULE
 
@@ -33,10 +33,10 @@ N_BOOT = 200
 OUT = ROOT / "outputs/tables"
 
 
-def run_grid(dev, *, cost_kinds, income_states, tiers_wanted, models, scopes, income_rule=HEADLINE_INCOME_RULE):
+def run_grid(dev, *, cost_kinds, income_states, tiers_wanted, models, scopes, income_rule=HEADLINE_INCOME_RULE, q=DEFAULT_Q):
     rows, support_rows, validation_rows = [], [], []
     for kind in cost_kinds:
-        lab = add_labels(dev, cost_kind=kind, income_rule=income_rule)
+        lab = add_labels(dev, cost_kind=kind, income_rule=income_rule, q=q)
         sup = viability(support_table(lab)).assign(cost_kind=kind, income_rule=income_rule)
         support_rows.append(sup)
         ok = dict(zip(sup.country, sup.four_class_ok))
@@ -56,7 +56,7 @@ def run_grid(dev, *, cost_kinds, income_states, tiers_wanted, models, scopes, in
                     pooled = oof_proba(lab, feats + ["country"], model) if ("pooled" in scopes and model != "prior") else None
                     for c in COUNTRIES:
                         g = lab[lab.country == c].reset_index(drop=True)
-                        base = {"cost_kind": kind, "income_rule": income_rule,
+                        base = {"cost_kind": kind, "income_rule": income_rule, "q": q,
                                 "income_state": "any" if model == "prior" else state,
                                 "tier": "any" if model == "prior" else tier, "model": model, "country": c, "four_class_ok": bool(ok[c])}
                         rows.append({**base, "scope": "local", **summarise(g.y.values, oof_proba(g, feats, model), n_boot=N_BOOT)})

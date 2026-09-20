@@ -1,7 +1,6 @@
-"""Download and govern official Eurostat country-level reference data used as
-regression features (see lib/features/country_context.py: ctx_income_d5_eur,
-ctx_rent_burden_pct, ctx_owner_occupied_pct) and by scripts/build_expenditure_m0.py
-and scripts/prepare_energy_prices.py."""
+"""Download and govern the Eurostat national income deciles (ilc_di01, EUR) used by the dynamic income rules
+(lib/labels/income_harmonization.py: equiv60 / residual60 poverty line = 60% of the national median), and publish
+the climate reference-period table."""
 from __future__ import annotations
 import argparse,itertools,json,sys
 from datetime import date
@@ -40,10 +39,6 @@ def main()->None:
     income['country']=income.geo.map(GEOS); income_ref=income.rename(columns={'quant_inc':'quantile','value':'cutoff_eur'})[['country','geo','time','quantile','cutoff_eur']]
     income_ref['currency']='EUR'; income_ref['source']='Eurostat ilc_di01'; income_ref['source_url']=url_income; income_ref['retrieval_date']=today
     income_ref.to_csv(ROOT/'artifacts/reference/income_quantiles_2018.csv',index=False); publish(income_ref,'table_lihc_income_quantiles')
-    rent,url_rent=fetch('ilc_mded02',args.year); rent=rent.loc[rent.rskpovth.isin(["B_60","A_60"]) & rent.unit.eq("PC")].copy(); rent['country']=rent.geo.map(GEOS); rent['component']='current rent HH060'; rent['excludes_energy_services']=True; rent['source']='Eurostat ilc_mded02'; rent['source_url']=url_rent; rent['retrieval_date']=today
-    rent.to_csv(ROOT/'artifacts/reference/eu_silc_rent_burden_2018.csv',index=False)
-    tenure,url_tenure=fetch('ilc_lvho02',args.year); tenure=tenure.loc[tenure.rskpovth.isin(["B_60","A_60"]) & tenure.tenure.isin(["OWN_L","OWN_NL","RENT_MKT","RENT_FR"]) & tenure.unit.eq("PC")].copy(); tenure['country']=tenure.geo.map(GEOS); tenure['source']='Eurostat ilc_lvho02'; tenure['source_url']=url_tenure; tenure['retrieval_date']=today
-    tenure.to_csv(ROOT/'artifacts/reference/eu_silc_tenure_distribution_2018.csv',index=False)
     climate=pd.read_csv(ROOT/'config/climate_reference_periods.csv'); publish(climate,'table_climate_reference_periods')
-    print(f"income_cutoffs={len(income_ref)} rent_rows={len(rent)} tenure_rows={len(tenure)}")
+    print(f"income_cutoffs={len(income_ref)}")
 if __name__=='__main__': main()

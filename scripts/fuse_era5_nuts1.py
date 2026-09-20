@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from lib.climate.degree_days import climate_summary
 from data.enable import HOUSEHOLD_SHEET,retained_cohort
 from lib.reporting.figures import save_figure
-from scripts.build_policy_maps import country_label_points,_label_countries
+from lib.geography.maps import country_label_points,label_countries
 
 # Supplementary sources: additional, separately-downloaded ERA5-Land requests (different
 # bounding box, same dataset/variable/period) whose NUTS1 regions fall outside a primary
@@ -65,6 +65,6 @@ def main():
  geo=nuts[nuts.NUTS_ID.isin(expected_regions)].merge(result,left_on='NUTS_ID',right_on='NUTS1',validate='one_to_one')
  geo['CNTR_CODE']=geo.NUTS_ID.str[:2];label_points=country_label_points(geo)
  for col,title in [('hdd','Heating degree days'),('temperature_mean','Mean temperature (°C)'),('frost_days','Frost days')]:
-  ax=geo.plot(column=col,legend=True,cmap='viridis',edgecolor='white',linewidth=.3,figsize=(9,7));_label_countries(ax,label_points);ax.set_axis_off();ax.set_title(title);plt.tight_layout();save_figure(ax,ROOT/f'outputs/figures/climate_{col}_{a.configuration}');plt.close()
+  ax=geo.plot(column=col,legend=True,cmap='viridis',edgecolor='white',linewidth=.3,figsize=(9,7));label_countries(ax,label_points);ax.set_axis_off();ax.set_title(title);plt.tight_layout();save_figure(ax,ROOT/f'outputs/figures/climate_{col}_{a.configuration}');plt.close()
  print(json.dumps(qc,indent=2));print(out)
 if __name__=='__main__':main()

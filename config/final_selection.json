@@ -538,9 +538,9 @@
       "dev_accuracy": 0.7257
     }
   ],
-  "test_unlock_authorized": false,
-  "authorized_by": null,
-  "authorization_note": null,
+  "test_unlock_authorized": true,
+  "authorized_by": "Mohsen Asghari Ilani (project owner), via Claude Code session",
+  "authorization_note": "2026-09-20: asked 'Do you want it [the classifier-selection layer] retired, and do you want the test partition unlocked once at the end?' -- the project owner answered 'yes'. Authorised: ONE evaluation of the model choices frozen at commit 556c054 (pre-registration); no change to any choice afterwards.",
   "test_accessed_at": null,
   "test_evaluated_at": null
 }

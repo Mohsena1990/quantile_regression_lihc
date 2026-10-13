@@ -15,8 +15,12 @@ Cost axis (`high_cost`):
                  classifier (conditioning the threshold on everything the classifier sees makes the
                  label independent of its inputs by construction: pooled AUC 0.51 on the previous
                  R1-R3 labels).
-Thresholds for need_adjusted are out-of-fold (each household's threshold comes from a per-country
-quantile regression that never saw that household).
+  qr80 / hansen / hansen_qr
+                 the study's expenditure lines (lib/identification/expenditure_lines.py): Quantile Regression at
+                 the conditional 80th percentile; Hansen's Threshold Regression tipping point as a country line;
+                 Hansen's tipping point fed into Quantile Regression as tau.
+Thresholds for the need-based kinds are out-of-fold (each household's threshold comes from a per-country
+model that never saw that household).
 """
 from __future__ import annotations
 import numpy as np
@@ -32,7 +36,10 @@ from lib.labels.income_harmonization import (HEADLINE_INCOME_RULE, INCOME_RULES,
 from .data import NEED_FEATURES
 
 COST_KINDS = ("raw_q80", "need_adjusted")
-# Design constant, swept 0.50-0.80 in scripts/build_identification_q_sensitivity.py. It was first set from the M2 family's
+LINE_KINDS = {"qr80": "Quantile Regression", "hansen": "Hansen Threshold Regression",
+              "hansen_qr": "Hansen + Quantile Regression"}
+ALL_COST_KINDS = COST_KINDS + tuple(LINE_KINDS)
+# Design constant, swept 0.50-0.80 in scripts/build_identification_q_sensitivity.py. It was first set from the M1 family's
 # pooled OOF-calibrated quantile (0.63); after the label fixes that calibration returns the search boundary (~0.5), i.e.
 # "above the conditional median", which is too permissive a definition of high cost, so q stays a stated design choice.
 DEFAULT_Q = 0.63
@@ -76,8 +83,8 @@ def add_labels(dev: pd.DataFrame, *, cost_kind: str, income_rule: str = HEADLINE
     """Return the label-eligible households with columns li, hc, y (0 No / 1 Income / 2 Expenditure /
     3 Double), threshold, income_rule. Eligible = valid cost and a valid income bracket (plus, for the
     dynamic rules, a known household composition)."""
-    if cost_kind not in COST_KINDS:
-        raise ValueError(f"cost_kind must be one of {COST_KINDS}")
+    if cost_kind not in ALL_COST_KINDS:
+        raise ValueError(f"cost_kind must be one of {ALL_COST_KINDS}")
     if income_rule not in INCOME_RULES:
         raise ValueError(f"income_rule must be one of {INCOME_RULES}")
     d = dev.copy()
@@ -99,6 +106,15 @@ def add_labels(dev: pd.DataFrame, *, cost_kind: str, income_rule: str = HEADLINE
         g = e.loc[idx]
         if cost_kind == "raw_q80":
             e.loc[idx, "threshold"] = g["cost"].quantile(0.8)
+        elif cost_kind in LINE_KINDS:
+            from .expenditure_lines import QR_TAU, chosen_gamma, load_tipping_points, qr_line_oof
+            if cost_kind == "qr80":
+                e.loc[idx, "threshold"] = qr_line_oof(g.reset_index(drop=True), QR_TAU, folds=folds, seed=seed)
+            elif cost_kind == "hansen":
+                e.loc[idx, "threshold"] = g["cost"].quantile(chosen_gamma(load_tipping_points(), country, "unconditional"))
+            else:
+                tau = chosen_gamma(load_tipping_points(), country, "conditional")
+                e.loc[idx, "threshold"] = qr_line_oof(g.reset_index(drop=True), tau, folds=folds, seed=seed)
         else:
             e.loc[idx, "threshold"] = _need_threshold_oof(g, q, folds=folds, seed=seed)
     e["hc"] = (e["cost"] > e["threshold"]).astype(int)

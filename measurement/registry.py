@@ -1,6 +1,6 @@
 """Canonical measurement specifications for the LIHC redesign.
 
-Quantile is no longer a registry axis: for M2/M5/M7 it is a per-(family, feature) FIT
+Quantile is no longer a registry axis: for M1/M2/M3 it is a per-(family, feature) FIT
 OUTPUT discovered by lib/tuning/quantile_search.py's continuous calibration search
 (5-fold OOF, minimising absolute calibration error over q in [0.50, 0.80]), not a
 design-time choice enumerated here. M0 (Van Hove, country Q80) keeps its quantile
@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, Sequence
 
-FAMILIES = {"M0": "Van Hove observed-expenditure country-Q80 benchmark", "M2": "Linear quantile regression", "M5": "GAM", "M7": "Gradient-boosted quantile regression"}
+FAMILIES = {"M0": "Van Hove observed-expenditure country-Q80 benchmark", "M1": "Linear quantile regression", "M2": "GAM", "M3": "Gradient-boosted quantile regression"}
 FEATURE_CONFIGS = ("H", "HC")
 BENCHMARK_FAMILIES = frozenset({"M0"})
 

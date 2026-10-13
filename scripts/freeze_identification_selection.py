@@ -25,7 +25,13 @@ MODEL_ORDER = {"lr4": 0, "axis2": 1, "cb4": 2}     # deterministic tie-break
 def main() -> None:
     old = json.loads(SELECTION_PATH.read_text()) if SELECTION_PATH.exists() else {}
     if old.get("test_accessed_at"):
-        raise SystemExit(f"FROZEN: the test partition was accessed at {old['test_accessed_at']}; the pre-registered selection must not change")
+        # The selection is pre-registered and spent: never rewrite it. Re-running the pipeline only verifies that the development
+        # results the choices were frozen from are unchanged (they are deterministic, so they should be identical).
+        now = hashlib.sha256(TABLE.read_bytes()).hexdigest() if TABLE.exists() else None
+        status = "identical to" if now == old.get("source_table_sha256") else "DIFFERENT from"
+        print(f"selection frozen and test partition already evaluated ({old['test_accessed_at']}); the development benchmark is {status} "
+              "the one the choices were frozen from -- config/final_selection.json left untouched")
+        return
     b = pd.read_csv(TABLE)
     b = b[(b.scope == "local") & (b.model != "prior") & (b.income_rule == "bracket3")]
     b = b.assign(_o=b.model.map(MODEL_ORDER)).sort_values(["f1_macro", "_o"], ascending=[False, True])

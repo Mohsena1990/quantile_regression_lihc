@@ -7,15 +7,15 @@ def fixture():
 
 def test_all_model_family_adapters_predict_positive():
  d=fixture();tr=d.iloc[:60];te=d.iloc[60:]
- for family in ('M2','M5','M7'):
+ for family in ('M1','M2','M3'):
   _,pred,_=fit_family(family,tr,te,features=['x','cat'],target='observed_energy_cost_eur_reference',quantile=.6)
   assert len(pred)==20 and (pred>=0).all()
 
 def test_unsupported_family_rejected():
- # M3/M4/M6/M8 were removed as redundant with M2/M5/M7 (see estimators.py's module
+ # Only M1/M2/M3 exist (the redundant families were removed, see estimators.py's module
  # docstring) -- confirm they're actually gone, not silently still fittable.
  d=fixture()
- for family in ('M3','M4','M6','M8'):
+ for family in ('M0','M4','M5','M7','M8'):
   try:
    fit_family(family,d.iloc[:60],d.iloc[60:],features=['x','cat'],target='observed_energy_cost_eur_reference')
    assert False, f'{family} should have been rejected'
@@ -23,5 +23,5 @@ def test_unsupported_family_rejected():
    pass
 
 def test_strategy_emits_fixed_four_classes():
- d=fixture();_,out=fit_measurement_strategy('M7',d.iloc[:60],d.iloc[60:],features=['x','cat'])
+ d=fixture();_,out=fit_measurement_strategy('M3',d.iloc[:60],d.iloc[60:],features=['x','cat'])
  assert out.measurement_eligible.all();assert set(out.risk_class_code)<=set(range(4))

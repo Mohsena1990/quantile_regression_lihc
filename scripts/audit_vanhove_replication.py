@@ -26,12 +26,16 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from data.enable import HOUSEHOLD_SHEET, retained_cohort
 from lib.features.household_features import BASE_RAW_COLUMNS, RAW_COLUMNS as FEATURE_RAW_COLUMNS, engineer
+from lib.features.household_features import REFERENCE_YEAR
+from lib.identification.data import HEATING_STRATEGY
 from lib.labels.income_harmonization import harmonized_income_percentile
 from lib.screening.models import fit_screening_model
 
 COMP = [f"S1{g}c{i}" for g in ("A", "B") for i in (1, 2, 3)]
+# Heating strategy = H9 (heating control, categorical incl. "don't know") and birth year = S4, as in Van Hove's Table 1 /
+# thesis Sec. 5.3 (corrected 2026-10-13; the main heating fuel had been used before).
 VANHOVE_BASE = ["harmonized_income_percentile", "H3", "household_size", "H1", "H2",
-                "respondent_age", "primary_heating_fuel"]
+                "birth_year", "heating_strategy"]
 CLASSIFIERS = ("catboost", "hierarchical_catboost")
 
 
@@ -42,6 +46,8 @@ def load_frame() -> pd.DataFrame:
                                         sheet_name=HOUSEHOLD_SHEET, usecols=list(dict.fromkeys(cols))))
     hh["household_size"] = hh[COMP].apply(pd.to_numeric, errors="coerce").sum(axis=1, min_count=len(COMP))
     hh = engineer(hh)
+    hh["heating_strategy"] = hh["heating_control"].map(HEATING_STRATEGY).fillna("dont_know_no_answer")
+    hh["birth_year"] = REFERENCE_YEAR - hh["respondent_age"]
     d = base.merge(hh.drop(columns=["Country", "NUTS1", "country"]), on="UID", how="left", validate="one_to_one")
     d["harmonized_income_percentile"] = harmonized_income_percentile(d.income_bracket, d.country)
     m0 = pd.read_parquet(ROOT / "artifacts/predictions/m0_predictive.parquet")[["UID", "split", "risk_class_code"]]

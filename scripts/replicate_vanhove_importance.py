@@ -1,8 +1,9 @@
 """Replication of Van Hove et al. (2022) Fig. 7 -- permutation and mean|SHAP| importance of their seven predictors.
 
-Their design, on this project's five retained countries pooled: four classes from income bracket <= 3 and country
+Their design, on this project's four retained countries pooled: four classes from income bracket <= 3 and country
 Q80 of raw annual energy cost; predictors income bracket, floor area (H3), household size, house detachment (H1),
-house age (H2), respondent age (birth-year equivalent) and heating strategy (primary heating fuel). Importance is
+house age (H2), birth year of the respondent (S4) and heating strategy (H9, how the household controls its heating --
+Van Hove's Table 1 / thesis Sec. 5.3). Importance is
 computed on HELD-OUT cross-validation folds (they used an unseen test set), normalised so the largest value = 100,
 with fold-to-fold spread as error bars. Their reported ordering (mean|SHAP| and permutation agree on the top 3):
 income > floor area > household size; house age and birth year lowest; house detachment and heating inconclusive.
@@ -24,10 +25,10 @@ from lib.identification.discovery import fold_importance
 from lib.identification.labels import add_labels
 from lib.reporting.figures import save_figure
 
-VH_FEATURES = ["income_bracket", "H3", "household_size", "H1", "H2", "respondent_age", "primary_heating_fuel"]
+VH_FEATURES = ["income_bracket", "H3", "household_size", "H1", "H2", "birth_year", "heating_strategy"]
 NAMES = {"income_bracket": "income bracket", "H3": "floor area", "household_size": "household size", "H1": "house detachment",
-         "H2": "house age", "respondent_age": "birth year respondent", "primary_heating_fuel": "heating strategy"}
-VH_ORDER = ["income_bracket", "H3", "household_size", "H1", "primary_heating_fuel", "respondent_age", "H2"]   # their SHAP ranking, high to low
+         "H2": "house age", "birth_year": "birth year respondent", "heating_strategy": "heating strategy"}
+VH_ORDER = ["income_bracket", "H3", "household_size", "H1", "heating_strategy", "birth_year", "H2"]   # their SHAP ranking, high to low
 INK, INK2, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#fcfcfb"
 
 
@@ -62,7 +63,7 @@ def main() -> None:
             ax.spines[s].set_visible(False)
         ax.tick_params(colors=MUTED, labelsize=8.5); ax.set_title(method, fontsize=10, color=INK, loc="left")
         ax.set_xlabel("normalised importance (largest = 100), held-out folds, error bars = fold SD", fontsize=8, color=INK2)
-    fig.suptitle("Replication of Van Hove et al. (2022) Fig. 7 on the five retained countries pooled. Their order, top to bottom: income, floor area, household size, "
+    fig.suptitle("Replication of Van Hove et al. (2022) Fig. 7 on the four retained countries pooled. Their order, top to bottom: income, floor area, household size, "
                  "detachment, heating, birth year, house age", fontsize=10, color=INK, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.9)); save_figure(fig, ROOT / "outputs/figures/vanhove_replication_importance"); plt.close(fig)
 

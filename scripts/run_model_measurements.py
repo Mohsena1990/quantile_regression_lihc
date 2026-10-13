@@ -1,4 +1,4 @@
-"""Run M2/M5/M7 measurement strategies on the immutable household split."""
+"""Run M1/M2/M3 measurement strategies on the immutable household split."""
 from __future__ import annotations
 import argparse,json,sys
 from pathlib import Path

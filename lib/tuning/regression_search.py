@@ -1,4 +1,4 @@
-"""Internal k-fold hyperparameter search for the M2/M5/M7 cost-threshold families.
+"""Internal k-fold hyperparameter search for the M1/M2/M3 cost-threshold families.
 
 Every candidate is scored by mean_pinball_loss at the family's target quantile,
 folded strictly inside the caller's `train` frame (see tuning/search.py's module
@@ -11,9 +11,9 @@ from measurement.families.model_based.estimators import fit_family
 from lib.tuning.search import select_by_kfold
 
 CANDIDATE_GRIDS = {
-    "M2": [{"alpha": a} for a in (0.0003, 0.001, 0.01)],
-    "M5": [{"alpha": a} for a in (0.01, 0.1, 1.0)],
-    "M7": [{"n_estimators": n, "max_depth": d} for n, d in ((150, 2), (250, 3), (350, 4))],
+    "M1": [{"alpha": a} for a in (0.0003, 0.001, 0.01)],
+    "M2": [{"alpha": a} for a in (0.01, 0.1, 1.0)],
+    "M3": [{"n_estimators": n, "max_depth": d} for n, d in ((150, 2), (250, 3), (350, 4))],
 }
 
 

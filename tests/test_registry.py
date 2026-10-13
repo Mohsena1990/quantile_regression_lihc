@@ -10,4 +10,4 @@ def test_benchmark_axes_are_rejected():
         MeasurementSpec("M0", "H")
 
 def test_stable_experiment_id():
-    assert MeasurementSpec("M7", "HC").experiment_id == "m7_hc"
+    assert MeasurementSpec("M3", "HC").experiment_id == "m3_hc"

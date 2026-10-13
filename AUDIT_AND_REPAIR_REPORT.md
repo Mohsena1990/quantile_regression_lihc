@@ -431,3 +431,100 @@ bit for bit (maximum absolute difference 0.0 over 144 cells; identical A0 and mo
 **Still limiting a claim.** One test look with 84-156 households per country gives wide intervals; the cost axis is not validated
 against self-reported hardship; dynamic income rules use an EUR proxy from an ordinal bracket; results are associations from a 2018
 survey.
+
+
+## 27. Class-imbalance strategies (2026-09-20)
+
+Request: try strategies for class imbalance until results are good. Constraint recognised up front: the test partition is spent, and
+many tries on the same development households inflate the best one (winner's curse). So the decision rule was written into the script
+before running: an improvement must add >= +0.02 macro-F1 on average over 48 fresh-fold cells (seed never used for selection), in >= 75% of
+them, without lowering MCC; the bar was not relaxed for the number of tries.
+
+Round 1 (7 strategies; selection seed 1, confirmation seed 101) and round 2 (3 further, declared after round 1 failed; confirmation
+seed 202): none met the rule (best: `alpha_tuned`, logistic +0.012, CatBoost +0.008 macro-F1). Gains in F1/MCC/accuracy/log-loss come with
+lower Double-Risk recall (-0.10 to -0.13), so the right strategy depends on the objective. Default stays `balanced`; the pre-registered test
+result (`config/final_selection.json`) is unchanged and no test data was used. Code: `lib/identification/imbalance.py` (strategies, applied
+inside the training fold only), `strategy` option in `lib/identification/protocol.py` (default path verified bit-identical to the benchmark),
+`scripts/build_imbalance_strategy_comparison.py`, `tests/test_imbalance_strategies.py`. `imbalanced-learn` and `joblib` added to requirements.
+
+
+## 28. Feature stages B0 -> B1 -> B2, dynamic thresholds, NUTS3 climate (2026-10-13)
+
+Request: Van Hove's seven predictors as the base state (income always a predictor), enhanced by SHAP-selected socio-economic and
+heating variables, then climate; Van Hove's four classes against classes from dynamic expenditure thresholds; SHAP throughout.
+
+**Corrections made on the way.**
+* *Heating strategy.* Van Hove's paper (Table 1) and thesis (Sec. 5.3) define it as survey item H9 (heating control, 5 categorical
+  values incl. "don't know"). Every earlier replica here used the main heating fuel. Fixed in `lib/identification/stages.py`,
+  `scripts/replicate_vanhove_importance.py` and `scripts/audit_vanhove_replication.py`; birth year is now S4 itself. With H9 the pooled
+  replication ranks heating strategy last, as Van Hove's permutation importance did (ordering Spearman 0.61-0.71, was 0.6).
+* *Naming.* The three cost-threshold estimators are numbered in sequence: M1 linear quantile regression, M2 spline GAM, M3 boosted
+  quantile regression (formerly M2, M5, M7). Code, tests, `config/pipeline.json`, prediction files and calibration tables were renamed
+  together; historical sections above keep the old names.
+* *Survey period.* Interviews ran Nov 2017 - Feb 2018, so "last heating season" is winter 2016/17, not 2017/18.
+* *Regions.* The workbook has NUTS3 for Bulgaria, Hungary and Italy but none for Poland (NUTS2 used); Budapest/Pest are NUTS 2013 codes
+  (HU101/HU102 -> HU110/HU120). 121 climate regions instead of 17.
+
+**Placebo control (new finding).** A dry run with random numbers per region in place of climate raised macro-F1 by up to 0.13: any
+region-level variable lets a model recognise regions. Stage B2p repeats the B2 selection with climate permuted across regions within each
+country; only B2 - B2p is credited to climate. Result: B2 never beats B2p, so no climate effect beyond region identity is claimed.
+
+**Selection rule.** Nested in every outer fold: SHAP ranking on inner held-out folds (2 x 3), size by the one-standard-error rule.
+
+**Climate data.** CDS daily-statistics requests stalled in the queue (per-account limit); the indices use what was downloaded (ERA5-Land
+2017 daily mean/minimum, 2016-17 monthly temperature and solar radiation, ERA5 monthly wind). Exact 2016/17-season HDD, 1991-2020
+normals, maximum-temperature heatwaves and humidity are pending (`lib/climate/b2_indices.py` has their definitions).
+
+Results: README "Results" 12-14. 95 tests pass. Development data only; the spent test partition was not read.
+
+
+## 29. Van Hove gap, engineered features, Open-Meteo climate (2026-10-13, later)
+
+**Is something wrong because our Van Hove-design numbers are lower?** No. `lib/identification/vanhove_replica.py` rebuilds their pipeline
+on all 11 ENABLE countries from the paper and thesis (income from S9MONTH or S9YEAR; heating cost x country-median months when months are
+missing; thesis Table 5.1 EUR rates; "don't know" codes kept as values; CatBoost depth 4 / lr 0.05 / <= 500 trees with best validation
+TotalF1; inverse-frequency class weights; 20% stratified test split), excluding households in this project's spent test partition. It
+matches their data (class shares 45.5/35.0/13.2/6.4% vs 44.3/35.5/13.4/6.8%; median cost EUR 267 Ukraine, 2,311 Norway as published).
+Over 20 random splits it gives per-class TPR 0.57-0.67, weighted F1 0.677, balanced accuracy 0.623 +- 0.018 against their single split's
+0.60-0.74 TPR and 0.63-0.65 TotalF1. Model settings, preprocessing and the country set each change balanced accuracy by < 0.01; tuning
+depth / learning rate / L2 raises accuracy and weighted F1 by 0.02-0.04 but not balanced accuracy. The apparent gap is metric (weighted F1
+vs macro-F1, ~0.11), single-split noise (sd 0.05-0.08 per country) and country difficulty (Bulgaria 0.56, Italy 0.54; Hungary 0.64, Poland 0.75).
+`scripts/diagnose_vanhove_gap.py`, README Result 15.
+
+**Preprocessing bugs fixed in the project frame** (`lib/identification/data.py`): floor-area code 7 ("don't know") was read as the band
+above 200 m2, and households whose S1 composition sums to 0 had size 0; both now missing (41 of 1,996 eligible development households).
+These enter the need-based thresholds, so Results 1-11 (and the spent test evaluation) were computed with the old coding; Results 12-15 with
+the new one. Re-running Results 1-11 is a full pipeline run (~1.5 h) and has not been done.
+
+**Engineered features.** Coverage screen of all 473 survey items in the four countries: only the H and S sections are >= 80% complete
+everywhere (P is Italy-only, C Hungary-only, H15 missing in Bulgaria, settlement size missing in Poland). 23 features engineered from them
+(`lib/features/engineered.py`) join the B1 candidates (35 in all). B1 gains under the dynamic labels rose to +0.02-0.08, significant in 7
+of 12 cells (4 before).
+
+**Climate from Open-Meteo.** The CDS daily-statistics queue delivered one of 34 files in four hours; the queued jobs were cancelled and the
+CDS B2 scripts removed. `scripts/acquire_openmeteo_b2.py` fetches 14 daily variables for Oct 2016 - Dec 2017 at one representative point per
+NUTS3 / Polish NUTS2 region (cached, paced for the free-tier limits); 30-year daily normals would cost ~780 Open-Meteo calls per region, so
+`scripts/acquire_era5_normals.py` takes ERA5-Land monthly means 1991-2020 (one CDS request, seconds). 18 indices; QC passes for all 121
+regions. Climate still adds nothing beyond its region-identity placebo. Citations in README "Data". 95 tests pass.
+
+
+## 30. New expenditure lines, all-variable B1, attention + SHAP selection, three models (2026-10-13, night)
+
+* **Four countries only.** The Van Hove rebuild (`vanhove_replica.py`, `diagnose_vanhove_gap.py`) now runs on Bulgaria, Hungary, Italy and
+  Poland only (the study's design); the 11-country version was removed. Pooled four-country replica: balanced accuracy 0.626 +- 0.028,
+  weighted F1 0.666; conclusions unchanged (no defect; metric, single-split noise, country difficulty).
+* **Expenditure lines replaced.** The M1/M2/M3 (linear quantile regression / GAM / boosted quantile regression) need-based labels were
+  replaced by: Quantile Regression at the conditional 80th percentile; Hansen's Threshold Regression (Hansen 1996, 2000; cross-section form
+  -- the survey is one wave, so the panel form does not apply) of S8 hardship on the spending position of low-income households; and the
+  integrated Hansen + Quantile Regression line. Raw-spending tipping points are not significant (p 0.39-0.81; pooled 0.48). The
+  need-adjusted pooled tipping point is 0.579 (p 0.042, 95% set 0.11-0.68) and is used for all four countries (no country passes
+  p < 0.10 with hardship rising above its point; Hungary's p 0.09 point has hardship FALLING above it). `build_threshold_shap.py` was
+  replaced by `build_expenditure_lines.py`. The measurement/ estimator library (M1-M3) is still used by the earlier steps.
+* **B1 = all variables.** 57 raw survey items answered in all four countries + S7, S8 + 2 heating measures + 23 engineered = 82 candidates.
+* **Selection = Attention Mechanisms as Embedded Selectors + SHAP**: FT-Transformer [CLS] attention rank and CatBoost / XGBoost TreeSHAP rank
+  averaged on an inner 80/20 split; size by the one-standard-error rule; nested in outer folds. Three evaluation models: CatBoost, XGBoost,
+  FT-Transformer (own PyTorch implementation, `lib/identification/ft_transformer.py`).
+* **Results.** B1 gains appear under the Hansen + Quantile Regression line (+0.035 to +0.049 balanced accuracy on average; significant in
+  6 of 12 country-model cells), not under Van Hove's. B2 beats its placebo in 5 of 48 cells. CatBoost ~ XGBoost > FT-Transformer.
+* **Operational.** More than 4 concurrent CUDA processes segfault under WSL (`model.to(cuda)`), so `build_feature_stages.py --jobs 4`.
+98 tests pass.

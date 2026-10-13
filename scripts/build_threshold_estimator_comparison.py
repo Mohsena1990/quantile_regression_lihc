@@ -1,14 +1,14 @@
 """How much does the choice of cost-threshold estimator matter?
 
 Compares the three regression families that estimate a household's conditional high-cost threshold -- linear quantile
-regression (M2), a spline-basis GAM (M5) and gradient-boosted quantile regression (M7), each at its own OOF-calibrated
+regression (M1), a spline-basis GAM (M2) and gradient-boosted quantile regression (M3), each at its own OOF-calibrated
 quantile, feature set A1 -- on the VALIDATION partition (development data; the test partition is not touched):
 
   * regression accuracy against observed annual energy cost: MAE, MAPE, RMSE, R-squared, pinball loss, coverage error
   * label agreement: Cohen's kappa of the resulting high-cost flag between families, and against this study's headline
     need-based flag, per country (do different estimators put the same households above their threshold?)
 
-Reads artifacts/predictions/m{2,5,7}_a1.parquet (run_model_measurements.py) and the OOF calibration table.
+Reads artifacts/predictions/m{1,2,3}_a1.parquet (run_model_measurements.py) and the OOF calibration table.
 Outputs: outputs/tables/table_threshold_estimators.csv, table_threshold_label_agreement.csv
 """
 from __future__ import annotations
@@ -23,7 +23,7 @@ from lib.evaluation.cost_metrics import cost_score
 from lib.identification.data import load_development_frame
 from lib.identification.labels import add_labels
 
-FAMILIES = {"M2": "linear quantile regression", "M5": "GAM (spline + Gamma GLM)", "M7": "gradient-boosted quantile regression"}
+FAMILIES = {"M1": "linear quantile regression", "M2": "GAM (spline + Gamma GLM)", "M3": "gradient-boosted quantile regression"}
 
 
 def main() -> None:

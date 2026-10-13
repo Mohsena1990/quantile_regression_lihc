@@ -1,4 +1,4 @@
-"""Leakage-safe model measurement labels for M2/M5/M7."""
+"""Leakage-safe model measurement labels for M1/M2/M3."""
 from __future__ import annotations
 import pandas as pd
 from lib.labels.four_class import allocate_risk_class

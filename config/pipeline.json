@@ -4,9 +4,9 @@
   "target": "observed_energy_cost_eur_reference",
   "income_boundary_percentile": 0.3,
   "families": [
+    "M1",
     "M2",
-    "M5",
-    "M7"
+    "M3"
   ],
   "features": [
     "H3",

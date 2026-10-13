@@ -1,5 +1,5 @@
 """Continuous calibration search + deterministic five-fold OOF training labels,
-for all M2/M5/M7 (family x A0/A1) configs. Runs BEFORE run_model_measurements.py:
+for all M1/M2/M3 (family x A0/A1) configs. Runs BEFORE run_model_measurements.py:
 quantile is discovered here (lib/tuning/quantile_search.py), not read from a
 pre-existing manifest.
 """

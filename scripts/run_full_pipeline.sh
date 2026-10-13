@@ -33,12 +33,18 @@ run python scripts/build_expenditure_m0.py            # observed cost, immutable
 run python scripts/build_income_bracket_reference.py
 run python scripts/acquire_era5_land.py --configuration annual_2017   # skips the download when the NetCDF files exist
 run python scripts/fuse_era5_nuts1.py --configuration annual_2017     # fuses to NUTS1, region-coverage QC gate
+# Stage-B2 climate from the Open-Meteo reanalysis API: one point per NUTS3 (Poland NUTS2) region, survey heating season
+# 2016/17, 1991-2020 normals. Responses are cached (artifacts/climate/openmeteo/http_cache), so reruns are offline.
+# Must run before any script that reads the development frame's B2 columns.
+run python scripts/acquire_openmeteo_b2.py
+run python scripts/acquire_era5_normals.py            # 1991-2020 monthly normals (one CDS request)
+run python scripts/fuse_openmeteo_b2.py
 
 # --- 2. Predictor core and cost-threshold estimators -----------------------------------------------------------------
 # A0: recursive forward search from Van Hove's six non-income predictors. Overwrites config/pipeline.json `features`.
 run python scripts/build_a0_predictor_selection.py
 run python scripts/audit_vanhove_replication.py       # Van Hove's exact seven-predictor design (income included), pooled
-# M2/M5/M7 cost-threshold estimators: the quantile is found by an OOF calibration search, so OOF runs BEFORE the fit.
+# M1/M2/M3 cost-threshold estimators: the quantile is found by an OOF calibration search, so OOF runs BEFORE the fit.
 run python scripts/build_oof_predictions.py --feature A0
 run python scripts/run_model_measurements.py --feature A0
 run python scripts/build_oof_predictions.py --feature A1
@@ -53,9 +59,18 @@ run python scripts/build_predictor_discovery.py       # SHAP + permutation + PDP
 run python scripts/build_identification_benchmark.py  # classification grid, all metrics with CIs
 run python scripts/build_identification_sensitivity.py    # income rules
 run python scripts/build_identification_q_sensitivity.py  # cost-threshold quantile
+run python scripts/build_imbalance_strategy_comparison.py           # class-imbalance strategies, round 1 (pre-declared rule)
+run python scripts/build_imbalance_strategy_comparison.py --round 2  # round 2: three further strategies, fresh confirmation seed
 run python scripts/build_factor_comparison.py
 run python scripts/build_hardship_target_check.py
 run python scripts/build_managerial_implications.py
+# Van Hove (2022) replica on all 11 countries and the factor-by-factor gap decomposition
+run python scripts/diagnose_vanhove_gap.py
+# Feature stages B0 (Van Hove) -> B1 -> B2 (income always a predictor), four expenditure lines, attention + SHAP selection,
+# CatBoost / XGBoost / FT-Transformer
+run python scripts/build_expenditure_lines.py         # Hansen tipping points; Quantile Regression / Hansen lines; SHAP of the line
+run python scripts/build_feature_stages.py --jobs 4   # attention + SHAP selection, three models; > 4 GPU workers crash CUDA under WSL
+run python scripts/build_hidden_underheating.py       # sensitivity (b): modelled heating need, hidden under-heating
 run python scripts/freeze_identification_selection.py     # pre-register model choices in config/final_selection.json
 
 # --- 4. Tests ----------------------------------------------------------------------------------------------------------

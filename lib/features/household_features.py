@@ -1,8 +1,8 @@
-"""Household-conditioning feature engineering for M2/M5/M7 / screening.
+"""Household-conditioning feature engineering for M1/M2/M3 / screening.
 
 Audit finding: household composition detail, heating-source composition, and the
 PV/solar/heat-pump technology block exist in the ENABLE workbook but were only ever
-fed into M1's BREDEM engine, never into the M2/M5/M7/screening feature set -- weakening
+fed into the (since removed) BREDEM required-cost engine, never into the M1/M2/M3/screening feature set -- weakening
 the "threshold conditional on household need" claim these families make. This module
 derives a defensible subset of that raw survey information into model-ready columns.
 
@@ -81,7 +81,7 @@ _EMPLOYMENT_MISSING_CODE = 99
 _AREA_TYPE_MISSING_CODE = 6
 # Dwelling type / age "don't know" sentinels (workbook value-label sheet). H2 == 99 covers 5.8%-14.7% of
 # households per country and was previously passed to every model as the number 99 (an extreme
-# "dwelling age" outlier for M2/M5); H1 == 9 is 5 households. Found 2026-09-19; data/enable.py's
+# "dwelling age" outlier for M1/M2); H1 == 9 is 5 households. Found 2026-09-19; data/enable.py's
 # MISSING_CODES was defined but never applied to these columns.
 _DWELLING_SENTINELS = {"H1": 9, "H2": 99}
 

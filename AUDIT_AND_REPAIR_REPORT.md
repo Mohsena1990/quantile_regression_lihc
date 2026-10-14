@@ -564,3 +564,15 @@ Issues recorded: the top "climate" feature (heating need per EUR of income) is i
 region-level and were not placebo-tested; house value / ownership unavailable (stand-ins). Code: scripts/acquire_regional_context.py,
 build_threshold_moo.py, build_feature_stages_v4.py; lib/features/indices.py; lib/identification/lines_v4.py, stages_v4.py;
 tests/test_v4.py. 108 tests pass.
+
+
+## 33. Version 4b: placebo for the regional B1 variables; income-driven feature removed from climate (2026-10-14)
+
+* "Heating need per EUR of income" removed from the B2 candidates (30 remain): it divides by income, and the B2p placebo still chose
+  it at the same accuracy. B2 vs B2p after the change: -0.001 on average (2 better, 2 worse of 60) -> still no climate effect.
+* New stage B1p: the six region-level B1 variables (density, ownership share, GDP, unemployment, poverty, old dwellings) permuted
+  across regions within each country before B1 selection. B1 - B1p = +0.003 on average (6 better, 3 worse of 60): their gain is
+  region identity. Under the placebo the selector picks household indices instead (wealth 73%, income in EUR 62%, vulnerability
+  50%, inefficient equipment 47%) at the same accuracy. Exception: need line without climate, XGBoost, +0.017 for the real values.
+* B0, B1 and Models A/B reproduced bit for bit from the previous run (same seeds). Version-4 tables before this change are archived
+  in outputs/tables/archive_v4a. 109 tests pass.

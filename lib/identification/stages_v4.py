@@ -16,6 +16,11 @@ Design (agreed 2026-10-14):
         the one-standard-error choice is recorded alongside
   * B2p placebo: regional climate permuted across regions within each country, household climate x dwelling features
         recomputed from the permuted values
+  * B1p placebo (version 4b): the region-level B1 variables (population density, ownership share, GDP per head, unemployment,
+        poverty rate, share of old dwellings) permuted across regions within each country before the B1 selection; only the
+        gain of B1 over B1p can be credited to what those variables measure rather than to "which region is this"
+  * "heating need per EUR of income" (need_burden) is not a climate candidate in version 4b: it divides by income and the B2p
+        placebo showed its strength comes from income, not climate
 Ranking everywhere: "Attention Mechanisms as Embedded Selectors + SHAP" with reliability weights (stages.rank_candidates);
 sizing: one-standard-error rule + paired gate (stages.one_se_choice, stages.paired_gate). Selection never sees the households
 that are scored.
@@ -36,14 +41,15 @@ B1_GROUPS = {"dalla_longa": ["pop_density", "owner_share", "wealth_index"],
                          "income_eur_equiv"],
              "regional": ["gdp_per_capita", "unemployment_rate", "poverty_rate", "pre1981_share"]}
 B1_CANDIDATES = [f for g in B1_GROUPS.values() for f in g]
-B2_CANDIDATES = list(CLIMATE_CANDIDATES)
+B2_CANDIDATES = [c for c in CLIMATE_CANDIDATES if c != "need_burden"]
+REGIONAL_B1 = ["pop_density", "owner_share", "gdp_per_capita", "unemployment_rate", "poverty_rate", "pre1981_share"]
 BASE = B0_FEATURES + ["country"]
 UNIVERSE = BASE + B1_CANDIDATES + B2_CANDIDATES
 CLIMATE_BASE = list(B2_CLIMATE)                      # regional columns the placebo permutes
 TOP_CLIMATE = 3
 L2_GRID = (1, 2, 3, 4, 6, 8, 12, 17)
-B2_GRID = (0, 1, 2, 3, 5, 8, 12, 31)
-STAGES = ("B0", "B1", "B2", "B2p")
+B2_GRID = (0, 1, 2, 3, 5, 8, 12, 30)
+STAGES = ("B0", "B1", "B1p", "B2", "B2p")
 SEED = 20260811
 
 
@@ -97,6 +103,12 @@ def placebo_frame(frame: pd.DataFrame, seed: int) -> pd.DataFrame:
     return climate_features(placebo_climate(frame, CLIMATE_BASE, seed))
 
 
+def regional_placebo_frame(frame: pd.DataFrame, seed: int) -> pd.DataFrame:
+    """Region-level B1 variables moved to another region of the same country; climate x home features recomputed."""
+    from .stages import placebo_climate
+    return climate_features(placebo_climate(frame, REGIONAL_B1, seed))
+
+
 def without_income(feats: list[str]) -> list[str]:
     return [f for f in feats if f not in INCOME_DERIVED]
 
@@ -111,10 +123,12 @@ def run_fold(frame: pd.DataFrame, tr: np.ndarray, te: np.ndarray, fold_id: int, 
     seed = SEED + fold_id
     train, test = frame.iloc[tr], frame.iloc[te]
     fp = placebo_frame(frame, SEED + 500 + repeat)
+    fr = regional_placebo_frame(frame, SEED + 800 + repeat)
     s1 = select_b1(train, seed)
+    s1p = select_b1(fr.iloc[tr], seed)
     s2 = select_b2(train, s1["selected"], seed + 1000)
     s2p = select_b2(fp.iloc[tr], s1["selected"], seed + 1000)
-    stage_sets = {"B0": BASE, "B1": s1["selected"], "B2": s2["selected"], "B2p": s2p["selected"]}
+    stage_sets = {"B0": BASE, "B1": s1["selected"], "B1p": s1p["selected"], "B2": s2["selected"], "B2p": s2p["selected"]}
     model_sets = {("A", "all"): ["income_bracket"]}
     for st in ("B0", "B1", "B2"):
         model_sets[("B", st)] = without_income(stage_sets[st])
@@ -123,7 +137,7 @@ def run_fold(frame: pd.DataFrame, tr: np.ndarray, te: np.ndarray, fold_id: int, 
     proba, imp_rows, shap = {}, [], {}
     col = {f: j for j, f in enumerate(UNIVERSE)}
     for (mset, st), feats in model_sets.items():
-        src = fp if st == "B2p" else frame
+        src = fp if st == "B2p" else fr if st == "B1p" else frame
         for clf in MODELS3:
             m = fit_model(clf, src.iloc[tr], feats, seed)
             proba[(mset, st, clf)] = m.predict_proba(src.iloc[te])
@@ -140,7 +154,7 @@ def run_fold(frame: pd.DataFrame, tr: np.ndarray, te: np.ndarray, fold_id: int, 
             m = fit_model(clf, frame.iloc[trc], B0_FEATURES, seed)
             country_b0[(c, clf)] = (tec, m.predict_proba(frame.iloc[tec]))
     sel = []
-    for st, s in (("B1", s1), ("B2", s2), ("B2p", s2p)):
+    for st, s in (("B1", s1), ("B1p", s1p), ("B2", s2), ("B2p", s2p)):
         for pos, (f, r) in enumerate(s["ranking"].iterrows(), start=1):
             sel.append({"stage": st, "feature": f, "selected": f in stage_sets[st], "rank": pos, "score": r.score,
                         "attention": r.attention, "shap_catboost": r.shap_catboost, "shap_xgboost": r.shap_xgboost,
@@ -149,7 +163,7 @@ def run_fold(frame: pd.DataFrame, tr: np.ndarray, te: np.ndarray, fold_id: int, 
     curves = [{"stage": "B1_groups", "k": k, "score": m, "se": se} for k, (m, se) in s1["curve1"].items()]
     curves += [{"stage": "B1_variables", "k": k, "score": m, "se": se} for k, (m, se) in s1["curve2"].items()]
     curves += [{"stage": st, "k": k, "score": m, "se": se} for st, s in (("B2", s2), ("B2p", s2p)) for k, (m, se) in s["curve"].items()]
-    meta = {"groups": s1["groups"], "group_score": s1["group_score"], "b1": s1["selected"], "b2_top3": s2["selected"][-TOP_CLIMATE:],
+    meta = {"groups": s1["groups"], "group_score": s1["group_score"], "b1": s1["selected"], "b1p_groups": s1p["groups"], "b2_top3": s2["selected"][-TOP_CLIMATE:],
             "b2_k_one_se": s2["k_one_se"], "b2p_top3": s2p["selected"][-TOP_CLIMATE:], "b2p_k_one_se": s2p["k_one_se"]}
     return {"fold_id": fold_id, "repeat": repeat, "te": te, "proba": proba, "importance": imp_rows, "shap": shap,
             "country_b0": country_b0, "selection": sel, "curves": curves, "meta": meta}

@@ -13,7 +13,7 @@ them from information a government could collect? We study four countries: **Bul
   (income only / other features only / both); a sensitivity check of both thresholds; and the finding that about 1,000
   training households are needed for stable results.
 
-**What this version does (version 4).**
+**What this version does (version 4, with the placebo checks of version 4b).**
 
 1. **Chooses the two thresholds** (low income, high spending) by **multi-objective optimisation** instead of fixing them.
 2. Trains **one model on all four countries together** (about 2,000 households) and **reads the results country by country**.
@@ -91,8 +91,9 @@ option: Poland's sample is 83% low-income, and Italy has few households in the l
 |---|---|
 | **B0** | Van Hove's seven predictors, as in his Table 1 (income bracket, floor area, household size, house detachment, house age, birth year of the respondent, heating strategy = how heating is controlled) + country |
 | **B1** | B0 + the best of four groups: **Dalla Longa group** (population density, home-ownership share, wealth index as house-value stand-in); **ENABLE top 3** (difficulty living on income, floor area per person, dishwasher age); **indices** (dwelling efficiency, inefficient equipment, heating system type, household vulnerability, income per adult in euros); **regional economy** (GDP per head, unemployment, poverty rate, share of old dwellings) |
-| **B2** | B1 + the **top 3** of 31 climate features: 20 regional (degree days of the survey year and the 30-year normal, how unusual the winter and summer were, cold, frost, cold spells, heatwaves, tropical nights, humidity, rain, snow, wind, gusts, sun, cloud) and 11 **climate x home** features that differ for every household: heating need (floor area x heat loss for the building's age and type x degree days), heating need per person, heating need per euro of income, cold winter x old home, cold winter x no insulation, cold winter x solid-fuel or electric heating, hot summer x air conditioning, humidity x old home, wind x detached house, population density x urban area |
-| **B2p** | **placebo**: as B2, but each region's climate is swapped with another region of the same country (household climate x home features recomputed). Only gains *beyond* this placebo count as a climate effect. |
+| **B1p** | **placebo for B1**: the six variables that have one value per region (population density, ownership share, GDP, unemployment, poverty, old dwellings) are swapped with another region of the same country before B1 is chosen. Only gains *beyond* B1p come from what those variables measure rather than from "which region is this". |
+| **B2** | B1 + the **top 3** of 30 climate features: 20 regional (degree days of the survey year and the 30-year normal, how unusual the winter and summer were, cold, frost, cold spells, heatwaves, tropical nights, humidity, rain, snow, wind, gusts, sun, cloud) and 10 **climate x home** features that differ for every household: heating need (floor area x heat loss for the building's age and type x degree days), heating need per person, cold winter x old home, cold winter x no insulation, cold winter x solid-fuel or electric heating, hot summer x air conditioning, humidity x old home, wind x detached house, population density x urban area. ("Heating need per euro of income" was dropped from the list: it divides by income, and a first run showed its strength came from income, not climate.) |
+| **B2p** | **placebo for B2**: each region's climate is swapped with another region of the same country (household climate x home features recomputed). Only gains *beyond* B2p count as a climate effect. |
 
 The **no-climate need line** is the fair test of climate: when the line already contains climate, climate predictors cannot add much.
 
@@ -140,36 +141,41 @@ The **no-climate need line** is the fair test of climate: when the line already 
 
 **Balanced accuracy, all four countries together** (`table_v4_metrics.csv`):
 
-| Line | Model | A: income only | B: B0 / B1 / B2 without income | C: B0 | C: B1 | C: B2 | C: B2p placebo |
-|---|---|---|---|---|---|---|---|
-| Van Hove | CatBoost | 0.530 | 0.452 / 0.469 / 0.471 | 0.638 | 0.648 | 0.648 | 0.643 |
-| | XGBoost | 0.531 | 0.440 / 0.496 / 0.509 | 0.596 | 0.649 | 0.657 | 0.651 |
-| | FT-Transformer | 0.509 | 0.459 / 0.461 / 0.477 | 0.628 | 0.642 | 0.647 | 0.645 |
-| Quantile Regression on need | CatBoost | 0.512 | 0.377 / 0.419 / 0.425 | 0.515 | 0.546 | 0.551 | 0.551 |
-| | XGBoost | 0.510 | 0.397 / 0.480 / 0.494 | 0.520 | **0.584** | **0.613** | 0.598 |
-| | FT-Transformer | 0.504 | 0.389 / 0.414 / 0.419 | 0.517 | 0.548 | 0.556 | 0.554 |
-| Need line, no climate | CatBoost | 0.503 | 0.390 / 0.433 / 0.438 | 0.518 | 0.578 | 0.578 | 0.585 |
-| | XGBoost | 0.501 | 0.410 / 0.486 / 0.500 | 0.541 | **0.624** | 0.629 | 0.626 |
-| | FT-Transformer | 0.508 | 0.399 / 0.434 / 0.438 | 0.531 | 0.581 | 0.580 | 0.586 |
-| Energy burden | CatBoost | 0.558 | 0.465 / 0.480 / 0.488 | 0.645 | 0.652 | 0.652 | 0.652 |
-| | XGBoost | 0.555 | 0.466 / 0.482 / 0.525 | 0.624 | 0.637 | 0.668 | 0.668 |
-| | FT-Transformer | 0.550 | 0.468 / 0.472 / 0.471 | 0.640 | 0.635 | 0.640 | 0.645 |
+| Line | Model | A: income only | B: B0 / B1 / B2 without income | C: B0 | C: B1 | C: B1p placebo | C: B2 | C: B2p placebo |
+|---|---|---|---|---|---|---|---|---|
+| Van Hove | CatBoost | 0.530 | 0.452 / 0.469 / 0.473 | 0.638 | 0.648 | 0.652 | 0.649 | 0.646 |
+| | XGBoost | 0.531 | 0.440 / 0.496 / 0.509 | 0.596 | 0.649 | 0.647 | 0.658 | 0.669 |
+| | FT-Transformer | 0.509 | 0.459 / 0.461 / 0.470 | 0.628 | 0.642 | 0.649 | 0.637 | 0.648 |
+| Quantile Regression on need | CatBoost | 0.512 | 0.377 / 0.419 / 0.435 | 0.515 | 0.546 | 0.548 | 0.550 | 0.561 |
+| | XGBoost | 0.510 | 0.397 / 0.480 / 0.493 | 0.520 | **0.584** | 0.574 | **0.605** | 0.597 |
+| | FT-Transformer | 0.504 | 0.389 / 0.414 / 0.413 | 0.517 | 0.548 | 0.544 | 0.551 | 0.557 |
+| Need line, no climate | CatBoost | 0.503 | 0.390 / 0.433 / 0.443 | 0.518 | 0.578 | 0.569 | 0.585 | 0.588 |
+| | XGBoost | 0.501 | 0.410 / 0.486 / 0.503 | 0.541 | **0.624** | 0.607 | **0.633** | 0.628 |
+| | FT-Transformer | 0.508 | 0.399 / 0.434 / 0.440 | 0.531 | 0.581 | 0.571 | 0.579 | 0.579 |
+| Energy burden | CatBoost | 0.558 | 0.465 / 0.480 / 0.487 | 0.645 | 0.652 | 0.655 | 0.656 | 0.653 |
+| | XGBoost | 0.555 | 0.466 / 0.482 / 0.537 | 0.624 | 0.637 | 0.638 | 0.674 | 0.669 |
+| | FT-Transformer | 0.550 | 0.468 / 0.472 / 0.487 | 0.640 | 0.635 | 0.636 | 0.647 | 0.652 |
 
 **What this means.**
 
-* **Income is essential.** Without income (Model B) scores fall to 0.38-0.53, close to Dalla Longa et al.'s finding for single
+* **Income is essential.** Without income (Model B) scores fall to 0.38-0.54, close to Dalla Longa et al.'s finding for single
   households. Income alone (Model A) reaches 0.50-0.56.
 * **Van Hove's six other predictors help only his own kind of line.** Over income alone they add 0.07-0.12 for Van Hove's and the
   burden line (up to +0.25 in Poland) but only 0.00-0.04 for the need-based lines -- those lines already account for home size.
-* **The new B1 variables help clearly, most for the need-based lines.** B1 beats B0 significantly in 26 of 60 comparisons (4 lines
-  x 3 models x 5 scopes): +0.03 to +0.06 for the need line, +0.05 to +0.08 for the need line without climate, and with XGBoost
-  +0.05 even for Van Hove's line. XGBoost gains the most.
-* **Climate still adds almost nothing beyond the region.** B2 beats B1 significantly in only 6 of 60 comparisons, and **B2 beats its
-  placebo in 2 and loses to it in 2** -- even for the need line without climate, the fair test. The household-level climate x home
-  features did not change this.
+* **B1 helps -- but the regional statistics only as region labels.** B1 beats B0 significantly in 26 of 60 comparisons (+0.03 to
+  +0.06 on the need line, +0.05 to +0.08 on the need line without climate). But **B1p, with the regional statistics swapped between
+  regions, does almost as well** (B1 - B1p = +0.003 on average; better in 6, worse in 3 of 60). So GDP, unemployment, poverty,
+  density, ownership and old dwellings help only because they tell regions apart. When their values are scrambled, the selector
+  turns to **household-level information** instead -- the wealth index (73% of rounds), income in euros (62%), the vulnerability
+  index (50%) and the inefficient-equipment index (47%) -- and reaches the same accuracy. One exception: on the need line without
+  climate, XGBoost does a little better with the real regional values (+0.017), probably because they carry some of the climate
+  the line leaves out.
+* **Climate adds nothing beyond the region.** B2 beats B1 in 7 of 60 comparisons, but **B2 against its placebo is -0.001 on average
+  (better in 2, worse in 2)**, also on the need line without climate -- the fair test -- and with the household-level
+  climate x home features.
 * **Pooling costs nothing.** One model for all four countries scores the same as a separate model per country (significantly better
-  in 0, worse in 2 of 60 comparisons), and gives the more stable sample Dalla Longa et al. recommend.
-* **Best combinations:** XGBoost with B1/B2 on the need-based lines (0.58-0.63); CatBoost on Van Hove's and the burden line (0.64-0.65).
+  in 0, worse in 2 of 60 comparisons), with the larger sample Dalla Longa et al. recommend.
+* **Best combinations:** XGBoost with B1/B2 on the need-based lines (0.58-0.63); CatBoost on Van Hove's and the burden line (0.65-0.66).
 
 **All scores, Quantile Regression on need, Model C, step B1** (`table_v4_report.csv` has every line, step, model and country):
 
@@ -198,33 +204,31 @@ Figures: `v4_models_abc` (Models A/B/C at every step), `v4_pooled_vs_country`, `
 | Indices | 27% | 93% | 40% | 53% |
 | Regional economy | 87% | 93% | 100% | 47% |
 
-The variables chosen most often are **GDP per head of the region** (60% of rounds, averaged over the lines), **share of old
-dwellings in the region** (60%), **income per adult in euros** (48%), the **wealth index** (43%), the regional **poverty rate**
-(37%), the **household vulnerability index** (33%) and the **inefficient equipment index** (28%). `table_v4_selection_features.csv`.
+With the real regional values, the most chosen variables are **GDP per head** and **share of old dwellings** (60% of rounds each),
+**income per adult in euros** (48%), the **wealth index** (43%) and the **poverty rate** (37%). With the regional values scrambled
+(B1p), the household-level indices take their place at the same accuracy (Section 6). `table_v4_selection_features.csv`.
 
-**Top 3 climate features** (`table_v4_climate_top3.csv`): **heating need per euro of income** in every round for every line,
-followed by **heating need** (Van Hove and burden lines), **hot summer x air conditioning** (need lines), **cold winter x electric
-heating** (need line without climate) and **population density x urban area** (burden line). The one-standard-error rule would keep
-5-8.
+**Top 3 climate features** (`table_v4_climate_top3.csv`): **heating need** and **population density x urban area** (Van Hove and
+burden lines), **heating need per person**, **winter solar radiation** and **hot summer x air conditioning** (need line), **cold
+winter x electric heating** (need line without climate). None of them beats the placebo.
 
 **Maps.** For each line, `v4_effect_maps_<line>` shows, region by region, how much each chosen variable pushes households
 **towards (red) or away from (blue) Double Risk** (average SHAP value, CatBoost, pooled model); `v4_value_maps` shows the
 variables' regional averages; `v4_country_effects` summarises the effect per country (`table_v4_country_effects.csv`,
-`table_v4_region_effects.csv`). The same variable can act in opposite directions in different countries: for example, under the
-energy-burden line a high heating need per euro of income pushes towards Double Risk in Hungary (+0.07) and Bulgaria (+0.04) but away
-from it in Italy (-0.12). Van Hove et al. called such variables "contextual predictors".
+`table_v4_region_effects.csv`). The same variable can act in opposite directions in different countries: on the need line, a
+higher income in euros pushes towards Double Risk in Bulgaria and Hungary (+0.02) but away from it in Italy (-0.07), and winter
+solar radiation pushes towards it in Hungary and Poland but away in Bulgaria and Italy. Van Hove et al. called such variables
+"contextual predictors"; with one value per region, the regional and climate patterns on the maps describe *where* households are,
+not a measured effect of the variable.
 
 
-8. Problems found in this version
----------------------------------
+8. Problems found and how they were handled
+-------------------------------------------
 
-* **The top "climate" feature is mostly income.** Heating need per euro of income is chosen every time, but it divides by income;
-  the placebo (with swapped climate) still chooses it and scores the same. Its strength comes from income, not climate. A cleaner
-  climate test would leave it out of the climate list.
-* **Regional economy variables may partly act as a region label.** GDP, unemployment and poverty have one value per region, like
-  climate. The placebo was applied to climate only; part of the B1 gain may be "which region is this". A placebo for the regional
-  group is the natural next check.
-* **Attention remains a weak selector** at this sample size: it gets 6-9% of the weight (SHAP from CatBoost and XGBoost the rest).
+* **Fixed: the top "climate" feature was income in disguise.** "Heating need per euro of income" was chosen every time in the first
+  run, and the placebo chose it too. It is no longer a climate candidate; climate still adds nothing.
+* **Tested: regional statistics as region labels.** The B1p placebo shows their gain is region identity (Section 6).
+* **Attention remains a weak selector** at this sample size: it gets 5-10% of the weight (SHAP from CatBoost and XGBoost the rest).
 * **House value and home ownership are not in the survey.** The wealth index and the regional ownership share are stand-ins.
 * **The per-country group minimum had to be lowered to 15** (from 30) to keep any threshold option feasible.
 
@@ -235,12 +239,15 @@ from it in Italy (-0.12). Van Hove et al. called such variables "contextual pred
 * **Thresholds.** Optimising both thresholds confirms Van Hove's choice *for his kind of line*, but shows that line does not track
   hardship; need-based and burden lines do. Dalla Longa et al. moved the thresholds by +-20% and found stable accuracy; we show that
   accuracy alone is the wrong goal -- the threshold that is easiest to predict is not the one that means hardship.
-* **Variables.** Under Van Hove's line, his seven predictors capture most of what can be learned; under a need-based line, area
-  economy, income in euros and household indices add 3-8 points of balanced accuracy. Dalla Longa et al.'s area variables
-  (density, ownership) help less here than regional economy and the household indices.
+* **Variables.** Under Van Hove's line, his seven predictors capture most of what can be learned. Under a need-based line, extra
+  information adds 3-8 points of balanced accuracy, but its source matters: **household-level indices** (wealth, income in euros,
+  vulnerability, inefficient equipment) carry real information, while **area statistics** -- Dalla Longa et al.'s density and
+  ownership, and regional economy -- only help by identifying the region. Dalla Longa et al. worked with neighbourhood averages,
+  where such area variables are the unit of analysis; for single households, household-level information matters more, in line
+  with their own single-household (WoON) results.
 * **Pooling.** Following Dalla Longa et al.'s sample-size finding, one pooled model gives the same per-country accuracy as separate
   models and a larger, more stable training set.
-* **Climate.** Even with climate measured per household and a line without climate, climate adds nothing beyond knowing the region.
+* **Climate.** Even measured per household, and with a line that leaves climate out, climate adds nothing beyond knowing the region.
 * **Our pipeline matches Van Hove's.** Rebuilt their way on our four countries, we get their numbers (balanced accuracy 0.626 +- 0.028
   against their about 0.655 on one split); earlier differences came from the metric, single-split noise and country difficulty
   (`diagnose_vanhove_gap.py`).

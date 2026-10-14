@@ -81,3 +81,21 @@ def test_b1_groups_cover_requested_variables():
     from lib.identification.stages_v4 import B1_GROUPS
     assert set(B1_GROUPS["dalla_longa"]) == {"pop_density", "owner_share", "wealth_index"}
     assert set(B1_GROUPS["enable_top3"]) == {"S8", "floor_area_per_person", "H11B"}
+
+
+def test_v4b_climate_list_and_regional_placebo():
+    from lib.identification.stages_v4 import B2_CANDIDATES, REGIONAL_B1, regional_placebo_frame
+    assert "need_burden" not in B2_CANDIDATES and len(B2_CANDIDATES) == 30
+    n = 40
+    d = pd.DataFrame({"country": "A", "climate_region": np.repeat([f"R{i}" for i in range(4)], n // 4)})
+    for j, c in enumerate(REGIONAL_B1):
+        d[c] = d.climate_region.str[1].astype(int) * 10.0 + j + 1
+    from lib.climate.b2_indices import B2_CLIMATE
+    for c in B2_CLIMATE:
+        d[c] = 1.0
+    for k, v in {"H3": 3, "H2": 2, "H1": 1, "household_size": 2, "no_insulation": 1, "solid_fuel_share": 0,
+                 "electric_heating_share": 0, "has_air_conditioning": 0, "income_eur_total": 1e4, "S6": 3}.items():
+        d[k] = v
+    p = regional_placebo_frame(d, seed=2)
+    assert (p.groupby("climate_region").gdp_per_capita.first() != d.groupby("climate_region").gdp_per_capita.first()).all()
+    assert (p.hdd_hs1617 == d.hdd_hs1617).all()                       # climate untouched by the regional placebo

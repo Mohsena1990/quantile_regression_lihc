@@ -10,7 +10,8 @@ Outputs (outputs/tables):
   table_v4_metrics.csv          every metric with CIs: label x scope (pooled, each country) x model set (A/B/C) x stage x classifier,
                                 plus per-country B0 models (model_set "country_model")
   table_v4_report.csv           headline metrics: per-class recall and precision, weighted F1, balanced accuracy, accuracy, ROC AUC
-  table_v4_deltas.csv           paired gains per scope and classifier (C: B1-B0, B2-B1, B2-B2p, B0-A; pooled B0 vs country models)
+  table_v4_deltas.csv           paired gains per scope and classifier (C: B1-B0, B1-B1p, B2-B1, B2-B2p, B0-A; pooled B0 vs
+                                country models). B1p / B2p are the region-swap placebos of the regional B1 variables / climate.
   table_v4_selection_groups.csv, table_v4_selection_features.csv, table_v4_climate_top3.csv
   table_v4_importance.csv       held-out importance share per classifier (SHAP for the trees, attention for FT-Transformer)
   table_v4_country_effects.csv, table_v4_region_effects.csv   mean SHAP towards Double Risk (CatBoost, C model) per country / region
@@ -85,7 +86,7 @@ def metrics_for(label, frame, A) -> tuple[list, list]:
         for clf in MODELS3:
             P = A["proba"]
             for name, a, b in (("C B1 vs B0", ("C", "B0"), ("C", "B1")), ("C B2 vs B1", ("C", "B1"), ("C", "B2")),
-                               ("C B2 vs B2p", ("C", "B2p"), ("C", "B2")), ("C B0 vs A", ("A", "all"), ("C", "B0")),
+                               ("C B2 vs B2p", ("C", "B2p"), ("C", "B2")), ("C B1 vs B1p", ("C", "B1p"), ("C", "B1")), ("C B0 vs A", ("A", "all"), ("C", "B0")),
                                ("C B2 vs A", ("A", "all"), ("C", "B2"))):
                 deltas.append({**base, "model": clf, "comparison": name,
                                **paired_delta(y[idx], P[(*a, clf)][:, idx], P[(*b, clf)][:, idx])})
@@ -199,7 +200,7 @@ def main():
 def fig_abc(m):
     x = m[(m.scope == "pooled") & m.model_set.isin(["A", "B", "C"])]
     fig, axes = plt.subplots(1, len(LABELS), figsize=(17, 4.6), sharey=True)
-    order = [("A", "all"), ("B", "B0"), ("B", "B1"), ("B", "B2"), ("C", "B0"), ("C", "B1"), ("C", "B2"), ("C", "B2p")]
+    order = [("A", "all"), ("B", "B0"), ("B", "B1"), ("B", "B2"), ("C", "B0"), ("C", "B1"), ("C", "B1p"), ("C", "B2"), ("C", "B2p")]
     for ax, lab in zip(axes, LABELS):
         for j, clf in enumerate(MODELS3):
             v = [x[(x.label == lab) & (x.model == clf) & (x.model_set == s) & (x.stage == st)].balanced_accuracy.iloc[0] for s, st in order]

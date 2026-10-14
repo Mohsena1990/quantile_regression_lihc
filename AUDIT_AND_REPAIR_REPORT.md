@@ -528,3 +528,20 @@ regions. Climate still adds nothing beyond its region-identity placebo. Citation
   6 of 12 country-model cells), not under Van Hove's. B2 beats its placebo in 5 of 48 cells. CatBoost ~ XGBoost > FT-Transformer.
 * **Operational.** More than 4 concurrent CUDA processes segfault under WSL (`model.to(cuda)`), so `build_feature_stages.py --jobs 4`.
 98 tests pass.
+
+
+## 31. Review of the feature-stage results and three selector versions (2026-10-14)
+
+Issues found in the version-1 run (commit a25daff) and what was done:
+* **B1 below B0** (Van Hove line, Bulgaria, all three models, -0.03 to -0.05): the selector added variables on a flat inner curve.
+  Version 2 (dca549d): three-split ranking, reliability weights, balanced-accuracy sizing -> 2 harmful cells. Version 3: a paired gate
+  (keep the chosen k only if it beats k = 0 in the same inner folds by > 1 SE of the paired difference) -> 1 harmful cell
+  (Bulgaria CatBoost -0.020); B1 significantly better in 12 of 48 cells; averages unchanged.
+* **FT-Transformer attention is unreliable here**: its rank stability gives it 5-8% of the weight (CatBoost SHAP 24-42%, XGBoost SHAP
+  52-69%). Reported as a finding, not hidden.
+* **Income axis AUC = 1.0** (the label's income half is read from the bracket, which every model sees). A two-step "spending axis only"
+  model was tested and was not better (worse in Bulgaria and Hungary), so the four-class models stay.
+* **S8 circularity** (S8 sets the Hansen tipping point and is a candidate): rerun without S8 -> same B1 result (CatBoost 0.555 vs 0.546).
+* **Climate** beats its placebo in 6 of 48 cells, 5 of them in Bulgaria (largest climate range); elsewhere region identity explains B2.
+Comparison with Van Hove (README Section 8): on his line, extra variables add nothing and location adds 0.04-0.06; on the Hansen +
+Quantile Regression line, heating and appliance variables add up to 0.08 balanced accuracy. 99 tests pass.

@@ -22,8 +22,11 @@ households that are scored never influence the choice:
      scored by BALANCED ACCURACY (the study's main score)
   3. decide: ONE-STANDARD-ERROR RULE (Breiman et al. 1984; Hastie, Tibshirani & Friedman 2009, Sec. 7.10) -- the smallest k
      whose mean inner balanced accuracy is within one standard error of the best k. k = 0 keeps the base set.
-Version 1 (commit a25daff) ranked on one split with equal weights and sized by macro-F1; it added harmful variables (Van Hove
-line, Bulgaria: B1 below B0 for all three models).
+  4. gate (version 3): the chosen k is kept only if it beats k = 0 IN THE SAME INNER FOLDS by more than one standard error of
+     that paired difference; otherwise k = 0. A flat curve (no real signal) then adds nothing.
+Version 1 (commit a25daff) ranked on one split with equal weights and sized by macro-F1; version 2 added the three-split
+reliability-weighted ranking and balanced accuracy. Both still added variables on flat curves (Van Hove line, Bulgaria: B1 below
+B0), which the paired gate of version 3 is meant to stop.
 B2 selects climate indices on top of the B1 set chosen in that same outer fold.
 
 Placebo B2p: climate is measured per region, so any region-level number lets a model recognise regions (a dry run with random
@@ -104,6 +107,15 @@ def one_se_choice(curve: dict[int, tuple[float, float]]) -> int:
     return min(k for k, (m, _) in curve.items() if m >= bar)
 
 
+def paired_gate(k: int, per_fold: dict[int, np.ndarray]) -> int:
+    """Keep k only if its inner-fold scores beat k = 0's in the same folds by more than one standard error of the paired
+    difference; otherwise return 0."""
+    if k == 0:
+        return 0
+    diff = per_fold[k] - per_fold[0]
+    return k if diff.mean() > diff.std(ddof=1) / np.sqrt(len(diff)) else 0
+
+
 def select_features(train: pd.DataFrame, base: list[str], candidates: list[str], grid: tuple[int, ...], *, seed: int) -> dict:
     """Nested attention + SHAP forward selection on `train` only, sized by the one-standard-error rule. Returns
     {'selected', 'k', 'ranking' (DataFrame), 'curve' (k -> (mean inner balanced accuracy, SE))}."""
@@ -111,7 +123,7 @@ def select_features(train: pd.DataFrame, base: list[str], candidates: list[str],
     ranking = rank_candidates(train, base, candidates, seed)
     y = train["y"].astype(int).to_numpy()
     folds = _inner_folds(train, seed)
-    curve = {}
+    curve, per_fold = {}, {}
     for k in sorted(set(min(k, len(candidates)) for k in grid)):
         f = base + list(ranking.index[:k])
         scores = []
@@ -119,7 +131,8 @@ def select_features(train: pd.DataFrame, base: list[str], candidates: list[str],
             pred = fit_model("catboost", train.iloc[tr], f, seed + i).predict_proba(train.iloc[te]).argmax(1)
             scores.append(balanced_accuracy_score(y[te], pred))
         curve[k] = (float(np.mean(scores)), float(np.std(scores, ddof=1) / np.sqrt(len(scores))))
-    k = one_se_choice(curve)
+        per_fold[k] = np.asarray(scores)
+    k = paired_gate(one_se_choice(curve), per_fold)
     return {"selected": base + list(ranking.index[:k]), "k": k, "ranking": ranking, "curve": curve}
 
 

@@ -221,3 +221,11 @@ def test_replica_scores_match_sklearn():
     s = scores(y, p)
     assert s["weighted_f1"] == pytest.approx(f1_score(y, p.argmax(1), average="weighted"))
     assert s["balanced_accuracy"] == pytest.approx(np.mean([s[f"tpr_{k}"] for k in ("no_risk", "income_risk", "expenditure_risk", "double_risk")]))
+
+
+def test_paired_gate():
+    from lib.identification.stages import paired_gate
+    base = np.array([0.50, 0.52, 0.48, 0.51, 0.49, 0.50])
+    assert paired_gate(4, {0: base, 4: base + 0.03}) == 4                       # consistent gain in every fold
+    assert paired_gate(4, {0: base, 4: base + np.array([0.04, -0.03, 0.02, -0.02, 0.01, -0.01])}) == 0   # noise
+    assert paired_gate(0, {0: base}) == 0

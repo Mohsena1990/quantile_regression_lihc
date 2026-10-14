@@ -94,16 +94,20 @@ We add information in steps. Income is used in every step (as in Van Hove's stud
 
 **Attention Mechanisms as Embedded Selectors + SHAP.** Inside each training round:
 
-1. Three models are trained with *all* candidate variables:
+1. Three models are trained with *all* candidate variables, three times on different 80/20 splits of the training households:
    * an **FT-Transformer** -- a neural network that turns each variable into a "token" and uses **attention** to decide which
      tokens to look at; how much attention it pays to each variable is its importance (an *embedded* selector: the choice is
      learned inside the model);
    * **CatBoost** and **XGBoost** -- tree models whose **SHAP values** (Lundberg & Lee 2017) say how much each variable moved
      each prediction.
-2. Each variable gets a score = the average of its attention rank and its SHAP rank. Variables are sorted by this score.
-3. We add the best variables one by one and measure accuracy each time. We keep **the smallest number of variables whose result
-   is within one standard error of the best result** (the "one-standard-error rule", Breiman et al. 1984; Hastie, Tibshirani &
-   Friedman 2009). This avoids adding variables that only help by luck.
+2. **Reliability weighting.** Each of the three importance measures gets a weight equal to how consistently it ranks the variables
+   across the three splits. A measure that gives a different order every time counts little. Each variable's score is the
+   weighted average of its ranks.
+3. We add the best variables one by one and measure **balanced accuracy** each time. We keep **the smallest number of variables
+   whose result is within one standard error of the best result** (the "one-standard-error rule", Breiman et al. 1984; Hastie,
+   Tibshirani & Friedman 2009).
+4. **Final check.** The chosen variables are kept only if they beat Van Hove's seven *in the same test folds* by more than one
+   standard error of that difference. If there is no real gain, nothing is added.
 
 All of this happens on training households only; the households used to score the models are never seen by the selection.
 
@@ -138,64 +142,89 @@ confidence range from 200 bootstrap resamples. "Chance" = guessing labels at ran
 
 | Line | Model | B0 | B1 | B2 | B2p (placebo) |
 |---|---|---|---|---|---|
-| Van Hove (80th percentile) | CatBoost | 0.654 | 0.654 | 0.690 | 0.692 |
-| | XGBoost | 0.588 | 0.587 | 0.641 | 0.651 |
-| | FT-Transformer | 0.624 | 0.621 | 0.664 | 0.647 |
-| Quantile Regression | CatBoost | 0.526 | 0.534 | 0.577 | 0.558 |
-| | XGBoost | 0.534 | 0.531 | 0.577 | 0.566 |
-| | FT-Transformer | 0.518 | 0.520 | 0.559 | 0.535 |
-| Hansen Threshold Regression | CatBoost | 0.655 | 0.660 | 0.679 | 0.674 |
-| | XGBoost | 0.617 | 0.633 | 0.668 | 0.664 |
-| | FT-Transformer | 0.640 | 0.646 | 0.651 | 0.656 |
-| Hansen + Quantile Regression | CatBoost | 0.510 | **0.558** | 0.578 | 0.579 |
-| | XGBoost | 0.508 | **0.543** | 0.582 | 0.572 |
-| | FT-Transformer | 0.501 | **0.545** | 0.562 | 0.555 |
+| Van Hove (80th percentile) | CatBoost | 0.654 | 0.649 | 0.690 | 0.682 |
+| | XGBoost | 0.588 | 0.596 | 0.649 | 0.645 |
+| | FT-Transformer | 0.624 | 0.632 | 0.674 | 0.666 |
+| Quantile Regression | CatBoost | 0.526 | 0.538 | 0.575 | 0.557 |
+| | XGBoost | 0.534 | 0.549 | 0.575 | 0.571 |
+| | FT-Transformer | 0.518 | 0.537 | 0.565 | 0.559 |
+| Hansen Threshold Regression | CatBoost | 0.655 | 0.669 | 0.682 | 0.682 |
+| | XGBoost | 0.617 | 0.633 | 0.671 | 0.669 |
+| | FT-Transformer | 0.640 | 0.648 | 0.649 | 0.663 |
+| Hansen + Quantile Regression | CatBoost | 0.510 | **0.546** | 0.580 | 0.577 |
+| | XGBoost | 0.508 | **0.539** | 0.577 | 0.576 |
+| | FT-Transformer | 0.501 | **0.538** | 0.565 | 0.552 |
+
+**Best model and step.** **CatBoost at step B2** has the highest balanced accuracy overall (0.632 averaged over all lines and
+countries; XGBoost 0.618, FT-Transformer 0.613). XGBoost has the highest weighted F1, because it does best on the large groups.
 
 **What this means.**
 
 * **Extra variables (B1) help only when the line is fair to different homes.** With the Hansen + Quantile Regression line, B1
-  raises balanced accuracy by 0.035 to 0.05 on average for all three models (significant in Poland for all three models, in
-  Bulgaria for CatBoost and FT-Transformer, in Italy for XGBoost). With Van Hove's line,
-  B1 adds nothing: his line mostly measures how big the home is, and floor area is already in B0.
-* **Climate does not add much beyond "which region is this".** B2 beats its placebo B2p clearly in only 5 of 48 comparisons; on average
-  the difference is between -0.01 and +0.02. The extra accuracy of B2 is mostly the model recognising regions.
-* **The models are close.** CatBoost and XGBoost do about equally well; the FT-Transformer is a little behind (it is a neural
-  network and our samples are small: 380-650 households per country).
+  raises balanced accuracy by about 0.03 to 0.04 on average, clearly in Bulgaria (CatBoost +0.07, FT-Transformer +0.05), Italy
+  (+0.05 to +0.08, all three models) and Poland (XGBoost +0.05); not in Hungary. With Van Hove's line, B1 adds nothing (between
+  -0.02 and +0.03 in every country): his line mostly measures how big the home is, and floor area is already in B0.
+* **Climate adds little beyond "which region is this" -- except in Bulgaria.** Adding climate (B2) raises balanced accuracy by 0.03
+  on average, but the placebo with climate swapped between regions raises it almost as much. Real climate beats the placebo clearly
+  in only 6 of 48 comparisons, and 5 of them are in Bulgaria -- the country where climate varies most (heating degree days from
+  about 2,400 to 4,900, from the Black Sea coast to the mountains). Elsewhere the gain comes from recognising regions.
+* **The models are close.** CatBoost is a little ahead; the FT-Transformer is a little behind (it is a neural network and our
+  samples are small: 380-650 households per country).
 * **Lines with a higher score are not "better" by that fact.** Van Hove's and the plain Hansen line are easier to predict
   because they mostly measure home size. The Hansen + Quantile Regression line is harder to predict, but it is the one that
   tracks hardship.
 
 **Variables chosen most often in B1** (share of training rounds, averaged over the four lines; `table_stages_selection.csv`):
-difficulty living on income (S8, 34%), floor area per person (31%), dishwasher age (30%), share of heating from wood (30%),
-electric water heater age (30%), portable electric heater age (29%), area type (29%), number of appliances, share of elderly
-members, number of vehicles, number of old appliances. Under the Hansen + Quantile Regression line the selector keeps about 8
-variables (median); under Van Hove's line about 1. In B2 the most chosen climate measures are winter cloud cover, humidity,
-snowfall and the longest cold spell -- the measures that best tell regions apart.
+difficulty living on income (S8, 35%), floor area per person (28%), dishwasher age (28%), portable electric heater age (27%),
+electric water heater age (23%), air-conditioner age (21%), TV age, area type, job status, bicycles, number of heating sources and
+share of heating from wood. Under the Hansen + Quantile Regression line the selector keeps about 5 variables (median); under
+Van Hove's line about 1, and none at all in 42% of rounds. In B2 the most chosen climate measures are winter cloud cover,
+humidity, snowfall, the longest cold spell and winter solar radiation.
 
 **What each model relies on** among the B1 variables (Hansen + Quantile Regression line; `table_stages_selected_importance.csv`,
-figure `stages_selected_by_model`): CatBoost -- share of district heating, dishwasher age, S8, air-conditioner age, main heating
-fuel, smart meter; XGBoost -- job status, main heating fuel, floor area per person, S8, air-conditioner age, district heating;
-FT-Transformer (attention) -- district heating, solid-fuel share, area type, job status, air-conditioner age, S8.
+figure `stages_selected_by_model`): CatBoost -- main heating fuel, number of heating sources, dishwasher age, women aged 18-65,
+smart meter, district heating; XGBoost -- main heating fuel, number of heating sources, job status, vehicles, TV age, wood
+heating; FT-Transformer (attention) -- main heating fuel, women aged 18-65, electric and gas heating shares, diesel cars,
+number of heating sources. All three agree that **how the home is heated** matters most after Van Hove's seven.
 
 **All scores for the Hansen + Quantile Regression line, step B1** (`table_stages_report.csv` has every line, step and model):
 
 | Country | Model | Accuracy | Balanced accuracy | Weighted F1 | ROC AUC | Recall: No / Income / Expenditure / Double Risk | Precision: No / Income / Expenditure / Double Risk |
 |---|---|---|---|---|---|---|---|
-| Bulgaria | CatBoost | 0.60 | 0.60 | 0.61 | 0.87 | 0.60 / 0.57 / 0.64 / 0.57 | 0.67 / 0.69 / 0.57 / 0.45 |
-| | XGBoost | 0.57 | 0.55 | 0.57 | 0.86 | 0.63 / 0.64 / 0.54 / 0.41 | 0.62 / 0.64 / 0.54 / 0.41 |
-| | FT-Transformer | 0.58 | 0.57 | 0.58 | 0.86 | 0.64 / 0.54 / 0.57 / 0.54 | 0.64 / 0.66 / 0.57 / 0.42 |
-| Hungary | CatBoost | 0.55 | 0.55 | 0.55 | 0.84 | 0.62 / 0.55 / 0.52 / 0.52 | 0.60 / 0.63 / 0.53 / 0.44 |
-| | XGBoost | 0.55 | 0.53 | 0.55 | 0.84 | 0.59 / 0.61 / 0.45 / 0.48 | 0.56 / 0.63 / 0.48 / 0.45 |
-| | FT-Transformer | 0.54 | 0.56 | 0.54 | 0.84 | 0.59 / 0.48 / 0.58 / 0.58 | 0.62 / 0.62 / 0.55 / 0.43 |
-| Italy | CatBoost | 0.57 | 0.56 | 0.58 | 0.86 | 0.55 / 0.60 / 0.61 / 0.46 | 0.58 / 0.71 / 0.59 / 0.34 |
-| | XGBoost | 0.59 | 0.56 | 0.59 | 0.85 | 0.56 / 0.73 / 0.59 / 0.35 | 0.57 / 0.72 / 0.59 / 0.37 |
-| | FT-Transformer | 0.54 | 0.53 | 0.54 | 0.85 | 0.46 / 0.62 / 0.58 / 0.44 | 0.52 / 0.72 / 0.53 / 0.34 |
-| Poland | CatBoost | 0.55 | 0.53 | 0.55 | 0.83 | 0.44 / 0.56 / 0.55 / 0.57 | 0.50 / 0.66 / 0.49 / 0.47 |
-| | XGBoost | 0.58 | 0.53 | 0.58 | 0.83 | 0.46 / 0.67 / 0.47 / 0.51 | 0.47 / 0.67 / 0.46 / 0.51 |
-| | FT-Transformer | 0.54 | 0.52 | 0.54 | 0.81 | 0.54 / 0.58 / 0.47 / 0.50 | 0.51 / 0.63 / 0.48 / 0.46 |
+| Bulgaria | CatBoost | 0.59 | 0.59 | 0.59 | 0.87 | 0.59 / 0.52 / 0.59 / 0.67 | 0.64 / 0.72 / 0.55 / 0.46 |
+| | XGBoost | 0.56 | 0.54 | 0.56 | 0.85 | 0.59 / 0.64 / 0.50 / 0.45 | 0.59 / 0.65 / 0.50 / 0.43 |
+| | FT-Transformer | 0.57 | 0.57 | 0.58 | 0.86 | 0.57 / 0.57 / 0.60 / 0.54 | 0.63 / 0.67 / 0.53 / 0.44 |
+| Hungary | CatBoost | 0.53 | 0.52 | 0.53 | 0.84 | 0.58 / 0.55 / 0.45 / 0.51 | 0.55 / 0.63 / 0.48 / 0.44 |
+| | XGBoost | 0.56 | 0.54 | 0.56 | 0.85 | 0.56 / 0.62 / 0.46 / 0.51 | 0.55 / 0.65 / 0.47 / 0.48 |
+| | FT-Transformer | 0.55 | 0.54 | 0.55 | 0.84 | 0.60 / 0.55 / 0.49 / 0.52 | 0.58 / 0.63 / 0.51 / 0.44 |
+| Italy | CatBoost | 0.61 | 0.59 | 0.61 | 0.87 | 0.57 / 0.62 / 0.69 / 0.48 | 0.64 / 0.73 / 0.62 / 0.36 |
+| | XGBoost | 0.61 | 0.57 | 0.61 | 0.87 | 0.60 / 0.73 / 0.61 / 0.35 | 0.60 / 0.72 / 0.62 / 0.37 |
+| | FT-Transformer | 0.55 | 0.54 | 0.56 | 0.86 | 0.51 / 0.61 / 0.58 / 0.48 | 0.54 / 0.73 / 0.55 / 0.36 |
+| Poland | CatBoost | 0.55 | 0.48 | 0.55 | 0.83 | 0.45 / 0.58 / 0.31 / 0.58 | 0.40 / 0.67 / 0.35 / 0.48 |
+| | XGBoost | 0.55 | 0.50 | 0.55 | 0.81 | 0.46 / 0.62 / 0.41 / 0.51 | 0.45 / 0.65 / 0.43 / 0.48 |
+| | FT-Transformer | 0.53 | 0.49 | 0.53 | 0.82 | 0.49 / 0.57 / 0.39 / 0.52 | 0.45 / 0.64 / 0.43 / 0.45 |
+
+The ROC AUC is high (0.81-0.87) because the income half of the label is read directly from the income bracket, which the models
+see; the hard part is the spending half.
 
 Figures: `stages_performance` (all lines, steps and models), `stages_selection_frequency`, `stages_selection_curve` (how many
 variables to keep), `stages_selected_by_model`, `stages_shap_beeswarm_<line>` (what pushes a household towards Double Risk).
+
+**Checks on our own steps** (`compare_stage_versions.py`, tables `table_stage_versions*.csv`, `table_stage_noS8.csv`). The selection
+was run three times; each version fixed a problem found in the one before:
+
+| Version | Change | Effect |
+|---|---|---|
+| 1 | Attention and SHAP ranks averaged with equal weight, one split, judged by macro-F1 | B1 made results worse in 3 of 48 cases (Van Hove's line, Bulgaria, all three models) |
+| 2 | Three splits, reliability weighting, judged by balanced accuracy | Worse in 2 cases. The weighting showed that **attention is unreliable on samples this small**: it gets only 5-8% of the weight (CatBoost SHAP 24-42%, XGBoost SHAP 52-69%) because it ranks variables differently on every split |
+| 3 | Final paired check against B0 | Worse in 1 case (Bulgaria, CatBoost, -0.02, down from -0.05); B1 clearly better in 12 cases; averages unchanged |
+
+Two further checks:
+* **Is the Hansen + Quantile Regression gain circular?** The tipping point was found with S8 (difficulty living on income), and S8
+  is also a candidate predictor. Without S8, the B1 result is the same (CatBoost 0.555 without, 0.546 with); appliance ages, floor
+  area per person and wood heating take its place. So the gain does not depend on S8.
+* **A two-step model** (predict only "spending above the line", then add the known income group) was tested and was not better
+  than predicting the four groups directly, so it was not adopted.
 
 
 7. Checking our work against Van Hove
@@ -222,7 +251,47 @@ a little but not balanced accuracy (it finds fewer of the small groups). Two sma
 floor-area answer "don't know" had been read as "larger than 200 m2", and some households had size 0 (41 of 1,996 households).
 
 
-8. Households that heat too little
+8. Compared with Van Hove: what does this work add?
+--------------------------------------------------
+
+**On Van Hove's own definition, our additions change little -- and that is a finding.** With his expenditure line, Van Hove's seven
+predictors (B0) already reach balanced accuracy 0.58-0.76 per country (CatBoost). Adding 82 more variables does not help (B1), and
+adding location helps by 0.04-0.06 on average (B2) -- but mostly because it tells regions apart, not because of climate. His line mostly
+measures home size, so once floor area and income are known there is little left to learn.
+
+| Van Hove's line, CatBoost | Bulgaria | Hungary | Italy | Poland |
+|---|---|---|---|---|
+| Balanced accuracy, B0 -> B1 -> B2 | 0.60 -> 0.58 -> 0.72 | 0.67 -> 0.66 -> 0.67 | 0.58 -> 0.59 -> 0.60 | 0.76 -> 0.76 -> 0.77 |
+| Double Risk recall, B0 -> B2 | 0.56 -> 0.79 | 0.68 -> 0.65 | 0.52 -> 0.41 | 0.85 -> 0.83 |
+| Double Risk precision, B0 -> B2 | 0.25 -> 0.39 | 0.28 -> 0.28 | 0.19 -> 0.19 | 0.35 -> 0.36 |
+
+Even at its best, 6 to 8 in 10 households a model flags as Double Risk under Van Hove's line are not Double Risk (precision 0.19-0.39).
+
+**The main contribution is a better definition, and the variables that matter under it.**
+
+1. **The expenditure line.** Van Hove's line marks the 20% who spend most, so large homes count as "high spending" even when they
+   spend normally for their size. Our **Hansen + Quantile Regression** line compares each home with similar homes, and its height
+   comes from the point where hardship rises (Hansen's Threshold Regression). It is the only line with at least 30 households in
+   every group in every country, and low-income households above it report more hardship than those below it in Hungary (55% vs
+   47%), Italy (61% vs 53%) and Poland (47% vs 40%). With Van Hove's line this does not hold in Poland (41% vs 43%) or Bulgaria
+   (67% vs 74%). (Bulgaria shows the reverse under every line.)
+2. **New predictors become useful.** Under this fairer line, Van Hove's seven predictors are no longer enough (balanced accuracy
+   0.48-0.53, close to their limit), and the extra variables add up to 0.08: **how the home is heated** (main fuel, number of heat
+   sources, wood or district heating), **old appliances** (dishwasher, portable heater, water heater, air conditioner), **floor area
+   per person** and **difficulty living on income**. Van Hove called some predictors "contextual"; our results show they become
+   visible only once the expenditure line accounts for physical need.
+3. **What does not add.** Climate adds little beyond region identity (except in Bulgaria). On these sample sizes, the
+   FT-Transformer neither predicts better than tree models nor gives a reliable attention-based ranking.
+4. **Sounder evidence.** Van Hove reported one 80/20 split of 11 countries pooled. We use one model per country, repeated
+   cross-validation with 95% ranges, a chance baseline, a placebo for climate and selection that never sees the scored households;
+   and we rebuilt their method to check that our pipeline reproduces theirs (Section 7).
+
+**In one sentence:** on Van Hove's definition our extra data add little, but with a definition that compares like with like and is
+anchored to real hardship, household equipment and heating variables add up to 8 points of balanced accuracy, while climate adds
+little beyond knowing the region.
+
+
+9. Households that heat too little
 ----------------------------------
 
 A household that keeps its home cold to save money spends little, so no expenditure line can mark it as high spending. We
@@ -233,8 +302,8 @@ Hansen + Quantile Regression line. They do not report more income difficulty tha
 may be free fuel (own wood) or incomplete bills.
 
 
-9. Limits
----------
+10. Limits
+----------
 
 * One survey round from 2018; about 400-650 usable households per country. Results show links, not causes.
 * Income is only known as a bracket (1-10). Energy costs are self-reported.
@@ -244,13 +313,13 @@ may be free fuel (own wood) or incomplete bills.
 * Climate is measured at one point per region, so it cannot separate climate from other regional differences.
 
 
-10. How to run it
+11. How to run it
 -----------------
 
 ```bash
 pip install -r requirement.txt
 bash scripts/run_full_pipeline.sh        # every step in order; stops at the first error
-python -m pytest tests/ -q               # 98 tests
+python -m pytest tests/ -q               # 99 tests
 ```
 
 The steps used by this README, in order:
@@ -261,8 +330,9 @@ python scripts/acquire_era5_normals.py     # 1991-2020 monthly temperature (one 
 python scripts/fuse_openmeteo_b2.py        # 18 climate measures per region
 python scripts/diagnose_vanhove_gap.py     # Section 7
 python scripts/build_expenditure_lines.py  # Section 2: Hansen tipping points and the four lines
-python scripts/build_feature_stages.py     # Sections 3-6 (uses the GPU; about 1 hour with 4 workers)
-python scripts/build_hidden_underheating.py  # Section 8
+python scripts/build_feature_stages.py     # Sections 3-6 (uses the GPU; about 1.5 hours with 4 workers)
+python scripts/compare_stage_versions.py --old archive_v2   # Section 6 checks (needs an archived earlier run)
+python scripts/build_hidden_underheating.py  # Section 9
 ```
 
 Tables go to `outputs/tables/`, figures to `outputs/figures/`. Step-by-step details: [`docs/running_the_pipeline.md`](docs/running_the_pipeline.md).
@@ -278,14 +348,14 @@ The full record of every check and correction: [`AUDIT_AND_REPAIR_REPORT.md`](AU
 | `tests/` | Automatic checks |
 
 
-11. Earlier work in this repository
+12. Earlier work in this repository
 -----------------------------------
 
-Before these steps, the project ran a broader study (README history and `AUDIT_AND_REPAIR_REPORT.md`, sections 1-27): income with
-and without the model, three information levels, a check of which predictors hold in every country, the size of targeting errors
-for a support scheme, and one final test on the 20% test households (pre-registered, done once on 2026-09-20). Those results were
-computed before the two data fixes of Section 7 (2% of households) and with the earlier expenditure lines; they are kept for
-reference and have not been rerun.
+Before these steps, the project ran a broader study (`AUDIT_AND_REPAIR_REPORT.md`, sections 1-27): income with and without the model,
+three information levels, a check of which predictors hold in every country, the size of targeting errors for a support scheme,
+and one final test on the 20% test households (pre-registered, done once on 2026-09-20). Those analyses were regenerated with the
+data fixes of Section 7 in a full pipeline run on 2026-10-13; the one-time test result itself is not repeated (the test households
+may be used only once). They use the earlier expenditure lines, not the four lines of Section 2.
 
 
 References

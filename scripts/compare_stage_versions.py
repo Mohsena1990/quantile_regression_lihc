@@ -22,12 +22,16 @@ def gains(deltas: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    old_m, new_m = pd.read_csv(TAB / "archive_v1/table_stages_metrics.csv"), pd.read_csv(TAB / "table_stages_metrics.csv")
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--old", default="archive_v1", help="folder under outputs/tables holding the earlier version's tables")
+    old = ap.parse_args().old
+    old_m, new_m = pd.read_csv(TAB / f"{old}/table_stages_metrics.csv"), pd.read_csv(TAB / "table_stages_metrics.csv")
     keys = ["label", "country", "model", "stage"]
     m = old_m[keys + ["balanced_accuracy"]].merge(new_m[keys + ["balanced_accuracy"]], on=keys, suffixes=("_v1", "_v2"))
     m = m[m.model != "chance"]
     m["change"] = m.balanced_accuracy_v2 - m.balanced_accuracy_v1
-    g = gains(pd.read_csv(TAB / "archive_v1/table_stages_deltas.csv")).join(gains(pd.read_csv(TAB / "table_stages_deltas.csv")), lsuffix="_v1", rsuffix="_v2")
+    g = gains(pd.read_csv(TAB / f"{old}/table_stages_deltas.csv")).join(gains(pd.read_csv(TAB / "table_stages_deltas.csv")), lsuffix="_v1", rsuffix="_v2")
     m.to_csv(TAB / "table_stage_versions.csv", index=False)
     g.reset_index().to_csv(TAB / "table_stage_versions_b1_gain.csv", index=False)
     pd.set_option("display.width", 220)

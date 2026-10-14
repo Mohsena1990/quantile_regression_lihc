@@ -11,13 +11,19 @@
 
 Feature selection -- "Attention Mechanisms as Embedded Selectors + SHAP" -- nested inside every OUTER training fold, so the
 households that are scored never influence the choice:
-  1. rank: the outer training rows are split 80 / 20. On the 80%, three models are fitted with the base set + all candidates:
-     an FT-Transformer, whose [CLS] attention to each feature token is an EMBEDDED importance (the model learns where to look),
-     and CatBoost and XGBoost, whose exact TreeSHAP values give each feature's contribution. All three are measured on the 20%.
-     Each candidate's score = average of its attention rank and its mean SHAP rank (CatBoost and XGBoost averaged).
-  2. curve: inner repeated cross-validation (2 x 3 folds) of CatBoost on base + the k best-ranked candidates, for k in a grid
+  1. rank: the outer training rows are split 80 / 20 three times (RANK_SPLITS). Each time three models are fitted on the 80%
+     with the base set + all candidates: an FT-Transformer, whose [CLS] attention to each feature token is an EMBEDDED importance
+     (the model learns where to look), and CatBoost and XGBoost, whose exact TreeSHAP values give each feature's contribution;
+     all three are measured on the 20%. Each measure's importances are averaged over the three splits and turned into ranks.
+     RELIABILITY WEIGHTING: each measure's weight = how consistently it ranks the candidates across the three splits (mean
+     pairwise Spearman correlation, floored at 0). A measure that ranks almost at random -- the FT-Transformer's attention is
+     nearly uniform on these small samples -- therefore counts little. Score = weighted mean rank.
+  2. curve: inner repeated cross-validation (2 x 3 folds) of CatBoost on base + the k best-ranked candidates, for k in a grid,
+     scored by BALANCED ACCURACY (the study's main score)
   3. decide: ONE-STANDARD-ERROR RULE (Breiman et al. 1984; Hastie, Tibshirani & Friedman 2009, Sec. 7.10) -- the smallest k
-     whose mean inner macro-F1 is within one standard error of the best k. k = 0 keeps the base set.
+     whose mean inner balanced accuracy is within one standard error of the best k. k = 0 keeps the base set.
+Version 1 (commit a25daff) ranked on one split with equal weights and sized by macro-F1; it added harmful variables (Van Hove
+line, Bulgaria: B1 below B0 for all three models).
 B2 selects climate indices on top of the B1 set chosen in that same outer fold.
 
 Placebo B2p: climate is measured per region, so any region-level number lets a model recognise regions (a dry run with random
@@ -30,7 +36,9 @@ held-out households, with every metric and each model's own importance (SHAP for
 from __future__ import annotations
 import numpy as np
 import pandas as pd
-from sklearn.metrics import f1_score
+import itertools
+from scipy.stats import spearmanr
+from sklearn.metrics import balanced_accuracy_score
 from sklearn.model_selection import RepeatedStratifiedKFold, train_test_split
 from lib.climate.b2_indices import B2_CLIMATE, B2_NAMES
 from lib.features.engineered import ENGINEERED
@@ -51,6 +59,8 @@ FEATURE_NAMES = {"income_bracket": "income bracket", "H3": "floor area", "househ
 K_GRID = {"B1": (0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, len(B1_CANDIDATES)), "B2": (0, 1, 2, 3, 4, 6, 9, 12, len(B2_CANDIDATES))}
 STAGES = ("B0", "B1", "B2", "B2p")
 INNER_FOLDS, INNER_REPEATS = 3, 2
+RANK_SPLITS = 3
+MEASURES = ("attention", "shap_catboost", "shap_xgboost")
 SEED = 20260811
 
 
@@ -59,15 +69,24 @@ def _ranks(s: pd.Series) -> pd.Series:
 
 
 def rank_candidates(train: pd.DataFrame, base: list[str], candidates: list[str], seed: int) -> pd.DataFrame:
-    """Attention + SHAP ranking of the candidates on an 80/20 split of `train`. Columns: attention, shap_catboost,
-    shap_xgboost, score (lower = better), ordered best first."""
+    """Reliability-weighted attention + SHAP ranking over RANK_SPLITS stratified 80/20 splits of `train`. Columns: the three
+    measures (mean importance), their weights (stability), score (weighted mean rank, lower = better); best first."""
     feats = base + candidates
-    tr, va = train_test_split(train, test_size=0.2, stratify=train["y"], random_state=seed)
-    att = fit_model("ft_transformer", tr, feats, seed, val=va).importance(va)
-    cb = fit_model("catboost", tr, feats, seed).importance(va)
-    xg = fit_model("xgboost", tr, feats, seed).importance(va)
-    t = pd.DataFrame({"attention": att, "shap_catboost": cb, "shap_xgboost": xg}).loc[candidates]
-    t["score"] = (_ranks(t.attention) + (_ranks(t.shap_catboost) + _ranks(t.shap_xgboost)) / 2) / 2
+    per = {m: [] for m in MEASURES}
+    for s_ in range(RANK_SPLITS):
+        tr, va = train_test_split(train, test_size=0.2, stratify=train["y"], random_state=seed + 97 * s_)
+        per["attention"].append(fit_model("ft_transformer", tr, feats, seed + s_, val=va).importance(va).loc[candidates])
+        per["shap_catboost"].append(fit_model("catboost", tr, feats, seed + s_).importance(va).loc[candidates])
+        per["shap_xgboost"].append(fit_model("xgboost", tr, feats, seed + s_).importance(va).loc[candidates])
+    t = pd.DataFrame({m: pd.concat(v, axis=1).mean(axis=1) for m, v in per.items()})
+    weights = {}
+    for m, v in per.items():
+        rhos = [spearmanr(a_, b_)[0] for a_, b_ in itertools.combinations(v, 2)]
+        weights[m] = max(0.0, float(np.nanmean(rhos))) if rhos else 1.0
+    total = sum(weights.values()) or 1.0
+    t["score"] = sum(weights[m] * _ranks(t[m]) for m in MEASURES) / total
+    for m in MEASURES:
+        t[f"weight_{m}"] = weights[m] / total
     return t.sort_values("score")
 
 
@@ -87,7 +106,7 @@ def one_se_choice(curve: dict[int, tuple[float, float]]) -> int:
 
 def select_features(train: pd.DataFrame, base: list[str], candidates: list[str], grid: tuple[int, ...], *, seed: int) -> dict:
     """Nested attention + SHAP forward selection on `train` only, sized by the one-standard-error rule. Returns
-    {'selected', 'k', 'ranking' (DataFrame), 'curve' (k -> (mean inner macro-F1, SE))}."""
+    {'selected', 'k', 'ranking' (DataFrame), 'curve' (k -> (mean inner balanced accuracy, SE))}."""
     train = train.reset_index(drop=True)
     ranking = rank_candidates(train, base, candidates, seed)
     y = train["y"].astype(int).to_numpy()
@@ -98,7 +117,7 @@ def select_features(train: pd.DataFrame, base: list[str], candidates: list[str],
         scores = []
         for i, (tr, te) in enumerate(folds):
             pred = fit_model("catboost", train.iloc[tr], f, seed + i).predict_proba(train.iloc[te]).argmax(1)
-            scores.append(f1_score(y[te], pred, average="macro", labels=[0, 1, 2, 3], zero_division=0))
+            scores.append(balanced_accuracy_score(y[te], pred))
         curve[k] = (float(np.mean(scores)), float(np.std(scores, ddof=1) / np.sqrt(len(scores))))
     k = one_se_choice(curve)
     return {"selected": base + list(ranking.index[:k]), "k": k, "ranking": ranking, "curve": curve}
@@ -123,13 +142,14 @@ def placebo_climate(frame: pd.DataFrame, cols: list[str], seed: int) -> pd.DataF
     return out
 
 
-def run_stages(frame: pd.DataFrame, *, n_splits: int = 5, n_repeats: int = 3, seed: int = 1) -> dict:
+def run_stages(frame: pd.DataFrame, *, n_splits: int = 5, n_repeats: int = 3, seed: int = 1, exclude: tuple[str, ...] = ()) -> dict:
     """Outer repeated CV over one country's labelled households. Returns
       proba       {(stage, model): (R, n, 4)} held-out probabilities for CatBoost, XGBoost and FT-Transformer
       shap        {stage: (R, n, 4, len(ALL_FEATURES))} held-out CatBoost SHAP (0 for features not selected in a fold)
       importance  long table: fold x stage x model x feature, held-out importance (SHAP or attention)
       selection   long table: fold x stage x candidate -- selected?, attention, SHAP, combined rank
-      curve       long table: fold x stage x k -- inner macro-F1, SE, chosen?"""
+      curve       long table: fold x stage x k -- inner balanced accuracy, SE, chosen?
+    `exclude` removes candidates (sensitivity runs, e.g. without S8)."""
     frame = frame.reset_index(drop=True)
     n = len(frame)
     proba = {(s, m): np.zeros((n_repeats, n, 4)) for s in STAGES for m in MODELS3}
@@ -141,18 +161,19 @@ def run_stages(frame: pd.DataFrame, *, n_splits: int = 5, n_repeats: int = 3, se
     for i, (tr, te) in enumerate(cv.split(frame, _strata(frame))):
         r = i // n_splits
         fp = placebo[r]
-        s1 = select_features(frame.iloc[tr], B0_FEATURES, B1_CANDIDATES, K_GRID["B1"], seed=SEED + i)
+        b1c = [c for c in B1_CANDIDATES if c not in exclude]
+        s1 = select_features(frame.iloc[tr], B0_FEATURES, b1c, K_GRID["B1"], seed=SEED + i)
         s2 = select_features(frame.iloc[tr], s1["selected"], B2_CANDIDATES, K_GRID["B2"], seed=SEED + 1000 + i)
         s2p = select_features(fp.iloc[tr], s1["selected"], B2_CANDIDATES, K_GRID["B2"], seed=SEED + 1000 + i)
         sets = {"B0": B0_FEATURES, "B1": s1["selected"], "B2": s2["selected"], "B2p": s2p["selected"]}
         for stage, sel in (("B1", s1), ("B2", s2), ("B2p", s2p)):
             for kk, (m, se) in sel["curve"].items():
-                curve_rows.append({"repeat": r, "fold": i % n_splits, "stage": stage, "k": kk, "inner_f1": m, "inner_se": se,
+                curve_rows.append({"repeat": r, "fold": i % n_splits, "stage": stage, "k": kk, "inner_score": m, "inner_se": se,
                                    "chosen": kk == sel["k"]})
             for pos, (c, row) in enumerate(sel["ranking"].iterrows(), start=1):
                 sel_rows.append({"repeat": r, "fold": i % n_splits, "stage": stage, "feature": c, "selected": c in sel["selected"],
-                                 "k": sel["k"], "rank": pos, "attention": row.attention, "shap_catboost": row.shap_catboost,
-                                 "shap_xgboost": row.shap_xgboost})
+                                 "k": sel["k"], "rank": pos, **{m: row[m] for m in MEASURES},
+                                 **{f"weight_{m}": row[f"weight_{m}"] for m in MEASURES}})
         for stage, feats in sets.items():
             src = fp if stage == "B2p" else frame
             train, test = src.iloc[tr], src.iloc[te]

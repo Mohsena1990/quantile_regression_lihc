@@ -17,7 +17,8 @@ Outputs (outputs/tables):
   table_stages_deltas.csv           paired-bootstrap gains B1-B0, B2-B1, B2-B0, B2p-B1, B2-B2p per model
   table_stages_selection.csv        per candidate: share of the 15 outer folds selected, mean rank, attention, SHAP
   table_stages_selected_importance.csv  per model: held-out importance of each selected feature (SHAP or attention)
-  table_stages_selection_curve.csv  inner-CV macro-F1 (mean, SE) for every k and the k chosen
+  table_stages_selection_curve.csv  inner-CV balanced accuracy (mean, SE) for every k and the k chosen
+A sensitivity run (--tag, --labels, --exclude) writes the same tables with the tag as suffix and no figures.
 (artifacts/identification) stages_oof_shap.parquet: held-out CatBoost SHAP per household.
 (outputs/figures) stages_performance, stages_selection_frequency, stages_selection_curve, stages_selected_by_model,
 stages_shap_beeswarm_<label>.
@@ -55,9 +56,9 @@ REPORT = (["accuracy", "balanced_accuracy", "f1_weighted", "f1_macro", "auc_macr
           + [f"{m}_{k}" for m in ("recall", "precision", "auc") for k in CLASS_KEYS])
 
 
-def one_cell(label, country, g, four_ok, n_repeats):
+def one_cell(label, country, g, four_ok, n_repeats, exclude=()):
     t0 = time.time()
-    out = run_stages(g, n_repeats=n_repeats)
+    out = run_stages(g, n_repeats=n_repeats, exclude=tuple(exclude))
     y = g.y.to_numpy()
     base = {"label": label, "country": country, "four_class_ok": four_ok}
     metrics = [{**base, "stage": "any", "model": "chance", **summarise(y, oof_proba(g, B0_FEATURES, "prior", n_repeats=n_repeats), n_boot=N_BOOT)}]
@@ -141,13 +142,13 @@ def fig_curve(curve):
             d = curve[(curve.label == label) & (curve.stage == stage)]
             for c in COUNTRIES:
                 g = d[d.country == c]
-                mm = g.groupby("k").inner_f1.mean()
+                mm = g.groupby("k").inner_score.mean()
                 ax.plot(mm.index, mm.values, marker="o", ms=3, color=colors[c], lw=1.4, label=c)
                 ax.text(0.99, 0.04 + 0.07 * COUNTRIES.index(c), f"{c[:3]}: median k = {g[g.chosen].k.median():.0f}",
                         transform=ax.transAxes, ha="right", fontsize=7, color=colors[c])
             ax.set_title(f"{LABEL_NAMES[label]} -- {stage}", fontsize=9, loc="left")
             ax.set_xlabel(f"number of {stage} candidates added (best-ranked first)", fontsize=8)
-        axes[row, 0].set_ylabel("inner-CV macro-F1", fontsize=8)
+        axes[row, 0].set_ylabel("inner-CV balanced accuracy", fontsize=8)
     axes[0, 0].legend(frameon=False, fontsize=7.5)
     fig.suptitle("How many candidates to add: the curve, and the number kept by the one-standard-error rule", fontsize=10.5, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.95)); save_figure(fig, FIG / "stages_selection_curve"); plt.close(fig)
@@ -188,39 +189,50 @@ def fig_beeswarm(hh, dev, label):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--repeats", type=int, default=3)
+    p.add_argument("--labels", default=",".join(LABELS), help="comma-separated subset of labels")
+    p.add_argument("--exclude", default="", help="comma-separated B1 candidates to leave out (sensitivity runs)")
+    p.add_argument("--tag", default="", help="suffix for output tables of a sensitivity run (figures are skipped)")
     p.add_argument("--jobs", type=int, default=4, help="parallel cells; each uses the GPU (more than 4 CUDA processes crashed under WSL)")
     a = p.parse_args()
     dev = load_development_frame()
     if [f for f in B2_CANDIDATES if f not in dev.columns]:
         raise SystemExit("B2 climate missing: run scripts/acquire_openmeteo_b2.py, acquire_era5_normals.py, fuse_openmeteo_b2.py")
     jobs, support = [], []
+    exclude = [e for e in a.exclude.split(",") if e]
+    sfx = f"_{a.tag}" if a.tag else ""
     for label, kind in LABELS.items():
+        if label not in a.labels.split(","):
+            continue
         lab = add_labels(dev, cost_kind=kind)
         sup = viability(support_table(lab)).assign(label=label)
         support.append(sup)
         ok = dict(zip(sup.country, sup.four_class_ok))
         jobs += [(label, c, lab[lab.country == c].reset_index(drop=True), bool(ok[c])) for c in COUNTRIES]
-    res = Parallel(n_jobs=a.jobs)(delayed(one_cell)(lab, c, g, ok, a.repeats) for lab, c, g, ok in jobs)
+    res = Parallel(n_jobs=a.jobs)(delayed(one_cell)(lab, c, g, ok, a.repeats, exclude) for lab, c, g, ok in jobs)
     metrics = pd.DataFrame([r for x in res for r in x["metrics"]])
     deltas = pd.DataFrame([r for x in res for r in x["deltas"]])
     imp, sel, curve = (pd.concat([x[k] for x in res], ignore_index=True) for k in ("importance", "selection", "curve"))
-    metrics.to_csv(TAB / "table_stages_metrics.csv", index=False)
+    metrics.to_csv(TAB / f"table_stages_metrics{sfx}.csv", index=False)
     rep = metrics[["label", "country", "four_class_ok", "stage", "model"] + REPORT + [f"{k}_lo" for k in ("balanced_accuracy", "f1_weighted")]
                   + [f"{k}_hi" for k in ("balanced_accuracy", "f1_weighted")]]
-    rep.to_csv(TAB / "table_stages_report.csv", index=False)
-    deltas.to_csv(TAB / "table_stages_deltas.csv", index=False)
-    pd.concat(support).to_csv(TAB / "table_stages_support.csv", index=False)
+    rep.to_csv(TAB / f"table_stages_report{sfx}.csv", index=False)
+    deltas.to_csv(TAB / f"table_stages_deltas{sfx}.csv", index=False)
+    pd.concat(support).to_csv(TAB / f"table_stages_support{sfx}.csv", index=False)
     selt = (sel.groupby(["label", "country", "stage", "feature"])
             .agg(selection_rate=("selected", "mean"), mean_rank=("rank", "mean"), attention=("attention", "mean"),
-                 shap_catboost=("shap_catboost", "mean"), shap_xgboost=("shap_xgboost", "mean"), mean_k=("k", "mean")).reset_index())
+                 shap_catboost=("shap_catboost", "mean"), shap_xgboost=("shap_xgboost", "mean"), mean_k=("k", "mean"),
+                 weight_attention=("weight_attention", "mean"), weight_shap_catboost=("weight_shap_catboost", "mean"),
+                 weight_shap_xgboost=("weight_shap_xgboost", "mean")).reset_index())
     selt["feature_name"] = selt.feature.map(FEATURE_NAMES)
-    selt.to_csv(TAB / "table_stages_selection.csv", index=False)
+    selt.to_csv(TAB / f"table_stages_selection{sfx}.csv", index=False)
     imp["importance_share"] = imp.importance / imp.groupby(["label", "country", "repeat", "fold", "stage", "model"]).importance.transform("sum")
     impt = imp.groupby(["label", "country", "stage", "model", "feature"]).agg(
         importance=("importance", "mean"), importance_share=("importance_share", "mean"), folds_selected=("fold", "size")).reset_index()
     impt["feature_name"] = impt.feature.map(FEATURE_NAMES)
-    impt.to_csv(TAB / "table_stages_selected_importance.csv", index=False)
-    curve.to_csv(TAB / "table_stages_selection_curve.csv", index=False)
+    impt.to_csv(TAB / f"table_stages_selected_importance{sfx}.csv", index=False)
+    curve.to_csv(TAB / f"table_stages_selection_curve{sfx}.csv", index=False)
+    if a.tag:
+        return
     ART.mkdir(parents=True, exist_ok=True)
     hh = pd.concat([x["hh"] for x in res], ignore_index=True)
     hh.to_parquet(ART / "stages_oof_shap.parquet", index=False)

@@ -545,3 +545,22 @@ Issues found in the version-1 run (commit a25daff) and what was done:
 * **Climate** beats its placebo in 6 of 48 cells, 5 of them in Bulgaria (largest climate range); elsewhere region identity explains B2.
 Comparison with Van Hove (README Section 8): on his line, extra variables add nothing and location adds 0.04-0.06; on the Hansen +
 Quantile Regression line, heating and appliance variables add up to 0.08 balanced accuracy. 99 tests pass.
+
+
+## 32. Version 4: threshold optimisation, pooled model, Models A/B/C, area context, climate x home (2026-10-14)
+
+Agreed design, applied in full (README Sections 2-9):
+* **Thresholds** by exhaustive multi-objective optimisation (income bracket {2,3,4} x expenditure level 0.60-0.90; objectives: B0
+  balanced accuracy, hardship gap Double vs Income Risk, pooled minimum class; Pareto front + TOPSIS). Country-percentile line ->
+  Van Hove's own (3, 0.80) but hardship gap 0.001; need-based Quantile Regression line -> (3, 0.60); energy burden -> (2, 0.70).
+  A per-country minimum of 30 per class was infeasible for almost every option and was lowered to 15 for the pooled design.
+* **Pooled four-country model** read per country; per-country B0 models as a check (no difference: 0 better, 2 worse of 60).
+* **Models A/B/C**; **B1** in two levels from four groups (Dalla Longa area variables from Eurostat/Census, ENABLE top 3, household
+  indices, regional economy); **B2** = top 3 of 31 climate features incl. 11 climate x home interactions; **B2p** placebo recomputes
+  the interactions from permuted regional climate; a need line without climate as the fair climate test.
+* Results: B1 > B0 in 26/60 comparisons (need lines +0.03 to +0.08); B2 vs placebo 2 better / 2 worse -> no climate effect beyond
+  region identity, also on the climate-free line.
+Issues recorded: the top "climate" feature (heating need per EUR of income) is income-driven; regional economy variables are
+region-level and were not placebo-tested; house value / ownership unavailable (stand-ins). Code: scripts/acquire_regional_context.py,
+build_threshold_moo.py, build_feature_stages_v4.py; lib/features/indices.py; lib/identification/lines_v4.py, stages_v4.py;
+tests/test_v4.py. 108 tests pass.

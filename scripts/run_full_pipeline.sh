@@ -39,6 +39,7 @@ run python scripts/fuse_era5_nuts1.py --configuration annual_2017     # fuses to
 run python scripts/acquire_openmeteo_b2.py
 run python scripts/acquire_era5_normals.py            # 1991-2020 monthly normals (one CDS request)
 run python scripts/fuse_openmeteo_b2.py
+run python scripts/acquire_regional_context.py      # Eurostat / Census regional context (density, ownership, GDP, unemployment, poverty, old dwellings)
 
 # --- 2. Predictor core and cost-threshold estimators -----------------------------------------------------------------
 # A0: recursive forward search from Van Hove's six non-income predictors. Overwrites config/pipeline.json `features`.
@@ -69,7 +70,10 @@ run python scripts/diagnose_vanhove_gap.py
 # Feature stages B0 (Van Hove) -> B1 -> B2 (income always a predictor), four expenditure lines, attention + SHAP selection,
 # CatBoost / XGBoost / FT-Transformer
 run python scripts/build_expenditure_lines.py         # Hansen tipping points; Quantile Regression / Hansen lines; SHAP of the line
-run python scripts/build_feature_stages.py --jobs 4   # attention + SHAP selection, three models; > 4 GPU workers crash CUDA under WSL
+# Version 4 (current design): optimised thresholds, pooled four-country model, Models A/B/C, two-level B1 groups, top-3 climate,
+# placebo, per-country reading and maps. (Version 3, scripts/build_feature_stages.py, is superseded; its tables are archived.)
+run python scripts/build_threshold_moo.py
+run python scripts/build_feature_stages_v4.py --jobs 4   # > 4 GPU workers crash CUDA under WSL; about 1.5 hours
 run python scripts/build_hidden_underheating.py       # sensitivity (b): modelled heating need, hidden under-heating
 run python scripts/freeze_identification_selection.py     # pre-register model choices in config/final_selection.json
 

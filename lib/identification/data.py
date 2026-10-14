@@ -103,4 +103,13 @@ def _load_frame(partitions: tuple[str, ...]) -> pd.DataFrame:
     d["income_bracket"] = pd.to_numeric(d.income_bracket, errors="coerce").where(lambda s: s.between(1, 10))
     d["cost"] = pd.to_numeric(d.observed_energy_cost_eur_reference, errors="coerce")
     d["income_percentile"] = harmonized_income_percentile(d.income_bracket, d.country)
+    # Version-4 features (lib/features/indices.py): regional context (scripts/acquire_regional_context.py), household indices
+    # and climate x dwelling features. Optional so earlier stages run without the downloads.
+    context = ROOT / "artifacts/reference/regional_context.csv"
+    if context.exists():
+        from lib.features.indices import REGIONAL_CONTEXT, climate_features, household_indices
+        d = d.merge(pd.read_csv(context)[["climate_region"] + REGIONAL_CONTEXT], on="climate_region", how="left", validate="many_to_one")
+        d = household_indices(d)
+        if b2.exists():
+            d = climate_features(d)
     return d.reset_index(drop=True)

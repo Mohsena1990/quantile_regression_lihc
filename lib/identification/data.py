@@ -18,7 +18,7 @@ import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from data.enable import EXTENDED_COUNTRY_CODES, EXTENDED_COUNTRY_NAMES, HOUSEHOLD_SHEET, RETAINED_COUNTRY_CODES, RETAINED_COUNTRY_NAMES, retained_cohort
+from data.enable import ALL_COUNTRY_CODES, EXTENDED_COUNTRY_CODES, POOL_EXTRA_NAMES, EXTENDED_COUNTRY_NAMES, HOUSEHOLD_SHEET, RETAINED_COUNTRY_CODES, RETAINED_COUNTRY_NAMES, retained_cohort
 from lib.features.household_features import (BASE_RAW_COLUMNS, RAW_COLUMNS as FEATURE_RAW_COLUMNS, REFERENCE_YEAR, engineer,
                                              stack_features)
 from lib.features.engineered import RAW_EXTRA, engineer_extra
@@ -64,17 +64,29 @@ def load_development_frame(extended: bool = False) -> pd.DataFrame:
     return _load_frame(DEV_PARTITIONS, extended)
 
 
-def _load_frame(partitions: tuple[str, ...], extended: bool = False) -> pd.DataFrame:
+COMFORT_RAW = ["C1A", "C1B", "C2"]          # indoor temperature in winter / summer, air conditioning (version 6, comfort labels)
+
+
+def load_pool_frame() -> pd.DataFrame:
+    """Version 6: the five study countries' development households (as load_development_frame(extended=True)) PLUS every household
+    of the six other ENABLE countries (`pool` = "focus" / "extra"; extra households have partition "extra"). The extra households
+    are only ever TRAINING households of pooled models; they are not in the frozen split, so none of them is held back."""
+    return _load_frame(DEV_PARTITIONS, extended=True, pool=True)
+
+
+def _load_frame(partitions: tuple[str, ...], extended: bool = False, pool: bool = False) -> pd.DataFrame:
     """Shared loader. Callers outside this package must use load_development_frame(); the only other caller is the
     guarded final-test module."""
     cfg = json.loads((ROOT / "config/pipeline.json").read_text())
-    cost_file = "harmonised_observed_cost_extended.parquet" if extended else "harmonised_observed_cost.parquet"
+    cost_file = ("harmonised_observed_cost_all.parquet" if pool else
+                 "harmonised_observed_cost_extended.parquet" if extended else "harmonised_observed_cost.parquet")
     base = pd.read_parquet(ROOT / "artifacts/data" / cost_file)[["UID", "income_bracket", "w", "observed_energy_cost_eur_reference"]]
     cols = list(dict.fromkeys(["UID", "Country", "NUTS1", "NUTS2", "NUTS3"] + BASE_RAW_COLUMNS + FEATURE_RAW_COLUMNS + COMP + WELFARE_SCREEN
-                              + RAW_EXTRA + ITEMS + (RAW_PARTIAL if extended else [])))
+                              + RAW_EXTRA + ITEMS + (RAW_PARTIAL + COMFORT_RAW if extended else [])))
     hh = retained_cohort(pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx",
                                        sheet_name=HOUSEHOLD_SHEET, usecols=cols),
-                         EXTENDED_COUNTRY_CODES if extended else RETAINED_COUNTRY_CODES)
+                         ALL_COUNTRY_CODES if pool else EXTENDED_COUNTRY_CODES if extended else RETAINED_COUNTRY_CODES,
+                         require_nuts1=not pool)
     hh["household_size"] = hh[COMP].apply(pd.to_numeric, errors="coerce").sum(axis=1, min_count=len(COMP))
     hh = engineer(hh)
     # Impossible / "don't know" values (fixed 2026-10-13): floor-area code 7 is "don't know" and was read as the band above
@@ -96,14 +108,25 @@ def _load_frame(partitions: tuple[str, ...], extended: bool = False) -> pd.DataF
     d = d.merge(climate, on="NUTS1", how="left", validate="many_to_one")
     # Stage-B2 climate (NUTS3 / Polish NUTS2; scripts/fuse_openmeteo_b2.py). Optional so the earlier stages run without it.
     d["climate_region"] = climate_region(d)
+    extra = d.country.isin(POOL_EXTRA_NAMES)
+    if pool:
+        from lib.geography.climate_regions import extra_region
+        d.loc[extra, "climate_region"] = extra_region(d[extra])
     b2 = ROOT / "artifacts/climate/b2/region_climate.parquet"
     if b2.exists():
         from lib.climate.b2_indices import B2_CLIMATE
-        d = d.merge(pd.read_parquet(b2)[["climate_region"] + B2_CLIMATE], on="climate_region", how="left", validate="many_to_one")
+        rc = pd.read_parquet(b2)
+        b2x = ROOT / "artifacts/climate/b2/region_climate_extra.parquet"
+        if pool and b2x.exists():
+            rc = pd.concat([rc, pd.read_parquet(b2x)], ignore_index=True)
+        d = d.merge(rc[["climate_region"] + B2_CLIMATE], on="climate_region", how="left", validate="many_to_one")
     split = json.loads((ROOT / cfg["split"]).read_text())["assignments"]
     part = {str(a["household_id"]): a["partition"] for a in split}
     d["partition"] = d.UID.astype(str).map(part)
-    d = d[d.partition.isin(partitions)].copy()
+    if pool:
+        d.loc[d.country.isin(POOL_EXTRA_NAMES), "partition"] = "extra"
+    d = d[d.partition.isin(partitions + (("extra",) if pool else ()))].copy()
+    d["pool"] = np.where(d.partition == "extra", "extra", "focus")
     d["income_bracket"] = pd.to_numeric(d.income_bracket, errors="coerce").where(lambda s: s.between(1, 10))
     d["cost"] = pd.to_numeric(d.observed_energy_cost_eur_reference, errors="coerce")
     # The frozen survey-weighted bracket table covers the four countries only; Spain's households get no percentile (unused in v5).
@@ -113,6 +136,10 @@ def _load_frame(partitions: tuple[str, ...], extended: bool = False) -> pd.DataF
     if extended:
         d = partial_modules(d)
         d["region"] = d["NUTS2"].astype(str).str.strip()       # NUTS2 code as one categorical variable (version 5, idea 3)
+        if pool:                                               # extra countries: Germany NUTS1, Norway NUTS2, Serbia NUTS2, Ukraine oblast
+            x = d.pool == "extra"
+            cr = d.loc[x, "climate_region"].astype("string")
+            d.loc[x, "region"] = cr.where(~cr.str.startswith("NO", na=False), cr.str[:4])
     # Version-4 features (lib/features/indices.py): regional context (scripts/acquire_regional_context.py), household indices
     # and climate x dwelling features. Optional so earlier stages run without the downloads.
     context = ROOT / "artifacts/reference/regional_context.csv"

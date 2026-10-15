@@ -18,3 +18,4 @@ imbalanced-learn>=0.12
 joblib>=1.3
 shap>=0.45
 optuna>=4.0
+gpboost>=1.5

@@ -9,7 +9,8 @@ from urllib.request import urlopen
 import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 BASE="https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
-GEOS={"BG":"Bulgaria","HU":"Hungary","IT":"Italy","PL":"Poland","ES":"Spain"}   # Spain: version-5 cohort only
+GEOS={"BG":"Bulgaria","HU":"Hungary","IT":"Italy","PL":"Poland","ES":"Spain",   # Spain: version-5 cohort
+      "FR":"France","DE":"Germany","NO":"Norway","RS":"Serbia","UK":"United Kingdom"}   # version-6 extra training pool (Ukraine: not in EU-SILC)
 
 def parse_jsonstat(payload:dict)->pd.DataFrame:
     dims=payload["id"]; categories=[]

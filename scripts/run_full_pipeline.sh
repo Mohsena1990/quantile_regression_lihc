@@ -79,6 +79,15 @@ run python scripts/build_feature_stages_v4.py --jobs 4   # > 4 GPU workers crash
 # cost, noisy-label weights, tuned XGBoost, ensembles, targeting curves, "not sure".
 run python scripts/build_threshold_moo.py --v5
 run python scripts/build_feature_stages_v5.py --jobs 4
+# Version 6: the six other ENABLE countries as extra training households (scores stay on the five study countries), multilevel
+# climate test on the energy bill, climate-sensitive labels (cold / hot home, under-heating), multilevel (GPBoost) bill model.
+run python scripts/build_extended_cost.py --all
+run python scripts/acquire_openmeteo_b2.py --extra
+run python scripts/acquire_era5_normals.py --extra
+run python scripts/fuse_openmeteo_b2.py --extra
+run python scripts/build_climate_multilevel.py
+run python scripts/build_climate_labels.py --jobs 4
+run python scripts/build_pooled_extra.py --jobs 4
 run python scripts/build_hidden_underheating.py       # sensitivity (b): modelled heating need, hidden under-heating
 run python scripts/freeze_identification_selection.py     # pre-register model choices in config/final_selection.json
 

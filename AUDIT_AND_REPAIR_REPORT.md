@@ -605,3 +605,33 @@ User request: apply all nine improvement ideas and add one more country if its d
   income alone. "Not sure" at 20% raises balanced accuracy 0.02-0.04, flagging all groups about equally.
 * Tests: tests/test_v5.py (17 new); 126 pass. Not changed: version-4 tables and figures (`table_v4_*`, `v4_*`) stay as the
   four-country record.
+
+
+## 35. Version 6: extra training countries, multilevel model, climate on the bill, climate-sensitive labels (2026-10-15)
+
+User request: apply A (multilevel model), B (other ENABLE countries, pooled models only, scores on the 4/5 study countries), E
+(climate tested on the bill), F (region effect split up), G (climate-sensitive labels).
+* **Data.** All eleven countries costed in EUR (`build_extended_cost.py --all`; Eurostat ert_bil_eur_a 2017: NOK 9.327, GBP 0.87667,
+  RSD 121.3367, UAH 30.05313); extra-country income bracket S9MONTH else S9YEAR; Eurostat deciles added for FR, DE, NO, RS, UK
+  (five study countries unchanged, checked). Regions decoded: Germany NUTS1 = official state numbers (shares match state
+  populations), Norway NUTS3 2013 (NO061/062 -> NO060), Serbia names -> NUTS2, Ukraine 2-26 = oblasts in Ukrainian alphabetical
+  order with Kyiv city after Kyiv oblast (shares match populations; points = administrative centres). France and the UK have no
+  region codes. 63 extra climate regions (Open-Meteo, third ERA5-Land CDS request), QC clear with widened ranges for Norway.
+  `load_pool_frame()`: five study countries' development households + 6,458 extra households (not in the frozen split; training
+  only). Study-country costs, incomes, climate and regions identical to version 5; survey indices re-standardised over eleven
+  countries (r = 0.99 with version 5).
+* **E/F results** (`build_climate_multilevel.py`; MixedLM ML, random intercept per region, country fixed effects): heating-bill
+  elasticity to HDD 1.26 (0.66-1.85) five countries, 1.17 (0.70-1.64) with DE/NO/RS/UA; total bill 0.57 / 0.48. Climate explains
+  19% (16%) of the region variance of the heating bill, placebo p < 0.005 (200 within-country shuffles); total bill 6% (5%),
+  p = 0.055 (0.025). Five countries, heating bill: economy alone 25%, both 29%, climate given economy p = 0.022. Per country,
+  significant in Italy and Spain only. Fixed: L-BFGS alone returned a degenerate fit (region variance 0, llf inf) -> Powell first.
+* **G results** (`build_climate_labels.py`; C1A/C1B asked in HU, ES (+DE, FR, UA)): cold home HU 7% / ES 32%; climate adds AUC
+  0.01-0.07 on every label, beyond the placebo only for summer energy poverty (+0.01) and hidden under-heating (CatBoost +0.02;
+  GLM placebo p < 0.005, partly mechanical). Cold homes fewer in colder regions (OR 0.63 per 10% HDD) but not separable from region
+  identity (placebo p = 0.46). Extra countries hurt comfort models (up to -0.05 AUC). Fixed: constant terms / rare levels in the
+  GLM; 12 parallel workers segfaulted next to the GPU run -> 4.
+* **A/B results** (`build_pooled_extra.py`; v5 folds, fixed B1 = B0 + region + wealth + vulnerability + income EUR): extra
+  countries alone +0.004 (23 better, 18 worse of 240); GPBoost bill model worse than the XGBoost bill model on five countries
+  (-0.033), equal with extras; ensemble_mixed (CatBoost + XGBoost + FT + GPBoost bill, with extras) vs the v5 recipe: +0.014 vh,
+  +0.017 need line (both significant), +0.007 need w/o climate, 0.000 burden; Bulgaria/Italy gain, Poland loses.
+* Tests: tests/test_v6.py (5).

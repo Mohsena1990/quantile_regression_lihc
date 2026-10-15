@@ -30,32 +30,48 @@ RANGES = {"hdd_hs1617": (300, 6000), "cdd_s2017": (0, 800), "hdd_normal": (300, 
           "cloud_hs": (0, 100)}
 
 
+# Version 6 extra training countries (Norway's north, Ukraine's east) need wider plausibility ranges.
+RANGES_EXTRA = {**RANGES, "hdd_hs1617": (300, 8000), "hdd_normal": (300, 8000), "tmin_hs": (-25, 15), "apparent_tmin_hs": (-40, 15),
+                "precip_hs": (0, 4000), "snowfall_hs": (0, 2500), "solar_hs": (0.3, 20), "sunshine_hs": (0, 12)}
+COUNTRY_OF = {"BG": "Bulgaria", "HU": "Hungary", "IT": "Italy", "PL": "Poland", "ES": "Spain", "DE": "Germany", "NO": "Norway",
+              "RS": "Serbia", "UA": "Ukraine"}
+
+
 def main() -> None:
-    points = pd.read_csv(OM / "points.csv")
-    survey = pd.read_parquet(OM / "survey_daily.parquet").set_index("date")
-    normal = pd.read_parquet(ROOT / "artifacts/climate/era5_normals/points_monthly.parquet").set_index("month")
+    import argparse
+    ap = argparse.ArgumentParser(); ap.add_argument("--extra", action="store_true", help="version 6: extra training countries")
+    extra = ap.parse_args().extra
+    sfx = "_extra" if extra else ""
+    ranges = RANGES_EXTRA if extra else RANGES
+    points = pd.read_csv(OM / f"points{sfx}.csv")
+    survey = pd.read_parquet(OM / f"survey_daily{sfx}.parquet").set_index("date")
+    normal = pd.read_parquet(ROOT / f"artifacts/climate/era5_normals/points_monthly{sfx}.parquet").set_index("month")
     rows = []
     for code in points.climate_region:
         s, n = survey[survey.climate_region == code], normal[normal.climate_region == code]
         rows.append({"climate_region": code, **survey_indices(s), **normal_indices(n.t2m),
                      "grid_elevation": float(s.grid_elevation.iloc[0])})
     res = pd.DataFrame(rows).merge(points, on="climate_region", validate="one_to_one")
-    res["level"] = np.where(res.climate_region.str.len() == 5, "NUTS3", "NUTS2")
-    res["country"] = res.climate_region.str[:2].map({"BG": "Bulgaria", "HU": "Hungary", "IT": "Italy", "PL": "Poland", "ES": "Spain"})
-    bad = {f: res.loc[~res[f].between(*RANGES[f]), "climate_region"].tolist() for f in B2_CLIMATE}
+    res["level"] = np.where(res.climate_region.str.len() == 5, "NUTS3", np.where(res.climate_region.str.len() == 3, "NUTS1", "NUTS2"))
+    res.loc[res.climate_region.str.startswith("UA"), "level"] = "oblast"
+    res["country"] = res.climate_region.str[:2].map(COUNTRY_OF)
+    bad = {f: res.loc[~res[f].between(*ranges[f]), "climate_region"].tolist() for f in B2_CLIMATE}
     bad = {f: v for f, v in bad.items() if v}
     qc = {"source": "Open-Meteo historical weather API (best-match ECMWF reanalysis) + ERA5-Land monthly normals, one representative point per region",
           "regions": len(res), "finite": bool(np.isfinite(res[B2_CLIMATE].to_numpy(float)).all()), "out_of_range": bad,
-          "survey_sha256": hashlib.sha256((OM / "survey_daily.parquet").read_bytes()).hexdigest(),
-          "normal_sha256": hashlib.sha256((ROOT / "artifacts/climate/era5_normals/points_monthly.parquet").read_bytes()).hexdigest()}
+          "survey_sha256": hashlib.sha256((OM / f"survey_daily{sfx}.parquet").read_bytes()).hexdigest(),
+          "normal_sha256": hashlib.sha256((ROOT / f"artifacts/climate/era5_normals/points_monthly{sfx}.parquet").read_bytes()).hexdigest()}
     qc["qc_all_clear"] = qc["regions"] == len(points) and qc["finite"] and not bad
     B2.mkdir(parents=True, exist_ok=True)
-    (B2 / "region_climate.qc.json").write_text(json.dumps(qc, indent=2) + "\n")
+    (B2 / f"region_climate{sfx}.qc.json").write_text(json.dumps(qc, indent=2) + "\n")
     if not qc["qc_all_clear"]:
         raise SystemExit(f"BLOCKED_B2_QC: {json.dumps(qc)}")
-    res.to_parquet(B2 / "region_climate.parquet", index=False)
-    res.to_csv(ROOT / "outputs/tables/table_b2_climate_regions.csv", index=False)
+    res.to_parquet(B2 / f"region_climate{sfx}.parquet", index=False)
+    res.to_csv(ROOT / f"outputs/tables/table_b2_climate_regions{sfx}.csv", index=False)
     print(res.groupby("country")[B2_CLIMATE].agg(["min", "max"]).round(1).T.to_string())
+    if extra:                                                  # no polygons for the Ukrainian oblasts; no map
+        print(json.dumps(qc, indent=2))
+        return
 
     geo = region_geometries(res.climate_region).merge(res, left_on="NUTS_ID", right_on="climate_region")
     panels = ["hdd_hs1617", "hdd_normal", "cold_spell_max", "heatwave_days", "rh_hs", "wind_hs", "solar_hs", "snowfall_hs"]

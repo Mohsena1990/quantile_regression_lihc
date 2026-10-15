@@ -25,8 +25,8 @@ import requests_cache
 from retry_requests import retry
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from data.enable import EXTENDED_COUNTRY_CODES, HOUSEHOLD_SHEET, retained_cohort
-from lib.geography.climate_regions import climate_region, region_geometries
+from data.enable import EXTENDED_COUNTRY_CODES, HOUSEHOLD_SHEET, POOL_EXTRA_CODES, retained_cohort
+from lib.geography.climate_regions import climate_region, extra_region, region_geometries, region_points as extra_points
 
 OUT = ROOT / "artifacts/climate/openmeteo"
 URL = "https://archive-api.open-meteo.com/v1/archive"
@@ -44,6 +44,13 @@ def region_points() -> pd.DataFrame:
     geo = region_geometries(hh.climate_region.unique())
     pts = geo.geometry.representative_point()
     return pd.DataFrame({"climate_region": geo.NUTS_ID, "latitude": pts.y.round(4), "longitude": pts.x.round(4)}).sort_values("climate_region")
+
+
+def extra_region_points() -> pd.DataFrame:
+    """Version 6: the regions of the extra training countries (Germany, Norway, Serbia, Ukraine)."""
+    hh = retained_cohort(pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx", sheet_name=HOUSEHOLD_SHEET,
+                                       usecols=["UID", "Country", "NUTS1", "NUTS2", "NUTS3"]), POOL_EXTRA_CODES, require_nuts1=False)
+    return extra_points(extra_region(hh).dropna().unique())
 
 
 def fetch(client, lat: float, lon: float, start: str, end: str, daily: list[str]) -> pd.DataFrame:
@@ -74,12 +81,14 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--which", choices=["survey"], default="survey")
     p.add_argument("--pause", type=float, default=2.0, help="seconds between uncached requests")
+    p.add_argument("--extra", action="store_true", help="version 6: regions of the extra training countries -> *_extra files")
     a = p.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     session = retry(requests_cache.CachedSession(str(OUT / "http_cache"), expire_after=-1), retries=5, backoff_factor=0.2)
     client = openmeteo_requests.Client(session=session)
-    pts = region_points()
-    pts.to_csv(OUT / "points.csv", index=False)
+    suffix = "_extra" if a.extra else ""
+    pts = extra_region_points() if a.extra else region_points()
+    pts.to_csv(OUT / f"points{suffix}.csv", index=False)
     for which in [a.which]:
         start, end, daily = REQUESTS[which]
         frames = []
@@ -93,8 +102,8 @@ def main() -> None:
         bad = out[daily].isna().mean()
         if (bad > 0).any():
             print(f"WARNING missing values in {which}: {bad[bad > 0].round(4).to_dict()}")
-        out.to_parquet(OUT / f"{which}_daily.parquet", index=False)
-        print(f"{which}: {len(out)} region-days -> {OUT.relative_to(ROOT)}/{which}_daily.parquet", flush=True)
+        out.to_parquet(OUT / f"{which}_daily{suffix}.parquet", index=False)
+        print(f"{which}: {len(out)} region-days -> {OUT.relative_to(ROOT)}/{which}_daily{suffix}.parquet", flush=True)
 
 
 if __name__ == "__main__":

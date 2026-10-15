@@ -13,6 +13,10 @@ COUNTRIES = {1: "Bulgaria", 2: "France", 3: "Germany", 4: "Hungary", 5: "Italy",
 # every downstream stage.
 RETAINED_COUNTRY_CODES = frozenset({1, 4, 5, 7})
 RETAINED_COUNTRY_NAMES = tuple(COUNTRIES[c] for c in sorted(RETAINED_COUNTRY_CODES))
+# Version-5 study cohort: the four countries + Spain. Spain could not carry the earlier per-country four-class models (fewer than
+# 30 Double-Risk households) but can enter the pooled model (>= 15 per class and country). The earlier analyses keep the four.
+EXTENDED_COUNTRY_CODES = RETAINED_COUNTRY_CODES | {9}
+EXTENDED_COUNTRY_NAMES = tuple(COUNTRIES[c] for c in sorted(EXTENDED_COUNTRY_CODES))
 MISSING_CODES = frozenset({98, 99, 999, 9999, 99999, "#NULL!"})
 
 def read_dictionary(path: str | Path) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -30,11 +34,11 @@ def governed_dictionary(path: str | Path) -> pd.DataFrame:
     out["is_missing_code"] = text.str.contains("don't know|do not know|refus|no answer|did not answer", regex=True)
     return out[["variable", "column", "label", "value", "value_label", "is_missing_code"]]
 
-def retained_cohort(frame: pd.DataFrame) -> pd.DataFrame:
+def retained_cohort(frame: pd.DataFrame, codes: frozenset = RETAINED_COUNTRY_CODES) -> pd.DataFrame:
     required = {"UID", "Country", "NUTS1"}
     if missing := required - set(frame.columns):
         raise ValueError(f"Missing cohort fields: {sorted(missing)}")
-    out = frame.loc[frame["Country"].isin(RETAINED_COUNTRY_CODES)].copy()
+    out = frame.loc[frame["Country"].isin(codes)].copy()
     if out["NUTS1"].isna().any():
         raise ValueError("Retained cohort has missing NUTS1")
     if out["UID"].duplicated().any():

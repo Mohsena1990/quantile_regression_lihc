@@ -28,6 +28,7 @@ run python scripts/audit_enable_workbook.py           # dictionary / coverage au
 run python scripts/validate_nuts.py                   # every cohort NUTS1 region exists in GISCO (network for first download)
 run python scripts/prepare_country_references.py      # Eurostat national income deciles (network)
 run python scripts/build_expenditure_m0.py            # observed cost, immutable split, Van Hove M0 benchmark (network: exchange rates)
+run python scripts/build_extended_cost.py            # version 5: the same observed cost for the four countries + Spain
 # Frozen cohort-wide bracket -> percentile table (needs the cost parquet above). The headline income rule (bracket <= 3) does
 # not use it; the percentile sensitivity does.
 run python scripts/build_income_bracket_reference.py
@@ -74,6 +75,10 @@ run python scripts/build_expenditure_lines.py         # Hansen tipping points; Q
 # placebo, per-country reading and maps. (Version 3, scripts/build_feature_stages.py, is superseded; its tables are archived.)
 run python scripts/build_threshold_moo.py
 run python scripts/build_feature_stages_v4.py --jobs 4   # > 4 GPU workers crash CUDA under WSL; about 1.5 hours
+# Version 5 (current design): the four countries + Spain, region variable, partial survey modules, bill model, imputed heating
+# cost, noisy-label weights, tuned XGBoost, ensembles, targeting curves, "not sure".
+run python scripts/build_threshold_moo.py --v5
+run python scripts/build_feature_stages_v5.py --jobs 4
 run python scripts/build_hidden_underheating.py       # sensitivity (b): modelled heating need, hidden under-heating
 run python scripts/freeze_identification_selection.py     # pre-register model choices in config/final_selection.json
 

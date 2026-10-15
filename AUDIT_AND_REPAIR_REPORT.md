@@ -576,3 +576,32 @@ tests/test_v4.py. 108 tests pass.
   50%, inefficient equipment 47%) at the same accuracy. Exception: need line without climate, XGBoost, +0.017 for the real values.
 * B0, B1 and Models A/B reproduced bit for bit from the previous run (same seeds). Version-4 tables before this change are archived
   in outputs/tables/archive_v4a. 109 tests pass.
+
+
+## 34. Version 5: Spain, region variable, partial modules, bill model, imputation, noisy labels, tuning, ensembles, targeting, "not sure" (2026-10-15)
+
+User request: apply all nine improvement ideas and add one more country if its data can be downloaded.
+* **Country.** Spain (code 9) added: every input was available (euro costs; Eurostat income deciles; NUTS3 in the survey; Open-Meteo
+  for its 11 regions; ERA5-Land normals from a second CDS request over Spain incl. the Canary Islands; Eurostat regional context).
+  Cohort constant `EXTENDED_COUNTRY_CODES`; `load_development_frame(extended=True)`; cost file
+  `harmonised_observed_cost_extended.parquet` (scripts/build_extended_cost.py). Checked: the four countries' cost, climate and
+  regional values are identical to version 4. 3,845 development households, 2,278 labelled (Spain 608 / 282).
+* **Thresholds** re-optimised on five countries (`build_threshold_moo.py --v5`): need line (3, 0.60) as before; burden (3, 0.60)
+  instead of (2, 0.70); the country-percentile family has a single feasible option (3, 0.60). Van Hove's (3, 0.80) no longer meets
+  the 15-per-group minimum (Spain has 5 Double-Risk households) but is kept as the benchmark. Fixed: TOPSIS divided 0/0 when only one
+  option was feasible.
+* **Labels** rewritten as a per-household threshold in EUR (`lines_v5.py`); identical flags to version 4 (tested), and the
+  threshold can be refitted on training households only (`fold_threshold`).
+* **Confident learning** as published flagged ~38% of training households -- a symptom of a weak classifier, not of 38% label
+  noise. A margin rule (model prefers the other spending side by >= 0.15) flags ~3%; both shares are recorded per fold.
+* Smoke test of one fold (need line): 167 s; all variants run. Full run 60 folds with 4 GPU workers.
+* **Results** (full run 2026-10-15 11:07-14:48, then `--report-only` with the bootstrap tables parallelised over label x scope):
+  `ensemble_plus` best on every line (vh 0.683, need 0.596, need w/o climate 0.625, burden 0.685); vs each classifier +0.012 to
+  +0.046, 21/80 country cells better, 0 worse. Bill model +0.017/+0.017/+0.002/+0.025 vs plain XGBoost (sig. need, burden) by
+  shifting recall to the spending side (need line: Double-Risk recall 0.52 -> 0.74, precision 0.48 -> 0.44). Tuned XGBoost +0.021
+  on vh only. Robust weights -0.001 on average. Imputed households -0.006 (2 better, 11 worse; FT-Transformer hurt) -- not
+  recommended. Region chosen in 100% of need-line rounds; partly asked questions never selected. B2 vs B2p +0.001 (4 better,
+  2 worse of 60): still no climate effect. Targeting: 70% of Double Risk reached by helping the top 30-35% (need lines) vs 40% with
+  income alone. "Not sure" at 20% raises balanced accuracy 0.02-0.04, flagging all groups about equally.
+* Tests: tests/test_v5.py (17 new); 126 pass. Not changed: version-4 tables and figures (`table_v4_*`, `v4_*`) stay as the
+  four-country record.

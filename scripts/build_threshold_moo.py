@@ -16,6 +16,8 @@ multi-objective optimisation), the Pareto front is kept, and one option is chose
 weights). f2 is what stops the optimisation from simply choosing lines that are easy to predict because they measure home size.
 
 Outputs: outputs/tables/table_threshold_moo.csv; artifacts/identification/moo_thresholds.json; outputs/figures/threshold_moo.
+With --v5 the same optimisation runs on the version-5 cohort (the four countries + Spain): table_threshold_moo_v5.csv,
+moo_thresholds_v5.json, threshold_moo_v5.
 """
 from __future__ import annotations
 import json, sys, warnings
@@ -32,6 +34,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lib.identification.data import COUNTRIES, load_development_frame
 from lib.identification.lines_v4 import MOO_PATH, eligible, expenditure_flag, make_labels
+from lib.identification.lines_v5 import MOO_PATH_V5
 from lib.identification.models3 import fit as fit_model
 from lib.identification.stages import B0_FEATURES
 from lib.reporting.figures import save_figure
@@ -75,11 +78,18 @@ def topsis(df: pd.DataFrame, cols: list[str]) -> np.ndarray:
     v = v / np.sqrt((v ** 2).sum(axis=0))
     best, worst = v.max(axis=0), v.min(axis=0)
     d_best, d_worst = np.sqrt(((v - best) ** 2).sum(axis=1)), np.sqrt(((v - worst) ** 2).sum(axis=1))
+    if len(v) == 1:                                   # a single feasible option is chosen by default
+        return np.ones(1)
     return d_worst / (d_best + d_worst)
 
 
 def main() -> None:
-    dev = load_development_frame()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--v5", action="store_true", help="version-5 cohort: the four countries + Spain")
+    v5 = ap.parse_args().v5
+    suffix, moo_path = ("_v5", MOO_PATH_V5) if v5 else ("", MOO_PATH)
+    dev = load_development_frame(extended=v5)
     rows = []
     for fam in FAMILIES:
         e = eligible(dev, fam)
@@ -110,9 +120,9 @@ def main() -> None:
                        for k in ["cutoff", "tau"] + objs}
     vh = t[(t.family == "pct") & (t.cutoff == 3) & (t.tau == 0.80)].iloc[0]
     chosen["van_hove_benchmark"] = {"cutoff": 3, "tau": 0.80, **{k: float(vh[k]) for k in objs}}
-    MOO_PATH.parent.mkdir(parents=True, exist_ok=True)
-    MOO_PATH.write_text(json.dumps(chosen, indent=2) + "\n")
-    t.to_csv(ROOT / "outputs/tables/table_threshold_moo.csv", index=False)
+    moo_path.parent.mkdir(parents=True, exist_ok=True)
+    moo_path.write_text(json.dumps(chosen, indent=2) + "\n")
+    t.to_csv(ROOT / f"outputs/tables/table_threshold_moo{suffix}.csv", index=False)
 
     fig, axes = plt.subplots(1, len(FAMILIES), figsize=(16, 4.6))
     names = {"pct": "Country percentile", "needqr": "Quantile Regression on need", "burden": "Energy burden"}
@@ -134,7 +144,7 @@ def main() -> None:
         ax.grid(color="#e1e0d9", lw=0.6); ax.legend(frameon=False, fontsize=7.5, loc="lower left")
     fig.colorbar(sc, ax=axes, label="income cut-off (bracket)", shrink=0.8)
     fig.suptitle("Choosing the thresholds: every option (size = smallest class, f3); red rings = Pareto front", fontsize=10.5, x=0.01, ha="left")
-    save_figure(fig, ROOT / "outputs/figures/threshold_moo")
+    save_figure(fig, ROOT / f"outputs/figures/threshold_moo{suffix}")
     plt.close(fig)
     print(json.dumps(chosen, indent=2))
 

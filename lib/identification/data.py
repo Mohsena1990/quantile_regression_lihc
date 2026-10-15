@@ -18,10 +18,11 @@ import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from data.enable import HOUSEHOLD_SHEET, RETAINED_COUNTRY_NAMES, retained_cohort
+from data.enable import EXTENDED_COUNTRY_CODES, EXTENDED_COUNTRY_NAMES, HOUSEHOLD_SHEET, RETAINED_COUNTRY_CODES, RETAINED_COUNTRY_NAMES, retained_cohort
 from lib.features.household_features import (BASE_RAW_COLUMNS, RAW_COLUMNS as FEATURE_RAW_COLUMNS, REFERENCE_YEAR, engineer,
                                              stack_features)
 from lib.features.engineered import RAW_EXTRA, engineer_extra
+from lib.features.partial_modules import RAW_PARTIAL, partial_modules
 from lib.features.survey_items import ITEMS, clean_items
 from lib.geography.climate_regions import climate_region
 from lib.labels.income_harmonization import harmonized_income_percentile
@@ -30,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[2]
 COMP = [f"S1{g}c{i}" for g in ("A", "B") for i in (1, 2, 3)]
 DEV_PARTITIONS = ("train", "validation")
 COUNTRIES = list(RETAINED_COUNTRY_NAMES)
+COUNTRIES_V5 = list(EXTENDED_COUNTRY_NAMES)          # version 5: the four countries + Spain
 NOMINAL = {"H1", "employment_status", "primary_heating_fuel", "gender"}  # one-hot in linear models
 SOCIO_ECONOMIC = ["education_level", "employment_status", "vehicle_count", "gender", "area_type",
                   "tv_age", "dishwasher_age", "heating_control", "elderly_count", "children_count"]
@@ -55,22 +57,24 @@ def tier_features(cfg: dict | None = None, *, include_income: bool = False) -> d
     return tiers
 
 
-def load_development_frame() -> pd.DataFrame:
+def load_development_frame(extended: bool = False) -> pd.DataFrame:
     """One row per train/validation household with features, cost, income bracket, weights.
-    Sentinel codes are already NaN (H1/H2 via engineer(); S7/S8 here)."""
-    return _load_frame(DEV_PARTITIONS)
+    Sentinel codes are already NaN (H1/H2 via engineer(); S7/S8 here). `extended=True` is the version-5 cohort (the four
+    countries + Spain) with the partially asked survey modules (lib/features/partial_modules.py) and the region (NUTS2) code."""
+    return _load_frame(DEV_PARTITIONS, extended)
 
 
-def _load_frame(partitions: tuple[str, ...]) -> pd.DataFrame:
+def _load_frame(partitions: tuple[str, ...], extended: bool = False) -> pd.DataFrame:
     """Shared loader. Callers outside this package must use load_development_frame(); the only other caller is the
     guarded final-test module."""
     cfg = json.loads((ROOT / "config/pipeline.json").read_text())
-    base = pd.read_parquet(ROOT / "artifacts/data/harmonised_observed_cost.parquet")[
-        ["UID", "income_bracket", "w", "observed_energy_cost_eur_reference"]]
+    cost_file = "harmonised_observed_cost_extended.parquet" if extended else "harmonised_observed_cost.parquet"
+    base = pd.read_parquet(ROOT / "artifacts/data" / cost_file)[["UID", "income_bracket", "w", "observed_energy_cost_eur_reference"]]
     cols = list(dict.fromkeys(["UID", "Country", "NUTS1", "NUTS2", "NUTS3"] + BASE_RAW_COLUMNS + FEATURE_RAW_COLUMNS + COMP + WELFARE_SCREEN
-                              + RAW_EXTRA + ITEMS))
+                              + RAW_EXTRA + ITEMS + (RAW_PARTIAL if extended else [])))
     hh = retained_cohort(pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx",
-                                       sheet_name=HOUSEHOLD_SHEET, usecols=cols))
+                                       sheet_name=HOUSEHOLD_SHEET, usecols=cols),
+                         EXTENDED_COUNTRY_CODES if extended else RETAINED_COUNTRY_CODES)
     hh["household_size"] = hh[COMP].apply(pd.to_numeric, errors="coerce").sum(axis=1, min_count=len(COMP))
     hh = engineer(hh)
     # Impossible / "don't know" values (fixed 2026-10-13): floor-area code 7 is "don't know" and was read as the band above
@@ -102,7 +106,13 @@ def _load_frame(partitions: tuple[str, ...]) -> pd.DataFrame:
     d = d[d.partition.isin(partitions)].copy()
     d["income_bracket"] = pd.to_numeric(d.income_bracket, errors="coerce").where(lambda s: s.between(1, 10))
     d["cost"] = pd.to_numeric(d.observed_energy_cost_eur_reference, errors="coerce")
-    d["income_percentile"] = harmonized_income_percentile(d.income_bracket, d.country)
+    # The frozen survey-weighted bracket table covers the four countries only; Spain's households get no percentile (unused in v5).
+    four = d.country.isin(RETAINED_COUNTRY_NAMES)
+    d["income_percentile"] = np.nan
+    d.loc[four, "income_percentile"] = harmonized_income_percentile(d.income_bracket[four], d.country[four])
+    if extended:
+        d = partial_modules(d)
+        d["region"] = d["NUTS2"].astype(str).str.strip()       # NUTS2 code as one categorical variable (version 5, idea 3)
     # Version-4 features (lib/features/indices.py): regional context (scripts/acquire_regional_context.py), household indices
     # and climate x dwelling features. Optional so earlier stages run without the downloads.
     context = ROOT / "artifacts/reference/regional_context.csv"

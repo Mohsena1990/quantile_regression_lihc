@@ -1,7 +1,7 @@
 """Acquire the stage-B2 climate inputs from the Open-Meteo historical weather API (archive-api.open-meteo.com).
 
 Open-Meteo serves the ECMWF reanalyses (ERA5, ERA5-Land, and CERRA over Europe; default "best match" model) as daily
-aggregates for any coordinate, without the CDS queue. One point per household climate region (NUTS3; Poland NUTS2): the
+aggregates for any coordinate, without the CDS queue. One point per household climate region of the version-5 cohort (four countries + Spain; NUTS3, Poland NUTS2): the
 region polygon's representative point (always inside the polygon; Open-Meteo picks a land grid cell of similar elevation
 and downscales to the 90 m terrain height). Requests (UTC days):
   survey  2016-10-01 .. 2017-12-31, 14 daily variables (temperature mean/max/min, apparent temperature mean/min, relative
@@ -25,7 +25,7 @@ import requests_cache
 from retry_requests import retry
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from data.enable import HOUSEHOLD_SHEET, retained_cohort
+from data.enable import EXTENDED_COUNTRY_CODES, HOUSEHOLD_SHEET, retained_cohort
 from lib.geography.climate_regions import climate_region, region_geometries
 
 OUT = ROOT / "artifacts/climate/openmeteo"
@@ -39,7 +39,7 @@ REQUESTS = {"survey": ("2016-10-01", "2017-12-31", SURVEY_DAILY)}
 
 def region_points() -> pd.DataFrame:
     hh = retained_cohort(pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx", sheet_name=HOUSEHOLD_SHEET,
-                                       usecols=["UID", "Country", "NUTS1", "NUTS2", "NUTS3"]))
+                                       usecols=["UID", "Country", "NUTS1", "NUTS2", "NUTS3"]), EXTENDED_COUNTRY_CODES)
     hh["climate_region"] = climate_region(hh)
     geo = region_geometries(hh.climate_region.unique())
     pts = geo.geometry.representative_point()

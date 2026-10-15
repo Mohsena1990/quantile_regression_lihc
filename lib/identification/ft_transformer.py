@@ -68,11 +68,13 @@ class FTTransformerClassifier:
               if self.cat_ else np.zeros((len(x), 0), np.int64))
         return torch.tensor(xn, device=DEVICE), torch.tensor(xc, device=DEVICE)
 
-    def fit(self, x: pd.DataFrame, y, x_val: pd.DataFrame | None = None, y_val=None):
+    def fit(self, x: pd.DataFrame, y, x_val: pd.DataFrame | None = None, y_val=None, sample_weight=None):
+        """`sample_weight` (optional, training households only) multiplies each household's class-weighted loss."""
         torch.manual_seed(self.seed); np.random.seed(self.seed)
         y = np.asarray(y, int)
+        sw = np.ones(len(y)) if sample_weight is None else np.asarray(sample_weight, float)
         if x_val is None:
-            x, x_val, y, y_val = train_test_split(x, y, test_size=0.15, stratify=y, random_state=self.seed)
+            x, x_val, y, y_val, sw, _ = train_test_split(x, y, sw, test_size=0.15, stratify=y, random_state=self.seed)
         y_val = np.asarray(y_val, int)
         self.features_ = list(x.columns)
         self.cat_ = [c for c in self.features_ if c in self.cat_features]
@@ -86,6 +88,8 @@ class FTTransformerClassifier:
         counts = np.bincount(y, minlength=4).astype(float)
         weight = torch.tensor(np.where(counts > 0, counts.sum() / (4 * np.maximum(counts, 1)), 0.0), dtype=torch.float32, device=DEVICE)
         loss_fn = nn.CrossEntropyLoss(weight=weight)
+        per_hh = nn.CrossEntropyLoss(weight=weight, reduction="none")
+        swt = torch.tensor(sw, dtype=torch.float32, device=DEVICE)
         opt = torch.optim.AdamW(self.model_.parameters(), lr=self.lr, weight_decay=1e-5)
         xn, xc = self._encode(x); vn, vc = self._encode(x_val)
         yt, yv = torch.tensor(y, device=DEVICE), torch.tensor(y_val, device=DEVICE)
@@ -96,7 +100,8 @@ class FTTransformerClassifier:
             for idx in torch.randperm(len(y), generator=g).split(self.batch):
                 idx = idx.to(DEVICE)
                 opt.zero_grad()
-                loss = loss_fn(self.model_(xn[idx], xc[idx])[0], yt[idx])
+                wb = swt[idx] * weight[yt[idx]]
+                loss = (per_hh(self.model_(xn[idx], xc[idx])[0], yt[idx]) * swt[idx]).sum() / wb.sum().clamp_min(1e-8)
                 loss.backward(); opt.step()
             self.model_.eval()
             with torch.no_grad():

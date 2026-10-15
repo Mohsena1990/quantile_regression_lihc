@@ -41,14 +41,14 @@ def main() -> None:
                      "grid_elevation": float(s.grid_elevation.iloc[0])})
     res = pd.DataFrame(rows).merge(points, on="climate_region", validate="one_to_one")
     res["level"] = np.where(res.climate_region.str.len() == 5, "NUTS3", "NUTS2")
-    res["country"] = res.climate_region.str[:2].map({"BG": "Bulgaria", "HU": "Hungary", "IT": "Italy", "PL": "Poland"})
+    res["country"] = res.climate_region.str[:2].map({"BG": "Bulgaria", "HU": "Hungary", "IT": "Italy", "PL": "Poland", "ES": "Spain"})
     bad = {f: res.loc[~res[f].between(*RANGES[f]), "climate_region"].tolist() for f in B2_CLIMATE}
     bad = {f: v for f, v in bad.items() if v}
     qc = {"source": "Open-Meteo historical weather API (best-match ECMWF reanalysis) + ERA5-Land monthly normals, one representative point per region",
           "regions": len(res), "finite": bool(np.isfinite(res[B2_CLIMATE].to_numpy(float)).all()), "out_of_range": bad,
           "survey_sha256": hashlib.sha256((OM / "survey_daily.parquet").read_bytes()).hexdigest(),
           "normal_sha256": hashlib.sha256((ROOT / "artifacts/climate/era5_normals/points_monthly.parquet").read_bytes()).hexdigest()}
-    qc["qc_all_clear"] = qc["regions"] == 121 and qc["finite"] and not bad
+    qc["qc_all_clear"] = qc["regions"] == len(points) and qc["finite"] and not bad
     B2.mkdir(parents=True, exist_ok=True)
     (B2 / "region_climate.qc.json").write_text(json.dumps(qc, indent=2) + "\n")
     if not qc["qc_all_clear"]:

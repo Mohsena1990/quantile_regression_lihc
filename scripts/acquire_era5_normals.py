@@ -19,6 +19,7 @@ import xarray as xr
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "artifacts/climate/era5_normals"
 AREA = [55.5, 6.0, 35.0, 30.0]
+AREA_SPAIN = [44.5, -18.5, 27.5, 4.5]          # mainland Spain, Balearic and Canary Islands (version-5 cohort)
 REQUEST = {"product_type": ["monthly_averaged_reanalysis"], "variable": ["2m_temperature"],
            "year": [str(y) for y in range(1991, 2021)], "month": [f"{m:02d}" for m in range(1, 13)], "time": ["00:00"],
            "data_format": "netcdf", "download_format": "unarchived", "area": AREA}
@@ -27,26 +28,37 @@ REQUEST = {"product_type": ["monthly_averaged_reanalysis"], "variable": ["2m_tem
 def main() -> None:
     import cdsapi
     OUT.mkdir(parents=True, exist_ok=True)
-    nc = OUT / "t2m_monthly_1991_2020.nc"
-    if not nc.exists():
-        try:
-            cdsapi.Client(quiet=True).retrieve("reanalysis-era5-land-monthly-means", REQUEST, str(nc))
-        except Exception as e:
-            raise SystemExit(f"BLOCKED_EXTERNAL_CDS: {e}")
-    (OUT / "manifest.json").write_text(json.dumps({"dataset": "reanalysis-era5-land-monthly-means", "doi": "10.24381/cds.68d2bb30",
-                                                   "request": REQUEST, "sha256": hashlib.sha256(nc.read_bytes()).hexdigest()}, indent=2) + "\n")
-    ds = xr.open_dataset(nc)
-    t = ds["t2m"].rename({"valid_time": "time"}) if "valid_time" in ds["t2m"].dims else ds["t2m"]
-    first = t.isel(time=0).to_numpy()
-    lat, lon = t.latitude.to_numpy(), t.longitude.to_numpy()
-    iy, ix = np.where(np.isfinite(first))
+    files = {"t2m_monthly_1991_2020.nc": AREA, "t2m_monthly_1991_2020_spain.nc": AREA_SPAIN}
+    manifest = {}
+    for name, area in files.items():
+        nc = OUT / name
+        if not nc.exists():
+            try:
+                cdsapi.Client(quiet=True).retrieve("reanalysis-era5-land-monthly-means", {**REQUEST, "area": area}, str(nc))
+            except Exception as e:
+                raise SystemExit(f"BLOCKED_EXTERNAL_CDS: {e}")
+        manifest[name] = {"dataset": "reanalysis-era5-land-monthly-means", "doi": "10.24381/cds.68d2bb30",
+                          "request": {**REQUEST, "area": area}, "sha256": hashlib.sha256(nc.read_bytes()).hexdigest()}
+    (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    grids = []
+    for name in files:
+        ds = xr.open_dataset(OUT / name)
+        t = ds["t2m"].rename({"valid_time": "time"}) if "valid_time" in ds["t2m"].dims else ds["t2m"]
+        iy, ix = np.where(np.isfinite(t.isel(time=0).to_numpy()))
+        grids.append((t, t.latitude.to_numpy(), t.longitude.to_numpy(), iy, ix))
     pts = pd.read_csv(ROOT / "artifacts/climate/openmeteo/points.csv")
     rows = []
     for r in pts.itertuples():
-        k = int(np.argmin((lat[iy] - r.latitude) ** 2 + ((lon[ix] - r.longitude) * np.cos(np.radians(r.latitude))) ** 2))
-        series = t.isel(latitude=iy[k], longitude=ix[k]).to_numpy() - 273.15
+        best = None
+        for t, lat, lon, iy, ix in grids:                       # nearest valid land cell over both grids
+            dist = (lat[iy] - r.latitude) ** 2 + ((lon[ix] - r.longitude) * np.cos(np.radians(r.latitude))) ** 2
+            k = int(np.argmin(dist))
+            if best is None or dist[k] < best[0]:
+                best = (dist[k], t, lat[iy[k]], lon[ix[k]], iy[k], ix[k])
+        _, t, la, lo, y_, x_ = best
+        series = t.isel(latitude=y_, longitude=x_).to_numpy() - 273.15
         rows.append(pd.DataFrame({"climate_region": r.climate_region, "month": pd.DatetimeIndex(t.time.to_numpy()).to_period("M").to_timestamp(),
-                                  "t2m": series, "grid_latitude": lat[iy[k]], "grid_longitude": lon[ix[k]]}))
+                                  "t2m": series, "grid_latitude": la, "grid_longitude": lo}))
     out = pd.concat(rows, ignore_index=True)
     if out.t2m.isna().any() or len(out) != len(pts) * 360:
         raise SystemExit("BLOCKED_NORMALS_QC: incomplete monthly series")

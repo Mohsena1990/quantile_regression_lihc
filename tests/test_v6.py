@@ -68,3 +68,38 @@ def test_comfort_labels():
     assert out.cold_home.tolist()[:3] == [0, 1, 1] and out.cold_home.isna().tolist()[3:] == [True, True]
     assert out.hot_home.tolist()[:2] == [1, 0] and np.isnan(out.hot_home.iloc[2])
     assert out.winter_ep.tolist()[:3] == [0, 1, 0] and np.isnan(out.winter_ep.iloc[4])
+
+
+def test_grouped_splits_hold_out_whole_regions():
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from build_climate_power import grouped_splits
+    f = pd.DataFrame({"climate_region": np.repeat([f"R{i}" for i in range(12)], 10)})
+    splits = grouped_splits(f)
+    assert len(splits) == 15
+    for tr, te in splits:
+        assert not set(f.climate_region.iloc[tr]) & set(f.climate_region.iloc[te])
+    for r in range(3):
+        te_all = np.concatenate([te for _, te in splits[5 * r:5 * r + 5]])
+        assert sorted(te_all) == list(range(len(f)))                    # every household scored once per repeat
+
+
+def test_power_injection_is_within_country():
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from build_climate_power import labels_for
+    from unittest import mock
+    d = pd.DataFrame({"country": ["A"] * 4 + ["B"] * 4, "hdd_hs1617": [1000, 2000, 1000, 2000, 3000, 3000, 3000, 3000],
+                      "cost": 100.0})
+    with mock.patch("build_climate_power.make_labels", side_effect=lambda x, *a: x):
+        out = labels_for(d, "pct", 3, 0.8, 1.0)
+    assert np.isclose(out.cost[1] / out.cost[0], 2.0)                    # elasticity 1: twice the degree days, twice the bill
+    assert np.allclose(out.cost[4:], 100.0)                             # a country with one climate is unchanged
+    assert np.isclose(np.exp(np.log(out.cost[:4]).mean()), 100.0)       # centred within the country
+
+
+def test_mixed_bill_model_uses_fisher_scoring():
+    from lib.identification import bill_mixed
+    assert bill_mixed.OPTIMIZER_COV == "fisher_scoring"

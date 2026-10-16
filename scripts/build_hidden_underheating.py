@@ -12,6 +12,8 @@ Labels: Van Hove (vh) and the three dynamic thresholds (dyn_m1/m5/m7). Developme
 
 Outputs: outputs/tables/table_hidden_underheating.csv (per label x country), table_hidden_underheating_by_class.csv;
 outputs/figures/hidden_underheating.
+--v5: the version-5 lines (Van Hove, Quantile Regression on need with and without climate, energy burden) on the five study
+countries -> the same files with the suffix _v5 (figure panels: the need line).
 """
 from __future__ import annotations
 import sys, warnings
@@ -25,7 +27,7 @@ from scipy import stats
 warnings.filterwarnings("ignore")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from lib.identification.data import COUNTRIES, load_development_frame
+from lib.identification.data import COUNTRIES as COUNTRIES_4, COUNTRIES_V5, load_development_frame
 from lib.identification.labels import CLASS_NAMES, add_labels
 from lib.identification.required_heat import hidden_underheating
 from lib.reporting.figures import save_figure
@@ -35,13 +37,28 @@ INK, INK2, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#
 CLASS_COLOR = {"No Risk": "#c9c8c1", "Income Risk": "#eda100", "Expenditure Risk": "#2a78d6", "Double Risk": "#d1342f"}
 
 
-def main() -> None:
+def labelled(v5: bool):
+    if v5:
+        from lib.identification.lines_v5 import study_labels_v5
+        dev = load_development_frame(extended=True)
+        for label, (lab, _) in study_labels_v5(dev).items():
+            if label in ("vh", "needqr", "needqr_noclim", "burden"):
+                yield label, lab
+        return
     dev = load_development_frame()
     if "hdd_hs1617" not in dev.columns:
         raise SystemExit("B2 climate missing: run scripts/acquire_openmeteo_b2.py and scripts/fuse_openmeteo_b2.py first")
-    rows, by_class = [], []
     for label, kind in LABELS.items():
-        lab = hidden_underheating(add_labels(dev, cost_kind=kind))
+        yield label, add_labels(dev, cost_kind=kind)
+
+
+def main() -> None:
+    v5 = "--v5" in sys.argv
+    COUNTRIES = COUNTRIES_V5 if v5 else COUNTRIES_4
+    sfx, panel = ("_v5", "needqr") if v5 else ("", "hansen_qr")
+    rows, by_class = [], []
+    for label, lab in labelled(v5):
+        lab = hidden_underheating(lab)
         lab["class_name"] = lab.y.map(CLASS_NAMES)
         for c in COUNTRIES:
             g = lab[(lab.country == c) & lab.hidden_underheating.notna()]
@@ -63,23 +80,23 @@ def main() -> None:
             t = g.groupby("class_name").hidden_underheating.agg(["size", "mean"]).reset_index()
             by_class.append(t.rename(columns={"size": "n", "mean": "hidden_underheating_rate"}).assign(label=label, country=c))
     out = pd.DataFrame(rows)
-    out.to_csv(ROOT / "outputs/tables/table_hidden_underheating.csv", index=False)
+    out.to_csv(ROOT / f"outputs/tables/table_hidden_underheating{sfx}.csv", index=False)
     bc = pd.concat(by_class, ignore_index=True)
-    bc.to_csv(ROOT / "outputs/tables/table_hidden_underheating_by_class.csv", index=False)
+    bc.to_csv(ROOT / f"outputs/tables/table_hidden_underheating_by_class{sfx}.csv", index=False)
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.4))
     fig.patch.set_facecolor(SURFACE)
-    d = bc[bc.label == "hansen_qr"]
+    d = bc[bc.label == panel]
     ax = axes[0]
     for i, cls in enumerate(CLASS_NAMES.values()):
         v = d[d.class_name == cls].set_index("country").reindex(COUNTRIES).hidden_underheating_rate
         ax.bar(np.arange(len(COUNTRIES)) + (i - 1.5) * 0.2, v * 100, width=0.19, color=CLASS_COLOR[cls], label=cls)
     ax.set_xticks(range(len(COUNTRIES)), COUNTRIES)
     ax.set_ylabel("% hidden under-heaters", fontsize=8.5, color=INK2)
-    ax.set_title("Hidden under-heating by class (Hansen + Quantile Regression label)", fontsize=10, loc="left")
+    ax.set_title(f"Hidden under-heating by class ({'Quantile Regression on need' if v5 else 'Hansen + Quantile Regression'} label)", fontsize=10, loc="left")
     ax.legend(frameon=False, fontsize=7.5)
     ax = axes[1]
-    o = out[out.label == "hansen_qr"].set_index("country").reindex(COUNTRIES)
+    o = out[out.label == panel].set_index("country").reindex(COUNTRIES)
     x = np.arange(len(COUNTRIES))
     for j, (col, name, color) in enumerate((("hardship_low_income_hidden", "low income, hidden under-heater", "#d1342f"),
                                             ("hardship_low_income_other", "low income, other", "#eda100"),
@@ -95,7 +112,7 @@ def main() -> None:
             a.spines[s].set_visible(False)
         a.tick_params(colors=INK2, labelsize=8)
     fig.tight_layout()
-    save_figure(fig, ROOT / "outputs/figures/hidden_underheating")
+    save_figure(fig, ROOT / f"outputs/figures/hidden_underheating{sfx}")
     plt.close(fig)
     pd.set_option("display.width", 220)
     print(out.round(3).to_string(index=False))

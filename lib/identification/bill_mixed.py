@@ -9,6 +9,9 @@ region (France, the UK) form one group per country; a region not seen in trainin
   log(bill) = F(x) + u_region + e,   F = boosted trees (depth 4, learning rate 0.05, 300 rounds, column subsampling 0.8)
   P(above line) = 1 - Phi((log thr - mean) / sd), mean and sd from GPBoost's predictive distribution (it includes the residual
   variance and the uncertainty of the region effect).
+The region variance is estimated by Fisher scoring: GPBoost's default (L-BFGS) aborted the process with an internal assertion on one
+leave-one-country-out training set (energy-burden line without Bulgaria); Fisher scoring is the classical method for Gaussian random
+effects and ran on every training set.
 """
 from __future__ import annotations
 import numpy as np
@@ -19,6 +22,7 @@ from .models3 import categorical
 PARAMS = {"learning_rate": 0.05, "max_depth": 4, "num_leaves": 15, "min_data_in_leaf": 20, "feature_fraction": 0.8,
           "verbose": -1}                         # GPBoost does not allow row bagging
 ROUNDS = 300
+OPTIMIZER_COV = "fisher_scoring"
 
 
 def _groups(frame: pd.DataFrame) -> np.ndarray:
@@ -34,6 +38,7 @@ class MixedBillModel:
         self.levels = {c: {v: i for i, v in enumerate(sorted(train[c].dropna().astype(str).unique()))} for c in self.cat}
         x, y = self._x(train), np.log(train.cost.clip(lower=1.0).to_numpy())
         gp = gpb.GPModel(group_data=_groups(train), likelihood="gaussian")
+        gp.set_optim_params(params={"optimizer_cov": OPTIMIZER_COV})
         data = gpb.Dataset(x, y, categorical_feature=[self.feats.index(c) for c in self.cat] or "auto")
         self.bst = gpb.train({**PARAMS, "seed": seed}, data, gp_model=gp, num_boost_round=ROUNDS)
 

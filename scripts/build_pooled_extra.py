@@ -81,10 +81,24 @@ def run_fold(label, focus, extra, conly, spec, fold, tr, te):
     return label, fold, te, out
 
 
+def refit_mixed(label, focus, extra, conly, spec, fold, tr, te):
+    seed = 20261015 + fold
+    test = focus.iloc[te]
+    prior = np.bincount(focus.y.iloc[tr], minlength=4) / len(tr)
+    thr_te = fold_threshold(focus.iloc[tr], test, spec["family"], spec["tau"])
+    out = {}
+    for arm in ("five", "pool"):
+        train = focus.iloc[tr] if arm == "five" else pd.concat([focus.iloc[tr], extra], ignore_index=True)
+        bill_train = pd.concat([train, conly if arm == "pool" else conly[conly.pool == "focus"]], ignore_index=True)
+        out[(arm, "B1", "bill_mixed")] = four_class(test.li.to_numpy(), MixedBillModel(bill_train, B1, seed + 2).p_above(test, thr_te), prior)
+    return label, fold, out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--report-only", action="store_true")
+    ap.add_argument("--refit-bill-mixed", action="store_true", help="refit only the multilevel bill model in the saved results")
     a = ap.parse_args()
     pool = load_pool_frame()
     dev, ext = pool[pool.pool == "focus"].reset_index(drop=True), pool[pool.pool == "extra"].reset_index(drop=True)
@@ -101,6 +115,14 @@ def main():
     print(sample.groupby(["label", "pool"]).households.sum().to_string(), flush=True)
     if a.report_only:
         res = pickle.load(open(ART / "v6_pool_results.pkl", "rb"))
+    elif a.refit_bill_mixed:
+        old = pickle.load(open(ART / "v6_pool_results.pkl", "rb"))
+        splits = {k: outer_splits(f, n_repeats=N_REPEATS) for k, (f, _) in labs.items()}
+        new = Parallel(n_jobs=a.jobs)(delayed(refit_mixed)(k, labs[k][0], extras[k], conly, labs[k][1], fold, *splits[k][fold])
+                                      for k, fold, _, _ in old)
+        upd = {(k, fold): out for k, fold, out in new}
+        res = [(k, fold, te, {**out, **upd[(k, fold)]}) for k, fold, te, out in old]
+        pickle.dump(res, open(ART / "v6_pool_results.pkl", "wb"))
     else:
         jobs = [(k, f, extras[k], conly, spec, i, tr, te) for k, (f, spec) in labs.items()
                 for i, (tr, te) in enumerate(outer_splits(f, n_repeats=N_REPEATS))]

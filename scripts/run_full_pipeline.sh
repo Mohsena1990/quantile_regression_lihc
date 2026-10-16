@@ -88,6 +88,12 @@ run python scripts/fuse_openmeteo_b2.py --extra
 run python scripts/build_climate_multilevel.py
 run python scripts/build_climate_labels.py --jobs 4
 run python scripts/build_pooled_extra.py --jobs 4
+run python scripts/build_v6_best_vs_v5.py
+run python scripts/build_bill_climate.py --jobs 6
+run python scripts/build_climate_power.py --jobs 6
+run python scripts/build_climate_power.py --grouped --jobs 6
+run python scripts/build_hidden_underheating.py --v5
+run python scripts/build_loco_validation.py --jobs 4
 run python scripts/build_hidden_underheating.py       # sensitivity (b): modelled heating need, hidden under-heating
 run python scripts/freeze_identification_selection.py     # pre-register model choices in config/final_selection.json
 

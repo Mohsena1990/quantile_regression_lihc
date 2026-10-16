@@ -372,23 +372,57 @@ the climate range is small. Climate shapes the *level* of the bill; it does litt
 
 | Line | Version-5 recipe (ensemble_plus, fixed B1 variables, five countries) | + extra countries | + multilevel bill model and extra countries (**ensemble_mixed**) |
 |---|---|---|---|
-| Van Hove | 0.703 | 0.702 | **0.717** (+0.014, significant) |
+| Van Hove | 0.703 | 0.702 | **0.713** (+0.010, not significant) |
 | Need line | 0.599 | 0.599 | **0.616** (+0.017, significant) |
-| Need, no climate | 0.633 | 0.623 | 0.639 (+0.007) |
-| Energy burden | 0.711 | 0.709 | 0.711 (0.000) |
+| Need, no climate | 0.633 | 0.623 | 0.637 (+0.005) |
+| Energy burden | 0.711 | 0.709 | 0.710 (-0.001) |
 
 * **Extra countries alone hardly help** (on average +0.004; better in 23, worse in 18 of 240 comparisons). They help XGBoost on Van
   Hove's line (+0.03) but hurt CatBoost and the FT-Transformer slightly: households in Norway or the UK differ from those in the
   study countries in ways the models cannot fully separate.
 * **The multilevel bill model needs the extra households.** Trained on five countries it is worse than the plain bill model
-  (-0.03); with the extra countries it is as good, and inside the model average it gives the best scores so far on Van Hove's and the
-  need line. The gain is clear in Bulgaria and Italy; Poland loses (-0.03 to -0.05).
+  (-0.03); with the extra countries it is as good, and inside the model average it gives the best scores so far -- significantly
+  better than the version-5 recipe only on the need line (+0.017). The gain is clear in Bulgaria and Italy; Poland loses (-0.03 to
+  -0.05). (GPBoost's region variance is estimated by Fisher scoring; its default optimiser crashed on one training set.)
 * For the comfort outcomes, extra countries **hurt** (up to -0.05 AUC): indoor temperatures in France, Germany and Ukraine follow
   other patterns.
 
+**Follow-up checks (version 6b)** -- four further tests of the climate question and of how far the results carry:
+
+* **Climate inside the bill model** (`build_bill_climate.py`, `table_v6_bill_climate_deltas.csv`). Since climate drives the bill,
+  the bill models were given the climate measures too. They gain 0.01-0.02, but **the placebo climate gains exactly as much**
+  (-0.007 to +0.002; significantly better in 0 of 60 comparisons): the gain is region identity and home size, not climate.
+* **Power** (`build_climate_power.py`, `table_v6_power_bill.csv`, `table_v6_power_detection*.csv`, figures `v6_power`,
+  `v6_power_grouped`). *The bill:* pooled over countries the test detects an elasticity of 0.67-0.85 for the heating bill (observed
+  1.2: detected) and 0.51-0.62 for the total bill (observed 0.48-0.57: borderline). Within single countries only Italy and Spain have
+  enough climate range; elsewhere only a bill rising by more than 50% per 10% colder winter would show. *The four groups:* we made
+  the bills artificially more climate-dependent and reran the test. **With the region known, even an added elasticity of 2 is not
+  detected** -- climate has one value per region, so the region variable (and the placebo, whose shuffled values still identify
+  regions) absorbs any regional effect. That test can only ask whether the exact climate adds anything once the region is known.
+  The test that *can* see a regional effect scores households in **regions the model never saw** (region left out). It detects an
+  added elasticity of 1 in 6 of 9 cases and 2 in all. On the real data it finds a small, not significant gain for the bill model
+  (+0.012 to +0.020 against the placebo on Van Hove's and the climate-free need line, positive in 88-97% of resamples) and none for
+  the classifiers. **The real climate effect on the bill (about 0.5) is about half what this sample can detect in the four groups.**
+* **Hidden under-heating on five countries** (`build_hidden_underheating.py --v5`, `table_hidden_underheating_v5.csv`): 5-14% of
+  households and 6-20% of low-income ones; adding the low-income ones would enlarge Double Risk by 13-52% (need line); they report
+  no more income difficulty than other low-income households (Spain: less, 33% against 72%).
+* **An unseen country** (`build_loco_validation.py`, `table_v6_loco.csv`, figure `v6_loco`) -- the strictest check left, since the
+  locked test partition was used once before this design. Trained on the other four study countries + the six extra countries:
+
+| Line | Balanced accuracy in the unseen country (ensemble_mixed) | Same country inside training (cross-validation) |
+|---|---|---|
+| Van Hove | 0.52-0.70 | 0.66-0.78 |
+| Energy burden | 0.56-0.69 | 0.64-0.80 |
+| Need line | 0.51-0.53 | 0.56-0.67 |
+| Need, no climate | 0.50-0.59 | 0.61-0.68 |
+
+  **Models do not carry over to a new country**, least of all for need-based lines (no better than income alone). The income side
+  transfers (brackets are national deciles), the spending side does not: prices, fuel mix and what counts as "high" are national. In
+  an unseen country the simple Van Hove model (B0 CatBoost) does as well as the ensemble. Each country needs its own survey data.
+
 **Bottom line of version 6.** Climate *does* matter -- for the size of the energy bill (+12% heating bill per 10% colder winter),
-for summer energy poverty and for under-heating -- but not for sorting households into the four expenditure-based groups, which
-were designed to compare households with similar needs. More data helps only when the model can tell countries and regions apart
+for summer energy poverty and for under-heating. For sorting households into the four expenditure-based groups its effect is real but
+small -- about half of what 2,278 households in 131 regions can detect -- and fully captured once the region is known. More data helps only when the model can tell countries and regions apart
 (the multilevel model); simply adding households from other countries does not.
 
 
@@ -474,7 +508,7 @@ wood) or incomplete bills.
 ```bash
 pip install -r requirement.txt
 bash scripts/run_full_pipeline.sh        # every step in order; stops at the first error
-python -m pytest tests/ -q               # 131 tests
+python -m pytest tests/ -q               # 134 tests
 ```
 
 The version-5 steps, in order:
@@ -494,6 +528,11 @@ python scripts/acquire_openmeteo_b2.py --extra && python scripts/acquire_era5_no
 python scripts/build_climate_multilevel.py  # climate and the energy bill (about 20 minutes)
 python scripts/build_climate_labels.py      # cold / hot home, summer energy poverty, under-heating (about 30 minutes)
 python scripts/build_pooled_extra.py        # extra countries and the multilevel bill model on the four groups (GPU; about 1.5 hours)
+python scripts/build_v6_best_vs_v5.py       # paired comparison with the version-5 recipe
+python scripts/build_bill_climate.py        # climate inside the bill models (about 10 minutes)
+python scripts/build_climate_power.py && python scripts/build_climate_power.py --grouped   # power: region known / unseen regions
+python scripts/build_hidden_underheating.py --v5   # under-heating, five countries
+python scripts/build_loco_validation.py     # leave one country out (GPU; about 40 minutes)
 python scripts/build_hidden_underheating.py # Section 11
 ```
 

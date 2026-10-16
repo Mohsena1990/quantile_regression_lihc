@@ -635,3 +635,24 @@ User request: apply A (multilevel model), B (other ENABLE countries, pooled mode
   (-0.033), equal with extras; ensemble_mixed (CatBoost + XGBoost + FT + GPBoost bill, with extras) vs the v5 recipe: +0.014 vh,
   +0.017 need line (both significant), +0.007 need w/o climate, 0.000 burden; Bulgaria/Italy gain, Poland loses.
 * Tests: tests/test_v6.py (5).
+
+
+## 36. Version 6b: climate in the bill model, power, under-heating on five countries, leave one country out, paper draft (2026-10-16)
+
+* **Climate inside the bill models** (`build_bill_climate.py`): +0.01-0.02 over none, but -0.007 to +0.002 against the placebo;
+  0 of 60 comparisons significant.
+* **Power** (`build_climate_power.py`): bill MDE (2.8 SE) 0.67-0.85 heating, 0.51-0.62 total; per country only Italy/Spain usable.
+  Four-group simulation with the region known: an added elasticity of 2 was not detected -- a region-constant effect is absorbed
+  by the region identifier and by the placebo (shuffled values still identify regions), so that test cannot see regional effects by
+  design. Region-held-out test (`--grouped`, region variable removed): detects +1 in 6/9, +2 in 9/9; real data: bill model +0.012 to
+  +0.020 vs placebo (vh, need w/o climate; p_improve 0.88-0.97, n.s.), classifiers none.
+* **GPBoost**: the default covariance optimiser (L-BFGS) aborted the process (Eigen assertion) on one leave-one-country-out training
+  set (burden line without Bulgaria); switched to Fisher scoring everywhere, the version-6 multilevel bill models refitted
+  (`build_pooled_extra.py --refit-bill-mixed`). Changes: ensemble_mixed vh 0.717 -> 0.713 and its gain over the version-5 recipe
+  +0.014 (significant) -> +0.010 (not significant); need line +0.017 unchanged and significant. README and draft corrected.
+* **Hidden under-heating, five countries** (`build_hidden_underheating.py --v5`): 5-14% of households; same conclusions.
+* **Leave one country out** (`build_loco_validation.py`; the locked test partition is not reused): balanced accuracy in the unseen
+  country 0.52-0.70 (vh), 0.56-0.69 (burden), 0.51-0.53 (need line) against 0.56-0.80 in cross-validation; B0 CatBoost as good as
+  the ensemble out of country. Models are not portable across countries.
+* Bug fixed before running: duplicate `regions` column in the analytic power table.
+* Paper draft: docs/paper_draft.md. Tests: tests/test_v6.py now 8.

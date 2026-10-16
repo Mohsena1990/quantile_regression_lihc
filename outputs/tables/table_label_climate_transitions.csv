@@ -1,0 +1,97 @@
+scope,without_climate,with_climate,households
+All five,Double Risk,Double Risk,424
+All five,Double Risk,Expenditure Risk,0
+All five,Double Risk,Income Risk,42
+All five,Double Risk,No Risk,0
+All five,Expenditure Risk,Double Risk,0
+All five,Expenditure Risk,Expenditure Risk,423
+All five,Expenditure Risk,Income Risk,0
+All five,Expenditure Risk,No Risk,34
+All five,Income Risk,Double Risk,29
+All five,Income Risk,Expenditure Risk,0
+All five,Income Risk,Income Risk,726
+All five,Income Risk,No Risk,0
+All five,No Risk,Double Risk,0
+All five,No Risk,Expenditure Risk,36
+All five,No Risk,Income Risk,0
+All five,No Risk,No Risk,564
+Bulgaria,Double Risk,Double Risk,75
+Bulgaria,Double Risk,Expenditure Risk,0
+Bulgaria,Double Risk,Income Risk,7
+Bulgaria,Double Risk,No Risk,0
+Bulgaria,Expenditure Risk,Double Risk,0
+Bulgaria,Expenditure Risk,Expenditure Risk,138
+Bulgaria,Expenditure Risk,Income Risk,0
+Bulgaria,Expenditure Risk,No Risk,11
+Bulgaria,Income Risk,Double Risk,6
+Bulgaria,Income Risk,Expenditure Risk,0
+Bulgaria,Income Risk,Income Risk,128
+Bulgaria,Income Risk,No Risk,0
+Bulgaria,No Risk,Double Risk,0
+Bulgaria,No Risk,Expenditure Risk,17
+Bulgaria,No Risk,Income Risk,0
+Bulgaria,No Risk,No Risk,202
+Hungary,Double Risk,Double Risk,170
+Hungary,Double Risk,Expenditure Risk,0
+Hungary,Double Risk,Income Risk,14
+Hungary,Double Risk,No Risk,0
+Hungary,Expenditure Risk,Double Risk,0
+Hungary,Expenditure Risk,Expenditure Risk,67
+Hungary,Expenditure Risk,Income Risk,0
+Hungary,Expenditure Risk,No Risk,7
+Hungary,Income Risk,Double Risk,7
+Hungary,Income Risk,Expenditure Risk,0
+Hungary,Income Risk,Income Risk,274
+Hungary,Income Risk,No Risk,0
+Hungary,No Risk,Double Risk,0
+Hungary,No Risk,Expenditure Risk,7
+Hungary,No Risk,Income Risk,0
+Hungary,No Risk,No Risk,100
+Italy,Double Risk,Double Risk,44
+Italy,Double Risk,Expenditure Risk,0
+Italy,Double Risk,Income Risk,4
+Italy,Double Risk,No Risk,0
+Italy,Expenditure Risk,Double Risk,0
+Italy,Expenditure Risk,Expenditure Risk,104
+Italy,Expenditure Risk,Income Risk,0
+Italy,Expenditure Risk,No Risk,7
+Italy,Income Risk,Double Risk,5
+Italy,Income Risk,Expenditure Risk,0
+Italy,Income Risk,Income Risk,106
+Italy,Income Risk,No Risk,0
+Italy,No Risk,Double Risk,0
+Italy,No Risk,Expenditure Risk,4
+Italy,No Risk,Income Risk,0
+Italy,No Risk,No Risk,108
+Poland,Double Risk,Double Risk,116
+Poland,Double Risk,Expenditure Risk,0
+Poland,Double Risk,Income Risk,11
+Poland,Double Risk,No Risk,0
+Poland,Expenditure Risk,Double Risk,0
+Poland,Expenditure Risk,Expenditure Risk,29
+Poland,Expenditure Risk,Income Risk,0
+Poland,Expenditure Risk,No Risk,2
+Poland,Income Risk,Double Risk,8
+Poland,Income Risk,Expenditure Risk,0
+Poland,Income Risk,Income Risk,182
+Poland,Income Risk,No Risk,0
+Poland,No Risk,Double Risk,0
+Poland,No Risk,Expenditure Risk,3
+Poland,No Risk,Income Risk,0
+Poland,No Risk,No Risk,33
+Spain,Double Risk,Double Risk,19
+Spain,Double Risk,Expenditure Risk,0
+Spain,Double Risk,Income Risk,6
+Spain,Double Risk,No Risk,0
+Spain,Expenditure Risk,Double Risk,0
+Spain,Expenditure Risk,Expenditure Risk,85
+Spain,Expenditure Risk,Income Risk,0
+Spain,Expenditure Risk,No Risk,7
+Spain,Income Risk,Double Risk,3
+Spain,Income Risk,Expenditure Risk,0
+Spain,Income Risk,Income Risk,36
+Spain,Income Risk,No Risk,0
+Spain,No Risk,Double Risk,0
+Spain,No Risk,Expenditure Risk,5
+Spain,No Risk,Income Risk,0
+Spain,No Risk,No Risk,121

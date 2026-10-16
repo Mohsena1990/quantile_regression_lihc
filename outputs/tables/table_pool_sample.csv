@@ -1,0 +1,42 @@
+label,pool,country,households,class_no_risk,class_income_risk,class_expenditure_risk,class_double_risk
+p80,focus,Bulgaria,584,290,177,78,39
+p80,focus,Hungary,646,132,386,49,79
+p80,focus,Italy,382,168,137,55,22
+p80,focus,Poland,384,44,263,23,54
+p80,focus,Spain,282,168,59,50,5
+p80,extra,France,488,302,88,85,13
+p80,extra,Germany,402,260,61,80,1
+p80,extra,Norway,319,161,94,52,12
+p80,extra,Serbia,661,309,229,88,35
+p80,extra,Ukraine,684,326,221,93,44
+p80,extra,United Kingdom,592,291,182,71,48
+needqr,focus,Bulgaria,584,213,135,155,81
+needqr,focus,Hungary,646,107,288,74,177
+needqr,focus,Italy,382,115,110,108,49
+needqr,focus,Poland,384,35,193,32,124
+needqr,focus,Spain,282,128,42,90,22
+needqr,extra,Germany,402,197,36,143,26
+needqr,extra,Norway,319,115,70,98,36
+needqr,extra,Serbia,661,228,167,169,97
+needqr,extra,Ukraine,684,244,164,175,101
+needqr_noclim,focus,Bulgaria,584,219,134,149,82
+needqr_noclim,focus,Hungary,646,107,281,74,184
+needqr_noclim,focus,Italy,382,112,111,111,48
+needqr_noclim,focus,Poland,384,36,190,31,127
+needqr_noclim,focus,Spain,282,126,39,92,25
+needqr_noclim,extra,France,488,227,69,160,32
+needqr_noclim,extra,Germany,402,198,38,142,24
+needqr_noclim,extra,Norway,319,117,71,96,35
+needqr_noclim,extra,Serbia,661,225,171,172,93
+needqr_noclim,extra,Ukraine,684,244,164,175,101
+needqr_noclim,extra,United Kingdom,592,219,138,143,92
+burden,focus,Bulgaria,584,273,78,95,138
+burden,focus,Hungary,646,153,234,28,231
+burden,focus,Italy,382,138,91,85,68
+burden,focus,Poland,384,45,186,22,131
+burden,focus,Spain,282,145,25,73,39
+burden,extra,France,488,245,48,142,53
+burden,extra,Germany,402,232,9,108,53
+burden,extra,Norway,319,139,52,74,54
+burden,extra,Serbia,661,343,54,54,210
+burden,extra,United Kingdom,592,252,103,110,127

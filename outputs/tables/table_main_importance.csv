@@ -1,0 +1,1144 @@
+label,model_set,stage,model,feature,share,feature_name
+burden,full,B0,catboost,H1,0.051376990531792927,house detachment
+burden,full,B0,catboost,H2,0.009464205787357143,house age
+burden,full,B0,catboost,H3,0.039747645515061075,floor area
+burden,full,B0,catboost,birth_year,0.0134866434107862,birth year respondent
+burden,full,B0,catboost,country,0.07518391474046053,country
+burden,full,B0,catboost,heating_strategy,0.0020128163777821564,heating strategy (H9)
+burden,full,B0,catboost,household_size,0.02381313129276626,household size
+burden,full,B0,catboost,income_bracket,0.7849146523439937,income bracket
+burden,full,B0,ft_transformer,H1,0.11052399554447018,house detachment
+burden,full,B0,ft_transformer,H2,0.11141913036234813,house age
+burden,full,B0,ft_transformer,H3,0.10859104851187625,floor area
+burden,full,B0,ft_transformer,birth_year,0.11169386687857386,birth year respondent
+burden,full,B0,ft_transformer,country,0.15051576504172318,country
+burden,full,B0,ft_transformer,heating_strategy,0.11715094489527288,heating strategy (H9)
+burden,full,B0,ft_transformer,household_size,0.11176920272230545,household size
+burden,full,B0,ft_transformer,income_bracket,0.1783360460434301,income bracket
+burden,full,B0,xgboost,H1,0.03924861110024937,house detachment
+burden,full,B0,xgboost,H2,0.02318575873830895,house age
+burden,full,B0,xgboost,H3,0.030534602225478772,floor area
+burden,full,B0,xgboost,birth_year,0.03914296970764166,birth year respondent
+burden,full,B0,xgboost,country,0.05906722964103277,country
+burden,full,B0,xgboost,heating_strategy,0.02060155834463923,heating strategy (H9)
+burden,full,B0,xgboost,household_size,0.03528104026656095,household size
+burden,full,B0,xgboost,income_bracket,0.7529382299760883,income bracket
+burden,full,B1,catboost,H1,0.052795761939266196,house detachment
+burden,full,B1,catboost,H2,0.008444138707652035,house age
+burden,full,B1,catboost,H3,0.03592251097257886,floor area
+burden,full,B1,catboost,birth_year,0.012199458363011109,birth year respondent
+burden,full,B1,catboost,country,0.07624853289067865,country
+burden,full,B1,catboost,heating_strategy,0.002828729066781753,heating strategy (H9)
+burden,full,B1,catboost,household_size,0.02224472022832254,household size
+burden,full,B1,catboost,income_bracket,0.7803979615545323,income bracket
+burden,full,B1,catboost,income_eur_equiv,0.038414448644698215,income per adult equivalent (EUR)
+burden,full,B1,catboost,region,0.02573391489187885,region (NUTS2)
+burden,full,B1,catboost,wealth_index,0.01815660083731431,wealth index (house-value stand-in)
+burden,full,B1,ft_transformer,H1,0.10715165803869377,house detachment
+burden,full,B1,ft_transformer,H2,0.10457104618696925,house age
+burden,full,B1,ft_transformer,H3,0.10827826137748713,floor area
+burden,full,B1,ft_transformer,birth_year,0.10774821397936725,birth year respondent
+burden,full,B1,ft_transformer,country,0.14431594497351027,country
+burden,full,B1,ft_transformer,heating_strategy,0.11400598527113434,heating strategy (H9)
+burden,full,B1,ft_transformer,household_size,0.10741808643734788,household size
+burden,full,B1,ft_transformer,income_bracket,0.17009107549168717,income bracket
+burden,full,B1,ft_transformer,income_eur_equiv,0.08807538030800392,income per adult equivalent (EUR)
+burden,full,B1,ft_transformer,region,0.12662854570556245,region (NUTS2)
+burden,full,B1,ft_transformer,wealth_index,0.07833490623235326,wealth index (house-value stand-in)
+burden,full,B1,xgboost,H1,0.039361080414444756,house detachment
+burden,full,B1,xgboost,H2,0.022245529048444866,house age
+burden,full,B1,xgboost,H3,0.030802914030492498,floor area
+burden,full,B1,xgboost,birth_year,0.037918723181274275,birth year respondent
+burden,full,B1,xgboost,country,0.04939676877318818,country
+burden,full,B1,xgboost,heating_strategy,0.02003883895643634,heating strategy (H9)
+burden,full,B1,xgboost,household_size,0.03447977793143014,household size
+burden,full,B1,xgboost,income_bracket,0.739974462272395,income bracket
+burden,full,B1,xgboost,income_eur_equiv,0.03498328725640856,income per adult equivalent (EUR)
+burden,full,B1,xgboost,region,0.10146136941197126,region (NUTS2)
+burden,full,B1,xgboost,wealth_index,0.04736118538608557,wealth index (house-value stand-in)
+burden,full,B2,catboost,H1,0.027350123628898385,house detachment
+burden,full,B2,catboost,H2,0.008176546885405539,house age
+burden,full,B2,catboost,H3,0.025688839159996684,floor area
+burden,full,B2,catboost,birth_year,0.009342225235627274,birth year respondent
+burden,full,B2,catboost,country,0.04402445895107107,country
+burden,full,B2,catboost,density_x_urban,0.02012933832798247,density x urban area
+burden,full,B2,catboost,heating_need_kwh,0.024427990214438956,heating need (kWh)
+burden,full,B2,catboost,heating_need_pp,0.01219877048926608,heating need per person
+burden,full,B2,catboost,heating_strategy,0.002270435162977157,heating strategy (H9)
+burden,full,B2,catboost,household_size,0.018764241864298533,household size
+burden,full,B2,catboost,income_bracket,0.7624590032295513,income bracket
+burden,full,B2,catboost,income_eur_equiv,0.02892331642979223,income per adult equivalent (EUR)
+burden,full,B2,catboost,region,0.017072339087050994,region (NUTS2)
+burden,full,B2,catboost,solar_hs,0.06300800933242597,solar radiation (winter)
+burden,full,B2,catboost,wealth_index,0.027345570423389882,wealth index (house-value stand-in)
+burden,full,B2,catboost,wind_hs,0.025695774012085233,wind speed (winter)
+burden,full,B2,ft_transformer,H1,0.08621428050890116,house detachment
+burden,full,B2,ft_transformer,H2,0.07343769610472821,house age
+burden,full,B2,ft_transformer,H3,0.07607343551244367,floor area
+burden,full,B2,ft_transformer,birth_year,0.07809566881932552,birth year respondent
+burden,full,B2,ft_transformer,country,0.09535932037261304,country
+burden,full,B2,ft_transformer,density_x_urban,0.07890823141241737,density x urban area
+burden,full,B2,ft_transformer,heating_need_kwh,0.07653889132988954,heating need (kWh)
+burden,full,B2,ft_transformer,heating_need_pp,0.06979024217133127,heating need per person
+burden,full,B2,ft_transformer,heating_strategy,0.09808100266568928,heating strategy (H9)
+burden,full,B2,ft_transformer,household_size,0.08033939544167065,household size
+burden,full,B2,ft_transformer,income_bracket,0.13918127340080202,income bracket
+burden,full,B2,ft_transformer,income_eur_equiv,0.07723578301911078,income per adult equivalent (EUR)
+burden,full,B2,ft_transformer,region,0.10357247117151054,region (NUTS2)
+burden,full,B2,ft_transformer,solar_hs,0.09433836375340818,solar radiation (winter)
+burden,full,B2,ft_transformer,wealth_index,0.060107159573704445,wealth index (house-value stand-in)
+burden,full,B2,ft_transformer,wind_hs,0.07971760160873287,wind speed (winter)
+burden,full,B2,xgboost,H1,0.01999137521695171,house detachment
+burden,full,B2,xgboost,H2,0.016176647663958058,house age
+burden,full,B2,xgboost,H3,0.018924604208925815,floor area
+burden,full,B2,xgboost,birth_year,0.02672899380960918,birth year respondent
+burden,full,B2,xgboost,country,0.02495144029488632,country
+burden,full,B2,xgboost,density_x_urban,0.031395409699572684,density x urban area
+burden,full,B2,xgboost,heating_need_kwh,0.03756999898096084,heating need (kWh)
+burden,full,B2,xgboost,heating_need_pp,0.030066517101673063,heating need per person
+burden,full,B2,xgboost,heating_strategy,0.017441218017129403,heating strategy (H9)
+burden,full,B2,xgboost,household_size,0.030822345013720213,household size
+burden,full,B2,xgboost,income_bracket,0.7034525178349897,income bracket
+burden,full,B2,xgboost,income_eur_equiv,0.029809940145473068,income per adult equivalent (EUR)
+burden,full,B2,xgboost,region,0.09729827586554524,region (NUTS2)
+burden,full,B2,xgboost,solar_hs,0.052481811045324615,solar radiation (winter)
+burden,full,B2,xgboost,wealth_index,0.040517036354960116,wealth index (house-value stand-in)
+burden,full,B2,xgboost,wind_hs,0.04559238214312692,wind speed (winter)
+burden,full,B2p,catboost,H1,0.030430969656490003,house detachment
+burden,full,B2p,catboost,H2,0.007610505828123801,house age
+burden,full,B2p,catboost,H3,0.02816580068965458,floor area
+burden,full,B2p,catboost,birth_year,0.009123263821073388,birth year respondent
+burden,full,B2p,catboost,country,0.040567038715065,country
+burden,full,B2p,catboost,density_x_urban,0.019820739061875287,density x urban area
+burden,full,B2p,catboost,hdd_normal,0.0371625897728324,HDD normal 1991-2020
+burden,full,B2p,catboost,heating_need_kwh,0.019893869435778148,heating need (kWh)
+burden,full,B2p,catboost,heating_need_pp,0.010642115726818604,heating need per person
+burden,full,B2p,catboost,heating_strategy,0.0021273299185040756,heating strategy (H9)
+burden,full,B2p,catboost,household_size,0.018290274070295154,household size
+burden,full,B2p,catboost,income_bracket,0.7691729612421973,income bracket
+burden,full,B2p,catboost,income_eur_equiv,0.02445777420116304,income per adult equivalent (EUR)
+burden,full,B2p,catboost,region,0.015887596243603672,region (NUTS2)
+burden,full,B2p,catboost,snowfall_hs,0.01629175647005223,snowfall (winter)
+burden,full,B2p,catboost,solar_hs,0.06528060139526473,solar radiation (winter)
+burden,full,B2p,catboost,wealth_index,0.027512568035722072,wealth index (house-value stand-in)
+burden,full,B2p,catboost,wind_hs,0.04569086043680885,wind speed (winter)
+burden,full,B2p,catboost,wind_x_detached,0.02353660386039553,wind x detached house
+burden,full,B2p,catboost,winter_anomaly,0.011725367048290017,winter 2016/17 vs normal
+burden,full,B2p,ft_transformer,H1,0.08419771446801931,house detachment
+burden,full,B2p,ft_transformer,H2,0.07614137426424965,house age
+burden,full,B2p,ft_transformer,H3,0.07954608376163758,floor area
+burden,full,B2p,ft_transformer,birth_year,0.07732400205168846,birth year respondent
+burden,full,B2p,ft_transformer,country,0.10065577926702791,country
+burden,full,B2p,ft_transformer,density_x_urban,0.07691567648274314,density x urban area
+burden,full,B2p,ft_transformer,hdd_normal,0.08308137724724997,HDD normal 1991-2020
+burden,full,B2p,ft_transformer,heating_need_kwh,0.0755465576906165,heating need (kWh)
+burden,full,B2p,ft_transformer,heating_need_pp,0.07637610820153574,heating need per person
+burden,full,B2p,ft_transformer,heating_strategy,0.09574822420576229,heating strategy (H9)
+burden,full,B2p,ft_transformer,household_size,0.07825755862672316,household size
+burden,full,B2p,ft_transformer,income_bracket,0.13782989349570587,income bracket
+burden,full,B2p,ft_transformer,income_eur_equiv,0.06630242486826626,income per adult equivalent (EUR)
+burden,full,B2p,ft_transformer,region,0.09531171890904279,region (NUTS2)
+burden,full,B2p,ft_transformer,snowfall_hs,0.08522082623992468,snowfall (winter)
+burden,full,B2p,ft_transformer,solar_hs,0.09379935103322311,solar radiation (winter)
+burden,full,B2p,ft_transformer,wealth_index,0.053209038629464474,wealth index (house-value stand-in)
+burden,full,B2p,ft_transformer,wind_hs,0.08488293492108093,wind speed (winter)
+burden,full,B2p,ft_transformer,wind_x_detached,0.0720731291611984,wind x detached house
+burden,full,B2p,ft_transformer,winter_anomaly,0.09982421845735986,winter 2016/17 vs normal
+burden,full,B2p,xgboost,H1,0.022538414787507576,house detachment
+burden,full,B2p,xgboost,H2,0.016211327410362766,house age
+burden,full,B2p,xgboost,H3,0.022550898285922442,floor area
+burden,full,B2p,xgboost,birth_year,0.027008734636387643,birth year respondent
+burden,full,B2p,xgboost,country,0.029198844464032567,country
+burden,full,B2p,xgboost,density_x_urban,0.03154263240019896,density x urban area
+burden,full,B2p,xgboost,hdd_normal,0.03912574942823711,HDD normal 1991-2020
+burden,full,B2p,xgboost,heating_need_kwh,0.03429619388859042,heating need (kWh)
+burden,full,B2p,xgboost,heating_need_pp,0.027636374474101066,heating need per person
+burden,full,B2p,xgboost,heating_strategy,0.01599817943377741,heating strategy (H9)
+burden,full,B2p,xgboost,household_size,0.031109121200751075,household size
+burden,full,B2p,xgboost,income_bracket,0.7015766502247772,income bracket
+burden,full,B2p,xgboost,income_eur_equiv,0.03085291549288704,income per adult equivalent (EUR)
+burden,full,B2p,xgboost,region,0.09788792472356066,region (NUTS2)
+burden,full,B2p,xgboost,snowfall_hs,0.03983331475526241,snowfall (winter)
+burden,full,B2p,xgboost,solar_hs,0.049328603938552144,solar radiation (winter)
+burden,full,B2p,xgboost,wealth_index,0.03983231385273891,wealth index (house-value stand-in)
+burden,full,B2p,xgboost,wind_hs,0.04497124209627963,wind speed (winter)
+burden,full,B2p,xgboost,wind_x_detached,0.022483973426862112,wind x detached house
+burden,full,B2p,xgboost,winter_anomaly,0.03510141443893269,winter 2016/17 vs normal
+burden,income_only,all,catboost,income_bracket,1.0,income bracket
+burden,income_only,all,ft_transformer,income_bracket,1.0,income bracket
+burden,income_only,all,xgboost,income_bracket,1.0,income bracket
+burden,no_income,B0,catboost,H1,0.14223080724428824,house detachment
+burden,no_income,B0,catboost,H2,0.0234693698345953,house age
+burden,no_income,B0,catboost,H3,0.09868238529500867,floor area
+burden,no_income,B0,catboost,birth_year,0.09736034598878768,birth year respondent
+burden,no_income,B0,catboost,country,0.430654503793952,country
+burden,no_income,B0,catboost,heating_strategy,0.027280061409266167,heating strategy (H9)
+burden,no_income,B0,catboost,household_size,0.18032252643410196,household size
+burden,no_income,B0,ft_transformer,H1,0.1359169534158694,house detachment
+burden,no_income,B0,ft_transformer,H2,0.12824384649163614,house age
+burden,no_income,B0,ft_transformer,H3,0.1259950010686352,floor area
+burden,no_income,B0,ft_transformer,birth_year,0.1264196338282559,birth year respondent
+burden,no_income,B0,ft_transformer,country,0.2075638720076199,country
+burden,no_income,B0,ft_transformer,heating_strategy,0.14923038265006863,heating strategy (H9)
+burden,no_income,B0,ft_transformer,household_size,0.12663031053791482,household size
+burden,no_income,B0,xgboost,H1,0.11216718290200677,house detachment
+burden,no_income,B0,xgboost,H2,0.06686640586437832,house age
+burden,no_income,B0,xgboost,H3,0.10525430610432047,floor area
+burden,no_income,B0,xgboost,birth_year,0.13846959701027262,birth year respondent
+burden,no_income,B0,xgboost,country,0.31332778436540853,country
+burden,no_income,B0,xgboost,heating_strategy,0.08928285521791443,heating strategy (H9)
+burden,no_income,B0,xgboost,household_size,0.17463186853569881,household size
+burden,no_income,B1,catboost,H1,0.14552863242095854,house detachment
+burden,no_income,B1,catboost,H2,0.021696062574806545,house age
+burden,no_income,B1,catboost,H3,0.08938047801706082,floor area
+burden,no_income,B1,catboost,birth_year,0.09149148201846495,birth year respondent
+burden,no_income,B1,catboost,country,0.4190845465375678,country
+burden,no_income,B1,catboost,heating_strategy,0.029184366655641156,heating strategy (H9)
+burden,no_income,B1,catboost,household_size,0.17636143501487825,household size
+burden,no_income,B1,catboost,region,0.06823110231559282,region (NUTS2)
+burden,no_income,B1,catboost,wealth_index,0.20440164446254985,wealth index (house-value stand-in)
+burden,no_income,B1,ft_transformer,H1,0.13203859718801536,house detachment
+burden,no_income,B1,ft_transformer,H2,0.12281317461853791,house age
+burden,no_income,B1,ft_transformer,H3,0.12077369143299314,floor area
+burden,no_income,B1,ft_transformer,birth_year,0.1199398609999021,birth year respondent
+burden,no_income,B1,ft_transformer,country,0.1969139871411435,country
+burden,no_income,B1,ft_transformer,heating_strategy,0.1459398427358242,heating strategy (H9)
+burden,no_income,B1,ft_transformer,household_size,0.12471065797956103,household size
+burden,no_income,B1,ft_transformer,region,0.1596800429122972,region (NUTS2)
+burden,no_income,B1,ft_transformer,wealth_index,0.07401268982344962,wealth index (house-value stand-in)
+burden,no_income,B1,xgboost,H1,0.10621115591487061,house detachment
+burden,no_income,B1,xgboost,H2,0.06381117088725054,house age
+burden,no_income,B1,xgboost,H3,0.10063800171457804,floor area
+burden,no_income,B1,xgboost,birth_year,0.13334840863101938,birth year respondent
+burden,no_income,B1,xgboost,country,0.261876109935941,country
+burden,no_income,B1,xgboost,heating_strategy,0.08384301618530685,heating strategy (H9)
+burden,no_income,B1,xgboost,household_size,0.17170088953081164,household size
+burden,no_income,B1,xgboost,region,0.3336208590142047,region (NUTS2)
+burden,no_income,B1,xgboost,wealth_index,0.17770613096071514,wealth index (house-value stand-in)
+burden,no_income,B2,catboost,H1,0.08404514669323447,house detachment
+burden,no_income,B2,catboost,H2,0.021234112517329998,house age
+burden,no_income,B2,catboost,H3,0.0741417176770498,floor area
+burden,no_income,B2,catboost,birth_year,0.08668138135580117,birth year respondent
+burden,no_income,B2,catboost,country,0.23946432612508897,country
+burden,no_income,B2,catboost,density_x_urban,0.04735828576629118,density x urban area
+burden,no_income,B2,catboost,heating_need_kwh,0.049931852659146306,heating need (kWh)
+burden,no_income,B2,catboost,heating_need_pp,0.029719796888259115,heating need per person
+burden,no_income,B2,catboost,heating_strategy,0.022016497140123572,heating strategy (H9)
+burden,no_income,B2,catboost,household_size,0.16953533211416674,household size
+burden,no_income,B2,catboost,region,0.07588078059728612,region (NUTS2)
+burden,no_income,B2,catboost,solar_hs,0.22702103959879175,solar radiation (winter)
+burden,no_income,B2,catboost,wealth_index,0.19226093755774518,wealth index (house-value stand-in)
+burden,no_income,B2,catboost,wind_hs,0.07128644415987496,wind speed (winter)
+burden,no_income,B2,ft_transformer,H1,0.09283636412236161,house detachment
+burden,no_income,B2,ft_transformer,H2,0.09055164530735303,house age
+burden,no_income,B2,ft_transformer,H3,0.08351274987554051,floor area
+burden,no_income,B2,ft_transformer,birth_year,0.086970719553317,birth year respondent
+burden,no_income,B2,ft_transformer,country,0.1332441877996729,country
+burden,no_income,B2,ft_transformer,density_x_urban,0.08802958999638773,density x urban area
+burden,no_income,B2,ft_transformer,heating_need_kwh,0.0969681191629182,heating need (kWh)
+burden,no_income,B2,ft_transformer,heating_need_pp,0.07612656887672349,heating need per person
+burden,no_income,B2,ft_transformer,heating_strategy,0.10807609581690203,heating strategy (H9)
+burden,no_income,B2,ft_transformer,household_size,0.09027497622773216,household size
+burden,no_income,B2,ft_transformer,region,0.11238713127708011,region (NUTS2)
+burden,no_income,B2,ft_transformer,solar_hs,0.11181764957651591,solar radiation (winter)
+burden,no_income,B2,ft_transformer,wealth_index,0.06956984932001596,wealth index (house-value stand-in)
+burden,no_income,B2,ft_transformer,wind_hs,0.08893039903008618,wind speed (winter)
+burden,no_income,B2,xgboost,H1,0.048002366087312974,house detachment
+burden,no_income,B2,xgboost,H2,0.043138166656578485,house age
+burden,no_income,B2,xgboost,H3,0.06629814776363427,floor area
+burden,no_income,B2,xgboost,birth_year,0.10127018780383387,birth year respondent
+burden,no_income,B2,xgboost,country,0.10862758114415078,country
+burden,no_income,B2,xgboost,density_x_urban,0.08557101042450709,density x urban area
+burden,no_income,B2,xgboost,heating_need_kwh,0.0913033659856938,heating need (kWh)
+burden,no_income,B2,xgboost,heating_need_pp,0.09866241513255783,heating need per person
+burden,no_income,B2,xgboost,heating_strategy,0.06188219573965366,heating strategy (H9)
+burden,no_income,B2,xgboost,household_size,0.14455100973186177,household size
+burden,no_income,B2,xgboost,region,0.30066203718085066,region (NUTS2)
+burden,no_income,B2,xgboost,solar_hs,0.20169893677440937,solar radiation (winter)
+burden,no_income,B2,xgboost,wealth_index,0.16061114529988693,wealth index (house-value stand-in)
+burden,no_income,B2,xgboost,wind_hs,0.11777316444972019,wind speed (winter)
+needqr,full,B0,catboost,H1,0.007220497069634363,house detachment
+needqr,full,B0,catboost,H2,0.015466944192444728,house age
+needqr,full,B0,catboost,H3,0.01615164559540597,floor area
+needqr,full,B0,catboost,birth_year,0.022732030085699347,birth year respondent
+needqr,full,B0,catboost,country,0.036105964173907205,country
+needqr,full,B0,catboost,heating_strategy,0.007344143722641498,heating strategy (H9)
+needqr,full,B0,catboost,household_size,0.02394024141974987,household size
+needqr,full,B0,catboost,income_bracket,0.871038533740517,income bracket
+needqr,full,B0,ft_transformer,H1,0.11726949756599117,house detachment
+needqr,full,B0,ft_transformer,H2,0.13029258282444242,house age
+needqr,full,B0,ft_transformer,H3,0.11903327466518362,floor area
+needqr,full,B0,ft_transformer,birth_year,0.12225110790934061,birth year respondent
+needqr,full,B0,ft_transformer,country,0.1269808845087367,country
+needqr,full,B0,ft_transformer,heating_strategy,0.11905435804794574,heating strategy (H9)
+needqr,full,B0,ft_transformer,household_size,0.12095990204467998,household size
+needqr,full,B0,ft_transformer,income_bracket,0.14415839243367973,income bracket
+needqr,full,B0,xgboost,H1,0.012704076395522946,house detachment
+needqr,full,B0,xgboost,H2,0.025196118673608776,house age
+needqr,full,B0,xgboost,H3,0.020432460464343365,floor area
+needqr,full,B0,xgboost,birth_year,0.03831334625654667,birth year respondent
+needqr,full,B0,xgboost,country,0.03468637426398124,country
+needqr,full,B0,xgboost,heating_strategy,0.018280981942567987,heating strategy (H9)
+needqr,full,B0,xgboost,household_size,0.02651703623987843,household size
+needqr,full,B0,xgboost,income_bracket,0.8238696057635505,income bracket
+needqr,full,B1,catboost,H1,0.010802251748986485,house detachment
+needqr,full,B1,catboost,H2,0.005438619121406402,house age
+needqr,full,B1,catboost,H3,0.005917386918215353,floor area
+needqr,full,B1,catboost,S8,0.014758731056767942,S8 income adequacy
+needqr,full,B1,catboost,birth_year,0.008026127897525314,birth year respondent
+needqr,full,B1,catboost,country,0.044893443870805724,country
+needqr,full,B1,catboost,floor_area_per_person,0.0019130252593539956,floor area per person
+needqr,full,B1,catboost,heating_strategy,0.008620793129905154,heating strategy (H9)
+needqr,full,B1,catboost,heating_system_type,0.012358128883142331,heating system type
+needqr,full,B1,catboost,household_size,0.007042194183562783,household size
+needqr,full,B1,catboost,income_bracket,0.8595354496260349,income bracket
+needqr,full,B1,catboost,income_eur_equiv,0.012650655995915592,income per adult equivalent (EUR)
+needqr,full,B1,catboost,inefficient_equipment_index,0.006197348967086932,inefficient equipment index
+needqr,full,B1,catboost,region,0.03338810521596804,region (NUTS2)
+needqr,full,B1,catboost,vulnerability_index,0.01768562250878803,household vulnerability index
+needqr,full,B1,catboost,wealth_index,0.023801977567570885,wealth index (house-value stand-in)
+needqr,full,B1,ft_transformer,H1,0.09813844610315574,house detachment
+needqr,full,B1,ft_transformer,H2,0.09951981946987978,house age
+needqr,full,B1,ft_transformer,H3,0.08797403209907846,floor area
+needqr,full,B1,ft_transformer,S8,0.058802347390159784,S8 income adequacy
+needqr,full,B1,ft_transformer,birth_year,0.09240149300265972,birth year respondent
+needqr,full,B1,ft_transformer,country,0.10114883577091625,country
+needqr,full,B1,ft_transformer,floor_area_per_person,0.05739956131602554,floor area per person
+needqr,full,B1,ft_transformer,heating_strategy,0.1075786306588269,heating strategy (H9)
+needqr,full,B1,ft_transformer,heating_system_type,0.075773785399768,heating system type
+needqr,full,B1,ft_transformer,household_size,0.08568745110663868,household size
+needqr,full,B1,ft_transformer,income_bracket,0.1283814465322682,income bracket
+needqr,full,B1,ft_transformer,income_eur_equiv,0.0650968083617821,income per adult equivalent (EUR)
+needqr,full,B1,ft_transformer,inefficient_equipment_index,0.057591675774896905,inefficient equipment index
+needqr,full,B1,ft_transformer,region,0.12541975115105564,region (NUTS2)
+needqr,full,B1,ft_transformer,vulnerability_index,0.07682863586004159,household vulnerability index
+needqr,full,B1,ft_transformer,wealth_index,0.07145260509089102,wealth index (house-value stand-in)
+needqr,full,B1,xgboost,H1,0.012613608278790493,house detachment
+needqr,full,B1,xgboost,H2,0.022168732395943903,house age
+needqr,full,B1,xgboost,H3,0.019184614675436317,floor area
+needqr,full,B1,xgboost,S8,0.019503397092157534,S8 income adequacy
+needqr,full,B1,xgboost,birth_year,0.03374090137521533,birth year respondent
+needqr,full,B1,xgboost,country,0.005595478116107526,country
+needqr,full,B1,xgboost,floor_area_per_person,0.013993304089666593,floor area per person
+needqr,full,B1,xgboost,heating_strategy,0.019966958623284903,heating strategy (H9)
+needqr,full,B1,xgboost,heating_system_type,0.01628990613856103,heating system type
+needqr,full,B1,xgboost,household_size,0.02087963150876186,household size
+needqr,full,B1,xgboost,income_bracket,0.753174141941192,income bracket
+needqr,full,B1,xgboost,income_eur_equiv,0.026421072568920796,income per adult equivalent (EUR)
+needqr,full,B1,xgboost,inefficient_equipment_index,0.02229502631727748,inefficient equipment index
+needqr,full,B1,xgboost,region,0.08689004433610742,region (NUTS2)
+needqr,full,B1,xgboost,vulnerability_index,0.02466379759466412,household vulnerability index
+needqr,full,B1,xgboost,wealth_index,0.031156107406851367,wealth index (house-value stand-in)
+needqr,full,B2,catboost,H1,0.010810654929482803,house detachment
+needqr,full,B2,catboost,H2,0.004917083551242882,house age
+needqr,full,B2,catboost,H3,0.0051649695937990405,floor area
+needqr,full,B2,catboost,S8,0.03060737643251429,S8 income adequacy
+needqr,full,B2,catboost,birth_year,0.006138830036270157,birth year respondent
+needqr,full,B2,catboost,cdd_x_ac,0.011483938928505927,hot summer x air conditioning
+needqr,full,B2,catboost,country,0.036926070603338856,country
+needqr,full,B2,catboost,density_x_urban,0.00930916333949585,density x urban area
+needqr,full,B2,catboost,floor_area_per_person,0.0025139845263859976,floor area per person
+needqr,full,B2,catboost,hdd_x_electric,0.01091273966367359,cold winter x electric heating
+needqr,full,B2,catboost,hdd_x_solid,0.008068280776808039,cold winter x solid-fuel heating
+needqr,full,B2,catboost,heating_need_kwh,0.002535924376294787,heating need (kWh)
+needqr,full,B2,catboost,heating_need_pp,0.01062033039680647,heating need per person
+needqr,full,B2,catboost,heating_strategy,0.008998710677445093,heating strategy (H9)
+needqr,full,B2,catboost,heating_system_type,0.012281308094535908,heating system type
+needqr,full,B2,catboost,household_size,0.009501485013190042,household size
+needqr,full,B2,catboost,income_bracket,0.8401646950231282,income bracket
+needqr,full,B2,catboost,income_eur_equiv,0.017993619496302713,income per adult equivalent (EUR)
+needqr,full,B2,catboost,inefficient_equipment_index,0.0036964164494401267,inefficient equipment index
+needqr,full,B2,catboost,region,0.030388406466306705,region (NUTS2)
+needqr,full,B2,catboost,vulnerability_index,0.021614346179092456,household vulnerability index
+needqr,full,B2,catboost,wealth_index,0.014203949545498721,wealth index (house-value stand-in)
+needqr,full,B2,ft_transformer,H1,0.0715134094404332,house detachment
+needqr,full,B2,ft_transformer,H2,0.07385945810062355,house age
+needqr,full,B2,ft_transformer,H3,0.06917789393832403,floor area
+needqr,full,B2,ft_transformer,S8,0.037243377073908054,S8 income adequacy
+needqr,full,B2,ft_transformer,birth_year,0.07377333801642406,birth year respondent
+needqr,full,B2,ft_transformer,cdd_x_ac,0.06694844367223138,hot summer x air conditioning
+needqr,full,B2,ft_transformer,country,0.08030028890138394,country
+needqr,full,B2,ft_transformer,density_x_urban,0.07085961821177528,density x urban area
+needqr,full,B2,ft_transformer,floor_area_per_person,0.03809727394724473,floor area per person
+needqr,full,B2,ft_transformer,hdd_x_electric,0.07640200388956529,cold winter x electric heating
+needqr,full,B2,ft_transformer,hdd_x_solid,0.07732826864159091,cold winter x solid-fuel heating
+needqr,full,B2,ft_transformer,heating_need_kwh,0.06648017057343346,heating need (kWh)
+needqr,full,B2,ft_transformer,heating_need_pp,0.06942705946768708,heating need per person
+needqr,full,B2,ft_transformer,heating_strategy,0.08620987697743843,heating strategy (H9)
+needqr,full,B2,ft_transformer,heating_system_type,0.05504412501001166,heating system type
+needqr,full,B2,ft_transformer,household_size,0.07047378007264957,household size
+needqr,full,B2,ft_transformer,income_bracket,0.10360050849213151,income bracket
+needqr,full,B2,ft_transformer,income_eur_equiv,0.05010840297632606,income per adult equivalent (EUR)
+needqr,full,B2,ft_transformer,inefficient_equipment_index,0.047627152025701384,inefficient equipment index
+needqr,full,B2,ft_transformer,region,0.10271894746579856,region (NUTS2)
+needqr,full,B2,ft_transformer,vulnerability_index,0.05313954332773249,household vulnerability index
+needqr,full,B2,ft_transformer,wealth_index,0.054341597229637925,wealth index (house-value stand-in)
+needqr,full,B2,xgboost,H1,0.00843838054255394,house detachment
+needqr,full,B2,xgboost,H2,0.016473037566428074,house age
+needqr,full,B2,xgboost,H3,0.014438957012389482,floor area
+needqr,full,B2,xgboost,S8,0.01944611048231696,S8 income adequacy
+needqr,full,B2,xgboost,birth_year,0.027267144764164628,birth year respondent
+needqr,full,B2,xgboost,cdd_x_ac,0.017799134742353787,hot summer x air conditioning
+needqr,full,B2,xgboost,country,0.004995375764886888,country
+needqr,full,B2,xgboost,density_x_urban,0.027785678309352864,density x urban area
+needqr,full,B2,xgboost,floor_area_per_person,0.013218201362169798,floor area per person
+needqr,full,B2,xgboost,hdd_x_electric,0.02099621639033137,cold winter x electric heating
+needqr,full,B2,xgboost,hdd_x_solid,0.02177197150783307,cold winter x solid-fuel heating
+needqr,full,B2,xgboost,heating_need_kwh,0.025863619403484445,heating need (kWh)
+needqr,full,B2,xgboost,heating_need_pp,0.027263364138815326,heating need per person
+needqr,full,B2,xgboost,heating_strategy,0.015799857132893957,heating strategy (H9)
+needqr,full,B2,xgboost,heating_system_type,0.011698269577998747,heating system type
+needqr,full,B2,xgboost,household_size,0.015770490259595444,household size
+needqr,full,B2,xgboost,income_bracket,0.7168381923064041,income bracket
+needqr,full,B2,xgboost,income_eur_equiv,0.025672747764415218,income per adult equivalent (EUR)
+needqr,full,B2,xgboost,inefficient_equipment_index,0.018926814397810236,inefficient equipment index
+needqr,full,B2,xgboost,region,0.0868867763027532,region (NUTS2)
+needqr,full,B2,xgboost,vulnerability_index,0.021172121462354296,household vulnerability index
+needqr,full,B2,xgboost,wealth_index,0.024350633324091892,wealth index (house-value stand-in)
+needqr,full,B2p,catboost,H1,0.008926761530381824,house detachment
+needqr,full,B2p,catboost,H2,0.005250377055097615,house age
+needqr,full,B2p,catboost,H3,0.004907315462857412,floor area
+needqr,full,B2p,catboost,S8,0.021934832091639458,S8 income adequacy
+needqr,full,B2p,catboost,birth_year,0.00759767747422938,birth year respondent
+needqr,full,B2p,catboost,cdd_x_ac,0.012173103028747584,hot summer x air conditioning
+needqr,full,B2p,catboost,country,0.035412599527470806,country
+needqr,full,B2p,catboost,density_x_urban,0.009351597198022712,density x urban area
+needqr,full,B2p,catboost,floor_area_per_person,0.0017425408093547905,floor area per person
+needqr,full,B2p,catboost,hdd_x_electric,0.011942181158359154,cold winter x electric heating
+needqr,full,B2p,catboost,hdd_x_solid,0.008424381740629455,cold winter x solid-fuel heating
+needqr,full,B2p,catboost,heating_need_kwh,0.006903655729792536,heating need (kWh)
+needqr,full,B2p,catboost,heating_need_pp,0.009116250378659855,heating need per person
+needqr,full,B2p,catboost,heating_strategy,0.008303280062530977,heating strategy (H9)
+needqr,full,B2p,catboost,heating_system_type,0.010800384788174088,heating system type
+needqr,full,B2p,catboost,household_size,0.006978039913060106,household size
+needqr,full,B2p,catboost,income_bracket,0.846347822749906,income bracket
+needqr,full,B2p,catboost,income_eur_equiv,0.020437845893073205,income per adult equivalent (EUR)
+needqr,full,B2p,catboost,inefficient_equipment_index,0.003254034348291266,inefficient equipment index
+needqr,full,B2p,catboost,region,0.030057231492855364,region (NUTS2)
+needqr,full,B2p,catboost,rh_hs,0.015197403155184943,relative humidity (winter)
+needqr,full,B2p,catboost,vulnerability_index,0.01797516145308639,household vulnerability index
+needqr,full,B2p,catboost,wealth_index,0.016585716737106574,wealth index (house-value stand-in)
+needqr,full,B2p,ft_transformer,H1,0.06921999721794889,house detachment
+needqr,full,B2p,ft_transformer,H2,0.07182660717698651,house age
+needqr,full,B2p,ft_transformer,H3,0.06920902555371979,floor area
+needqr,full,B2p,ft_transformer,S8,0.03806361214532824,S8 income adequacy
+needqr,full,B2p,ft_transformer,birth_year,0.07162648684048237,birth year respondent
+needqr,full,B2p,ft_transformer,cdd_x_ac,0.08000259587908591,hot summer x air conditioning
+needqr,full,B2p,ft_transformer,country,0.08040539476887319,country
+needqr,full,B2p,ft_transformer,density_x_urban,0.07307642493222569,density x urban area
+needqr,full,B2p,ft_transformer,floor_area_per_person,0.048234922187189125,floor area per person
+needqr,full,B2p,ft_transformer,hdd_x_electric,0.074325142542971,cold winter x electric heating
+needqr,full,B2p,ft_transformer,hdd_x_solid,0.07401005695110055,cold winter x solid-fuel heating
+needqr,full,B2p,ft_transformer,heating_need_kwh,0.08806469581669643,heating need (kWh)
+needqr,full,B2p,ft_transformer,heating_need_pp,0.07091861797109722,heating need per person
+needqr,full,B2p,ft_transformer,heating_strategy,0.08286701478585341,heating strategy (H9)
+needqr,full,B2p,ft_transformer,heating_system_type,0.057092893195224044,heating system type
+needqr,full,B2p,ft_transformer,household_size,0.07029282740200361,household size
+needqr,full,B2p,ft_transformer,income_bracket,0.10687921736415272,income bracket
+needqr,full,B2p,ft_transformer,income_eur_equiv,0.048794866935555195,income per adult equivalent (EUR)
+needqr,full,B2p,ft_transformer,inefficient_equipment_index,0.05106127400086792,inefficient equipment index
+needqr,full,B2p,ft_transformer,region,0.10050570841658384,region (NUTS2)
+needqr,full,B2p,ft_transformer,rh_hs,0.0695138522180509,relative humidity (winter)
+needqr,full,B2p,ft_transformer,vulnerability_index,0.055697629213967974,household vulnerability index
+needqr,full,B2p,ft_transformer,wealth_index,0.057773973103719366,wealth index (house-value stand-in)
+needqr,full,B2p,xgboost,H1,0.007844836799144442,house detachment
+needqr,full,B2p,xgboost,H2,0.016194845376577942,house age
+needqr,full,B2p,xgboost,H3,0.0134841061567323,floor area
+needqr,full,B2p,xgboost,S8,0.018571915865613006,S8 income adequacy
+needqr,full,B2p,xgboost,birth_year,0.026996276326678965,birth year respondent
+needqr,full,B2p,xgboost,cdd_x_ac,0.01720297103317058,hot summer x air conditioning
+needqr,full,B2p,xgboost,country,0.0050929964283019285,country
+needqr,full,B2p,xgboost,density_x_urban,0.0283248655420001,density x urban area
+needqr,full,B2p,xgboost,floor_area_per_person,0.01048439436462993,floor area per person
+needqr,full,B2p,xgboost,hdd_x_electric,0.021197451398564122,cold winter x electric heating
+needqr,full,B2p,xgboost,hdd_x_solid,0.0228212178083007,cold winter x solid-fuel heating
+needqr,full,B2p,xgboost,heating_need_kwh,0.02365415341630296,heating need (kWh)
+needqr,full,B2p,xgboost,heating_need_pp,0.027317577315520876,heating need per person
+needqr,full,B2p,xgboost,heating_strategy,0.01609297117081988,heating strategy (H9)
+needqr,full,B2p,xgboost,heating_system_type,0.012255203728976354,heating system type
+needqr,full,B2p,xgboost,household_size,0.015858193199305832,household size
+needqr,full,B2p,xgboost,income_bracket,0.7176094730437603,income bracket
+needqr,full,B2p,xgboost,income_eur_equiv,0.02422070236653371,income per adult equivalent (EUR)
+needqr,full,B2p,xgboost,inefficient_equipment_index,0.017894935327988137,inefficient equipment index
+needqr,full,B2p,xgboost,region,0.08606434849278959,region (NUTS2)
+needqr,full,B2p,xgboost,rh_hs,0.019271883546016434,relative humidity (winter)
+needqr,full,B2p,xgboost,vulnerability_index,0.02085400858042622,household vulnerability index
+needqr,full,B2p,xgboost,wealth_index,0.026097890499188516,wealth index (house-value stand-in)
+needqr,income_only,all,catboost,income_bracket,1.0,income bracket
+needqr,income_only,all,ft_transformer,income_bracket,1.0,income bracket
+needqr,income_only,all,xgboost,income_bracket,1.0,income bracket
+needqr,no_income,B0,catboost,H1,0.014103579383032501,house detachment
+needqr,no_income,B0,catboost,H2,0.031579909384894064,house age
+needqr,no_income,B0,catboost,H3,0.05588115608186818,floor area
+needqr,no_income,B0,catboost,birth_year,0.1370198518887408,birth year respondent
+needqr,no_income,B0,catboost,country,0.4927829847555684,country
+needqr,no_income,B0,catboost,heating_strategy,0.049516483086404404,heating strategy (H9)
+needqr,no_income,B0,catboost,household_size,0.2191160354194917,household size
+needqr,no_income,B0,ft_transformer,H1,0.1333032786777194,house detachment
+needqr,no_income,B0,ft_transformer,H2,0.13503622670191298,house age
+needqr,no_income,B0,ft_transformer,H3,0.12404697255971417,floor area
+needqr,no_income,B0,ft_transformer,birth_year,0.1261343375790337,birth year respondent
+needqr,no_income,B0,ft_transformer,country,0.19544246146001423,country
+needqr,no_income,B0,ft_transformer,heating_strategy,0.15229795194577236,heating strategy (H9)
+needqr,no_income,B0,ft_transformer,household_size,0.13373877107583315,household size
+needqr,no_income,B0,xgboost,H1,0.06343807650204313,house detachment
+needqr,no_income,B0,xgboost,H2,0.07623981890580882,house age
+needqr,no_income,B0,xgboost,H3,0.0918577487814133,floor area
+needqr,no_income,B0,xgboost,birth_year,0.152780572664098,birth year respondent
+needqr,no_income,B0,xgboost,country,0.3221449240236297,country
+needqr,no_income,B0,xgboost,heating_strategy,0.0938397367830642,heating strategy (H9)
+needqr,no_income,B0,xgboost,household_size,0.19969912233994286,household size
+needqr,no_income,B1,catboost,H1,0.022335260905777195,house detachment
+needqr,no_income,B1,catboost,H2,0.01811784026119841,house age
+needqr,no_income,B1,catboost,H3,0.031947952236928916,floor area
+needqr,no_income,B1,catboost,S8,0.2203988925812563,S8 income adequacy
+needqr,no_income,B1,catboost,birth_year,0.09436124310537401,birth year respondent
+needqr,no_income,B1,catboost,country,0.4047755995499352,country
+needqr,no_income,B1,catboost,floor_area_per_person,0.026810537417863677,floor area per person
+needqr,no_income,B1,catboost,heating_strategy,0.05520896069563408,heating strategy (H9)
+needqr,no_income,B1,catboost,heating_system_type,0.025929364424529158,heating system type
+needqr,no_income,B1,catboost,household_size,0.1866621304909978,household size
+needqr,no_income,B1,catboost,inefficient_equipment_index,0.011622343171023187,inefficient equipment index
+needqr,no_income,B1,catboost,region,0.07690644402106199,region (NUTS2)
+needqr,no_income,B1,catboost,vulnerability_index,0.15195665438744516,household vulnerability index
+needqr,no_income,B1,catboost,wealth_index,0.178782267064095,wealth index (house-value stand-in)
+needqr,no_income,B1,ft_transformer,H1,0.10332262444742503,house detachment
+needqr,no_income,B1,ft_transformer,H2,0.10103528621566968,house age
+needqr,no_income,B1,ft_transformer,H3,0.0944430151329054,floor area
+needqr,no_income,B1,ft_transformer,S8,0.08535192348617822,S8 income adequacy
+needqr,no_income,B1,ft_transformer,birth_year,0.10390993921348958,birth year respondent
+needqr,no_income,B1,ft_transformer,country,0.1481548712140626,country
+needqr,no_income,B1,ft_transformer,floor_area_per_person,0.08481244541342411,floor area per person
+needqr,no_income,B1,ft_transformer,heating_strategy,0.11921252412902923,heating strategy (H9)
+needqr,no_income,B1,ft_transformer,heating_system_type,0.06647866476497746,heating system type
+needqr,no_income,B1,ft_transformer,household_size,0.10609636944383333,household size
+needqr,no_income,B1,ft_transformer,inefficient_equipment_index,0.08150624312105162,inefficient equipment index
+needqr,no_income,B1,ft_transformer,region,0.1464158817295645,region (NUTS2)
+needqr,no_income,B1,ft_transformer,vulnerability_index,0.08113623058807418,household vulnerability index
+needqr,no_income,B1,ft_transformer,wealth_index,0.0926158050215882,wealth index (house-value stand-in)
+needqr,no_income,B1,xgboost,H1,0.035934828864154146,house detachment
+needqr,no_income,B1,xgboost,H2,0.057803361379270855,house age
+needqr,no_income,B1,xgboost,H3,0.0701411123780983,floor area
+needqr,no_income,B1,xgboost,S8,0.15016079785214237,S8 income adequacy
+needqr,no_income,B1,xgboost,birth_year,0.11634642680189028,birth year respondent
+needqr,no_income,B1,xgboost,country,0.05787703617136797,country
+needqr,no_income,B1,xgboost,floor_area_per_person,0.05681827260861806,floor area per person
+needqr,no_income,B1,xgboost,heating_strategy,0.06828157993264414,heating strategy (H9)
+needqr,no_income,B1,xgboost,heating_system_type,0.03373304808398223,heating system type
+needqr,no_income,B1,xgboost,household_size,0.16293323121114062,household size
+needqr,no_income,B1,xgboost,inefficient_equipment_index,0.05604892746003384,inefficient equipment index
+needqr,no_income,B1,xgboost,region,0.33549958141920494,region (NUTS2)
+needqr,no_income,B1,xgboost,vulnerability_index,0.10672776658297602,household vulnerability index
+needqr,no_income,B1,xgboost,wealth_index,0.15357213493818375,wealth index (house-value stand-in)
+needqr,no_income,B2,catboost,H1,0.01469885320710206,house detachment
+needqr,no_income,B2,catboost,H2,0.012677113986197008,house age
+needqr,no_income,B2,catboost,H3,0.03399199659694087,floor area
+needqr,no_income,B2,catboost,S8,0.20515853070665407,S8 income adequacy
+needqr,no_income,B2,catboost,birth_year,0.08663569728696754,birth year respondent
+needqr,no_income,B2,catboost,cdd_x_ac,0.06275535881373269,hot summer x air conditioning
+needqr,no_income,B2,catboost,country,0.36097469534327414,country
+needqr,no_income,B2,catboost,density_x_urban,0.0238166353811078,density x urban area
+needqr,no_income,B2,catboost,floor_area_per_person,0.01747053952732249,floor area per person
+needqr,no_income,B2,catboost,hdd_x_electric,0.023902908824492777,cold winter x electric heating
+needqr,no_income,B2,catboost,hdd_x_solid,0.03822002363023116,cold winter x solid-fuel heating
+needqr,no_income,B2,catboost,heating_need_kwh,0.007302190509642673,heating need (kWh)
+needqr,no_income,B2,catboost,heating_need_pp,0.03527268956983818,heating need per person
+needqr,no_income,B2,catboost,heating_strategy,0.041325414061805614,heating strategy (H9)
+needqr,no_income,B2,catboost,heating_system_type,0.0236157713505043,heating system type
+needqr,no_income,B2,catboost,household_size,0.1636625719398967,household size
+needqr,no_income,B2,catboost,inefficient_equipment_index,0.009796810424775764,inefficient equipment index
+needqr,no_income,B2,catboost,region,0.0777076560763217,region (NUTS2)
+needqr,no_income,B2,catboost,vulnerability_index,0.15789017965431967,household vulnerability index
+needqr,no_income,B2,catboost,wealth_index,0.16101081457577898,wealth index (house-value stand-in)
+needqr,no_income,B2,ft_transformer,H1,0.07727919801156058,house detachment
+needqr,no_income,B2,ft_transformer,H2,0.07472218138146146,house age
+needqr,no_income,B2,ft_transformer,H3,0.07534005196082708,floor area
+needqr,no_income,B2,ft_transformer,S8,0.055233671810895175,S8 income adequacy
+needqr,no_income,B2,ft_transformer,birth_year,0.07670094097134598,birth year respondent
+needqr,no_income,B2,ft_transformer,cdd_x_ac,0.06999186081158167,hot summer x air conditioning
+needqr,no_income,B2,ft_transformer,country,0.12167789960470099,country
+needqr,no_income,B2,ft_transformer,density_x_urban,0.0701622769896021,density x urban area
+needqr,no_income,B2,ft_transformer,floor_area_per_person,0.05339430510817074,floor area per person
+needqr,no_income,B2,ft_transformer,hdd_x_electric,0.07217880890600997,cold winter x electric heating
+needqr,no_income,B2,ft_transformer,hdd_x_solid,0.0805900855466831,cold winter x solid-fuel heating
+needqr,no_income,B2,ft_transformer,heating_need_kwh,0.08129014565547465,heating need (kWh)
+needqr,no_income,B2,ft_transformer,heating_need_pp,0.074478022688649,heating need per person
+needqr,no_income,B2,ft_transformer,heating_strategy,0.09644406904543605,heating strategy (H9)
+needqr,no_income,B2,ft_transformer,heating_system_type,0.05747435768041769,heating system type
+needqr,no_income,B2,ft_transformer,household_size,0.08544713556210817,household size
+needqr,no_income,B2,ft_transformer,inefficient_equipment_index,0.054847849878667046,inefficient equipment index
+needqr,no_income,B2,ft_transformer,region,0.11643469496609776,region (NUTS2)
+needqr,no_income,B2,ft_transformer,vulnerability_index,0.0696858373528638,household vulnerability index
+needqr,no_income,B2,ft_transformer,wealth_index,0.06266367784627382,wealth index (house-value stand-in)
+needqr,no_income,B2,xgboost,H1,0.015943920666960668,house detachment
+needqr,no_income,B2,xgboost,H2,0.03726311920278739,house age
+needqr,no_income,B2,xgboost,H3,0.06299619151052725,floor area
+needqr,no_income,B2,xgboost,S8,0.14186224395254213,S8 income adequacy
+needqr,no_income,B2,xgboost,birth_year,0.09731656926975348,birth year respondent
+needqr,no_income,B2,xgboost,cdd_x_ac,0.05396230951312861,hot summer x air conditioning
+needqr,no_income,B2,xgboost,country,0.04547026713148677,country
+needqr,no_income,B2,xgboost,density_x_urban,0.0700314062003149,density x urban area
+needqr,no_income,B2,xgboost,floor_area_per_person,0.05058158747991969,floor area per person
+needqr,no_income,B2,xgboost,hdd_x_electric,0.04501662411664791,cold winter x electric heating
+needqr,no_income,B2,xgboost,hdd_x_solid,0.05588778520629501,cold winter x solid-fuel heating
+needqr,no_income,B2,xgboost,heating_need_kwh,0.06748615492921632,heating need (kWh)
+needqr,no_income,B2,xgboost,heating_need_pp,0.08233501376225258,heating need per person
+needqr,no_income,B2,xgboost,heating_strategy,0.049832246424023834,heating strategy (H9)
+needqr,no_income,B2,xgboost,heating_system_type,0.02171255977211191,heating system type
+needqr,no_income,B2,xgboost,household_size,0.11749311610751369,household size
+needqr,no_income,B2,xgboost,inefficient_equipment_index,0.04368220686596737,inefficient equipment index
+needqr,no_income,B2,xgboost,region,0.2978037130052342,region (NUTS2)
+needqr,no_income,B2,xgboost,vulnerability_index,0.0955138964377126,household vulnerability index
+needqr,no_income,B2,xgboost,wealth_index,0.1425638032794614,wealth index (house-value stand-in)
+needqr_noclim,full,B0,catboost,H1,0.006923627005100306,house detachment
+needqr_noclim,full,B0,catboost,H2,0.01649559336442118,house age
+needqr_noclim,full,B0,catboost,H3,0.014219002927963683,floor area
+needqr_noclim,full,B0,catboost,birth_year,0.025291576918345906,birth year respondent
+needqr_noclim,full,B0,catboost,country,0.03703443153324461,country
+needqr_noclim,full,B0,catboost,heating_strategy,0.007620376615249922,heating strategy (H9)
+needqr_noclim,full,B0,catboost,household_size,0.02470709268158083,household size
+needqr_noclim,full,B0,catboost,income_bracket,0.8677082989540936,income bracket
+needqr_noclim,full,B0,ft_transformer,H1,0.12487609210486134,house detachment
+needqr_noclim,full,B0,ft_transformer,H2,0.12771081137486123,house age
+needqr_noclim,full,B0,ft_transformer,H3,0.1149011980913757,floor area
+needqr_noclim,full,B0,ft_transformer,birth_year,0.12150667614361352,birth year respondent
+needqr_noclim,full,B0,ft_transformer,country,0.12994618056103108,country
+needqr_noclim,full,B0,ft_transformer,heating_strategy,0.1251101160710454,heating strategy (H9)
+needqr_noclim,full,B0,ft_transformer,household_size,0.12054687987808853,household size
+needqr_noclim,full,B0,ft_transformer,income_bracket,0.13540204577512316,income bracket
+needqr_noclim,full,B0,xgboost,H1,0.010140331593459785,house detachment
+needqr_noclim,full,B0,xgboost,H2,0.0276410820533657,house age
+needqr_noclim,full,B0,xgboost,H3,0.018892629494431615,floor area
+needqr_noclim,full,B0,xgboost,birth_year,0.0417600142927458,birth year respondent
+needqr_noclim,full,B0,xgboost,country,0.03510007822844481,country
+needqr_noclim,full,B0,xgboost,heating_strategy,0.021479228588305036,heating strategy (H9)
+needqr_noclim,full,B0,xgboost,household_size,0.0251383913862398,household size
+needqr_noclim,full,B0,xgboost,income_bracket,0.8198482443630074,income bracket
+needqr_noclim,full,B1,catboost,H1,0.009512787834216366,house detachment
+needqr_noclim,full,B1,catboost,H2,0.005571725734642675,house age
+needqr_noclim,full,B1,catboost,H3,0.00497053984458566,floor area
+needqr_noclim,full,B1,catboost,birth_year,0.01052196341843784,birth year respondent
+needqr_noclim,full,B1,catboost,country,0.04427137215878315,country
+needqr_noclim,full,B1,catboost,heating_strategy,0.009981236702683699,heating strategy (H9)
+needqr_noclim,full,B1,catboost,heating_system_type,0.014038330496449328,heating system type
+needqr_noclim,full,B1,catboost,household_size,0.009256955717634284,household size
+needqr_noclim,full,B1,catboost,income_bracket,0.8611622017670951,income bracket
+needqr_noclim,full,B1,catboost,region,0.043815328122157875,region (NUTS2)
+needqr_noclim,full,B1,ft_transformer,H1,0.10218304304902445,house detachment
+needqr_noclim,full,B1,ft_transformer,H2,0.09562646199163942,house age
+needqr_noclim,full,B1,ft_transformer,H3,0.0892476319890499,floor area
+needqr_noclim,full,B1,ft_transformer,birth_year,0.10048404813388813,birth year respondent
+needqr_noclim,full,B1,ft_transformer,country,0.11246172022217747,country
+needqr_noclim,full,B1,ft_transformer,heating_strategy,0.12214931144869491,heating strategy (H9)
+needqr_noclim,full,B1,ft_transformer,heating_system_type,0.09501803483850095,heating system type
+needqr_noclim,full,B1,ft_transformer,household_size,0.08955854045036006,household size
+needqr_noclim,full,B1,ft_transformer,income_bracket,0.13933755202058595,income bracket
+needqr_noclim,full,B1,ft_transformer,region,0.14261715503867964,region (NUTS2)
+needqr_noclim,full,B1,xgboost,H1,0.01185774488093046,house detachment
+needqr_noclim,full,B1,xgboost,H2,0.02613162818904906,house age
+needqr_noclim,full,B1,xgboost,H3,0.01770904600043121,floor area
+needqr_noclim,full,B1,xgboost,birth_year,0.03914354718062772,birth year respondent
+needqr_noclim,full,B1,xgboost,country,0.00607648908204852,country
+needqr_noclim,full,B1,xgboost,heating_strategy,0.02522749728832795,heating strategy (H9)
+needqr_noclim,full,B1,xgboost,heating_system_type,0.027930314842194125,heating system type
+needqr_noclim,full,B1,xgboost,household_size,0.02167487800227051,household size
+needqr_noclim,full,B1,xgboost,income_bracket,0.7574054982261236,income bracket
+needqr_noclim,full,B1,xgboost,region,0.09291165016071143,region (NUTS2)
+needqr_noclim,full,B2,catboost,H1,0.007852166369149007,house detachment
+needqr_noclim,full,B2,catboost,H2,0.005791904282359512,house age
+needqr_noclim,full,B2,catboost,H3,0.004449083346679918,floor area
+needqr_noclim,full,B2,catboost,birth_year,0.008455995408290118,birth year respondent
+needqr_noclim,full,B2,catboost,cdd_x_ac,0.014129417848658324,hot summer x air conditioning
+needqr_noclim,full,B2,catboost,country,0.0336662981869927,country
+needqr_noclim,full,B2,catboost,density_x_urban,0.009016297634742917,density x urban area
+needqr_noclim,full,B2,catboost,hdd_x_electric,0.012336576884714892,cold winter x electric heating
+needqr_noclim,full,B2,catboost,hdd_x_solid,0.006040016265129639,cold winter x solid-fuel heating
+needqr_noclim,full,B2,catboost,hdd_x_uninsulated,0.007040412521400871,cold winter x no insulation
+needqr_noclim,full,B2,catboost,heating_need_kwh,0.003097706591247134,heating need (kWh)
+needqr_noclim,full,B2,catboost,heating_need_pp,0.008061478930654552,heating need per person
+needqr_noclim,full,B2,catboost,heating_strategy,0.009243709305786142,heating strategy (H9)
+needqr_noclim,full,B2,catboost,heating_system_type,0.009192531743298546,heating system type
+needqr_noclim,full,B2,catboost,household_size,0.007189671917940498,household size
+needqr_noclim,full,B2,catboost,income_bracket,0.8497703119620161,income bracket
+needqr_noclim,full,B2,catboost,region,0.04186213774007179,region (NUTS2)
+needqr_noclim,full,B2,catboost,solar_hs,0.020495684090868948,solar radiation (winter)
+needqr_noclim,full,B2,ft_transformer,H1,0.0728073163738966,house detachment
+needqr_noclim,full,B2,ft_transformer,H2,0.07644629937982053,house age
+needqr_noclim,full,B2,ft_transformer,H3,0.07134093858350524,floor area
+needqr_noclim,full,B2,ft_transformer,birth_year,0.0784553643064072,birth year respondent
+needqr_noclim,full,B2,ft_transformer,cdd_x_ac,0.06630001093985989,hot summer x air conditioning
+needqr_noclim,full,B2,ft_transformer,country,0.08680090736072503,country
+needqr_noclim,full,B2,ft_transformer,density_x_urban,0.07954542068469138,density x urban area
+needqr_noclim,full,B2,ft_transformer,hdd_x_electric,0.07598577728568225,cold winter x electric heating
+needqr_noclim,full,B2,ft_transformer,hdd_x_solid,0.07474847569173486,cold winter x solid-fuel heating
+needqr_noclim,full,B2,ft_transformer,hdd_x_uninsulated,0.07312872016815697,cold winter x no insulation
+needqr_noclim,full,B2,ft_transformer,heating_need_kwh,0.06915424811969703,heating need (kWh)
+needqr_noclim,full,B2,ft_transformer,heating_need_pp,0.07588624273841481,heating need per person
+needqr_noclim,full,B2,ft_transformer,heating_strategy,0.08960162150914054,heating strategy (H9)
+needqr_noclim,full,B2,ft_transformer,heating_system_type,0.09344115691684499,heating system type
+needqr_noclim,full,B2,ft_transformer,household_size,0.0699650502232433,household size
+needqr_noclim,full,B2,ft_transformer,income_bracket,0.11030642044426685,income bracket
+needqr_noclim,full,B2,ft_transformer,region,0.1130067154634259,region (NUTS2)
+needqr_noclim,full,B2,ft_transformer,solar_hs,0.08500549366123361,solar radiation (winter)
+needqr_noclim,full,B2,xgboost,H1,0.008331525233310802,house detachment
+needqr_noclim,full,B2,xgboost,H2,0.018576994648568667,house age
+needqr_noclim,full,B2,xgboost,H3,0.012962007606669447,floor area
+needqr_noclim,full,B2,xgboost,birth_year,0.03247902255572439,birth year respondent
+needqr_noclim,full,B2,xgboost,cdd_x_ac,0.017225030912404213,hot summer x air conditioning
+needqr_noclim,full,B2,xgboost,country,0.005585617346030884,country
+needqr_noclim,full,B2,xgboost,density_x_urban,0.029342980909064023,density x urban area
+needqr_noclim,full,B2,xgboost,hdd_x_electric,0.02317838119602336,cold winter x electric heating
+needqr_noclim,full,B2,xgboost,hdd_x_solid,0.02144149554854609,cold winter x solid-fuel heating
+needqr_noclim,full,B2,xgboost,hdd_x_uninsulated,0.016698305180421282,cold winter x no insulation
+needqr_noclim,full,B2,xgboost,heating_need_kwh,0.023297388180063026,heating need (kWh)
+needqr_noclim,full,B2,xgboost,heating_need_pp,0.02828906716601318,heating need per person
+needqr_noclim,full,B2,xgboost,heating_strategy,0.020048435605439487,heating strategy (H9)
+needqr_noclim,full,B2,xgboost,heating_system_type,0.018335224284649086,heating system type
+needqr_noclim,full,B2,xgboost,household_size,0.016064477226979307,household size
+needqr_noclim,full,B2,xgboost,income_bracket,0.7181784908232768,income bracket
+needqr_noclim,full,B2,xgboost,region,0.09313285676660828,region (NUTS2)
+needqr_noclim,full,B2,xgboost,solar_hs,0.017177162898859785,solar radiation (winter)
+needqr_noclim,full,B2p,catboost,H1,0.008105354826884388,house detachment
+needqr_noclim,full,B2p,catboost,H2,0.006294853426317937,house age
+needqr_noclim,full,B2p,catboost,H3,0.00441768196964571,floor area
+needqr_noclim,full,B2p,catboost,birth_year,0.007958301304861961,birth year respondent
+needqr_noclim,full,B2p,catboost,cdd_x_ac,0.01675796010346838,hot summer x air conditioning
+needqr_noclim,full,B2p,catboost,country,0.0375362562376035,country
+needqr_noclim,full,B2p,catboost,density_x_urban,0.009398435352337408,density x urban area
+needqr_noclim,full,B2p,catboost,hdd_x_electric,0.01206793654974372,cold winter x electric heating
+needqr_noclim,full,B2p,catboost,hdd_x_solid,0.006863849602998298,cold winter x solid-fuel heating
+needqr_noclim,full,B2p,catboost,heating_need_pp,0.008933500425576363,heating need per person
+needqr_noclim,full,B2p,catboost,heating_strategy,0.009245909437413347,heating strategy (H9)
+needqr_noclim,full,B2p,catboost,heating_system_type,0.015547530482457949,heating system type
+needqr_noclim,full,B2p,catboost,household_size,0.007599289319879291,household size
+needqr_noclim,full,B2p,catboost,income_bracket,0.8434147559740404,income bracket
+needqr_noclim,full,B2p,catboost,precip_hs,0.01678204201541639,precipitation (winter)
+needqr_noclim,full,B2p,catboost,region,0.040516119666688305,region (NUTS2)
+needqr_noclim,full,B2p,catboost,snowfall_hs,0.01248767195244705,snowfall (winter)
+needqr_noclim,full,B2p,catboost,wind_hs,0.017800815287735534,wind speed (winter)
+needqr_noclim,full,B2p,catboost,winter_anomaly,0.011056227497497427,winter 2016/17 vs normal
+needqr_noclim,full,B2p,ft_transformer,H1,0.07758188303845093,house detachment
+needqr_noclim,full,B2p,ft_transformer,H2,0.07608947211155433,house age
+needqr_noclim,full,B2p,ft_transformer,H3,0.06888591269128011,floor area
+needqr_noclim,full,B2p,ft_transformer,birth_year,0.07713837159783925,birth year respondent
+needqr_noclim,full,B2p,ft_transformer,cdd_x_ac,0.07470380162971493,hot summer x air conditioning
+needqr_noclim,full,B2p,ft_transformer,country,0.08751882040308397,country
+needqr_noclim,full,B2p,ft_transformer,density_x_urban,0.08174026765330006,density x urban area
+needqr_noclim,full,B2p,ft_transformer,hdd_x_electric,0.07410008844249191,cold winter x electric heating
+needqr_noclim,full,B2p,ft_transformer,hdd_x_solid,0.07566731827582757,cold winter x solid-fuel heating
+needqr_noclim,full,B2p,ft_transformer,heating_need_pp,0.06953441301547823,heating need per person
+needqr_noclim,full,B2p,ft_transformer,heating_strategy,0.09040516802714924,heating strategy (H9)
+needqr_noclim,full,B2p,ft_transformer,heating_system_type,0.08442989032300874,heating system type
+needqr_noclim,full,B2p,ft_transformer,household_size,0.07003895285035334,household size
+needqr_noclim,full,B2p,ft_transformer,income_bracket,0.1123900008160223,income bracket
+needqr_noclim,full,B2p,ft_transformer,precip_hs,0.098766114146584,precipitation (winter)
+needqr_noclim,full,B2p,ft_transformer,region,0.11032100597219364,region (NUTS2)
+needqr_noclim,full,B2p,ft_transformer,snowfall_hs,0.07490449018255234,snowfall (winter)
+needqr_noclim,full,B2p,ft_transformer,wind_hs,0.09319470714689991,wind speed (winter)
+needqr_noclim,full,B2p,ft_transformer,winter_anomaly,0.07311561981078588,winter 2016/17 vs normal
+needqr_noclim,full,B2p,xgboost,H1,0.007896261923721873,house detachment
+needqr_noclim,full,B2p,xgboost,H2,0.01951352804288878,house age
+needqr_noclim,full,B2p,xgboost,H3,0.012034939733476736,floor area
+needqr_noclim,full,B2p,xgboost,birth_year,0.03167225368364843,birth year respondent
+needqr_noclim,full,B2p,xgboost,cdd_x_ac,0.015555394140924005,hot summer x air conditioning
+needqr_noclim,full,B2p,xgboost,country,0.005444338775684459,country
+needqr_noclim,full,B2p,xgboost,density_x_urban,0.029751574093348717,density x urban area
+needqr_noclim,full,B2p,xgboost,hdd_x_electric,0.023720902054636898,cold winter x electric heating
+needqr_noclim,full,B2p,xgboost,hdd_x_solid,0.02419996750222968,cold winter x solid-fuel heating
+needqr_noclim,full,B2p,xgboost,heating_need_pp,0.02987501695732648,heating need per person
+needqr_noclim,full,B2p,xgboost,heating_strategy,0.019666221887885926,heating strategy (H9)
+needqr_noclim,full,B2p,xgboost,heating_system_type,0.018570817892853662,heating system type
+needqr_noclim,full,B2p,xgboost,household_size,0.01584252036385209,household size
+needqr_noclim,full,B2p,xgboost,income_bracket,0.7155322674860459,income bracket
+needqr_noclim,full,B2p,xgboost,precip_hs,0.02637092757227258,precipitation (winter)
+needqr_noclim,full,B2p,xgboost,region,0.09338224653156665,region (NUTS2)
+needqr_noclim,full,B2p,xgboost,snowfall_hs,0.026032193298211596,snowfall (winter)
+needqr_noclim,full,B2p,xgboost,wind_hs,0.030377317361259256,wind speed (winter)
+needqr_noclim,full,B2p,xgboost,winter_anomaly,0.023175801552083233,winter 2016/17 vs normal
+needqr_noclim,income_only,all,catboost,income_bracket,1.0,income bracket
+needqr_noclim,income_only,all,ft_transformer,income_bracket,1.0,income bracket
+needqr_noclim,income_only,all,xgboost,income_bracket,1.0,income bracket
+needqr_noclim,no_income,B0,catboost,H1,0.010524726764252972,house detachment
+needqr_noclim,no_income,B0,catboost,H2,0.030265530736820444,house age
+needqr_noclim,no_income,B0,catboost,H3,0.0534552279547829,floor area
+needqr_noclim,no_income,B0,catboost,birth_year,0.1397872538560577,birth year respondent
+needqr_noclim,no_income,B0,catboost,country,0.49540008916232026,country
+needqr_noclim,no_income,B0,catboost,heating_strategy,0.051945823400650994,heating strategy (H9)
+needqr_noclim,no_income,B0,catboost,household_size,0.21862134812511477,household size
+needqr_noclim,no_income,B0,ft_transformer,H1,0.1309736883128512,house detachment
+needqr_noclim,no_income,B0,ft_transformer,H2,0.129255355838765,house age
+needqr_noclim,no_income,B0,ft_transformer,H3,0.1299726041665306,floor area
+needqr_noclim,no_income,B0,ft_transformer,birth_year,0.129544126760962,birth year respondent
+needqr_noclim,no_income,B0,ft_transformer,country,0.19133594095485362,country
+needqr_noclim,no_income,B0,ft_transformer,heating_strategy,0.15355451059164504,heating strategy (H9)
+needqr_noclim,no_income,B0,ft_transformer,household_size,0.13536377337439262,household size
+needqr_noclim,no_income,B0,xgboost,H1,0.060559691424062555,house detachment
+needqr_noclim,no_income,B0,xgboost,H2,0.08233366217874968,house age
+needqr_noclim,no_income,B0,xgboost,H3,0.0885908050537097,floor area
+needqr_noclim,no_income,B0,xgboost,birth_year,0.15732923867015147,birth year respondent
+needqr_noclim,no_income,B0,xgboost,country,0.3188850184323137,country
+needqr_noclim,no_income,B0,xgboost,heating_strategy,0.09614457791990395,heating strategy (H9)
+needqr_noclim,no_income,B0,xgboost,household_size,0.1961570063211089,household size
+needqr_noclim,no_income,B1,catboost,H1,0.01984736580673926,house detachment
+needqr_noclim,no_income,B1,catboost,H2,0.01927713840343428,house age
+needqr_noclim,no_income,B1,catboost,H3,0.03925340286974137,floor area
+needqr_noclim,no_income,B1,catboost,birth_year,0.11428765539337774,birth year respondent
+needqr_noclim,no_income,B1,catboost,country,0.4284906181239,country
+needqr_noclim,no_income,B1,catboost,heating_strategy,0.04955712396272327,heating strategy (H9)
+needqr_noclim,no_income,B1,catboost,heating_system_type,0.03692304611768548,heating system type
+needqr_noclim,no_income,B1,catboost,household_size,0.2106625929815186,household size
+needqr_noclim,no_income,B1,catboost,region,0.1161625660507198,region (NUTS2)
+needqr_noclim,no_income,B1,ft_transformer,H1,0.10740920209018459,house detachment
+needqr_noclim,no_income,B1,ft_transformer,H2,0.10301407881369028,house age
+needqr_noclim,no_income,B1,ft_transformer,H3,0.10677454305116417,floor area
+needqr_noclim,no_income,B1,ft_transformer,birth_year,0.1076873272783058,birth year respondent
+needqr_noclim,no_income,B1,ft_transformer,country,0.16156991390343833,country
+needqr_noclim,no_income,B1,ft_transformer,heating_strategy,0.13200411982550042,heating strategy (H9)
+needqr_noclim,no_income,B1,ft_transformer,heating_system_type,0.11352555475622027,heating system type
+needqr_noclim,no_income,B1,ft_transformer,household_size,0.11232276590365703,household size
+needqr_noclim,no_income,B1,ft_transformer,region,0.16164967881697803,region (NUTS2)
+needqr_noclim,no_income,B1,xgboost,H1,0.036889957420601756,house detachment
+needqr_noclim,no_income,B1,xgboost,H2,0.06828485910514295,house age
+needqr_noclim,no_income,B1,xgboost,H3,0.0760757838044144,floor area
+needqr_noclim,no_income,B1,xgboost,birth_year,0.1345693551718075,birth year respondent
+needqr_noclim,no_income,B1,xgboost,country,0.06765370417962059,country
+needqr_noclim,no_income,B1,xgboost,heating_strategy,0.07895340665582747,heating strategy (H9)
+needqr_noclim,no_income,B1,xgboost,heating_system_type,0.06477611312529265,heating system type
+needqr_noclim,no_income,B1,xgboost,household_size,0.1784240245605373,household size
+needqr_noclim,no_income,B1,xgboost,region,0.35483050156036183,region (NUTS2)
+needqr_noclim,no_income,B2,catboost,H1,0.012277686848203717,house detachment
+needqr_noclim,no_income,B2,catboost,H2,0.01719189443473147,house age
+needqr_noclim,no_income,B2,catboost,H3,0.04221862280827429,floor area
+needqr_noclim,no_income,B2,catboost,birth_year,0.1084556350476873,birth year respondent
+needqr_noclim,no_income,B2,catboost,cdd_x_ac,0.08186824900714072,hot summer x air conditioning
+needqr_noclim,no_income,B2,catboost,country,0.37549016753754993,country
+needqr_noclim,no_income,B2,catboost,density_x_urban,0.026661597746285858,density x urban area
+needqr_noclim,no_income,B2,catboost,hdd_x_electric,0.022738932776170184,cold winter x electric heating
+needqr_noclim,no_income,B2,catboost,hdd_x_solid,0.040513768000032924,cold winter x solid-fuel heating
+needqr_noclim,no_income,B2,catboost,hdd_x_uninsulated,0.025977391388521228,cold winter x no insulation
+needqr_noclim,no_income,B2,catboost,heating_need_kwh,0.006493093375687877,heating need (kWh)
+needqr_noclim,no_income,B2,catboost,heating_need_pp,0.03532000655087652,heating need per person
+needqr_noclim,no_income,B2,catboost,heating_strategy,0.04151476667846767,heating strategy (H9)
+needqr_noclim,no_income,B2,catboost,heating_system_type,0.02533134091093837,heating system type
+needqr_noclim,no_income,B2,catboost,household_size,0.18022853367388675,household size
+needqr_noclim,no_income,B2,catboost,region,0.10458246796198797,region (NUTS2)
+needqr_noclim,no_income,B2,catboost,solar_hs,0.11337620996724196,solar radiation (winter)
+needqr_noclim,no_income,B2,ft_transformer,H1,0.08132283743631645,house detachment
+needqr_noclim,no_income,B2,ft_transformer,H2,0.08196369315839672,house age
+needqr_noclim,no_income,B2,ft_transformer,H3,0.0757098868902954,floor area
+needqr_noclim,no_income,B2,ft_transformer,birth_year,0.07983598878539722,birth year respondent
+needqr_noclim,no_income,B2,ft_transformer,cdd_x_ac,0.07806966993925513,hot summer x air conditioning
+needqr_noclim,no_income,B2,ft_transformer,country,0.12383070816127713,country
+needqr_noclim,no_income,B2,ft_transformer,density_x_urban,0.08158883561905646,density x urban area
+needqr_noclim,no_income,B2,ft_transformer,hdd_x_electric,0.0761701224452025,cold winter x electric heating
+needqr_noclim,no_income,B2,ft_transformer,hdd_x_solid,0.08040341740081018,cold winter x solid-fuel heating
+needqr_noclim,no_income,B2,ft_transformer,hdd_x_uninsulated,0.08456980796791226,cold winter x no insulation
+needqr_noclim,no_income,B2,ft_transformer,heating_need_kwh,0.08729636189075253,heating need (kWh)
+needqr_noclim,no_income,B2,ft_transformer,heating_need_pp,0.07649079124326742,heating need per person
+needqr_noclim,no_income,B2,ft_transformer,heating_strategy,0.10258491936243483,heating strategy (H9)
+needqr_noclim,no_income,B2,ft_transformer,heating_system_type,0.09140860130513466,heating system type
+needqr_noclim,no_income,B2,ft_transformer,household_size,0.08269902674681609,household size
+needqr_noclim,no_income,B2,ft_transformer,region,0.12966946660300305,region (NUTS2)
+needqr_noclim,no_income,B2,ft_transformer,solar_hs,0.10405035684338305,solar radiation (winter)
+needqr_noclim,no_income,B2,xgboost,H1,0.016027444328688908,house detachment
+needqr_noclim,no_income,B2,xgboost,H2,0.04314245880839685,house age
+needqr_noclim,no_income,B2,xgboost,H3,0.06887899409251538,floor area
+needqr_noclim,no_income,B2,xgboost,birth_year,0.11431254676275492,birth year respondent
+needqr_noclim,no_income,B2,xgboost,cdd_x_ac,0.06438706350183244,hot summer x air conditioning
+needqr_noclim,no_income,B2,xgboost,country,0.04794520858206476,country
+needqr_noclim,no_income,B2,xgboost,density_x_urban,0.07445926456223519,density x urban area
+needqr_noclim,no_income,B2,xgboost,hdd_x_electric,0.05181729530305144,cold winter x electric heating
+needqr_noclim,no_income,B2,xgboost,hdd_x_solid,0.04981386770013959,cold winter x solid-fuel heating
+needqr_noclim,no_income,B2,xgboost,hdd_x_uninsulated,0.03994295156865419,cold winter x no insulation
+needqr_noclim,no_income,B2,xgboost,heating_need_kwh,0.06845095250805248,heating need (kWh)
+needqr_noclim,no_income,B2,xgboost,heating_need_pp,0.08122877205974594,heating need per person
+needqr_noclim,no_income,B2,xgboost,heating_strategy,0.057562077502276356,heating strategy (H9)
+needqr_noclim,no_income,B2,xgboost,heating_system_type,0.03515762058797483,heating system type
+needqr_noclim,no_income,B2,xgboost,household_size,0.13264829138737347,household size
+needqr_noclim,no_income,B2,xgboost,region,0.3164545210684842,region (NUTS2)
+needqr_noclim,no_income,B2,xgboost,solar_hs,0.07808246052269407,solar radiation (winter)
+p80,full,B0,catboost,H1,0.062172155831152584,house detachment
+p80,full,B0,catboost,H2,0.025710636997824683,house age
+p80,full,B0,catboost,H3,0.04838749670031235,floor area
+p80,full,B0,catboost,birth_year,0.017091757942792378,birth year respondent
+p80,full,B0,catboost,country,0.028317621417833738,country
+p80,full,B0,catboost,heating_strategy,0.009258477365387738,heating strategy (H9)
+p80,full,B0,catboost,household_size,0.02256836443727175,household size
+p80,full,B0,catboost,income_bracket,0.7864934893074248,income bracket
+p80,full,B0,ft_transformer,H1,0.11796739666412379,house detachment
+p80,full,B0,ft_transformer,H2,0.13024698501169743,house age
+p80,full,B0,ft_transformer,H3,0.116718282922499,floor area
+p80,full,B0,ft_transformer,birth_year,0.12213509707672703,birth year respondent
+p80,full,B0,ft_transformer,country,0.1360895573814163,country
+p80,full,B0,ft_transformer,heating_strategy,0.126093543621977,heating strategy (H9)
+p80,full,B0,ft_transformer,household_size,0.1156791262270734,household size
+p80,full,B0,ft_transformer,income_bracket,0.13507001109448605,income bracket
+p80,full,B0,xgboost,H1,0.05273621655779226,house detachment
+p80,full,B0,xgboost,H2,0.03982888294624999,house age
+p80,full,B0,xgboost,H3,0.03668494245125527,floor area
+p80,full,B0,xgboost,birth_year,0.047605137796946737,birth year respondent
+p80,full,B0,xgboost,country,0.03892100971074835,country
+p80,full,B0,xgboost,heating_strategy,0.025313920279179985,heating strategy (H9)
+p80,full,B0,xgboost,household_size,0.033424423034081,household size
+p80,full,B0,xgboost,income_bracket,0.7254854672237464,income bracket
+p80,full,B1,catboost,H1,0.06440818110261506,house detachment
+p80,full,B1,catboost,H2,0.021367787722657287,house age
+p80,full,B1,catboost,H3,0.03564781862553319,floor area
+p80,full,B1,catboost,birth_year,0.009683053569373223,birth year respondent
+p80,full,B1,catboost,country,0.035816947571740886,country
+p80,full,B1,catboost,heating_strategy,0.011221301572409878,heating strategy (H9)
+p80,full,B1,catboost,heating_system_type,0.02336654954524951,heating system type
+p80,full,B1,catboost,household_size,0.013520651451882313,household size
+p80,full,B1,catboost,income_bracket,0.7704971656948362,income bracket
+p80,full,B1,catboost,income_eur_equiv,0.014073607997354777,income per adult equivalent (EUR)
+p80,full,B1,catboost,region,0.03511348506987186,region (NUTS2)
+p80,full,B1,catboost,wealth_index,0.044745345523239055,wealth index (house-value stand-in)
+p80,full,B1,ft_transformer,H1,0.10807525355115613,house detachment
+p80,full,B1,ft_transformer,H2,0.11112570104225647,house age
+p80,full,B1,ft_transformer,H3,0.09915237327730404,floor area
+p80,full,B1,ft_transformer,birth_year,0.1022545835430794,birth year respondent
+p80,full,B1,ft_transformer,country,0.11492132870477217,country
+p80,full,B1,ft_transformer,heating_strategy,0.10937232385456475,heating strategy (H9)
+p80,full,B1,ft_transformer,heating_system_type,0.077586028263853,heating system type
+p80,full,B1,ft_transformer,household_size,0.09891377510145581,household size
+p80,full,B1,ft_transformer,income_bracket,0.1326908423614993,income bracket
+p80,full,B1,ft_transformer,income_eur_equiv,0.06986091336976696,income per adult equivalent (EUR)
+p80,full,B1,ft_transformer,region,0.13167376936055358,region (NUTS2)
+p80,full,B1,ft_transformer,wealth_index,0.09705566080488083,wealth index (house-value stand-in)
+p80,full,B1,xgboost,H1,0.048460969429467385,house detachment
+p80,full,B1,xgboost,H2,0.03512581006389797,house age
+p80,full,B1,xgboost,H3,0.035767765321139906,floor area
+p80,full,B1,xgboost,birth_year,0.04179617322656248,birth year respondent
+p80,full,B1,xgboost,country,0.01759156789017892,country
+p80,full,B1,xgboost,heating_strategy,0.02430584500325992,heating strategy (H9)
+p80,full,B1,xgboost,heating_system_type,0.022057857234763546,heating system type
+p80,full,B1,xgboost,household_size,0.028950446415946303,household size
+p80,full,B1,xgboost,income_bracket,0.65306762177959,income bracket
+p80,full,B1,xgboost,income_eur_equiv,0.03981361411060172,income per adult equivalent (EUR)
+p80,full,B1,xgboost,region,0.14658579623172507,region (NUTS2)
+p80,full,B1,xgboost,wealth_index,0.049069394846685016,wealth index (house-value stand-in)
+p80,full,B2,catboost,H1,0.043020441590816264,house detachment
+p80,full,B2,catboost,H2,0.02220979556763753,house age
+p80,full,B2,catboost,H3,0.02758528618250777,floor area
+p80,full,B2,catboost,birth_year,0.007761173323086281,birth year respondent
+p80,full,B2,catboost,cold_spell_max,0.01942075264029114,longest cold spell
+p80,full,B2,catboost,country,0.03525327210334429,country
+p80,full,B2,catboost,density_x_urban,0.00919571037168907,density x urban area
+p80,full,B2,catboost,hdd_x_old,0.003533575682192444,cold winter x old home
+p80,full,B2,catboost,hdd_x_uninsulated,0.01094097848228944,cold winter x no insulation
+p80,full,B2,catboost,heating_need_kwh,0.025484152342804826,heating need (kWh)
+p80,full,B2,catboost,heating_need_pp,0.011748798241639238,heating need per person
+p80,full,B2,catboost,heating_strategy,0.008225162445714133,heating strategy (H9)
+p80,full,B2,catboost,heating_system_type,0.02761861316301295,heating system type
+p80,full,B2,catboost,household_size,0.015053379747820245,household size
+p80,full,B2,catboost,income_bracket,0.7546100421161943,income bracket
+p80,full,B2,catboost,income_eur_equiv,0.009181712900946293,income per adult equivalent (EUR)
+p80,full,B2,catboost,region,0.031246823625195312,region (NUTS2)
+p80,full,B2,catboost,rh_hs,0.025927486466636986,relative humidity (winter)
+p80,full,B2,catboost,wealth_index,0.03213619664975285,wealth index (house-value stand-in)
+p80,full,B2,catboost,wind_x_detached,0.02123306857848283,wind x detached house
+p80,full,B2,ft_transformer,H1,0.07715719293781262,house detachment
+p80,full,B2,ft_transformer,H2,0.07726384295598708,house age
+p80,full,B2,ft_transformer,H3,0.07629496332810767,floor area
+p80,full,B2,ft_transformer,birth_year,0.0763904227813223,birth year respondent
+p80,full,B2,ft_transformer,cold_spell_max,0.0958424496455373,longest cold spell
+p80,full,B2,ft_transformer,country,0.08760968382649527,country
+p80,full,B2,ft_transformer,density_x_urban,0.07752436318812268,density x urban area
+p80,full,B2,ft_transformer,hdd_x_old,0.09303287193117213,cold winter x old home
+p80,full,B2,ft_transformer,hdd_x_uninsulated,0.08187787175915637,cold winter x no insulation
+p80,full,B2,ft_transformer,heating_need_kwh,0.08199832304283805,heating need (kWh)
+p80,full,B2,ft_transformer,heating_need_pp,0.07218891704839882,heating need per person
+p80,full,B2,ft_transformer,heating_strategy,0.08396292549221582,heating strategy (H9)
+p80,full,B2,ft_transformer,heating_system_type,0.0807714275403567,heating system type
+p80,full,B2,ft_transformer,household_size,0.07716886622849341,household size
+p80,full,B2,ft_transformer,income_bracket,0.09923417224049506,income bracket
+p80,full,B2,ft_transformer,income_eur_equiv,0.06043439435289184,income per adult equivalent (EUR)
+p80,full,B2,ft_transformer,region,0.11127100752782793,region (NUTS2)
+p80,full,B2,ft_transformer,rh_hs,0.0949304519956012,relative humidity (winter)
+p80,full,B2,ft_transformer,wealth_index,0.07219522823795549,wealth index (house-value stand-in)
+p80,full,B2,ft_transformer,wind_x_detached,0.07502356947191893,wind x detached house
+p80,full,B2,xgboost,H1,0.027663288180973265,house detachment
+p80,full,B2,xgboost,H2,0.027578183786558765,house age
+p80,full,B2,xgboost,H3,0.019642058694734014,floor area
+p80,full,B2,xgboost,birth_year,0.031155680202652154,birth year respondent
+p80,full,B2,xgboost,cold_spell_max,0.03743778502424147,longest cold spell
+p80,full,B2,xgboost,country,0.013188691567739766,country
+p80,full,B2,xgboost,density_x_urban,0.03572665277389542,density x urban area
+p80,full,B2,xgboost,hdd_x_old,0.023756696485636015,cold winter x old home
+p80,full,B2,xgboost,hdd_x_uninsulated,0.023468032950769286,cold winter x no insulation
+p80,full,B2,xgboost,heating_need_kwh,0.04727805809834441,heating need (kWh)
+p80,full,B2,xgboost,heating_need_pp,0.0300855317459849,heating need per person
+p80,full,B2,xgboost,heating_strategy,0.020414579189808213,heating strategy (H9)
+p80,full,B2,xgboost,heating_system_type,0.019841587212913552,heating system type
+p80,full,B2,xgboost,household_size,0.023912638807643143,household size
+p80,full,B2,xgboost,income_bracket,0.6182466525816893,income bracket
+p80,full,B2,xgboost,income_eur_equiv,0.03332239276852802,income per adult equivalent (EUR)
+p80,full,B2,xgboost,region,0.13882979317727684,region (NUTS2)
+p80,full,B2,xgboost,rh_hs,0.05211379372197808,relative humidity (winter)
+p80,full,B2,xgboost,wealth_index,0.04202731895903926,wealth index (house-value stand-in)
+p80,full,B2,xgboost,wind_x_detached,0.021311246593337763,wind x detached house
+p80,full,B2p,catboost,H1,0.048142707655254205,house detachment
+p80,full,B2p,catboost,H2,0.020756940924070103,house age
+p80,full,B2p,catboost,H3,0.028422634223320906,floor area
+p80,full,B2p,catboost,birth_year,0.007663502189424203,birth year respondent
+p80,full,B2p,catboost,country,0.03219011485061709,country
+p80,full,B2p,catboost,density_x_urban,0.009817221843032473,density x urban area
+p80,full,B2p,catboost,hdd_x_old,0.013014376494117137,cold winter x old home
+p80,full,B2p,catboost,hdd_x_uninsulated,0.015959596736992192,cold winter x no insulation
+p80,full,B2p,catboost,heating_need_kwh,0.01984414097500401,heating need (kWh)
+p80,full,B2p,catboost,heating_need_pp,0.013266555666756318,heating need per person
+p80,full,B2p,catboost,heating_strategy,0.008582335300603537,heating strategy (H9)
+p80,full,B2p,catboost,heating_system_type,0.030335912337088985,heating system type
+p80,full,B2p,catboost,household_size,0.013685456658222121,household size
+p80,full,B2p,catboost,income_bracket,0.7546804659672142,income bracket
+p80,full,B2p,catboost,income_eur_equiv,0.016707187437624133,income per adult equivalent (EUR)
+p80,full,B2p,catboost,region,0.03214774630072868,region (NUTS2)
+p80,full,B2p,catboost,wealth_index,0.040178583857849094,wealth index (house-value stand-in)
+p80,full,B2p,catboost,wind_x_detached,0.0319940351327603,wind x detached house
+p80,full,B2p,catboost,winter_anomaly,0.022893915007090662,winter 2016/17 vs normal
+p80,full,B2p,ft_transformer,H1,0.07520764386952374,house detachment
+p80,full,B2p,ft_transformer,H2,0.08178138107227109,house age
+p80,full,B2p,ft_transformer,H3,0.07820118710798206,floor area
+p80,full,B2p,ft_transformer,birth_year,0.0742294577030286,birth year respondent
+p80,full,B2p,ft_transformer,country,0.08721130490657258,country
+p80,full,B2p,ft_transformer,density_x_urban,0.0831119641268409,density x urban area
+p80,full,B2p,ft_transformer,hdd_x_old,0.07065697535176048,cold winter x old home
+p80,full,B2p,ft_transformer,hdd_x_uninsulated,0.07753155465474784,cold winter x no insulation
+p80,full,B2p,ft_transformer,heating_need_kwh,0.08131161479113788,heating need (kWh)
+p80,full,B2p,ft_transformer,heating_need_pp,0.0786003839511807,heating need per person
+p80,full,B2p,ft_transformer,heating_strategy,0.08841318521381498,heating strategy (H9)
+p80,full,B2p,ft_transformer,heating_system_type,0.06610862955779376,heating system type
+p80,full,B2p,ft_transformer,household_size,0.07656489211357038,household size
+p80,full,B2p,ft_transformer,income_bracket,0.09979670918525808,income bracket
+p80,full,B2p,ft_transformer,income_eur_equiv,0.07193440747920127,income per adult equivalent (EUR)
+p80,full,B2p,ft_transformer,region,0.11220053790209214,region (NUTS2)
+p80,full,B2p,ft_transformer,wealth_index,0.07138918576815616,wealth index (house-value stand-in)
+p80,full,B2p,ft_transformer,wind_x_detached,0.07239719891211273,wind x detached house
+p80,full,B2p,ft_transformer,winter_anomaly,0.07642827137763825,winter 2016/17 vs normal
+p80,full,B2p,xgboost,H1,0.031902453297147276,house detachment
+p80,full,B2p,xgboost,H2,0.02524918106822777,house age
+p80,full,B2p,xgboost,H3,0.022471151102000163,floor area
+p80,full,B2p,xgboost,birth_year,0.030330887194670572,birth year respondent
+p80,full,B2p,xgboost,country,0.01382711251085342,country
+p80,full,B2p,xgboost,density_x_urban,0.04109780945120383,density x urban area
+p80,full,B2p,xgboost,hdd_x_old,0.029837122488822962,cold winter x old home
+p80,full,B2p,xgboost,hdd_x_uninsulated,0.02384658870921762,cold winter x no insulation
+p80,full,B2p,xgboost,heating_need_kwh,0.04285832214444219,heating need (kWh)
+p80,full,B2p,xgboost,heating_need_pp,0.03235466775558237,heating need per person
+p80,full,B2p,xgboost,heating_strategy,0.020336889229401474,heating strategy (H9)
+p80,full,B2p,xgboost,heating_system_type,0.02171907563778771,heating system type
+p80,full,B2p,xgboost,household_size,0.02284316645878265,household size
+p80,full,B2p,xgboost,income_bracket,0.6179182972641545,income bracket
+p80,full,B2p,xgboost,income_eur_equiv,0.03212396029066023,income per adult equivalent (EUR)
+p80,full,B2p,xgboost,region,0.1366585419403897,region (NUTS2)
+p80,full,B2p,xgboost,wealth_index,0.041031367473956956,wealth index (house-value stand-in)
+p80,full,B2p,xgboost,wind_x_detached,0.026628789756504245,wind x detached house
+p80,full,B2p,xgboost,winter_anomaly,0.05353739126529221,winter 2016/17 vs normal
+p80,income_only,all,catboost,income_bracket,1.0,income bracket
+p80,income_only,all,ft_transformer,income_bracket,1.0,income bracket
+p80,income_only,all,xgboost,income_bracket,1.0,income bracket
+p80,no_income,B0,catboost,H1,0.16892215703087382,house detachment
+p80,no_income,B0,catboost,H2,0.0489986493223427,house age
+p80,no_income,B0,catboost,H3,0.0993698916726948,floor area
+p80,no_income,B0,catboost,birth_year,0.09287006774414046,birth year respondent
+p80,no_income,B0,catboost,country,0.3740095359962263,country
+p80,no_income,B0,catboost,heating_strategy,0.03481255464212387,heating strategy (H9)
+p80,no_income,B0,catboost,household_size,0.18101714359159804,household size
+p80,no_income,B0,ft_transformer,H1,0.13283363561999662,house detachment
+p80,no_income,B0,ft_transformer,H2,0.13876315987349783,house age
+p80,no_income,B0,ft_transformer,H3,0.1326596673338201,floor area
+p80,no_income,B0,ft_transformer,birth_year,0.13072527502450254,birth year respondent
+p80,no_income,B0,ft_transformer,country,0.18784937263986212,country
+p80,no_income,B0,ft_transformer,heating_strategy,0.14753763303550083,heating strategy (H9)
+p80,no_income,B0,ft_transformer,household_size,0.12963125647281998,household size
+p80,no_income,B0,xgboost,H1,0.1284212897040435,house detachment
+p80,no_income,B0,xgboost,H2,0.10049465488854605,house age
+p80,no_income,B0,xgboost,H3,0.10512497798768829,floor area
+p80,no_income,B0,xgboost,birth_year,0.14894614854933275,birth year respondent
+p80,no_income,B0,xgboost,country,0.2625966528376526,country
+p80,no_income,B0,xgboost,heating_strategy,0.08926675252140799,heating strategy (H9)
+p80,no_income,B0,xgboost,household_size,0.1651495235113288,household size
+p80,no_income,B1,catboost,H1,0.16946429607349567,house detachment
+p80,no_income,B1,catboost,H2,0.03863774566804883,house age
+p80,no_income,B1,catboost,H3,0.07399728962156234,floor area
+p80,no_income,B1,catboost,birth_year,0.0797311976244983,birth year respondent
+p80,no_income,B1,catboost,country,0.3194391036782911,country
+p80,no_income,B1,catboost,heating_strategy,0.03806199134687497,heating strategy (H9)
+p80,no_income,B1,catboost,heating_system_type,0.05217022771514042,heating system type
+p80,no_income,B1,catboost,household_size,0.16250237809062645,household size
+p80,no_income,B1,catboost,region,0.09499073000804163,region (NUTS2)
+p80,no_income,B1,catboost,wealth_index,0.19260311016336962,wealth index (house-value stand-in)
+p80,no_income,B1,ft_transformer,H1,0.11484788303698283,house detachment
+p80,no_income,B1,ft_transformer,H2,0.11554994668049766,house age
+p80,no_income,B1,ft_transformer,H3,0.10934504135717998,floor area
+p80,no_income,B1,ft_transformer,birth_year,0.11485628276852472,birth year respondent
+p80,no_income,B1,ft_transformer,country,0.16836794093409815,country
+p80,no_income,B1,ft_transformer,heating_strategy,0.13198203608259088,heating strategy (H9)
+p80,no_income,B1,ft_transformer,heating_system_type,0.09691857487637098,heating system type
+p80,no_income,B1,ft_transformer,household_size,0.11164661146850771,household size
+p80,no_income,B1,ft_transformer,region,0.15091253015215675,region (NUTS2)
+p80,no_income,B1,ft_transformer,wealth_index,0.0987549971690831,wealth index (house-value stand-in)
+p80,no_income,B1,xgboost,H1,0.10196179232019038,house detachment
+p80,no_income,B1,xgboost,H2,0.07907789635345738,house age
+p80,no_income,B1,xgboost,H3,0.08362971443021873,floor area
+p80,no_income,B1,xgboost,birth_year,0.12072096138821839,birth year respondent
+p80,no_income,B1,xgboost,country,0.11579300213161225,country
+p80,no_income,B1,xgboost,heating_strategy,0.06943587401833447,heating strategy (H9)
+p80,no_income,B1,xgboost,heating_system_type,0.044810280123188204,heating system type
+p80,no_income,B1,xgboost,household_size,0.14298202826892947,household size
+p80,no_income,B1,xgboost,region,0.3612481866856777,region (NUTS2)
+p80,no_income,B1,xgboost,wealth_index,0.1596722048389045,wealth index (house-value stand-in)
+p80,no_income,B2,catboost,H1,0.12737229938885838,house detachment
+p80,no_income,B2,catboost,H2,0.041985339060142096,house age
+p80,no_income,B2,catboost,H3,0.05451852860265169,floor area
+p80,no_income,B2,catboost,birth_year,0.07107130263675249,birth year respondent
+p80,no_income,B2,catboost,cold_spell_max,0.03339027116914968,longest cold spell
+p80,no_income,B2,catboost,country,0.2907035809546692,country
+p80,no_income,B2,catboost,density_x_urban,0.02199247467852285,density x urban area
+p80,no_income,B2,catboost,hdd_x_old,0.025268735708011896,cold winter x old home
+p80,no_income,B2,catboost,hdd_x_uninsulated,0.021320255819240727,cold winter x no insulation
+p80,no_income,B2,catboost,heating_need_kwh,0.04633123928782032,heating need (kWh)
+p80,no_income,B2,catboost,heating_need_pp,0.050640638703619435,heating need per person
+p80,no_income,B2,catboost,heating_strategy,0.034354902742364544,heating strategy (H9)
+p80,no_income,B2,catboost,heating_system_type,0.04931801954889024,heating system type
+p80,no_income,B2,catboost,household_size,0.14858995084805868,household size
+p80,no_income,B2,catboost,region,0.09746358395166294,region (NUTS2)
+p80,no_income,B2,catboost,rh_hs,0.04358391103959813,relative humidity (winter)
+p80,no_income,B2,catboost,wealth_index,0.1775659593309549,wealth index (house-value stand-in)
+p80,no_income,B2,catboost,wind_x_detached,0.03876948539682927,wind x detached house
+p80,no_income,B2,ft_transformer,H1,0.08254057731542776,house detachment
+p80,no_income,B2,ft_transformer,H2,0.09036878737643672,house age
+p80,no_income,B2,ft_transformer,H3,0.08231651243269625,floor area
+p80,no_income,B2,ft_transformer,birth_year,0.08337719350539059,birth year respondent
+p80,no_income,B2,ft_transformer,cold_spell_max,0.10446023307745794,longest cold spell
+p80,no_income,B2,ft_transformer,country,0.12354749606098002,country
+p80,no_income,B2,ft_transformer,density_x_urban,0.08558030286317266,density x urban area
+p80,no_income,B2,ft_transformer,hdd_x_old,0.09111398750521175,cold winter x old home
+p80,no_income,B2,ft_transformer,hdd_x_uninsulated,0.09290294015352893,cold winter x no insulation
+p80,no_income,B2,ft_transformer,heating_need_kwh,0.0821300915118251,heating need (kWh)
+p80,no_income,B2,ft_transformer,heating_need_pp,0.07715422567778903,heating need per person
+p80,no_income,B2,ft_transformer,heating_strategy,0.09784217638476657,heating strategy (H9)
+p80,no_income,B2,ft_transformer,heating_system_type,0.09430830173405302,heating system type
+p80,no_income,B2,ft_transformer,household_size,0.07873999672876594,household size
+p80,no_income,B2,ft_transformer,region,0.1123953094163854,region (NUTS2)
+p80,no_income,B2,ft_transformer,rh_hs,0.10800284163882184,relative humidity (winter)
+p80,no_income,B2,ft_transformer,wealth_index,0.08007604797377736,wealth index (house-value stand-in)
+p80,no_income,B2,ft_transformer,wind_x_detached,0.08344999095406318,wind x detached house
+p80,no_income,B2,xgboost,H1,0.051281956851176834,house detachment
+p80,no_income,B2,xgboost,H2,0.05565654286959192,house age
+p80,no_income,B2,xgboost,H3,0.04742651621217734,floor area
+p80,no_income,B2,xgboost,birth_year,0.09632576974405606,birth year respondent
+p80,no_income,B2,xgboost,cold_spell_max,0.08991358988790212,longest cold spell
+p80,no_income,B2,xgboost,country,0.08610252035437124,country
+p80,no_income,B2,xgboost,density_x_urban,0.07373404183766788,density x urban area
+p80,no_income,B2,xgboost,hdd_x_old,0.056717313563345854,cold winter x old home
+p80,no_income,B2,xgboost,hdd_x_uninsulated,0.04978260320187897,cold winter x no insulation
+p80,no_income,B2,xgboost,heating_need_kwh,0.09286399084623165,heating need (kWh)
+p80,no_income,B2,xgboost,heating_need_pp,0.08728523259904919,heating need per person
+p80,no_income,B2,xgboost,heating_strategy,0.054520258098843206,heating strategy (H9)
+p80,no_income,B2,xgboost,heating_system_type,0.0350312269331762,heating system type
+p80,no_income,B2,xgboost,household_size,0.10889651299776175,household size
+p80,no_income,B2,xgboost,region,0.3238297562553304,region (NUTS2)
+p80,no_income,B2,xgboost,rh_hs,0.12050034570337424,relative humidity (winter)
+p80,no_income,B2,xgboost,wealth_index,0.14480363423509424,wealth index (house-value stand-in)
+p80,no_income,B2,xgboost,wind_x_detached,0.049333086125766694,wind x detached house

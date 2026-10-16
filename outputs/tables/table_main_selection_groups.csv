@@ -1,0 +1,14 @@
+label,groups,selection_rate
+burden,enable_top3,0.13333333333333333
+burden,household_indices,0.26666666666666666
+burden,region,0.6
+needqr,enable_top3,0.13333333333333333
+needqr,household_indices,0.3333333333333333
+needqr,partial_modules,0.06666666666666667
+needqr,region,1.0
+needqr_noclim,household_indices,0.06666666666666667
+needqr_noclim,region,1.0
+p80,enable_top3,0.13333333333333333
+p80,household_indices,0.4666666666666667
+p80,partial_modules,0.13333333333333333
+p80,region,0.8666666666666667

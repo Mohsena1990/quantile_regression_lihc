@@ -1,0 +1,297 @@
+label,stage,feature,selection_rate,mean_rank,weight_attention,feature_name
+burden,B1,H11B,0.0,11.2,0.14657638516566598,dishwasher age
+burden,B1,S8,0.0,8.0,0.14657638516566598,S8 income adequacy
+burden,B1,bill_too_complicated,0.0,13.266666666666667,0.14657638516566598,energy bill too complicated (C5C)
+burden,B1,dwelling_efficiency_index,0.0,9.066666666666666,0.14657638516566598,dwelling efficiency index
+burden,B1,energy_saving_index,0.0,13.133333333333333,0.14657638516566598,"energy-saving behaviour index (G1, G3)"
+burden,B1,env_attitude_index,0.0,8.866666666666667,0.14657638516566598,environmental attitude index (H15)
+burden,B1,floor_area_per_person,0.0,7.266666666666667,0.14657638516566598,floor area per person
+burden,B1,heating_system_type,0.0,3.6666666666666665,0.14657638516566598,heating system type
+burden,B1,income_eur_equiv,0.06666666666666667,2.4,0.14657638516566598,income per adult equivalent (EUR)
+burden,B1,inefficient_equipment_index,0.0,5.133333333333334,0.14657638516566598,inefficient equipment index
+burden,B1,knows_kwh_price,0.0,12.133333333333333,0.14657638516566598,knows the price of 1 kWh (E1)
+burden,B1,region,0.2,2.3333333333333335,0.14657638516566598,region (NUTS2)
+burden,B1,vulnerability_index,0.0,6.666666666666667,0.14657638516566598,household vulnerability index
+burden,B1,wealth_index,0.06666666666666667,1.8666666666666667,0.14657638516566598,wealth index (house-value stand-in)
+burden,B2,apparent_tmin_hs,0.0,26.333333333333332,0.06897051299815136,feels-like min (winter)
+burden,B2,cdd_normal,0.0,16.066666666666666,0.06897051299815136,CDD normal 1991-2020
+burden,B2,cdd_s2017,0.0,19.066666666666666,0.06897051299815136,CDD summer 2017
+burden,B2,cdd_x_ac,0.0,10.533333333333333,0.06897051299815136,hot summer x air conditioning
+burden,B2,cloud_hs,0.0,17.4,0.06897051299815136,cloud cover (winter)
+burden,B2,cold_spell_max,0.0,21.533333333333335,0.06897051299815136,longest cold spell
+burden,B2,density_x_urban,0.8666666666666667,2.466666666666667,0.06897051299815136,density x urban area
+burden,B2,frost_days_hs,0.0,27.466666666666665,0.06897051299815136,frost days (winter)
+burden,B2,gust_max_hs,0.0,6.2,0.06897051299815136,wind gusts (winter)
+burden,B2,hdd_hs1617,0.0,24.866666666666667,0.06897051299815136,HDD winter 2016/17
+burden,B2,hdd_normal,0.0,17.533333333333335,0.06897051299815136,HDD normal 1991-2020
+burden,B2,hdd_x_electric,0.0,10.8,0.06897051299815136,cold winter x electric heating
+burden,B2,hdd_x_old,0.0,14.066666666666666,0.06897051299815136,cold winter x old home
+burden,B2,hdd_x_solid,0.0,8.333333333333334,0.06897051299815136,cold winter x solid-fuel heating
+burden,B2,hdd_x_uninsulated,0.0,15.266666666666667,0.06897051299815136,cold winter x no insulation
+burden,B2,heating_need_kwh,1.0,1.0666666666666667,0.06897051299815136,heating need (kWh)
+burden,B2,heating_need_pp,0.26666666666666666,5.6,0.06897051299815136,heating need per person
+burden,B2,heatwave_days,0.0,27.4,0.06897051299815136,heatwave days 2017
+burden,B2,precip_hs,0.0,15.933333333333334,0.06897051299815136,precipitation (winter)
+burden,B2,rh_hs,0.0,12.6,0.06897051299815136,relative humidity (winter)
+burden,B2,rh_x_old,0.0,24.6,0.06897051299815136,humidity x old home
+burden,B2,snowfall_hs,0.0,24.866666666666667,0.06897051299815136,snowfall (winter)
+burden,B2,solar_hs,0.7333333333333333,4.466666666666667,0.06897051299815136,solar radiation (winter)
+burden,B2,summer_anomaly,0.0,16.466666666666665,0.06897051299815136,summer 2017 minus normal (CDD)
+burden,B2,sunshine_hs,0.0,13.8,0.06897051299815136,sunshine hours (winter)
+burden,B2,tmin_hs,0.0,27.066666666666666,0.06897051299815136,min temperature (winter)
+burden,B2,tropical_nights,0.0,21.333333333333332,0.06897051299815136,tropical nights 2017
+burden,B2,wind_hs,0.13333333333333333,5.533333333333333,0.06897051299815136,wind speed (winter)
+burden,B2,wind_x_detached,0.0,9.533333333333333,0.06897051299815136,wind x detached house
+burden,B2,winter_anomaly,0.0,16.8,0.06897051299815136,winter 2016/17 vs normal
+burden,B2p,apparent_tmin_hs,0.0,27.266666666666666,0.11781256034114297,feels-like min (winter)
+burden,B2p,cdd_normal,0.0,19.666666666666668,0.11781256034114297,CDD normal 1991-2020
+burden,B2p,cdd_s2017,0.0,27.733333333333334,0.11781256034114297,CDD summer 2017
+burden,B2p,cdd_x_ac,0.0,11.0,0.11781256034114297,hot summer x air conditioning
+burden,B2p,cloud_hs,0.0,12.8,0.11781256034114297,cloud cover (winter)
+burden,B2p,cold_spell_max,0.0,24.2,0.11781256034114297,longest cold spell
+burden,B2p,density_x_urban,0.6666666666666666,3.0,0.11781256034114297,density x urban area
+burden,B2p,frost_days_hs,0.0,22.2,0.11781256034114297,frost days (winter)
+burden,B2p,gust_max_hs,0.0,14.533333333333333,0.11781256034114297,wind gusts (winter)
+burden,B2p,hdd_hs1617,0.0,23.466666666666665,0.11781256034114297,HDD winter 2016/17
+burden,B2p,hdd_normal,0.06666666666666667,14.533333333333333,0.11781256034114297,HDD normal 1991-2020
+burden,B2p,hdd_x_electric,0.0,11.4,0.11781256034114297,cold winter x electric heating
+burden,B2p,hdd_x_old,0.0,14.2,0.11781256034114297,cold winter x old home
+burden,B2p,hdd_x_solid,0.0,11.066666666666666,0.11781256034114297,cold winter x solid-fuel heating
+burden,B2p,hdd_x_uninsulated,0.0,15.2,0.11781256034114297,cold winter x no insulation
+burden,B2p,heating_need_kwh,0.9333333333333333,1.7333333333333334,0.11781256034114297,heating need (kWh)
+burden,B2p,heating_need_pp,0.2,5.933333333333334,0.11781256034114297,heating need per person
+burden,B2p,heatwave_days,0.0,24.866666666666667,0.11781256034114297,heatwave days 2017
+burden,B2p,precip_hs,0.0,15.133333333333333,0.11781256034114297,precipitation (winter)
+burden,B2p,rh_hs,0.0,13.266666666666667,0.11781256034114297,relative humidity (winter)
+burden,B2p,rh_x_old,0.0,24.333333333333332,0.11781256034114297,humidity x old home
+burden,B2p,snowfall_hs,0.06666666666666667,11.533333333333333,0.11781256034114297,snowfall (winter)
+burden,B2p,solar_hs,0.4666666666666667,4.066666666666666,0.11781256034114297,solar radiation (winter)
+burden,B2p,summer_anomaly,0.0,16.733333333333334,0.11781256034114297,summer 2017 minus normal (CDD)
+burden,B2p,sunshine_hs,0.0,16.533333333333335,0.11781256034114297,sunshine hours (winter)
+burden,B2p,tmin_hs,0.0,25.6,0.11781256034114297,min temperature (winter)
+burden,B2p,tropical_nights,0.0,24.866666666666667,0.11781256034114297,tropical nights 2017
+burden,B2p,wind_hs,0.3333333333333333,8.8,0.11781256034114297,wind speed (winter)
+burden,B2p,wind_x_detached,0.13333333333333333,7.4,0.11781256034114297,wind x detached house
+burden,B2p,winter_anomaly,0.13333333333333333,11.933333333333334,0.11781256034114297,winter 2016/17 vs normal
+needqr,B1,H11B,0.0,10.733333333333333,0.07397198327681297,dishwasher age
+needqr,B1,S8,0.06666666666666667,5.866666666666666,0.07397198327681297,S8 income adequacy
+needqr,B1,bill_too_complicated,0.0,13.6,0.07397198327681297,energy bill too complicated (C5C)
+needqr,B1,dwelling_efficiency_index,0.0,8.866666666666667,0.07397198327681297,dwelling efficiency index
+needqr,B1,energy_saving_index,0.0,12.066666666666666,0.07397198327681297,"energy-saving behaviour index (G1, G3)"
+needqr,B1,env_attitude_index,0.0,9.066666666666666,0.07397198327681297,environmental attitude index (H15)
+needqr,B1,floor_area_per_person,0.06666666666666667,8.666666666666666,0.07397198327681297,floor area per person
+needqr,B1,heating_system_type,0.13333333333333333,6.466666666666667,0.07397198327681297,heating system type
+needqr,B1,income_eur_equiv,0.13333333333333333,3.2,0.07397198327681297,income per adult equivalent (EUR)
+needqr,B1,inefficient_equipment_index,0.13333333333333333,6.2,0.07397198327681297,inefficient equipment index
+needqr,B1,knows_kwh_price,0.0,13.133333333333333,0.07397198327681297,knows the price of 1 kWh (E1)
+needqr,B1,region,1.0,1.3333333333333333,0.07397198327681297,region (NUTS2)
+needqr,B1,vulnerability_index,0.26666666666666666,3.1333333333333333,0.07397198327681297,household vulnerability index
+needqr,B1,wealth_index,0.26666666666666666,2.6666666666666665,0.07397198327681297,wealth index (house-value stand-in)
+needqr,B2,apparent_tmin_hs,0.0,28.066666666666666,0.04875284728965081,feels-like min (winter)
+needqr,B2,cdd_normal,0.0,23.666666666666668,0.04875284728965081,CDD normal 1991-2020
+needqr,B2,cdd_s2017,0.0,27.666666666666668,0.04875284728965081,CDD summer 2017
+needqr,B2,cdd_x_ac,0.5333333333333333,3.466666666666667,0.04875284728965081,hot summer x air conditioning
+needqr,B2,cloud_hs,0.0,19.733333333333334,0.04875284728965081,cloud cover (winter)
+needqr,B2,cold_spell_max,0.0,25.666666666666668,0.04875284728965081,longest cold spell
+needqr,B2,density_x_urban,0.6,3.0,0.04875284728965081,density x urban area
+needqr,B2,frost_days_hs,0.0,26.466666666666665,0.04875284728965081,frost days (winter)
+needqr,B2,gust_max_hs,0.0,17.866666666666667,0.04875284728965081,wind gusts (winter)
+needqr,B2,hdd_hs1617,0.0,23.8,0.04875284728965081,HDD winter 2016/17
+needqr,B2,hdd_normal,0.0,18.533333333333335,0.04875284728965081,HDD normal 1991-2020
+needqr,B2,hdd_x_electric,0.7333333333333333,3.066666666666667,0.04875284728965081,cold winter x electric heating
+needqr,B2,hdd_x_old,0.0,11.6,0.04875284728965081,cold winter x old home
+needqr,B2,hdd_x_solid,0.2,6.866666666666666,0.04875284728965081,cold winter x solid-fuel heating
+needqr,B2,hdd_x_uninsulated,0.0,9.0,0.04875284728965081,cold winter x no insulation
+needqr,B2,heating_need_kwh,0.06666666666666667,6.866666666666666,0.04875284728965081,heating need (kWh)
+needqr,B2,heating_need_pp,0.8666666666666667,1.9333333333333333,0.04875284728965081,heating need per person
+needqr,B2,heatwave_days,0.0,24.333333333333332,0.04875284728965081,heatwave days 2017
+needqr,B2,precip_hs,0.0,14.933333333333334,0.04875284728965081,precipitation (winter)
+needqr,B2,rh_hs,0.0,8.133333333333333,0.04875284728965081,relative humidity (winter)
+needqr,B2,rh_x_old,0.0,8.333333333333334,0.04875284728965081,humidity x old home
+needqr,B2,snowfall_hs,0.0,17.666666666666668,0.04875284728965081,snowfall (winter)
+needqr,B2,solar_hs,0.0,10.666666666666666,0.04875284728965081,solar radiation (winter)
+needqr,B2,summer_anomaly,0.0,18.533333333333335,0.04875284728965081,summer 2017 minus normal (CDD)
+needqr,B2,sunshine_hs,0.0,14.533333333333333,0.04875284728965081,sunshine hours (winter)
+needqr,B2,tmin_hs,0.0,24.266666666666666,0.04875284728965081,min temperature (winter)
+needqr,B2,tropical_nights,0.0,25.333333333333332,0.04875284728965081,tropical nights 2017
+needqr,B2,wind_hs,0.0,11.533333333333333,0.04875284728965081,wind speed (winter)
+needqr,B2,wind_x_detached,0.0,15.666666666666666,0.04875284728965081,wind x detached house
+needqr,B2,winter_anomaly,0.0,13.8,0.04875284728965081,winter 2016/17 vs normal
+needqr,B2p,apparent_tmin_hs,0.0,28.333333333333332,0.06744105167678884,feels-like min (winter)
+needqr,B2p,cdd_normal,0.0,22.533333333333335,0.06744105167678884,CDD normal 1991-2020
+needqr,B2p,cdd_s2017,0.0,25.6,0.06744105167678884,CDD summer 2017
+needqr,B2p,cdd_x_ac,0.2,5.466666666666667,0.06744105167678884,hot summer x air conditioning
+needqr,B2p,cloud_hs,0.0,17.733333333333334,0.06744105167678884,cloud cover (winter)
+needqr,B2p,cold_spell_max,0.0,25.8,0.06744105167678884,longest cold spell
+needqr,B2p,density_x_urban,0.5333333333333333,3.2666666666666666,0.06744105167678884,density x urban area
+needqr,B2p,frost_days_hs,0.0,26.466666666666665,0.06744105167678884,frost days (winter)
+needqr,B2p,gust_max_hs,0.0,10.6,0.06744105167678884,wind gusts (winter)
+needqr,B2p,hdd_hs1617,0.0,27.266666666666666,0.06744105167678884,HDD winter 2016/17
+needqr,B2p,hdd_normal,0.0,22.333333333333332,0.06744105167678884,HDD normal 1991-2020
+needqr,B2p,hdd_x_electric,0.8,2.7333333333333334,0.06744105167678884,cold winter x electric heating
+needqr,B2p,hdd_x_old,0.0,13.066666666666666,0.06744105167678884,cold winter x old home
+needqr,B2p,hdd_x_solid,0.26666666666666666,6.733333333333333,0.06744105167678884,cold winter x solid-fuel heating
+needqr,B2p,hdd_x_uninsulated,0.0,9.2,0.06744105167678884,cold winter x no insulation
+needqr,B2p,heating_need_kwh,0.06666666666666667,6.933333333333334,0.06744105167678884,heating need (kWh)
+needqr,B2p,heating_need_pp,1.0,1.3333333333333333,0.06744105167678884,heating need per person
+needqr,B2p,heatwave_days,0.0,21.533333333333335,0.06744105167678884,heatwave days 2017
+needqr,B2p,precip_hs,0.0,14.0,0.06744105167678884,precipitation (winter)
+needqr,B2p,rh_hs,0.13333333333333333,11.133333333333333,0.06744105167678884,relative humidity (winter)
+needqr,B2p,rh_x_old,0.0,12.466666666666667,0.06744105167678884,humidity x old home
+needqr,B2p,snowfall_hs,0.0,16.8,0.06744105167678884,snowfall (winter)
+needqr,B2p,solar_hs,0.0,11.933333333333334,0.06744105167678884,solar radiation (winter)
+needqr,B2p,summer_anomaly,0.0,15.733333333333333,0.06744105167678884,summer 2017 minus normal (CDD)
+needqr,B2p,sunshine_hs,0.0,15.533333333333333,0.06744105167678884,sunshine hours (winter)
+needqr,B2p,tmin_hs,0.0,23.666666666666668,0.06744105167678884,min temperature (winter)
+needqr,B2p,tropical_nights,0.0,24.8,0.06744105167678884,tropical nights 2017
+needqr,B2p,wind_hs,0.0,12.4,0.06744105167678884,wind speed (winter)
+needqr,B2p,wind_x_detached,0.0,17.466666666666665,0.06744105167678884,wind x detached house
+needqr,B2p,winter_anomaly,0.0,12.133333333333333,0.06744105167678884,winter 2016/17 vs normal
+needqr_noclim,B1,H11B,0.0,9.533333333333333,0.12970481949229312,dishwasher age
+needqr_noclim,B1,S8,0.0,5.0,0.12970481949229312,S8 income adequacy
+needqr_noclim,B1,bill_too_complicated,0.0,13.733333333333333,0.12970481949229312,energy bill too complicated (C5C)
+needqr_noclim,B1,dwelling_efficiency_index,0.0,9.6,0.12970481949229312,dwelling efficiency index
+needqr_noclim,B1,energy_saving_index,0.0,12.4,0.12970481949229312,"energy-saving behaviour index (G1, G3)"
+needqr_noclim,B1,env_attitude_index,0.0,9.266666666666667,0.12970481949229312,environmental attitude index (H15)
+needqr_noclim,B1,floor_area_per_person,0.0,9.733333333333333,0.12970481949229312,floor area per person
+needqr_noclim,B1,heating_system_type,0.06666666666666667,4.533333333333333,0.12970481949229312,heating system type
+needqr_noclim,B1,income_eur_equiv,0.0,3.7333333333333334,0.12970481949229312,income per adult equivalent (EUR)
+needqr_noclim,B1,inefficient_equipment_index,0.0,5.866666666666666,0.12970481949229312,inefficient equipment index
+needqr_noclim,B1,knows_kwh_price,0.0,12.6,0.12970481949229312,knows the price of 1 kWh (E1)
+needqr_noclim,B1,region,1.0,1.0,0.12970481949229312,region (NUTS2)
+needqr_noclim,B1,vulnerability_index,0.0,5.4,0.12970481949229312,household vulnerability index
+needqr_noclim,B1,wealth_index,0.0,2.6,0.12970481949229312,wealth index (house-value stand-in)
+needqr_noclim,B2,apparent_tmin_hs,0.0,27.866666666666667,0.06039022592202962,feels-like min (winter)
+needqr_noclim,B2,cdd_normal,0.0,16.533333333333335,0.06039022592202962,CDD normal 1991-2020
+needqr_noclim,B2,cdd_s2017,0.0,24.2,0.06039022592202962,CDD summer 2017
+needqr_noclim,B2,cdd_x_ac,0.4666666666666667,3.533333333333333,0.06039022592202962,hot summer x air conditioning
+needqr_noclim,B2,cloud_hs,0.0,20.0,0.06039022592202962,cloud cover (winter)
+needqr_noclim,B2,cold_spell_max,0.0,24.2,0.06039022592202962,longest cold spell
+needqr_noclim,B2,density_x_urban,0.5333333333333333,3.6,0.06039022592202962,density x urban area
+needqr_noclim,B2,frost_days_hs,0.0,28.266666666666666,0.06039022592202962,frost days (winter)
+needqr_noclim,B2,gust_max_hs,0.0,15.2,0.06039022592202962,wind gusts (winter)
+needqr_noclim,B2,hdd_hs1617,0.0,25.066666666666666,0.06039022592202962,HDD winter 2016/17
+needqr_noclim,B2,hdd_normal,0.0,21.066666666666666,0.06039022592202962,HDD normal 1991-2020
+needqr_noclim,B2,hdd_x_electric,0.8,2.466666666666667,0.06039022592202962,cold winter x electric heating
+needqr_noclim,B2,hdd_x_old,0.0,12.4,0.06039022592202962,cold winter x old home
+needqr_noclim,B2,hdd_x_solid,0.13333333333333333,6.333333333333333,0.06039022592202962,cold winter x solid-fuel heating
+needqr_noclim,B2,hdd_x_uninsulated,0.06666666666666667,9.266666666666667,0.06039022592202962,cold winter x no insulation
+needqr_noclim,B2,heating_need_kwh,0.06666666666666667,5.666666666666667,0.06039022592202962,heating need (kWh)
+needqr_noclim,B2,heating_need_pp,0.8666666666666667,2.1333333333333333,0.06039022592202962,heating need per person
+needqr_noclim,B2,heatwave_days,0.0,25.733333333333334,0.06039022592202962,heatwave days 2017
+needqr_noclim,B2,precip_hs,0.0,15.266666666666667,0.06039022592202962,precipitation (winter)
+needqr_noclim,B2,rh_hs,0.0,13.466666666666667,0.06039022592202962,relative humidity (winter)
+needqr_noclim,B2,rh_x_old,0.0,13.2,0.06039022592202962,humidity x old home
+needqr_noclim,B2,snowfall_hs,0.0,19.2,0.06039022592202962,snowfall (winter)
+needqr_noclim,B2,solar_hs,0.06666666666666667,10.333333333333334,0.06039022592202962,solar radiation (winter)
+needqr_noclim,B2,summer_anomaly,0.0,16.066666666666666,0.06039022592202962,summer 2017 minus normal (CDD)
+needqr_noclim,B2,sunshine_hs,0.0,16.066666666666666,0.06039022592202962,sunshine hours (winter)
+needqr_noclim,B2,tmin_hs,0.0,26.466666666666665,0.06039022592202962,min temperature (winter)
+needqr_noclim,B2,tropical_nights,0.0,24.466666666666665,0.06039022592202962,tropical nights 2017
+needqr_noclim,B2,wind_hs,0.0,9.133333333333333,0.06039022592202962,wind speed (winter)
+needqr_noclim,B2,wind_x_detached,0.0,14.466666666666667,0.06039022592202962,wind x detached house
+needqr_noclim,B2,winter_anomaly,0.0,13.333333333333334,0.06039022592202962,winter 2016/17 vs normal
+needqr_noclim,B2p,apparent_tmin_hs,0.0,28.6,0.059145458685851866,feels-like min (winter)
+needqr_noclim,B2p,cdd_normal,0.0,23.6,0.059145458685851866,CDD normal 1991-2020
+needqr_noclim,B2p,cdd_s2017,0.0,26.6,0.059145458685851866,CDD summer 2017
+needqr_noclim,B2p,cdd_x_ac,0.3333333333333333,5.333333333333333,0.059145458685851866,hot summer x air conditioning
+needqr_noclim,B2p,cloud_hs,0.0,17.266666666666666,0.059145458685851866,cloud cover (winter)
+needqr_noclim,B2p,cold_spell_max,0.0,23.533333333333335,0.059145458685851866,longest cold spell
+needqr_noclim,B2p,density_x_urban,0.4,4.0,0.059145458685851866,density x urban area
+needqr_noclim,B2p,frost_days_hs,0.0,22.866666666666667,0.059145458685851866,frost days (winter)
+needqr_noclim,B2p,gust_max_hs,0.0,11.4,0.059145458685851866,wind gusts (winter)
+needqr_noclim,B2p,hdd_hs1617,0.0,23.733333333333334,0.059145458685851866,HDD winter 2016/17
+needqr_noclim,B2p,hdd_normal,0.0,22.933333333333334,0.059145458685851866,HDD normal 1991-2020
+needqr_noclim,B2p,hdd_x_electric,0.9333333333333333,1.9333333333333333,0.059145458685851866,cold winter x electric heating
+needqr_noclim,B2p,hdd_x_old,0.0,11.333333333333334,0.059145458685851866,cold winter x old home
+needqr_noclim,B2p,hdd_x_solid,0.06666666666666667,7.333333333333333,0.059145458685851866,cold winter x solid-fuel heating
+needqr_noclim,B2p,hdd_x_uninsulated,0.0,11.333333333333334,0.059145458685851866,cold winter x no insulation
+needqr_noclim,B2p,heating_need_kwh,0.0,7.2,0.059145458685851866,heating need (kWh)
+needqr_noclim,B2p,heating_need_pp,1.0,1.7333333333333334,0.059145458685851866,heating need per person
+needqr_noclim,B2p,heatwave_days,0.0,22.333333333333332,0.059145458685851866,heatwave days 2017
+needqr_noclim,B2p,precip_hs,0.06666666666666667,12.266666666666667,0.059145458685851866,precipitation (winter)
+needqr_noclim,B2p,rh_hs,0.0,12.266666666666667,0.059145458685851866,relative humidity (winter)
+needqr_noclim,B2p,rh_x_old,0.0,14.866666666666667,0.059145458685851866,humidity x old home
+needqr_noclim,B2p,snowfall_hs,0.06666666666666667,16.8,0.059145458685851866,snowfall (winter)
+needqr_noclim,B2p,solar_hs,0.0,12.0,0.059145458685851866,solar radiation (winter)
+needqr_noclim,B2p,summer_anomaly,0.0,18.666666666666668,0.059145458685851866,summer 2017 minus normal (CDD)
+needqr_noclim,B2p,sunshine_hs,0.0,14.8,0.059145458685851866,sunshine hours (winter)
+needqr_noclim,B2p,tmin_hs,0.0,23.6,0.059145458685851866,min temperature (winter)
+needqr_noclim,B2p,tropical_nights,0.0,26.133333333333333,0.059145458685851866,tropical nights 2017
+needqr_noclim,B2p,wind_hs,0.06666666666666667,11.133333333333333,0.059145458685851866,wind speed (winter)
+needqr_noclim,B2p,wind_x_detached,0.0,17.333333333333332,0.059145458685851866,wind x detached house
+needqr_noclim,B2p,winter_anomaly,0.06666666666666667,12.066666666666666,0.059145458685851866,winter 2016/17 vs normal
+p80,B1,H11B,0.0,10.866666666666667,0.13021775124429572,dishwasher age
+p80,B1,S8,0.0,9.733333333333333,0.13021775124429572,S8 income adequacy
+p80,B1,bill_too_complicated,0.0,13.733333333333333,0.13021775124429572,energy bill too complicated (C5C)
+p80,B1,dwelling_efficiency_index,0.0,7.733333333333333,0.13021775124429572,dwelling efficiency index
+p80,B1,energy_saving_index,0.0,11.6,0.13021775124429572,"energy-saving behaviour index (G1, G3)"
+p80,B1,env_attitude_index,0.0,7.0,0.13021775124429572,environmental attitude index (H15)
+p80,B1,floor_area_per_person,0.0,9.4,0.13021775124429572,floor area per person
+p80,B1,heating_system_type,0.06666666666666667,3.8666666666666667,0.13021775124429572,heating system type
+p80,B1,income_eur_equiv,0.06666666666666667,3.4,0.13021775124429572,income per adult equivalent (EUR)
+p80,B1,inefficient_equipment_index,0.0,7.0,0.13021775124429572,inefficient equipment index
+p80,B1,knows_kwh_price,0.0,11.8,0.13021775124429572,knows the price of 1 kWh (E1)
+p80,B1,region,0.6666666666666666,1.2,0.13021775124429572,region (NUTS2)
+p80,B1,vulnerability_index,0.0,5.866666666666666,0.13021775124429572,household vulnerability index
+p80,B1,wealth_index,0.26666666666666666,1.8,0.13021775124429572,wealth index (house-value stand-in)
+p80,B2,apparent_tmin_hs,0.0,26.6,0.10923526666633131,feels-like min (winter)
+p80,B2,cdd_normal,0.0,16.666666666666668,0.10923526666633131,CDD normal 1991-2020
+p80,B2,cdd_s2017,0.0,25.8,0.10923526666633131,CDD summer 2017
+p80,B2,cdd_x_ac,0.0,11.066666666666666,0.10923526666633131,hot summer x air conditioning
+p80,B2,cloud_hs,0.0,19.066666666666666,0.10923526666633131,cloud cover (winter)
+p80,B2,cold_spell_max,0.06666666666666667,17.666666666666668,0.10923526666633131,longest cold spell
+p80,B2,density_x_urban,0.4666666666666667,4.066666666666666,0.10923526666633131,density x urban area
+p80,B2,frost_days_hs,0.0,27.466666666666665,0.10923526666633131,frost days (winter)
+p80,B2,gust_max_hs,0.0,10.266666666666667,0.10923526666633131,wind gusts (winter)
+p80,B2,hdd_hs1617,0.0,27.266666666666666,0.10923526666633131,HDD winter 2016/17
+p80,B2,hdd_normal,0.0,17.4,0.10923526666633131,HDD normal 1991-2020
+p80,B2,hdd_x_electric,0.0,13.8,0.10923526666633131,cold winter x electric heating
+p80,B2,hdd_x_old,0.06666666666666667,7.333333333333333,0.10923526666633131,cold winter x old home
+p80,B2,hdd_x_solid,0.0,10.8,0.10923526666633131,cold winter x solid-fuel heating
+p80,B2,hdd_x_uninsulated,0.3333333333333333,7.666666666666667,0.10923526666633131,cold winter x no insulation
+p80,B2,heating_need_kwh,1.0,1.2666666666666666,0.10923526666633131,heating need (kWh)
+p80,B2,heating_need_pp,0.4666666666666667,4.266666666666667,0.10923526666633131,heating need per person
+p80,B2,heatwave_days,0.0,21.066666666666666,0.10923526666633131,heatwave days 2017
+p80,B2,precip_hs,0.0,21.266666666666666,0.10923526666633131,precipitation (winter)
+p80,B2,rh_hs,0.26666666666666666,8.066666666666666,0.10923526666633131,relative humidity (winter)
+p80,B2,rh_x_old,0.0,9.666666666666666,0.10923526666633131,humidity x old home
+p80,B2,snowfall_hs,0.0,23.466666666666665,0.10923526666633131,snowfall (winter)
+p80,B2,solar_hs,0.0,12.0,0.10923526666633131,solar radiation (winter)
+p80,B2,summer_anomaly,0.0,23.0,0.10923526666633131,summer 2017 minus normal (CDD)
+p80,B2,sunshine_hs,0.0,18.266666666666666,0.10923526666633131,sunshine hours (winter)
+p80,B2,tmin_hs,0.0,25.666666666666668,0.10923526666633131,min temperature (winter)
+p80,B2,tropical_nights,0.0,20.533333333333335,0.10923526666633131,tropical nights 2017
+p80,B2,wind_hs,0.0,12.4,0.10923526666633131,wind speed (winter)
+p80,B2,wind_x_detached,0.3333333333333333,4.066666666666666,0.10923526666633131,wind x detached house
+p80,B2,winter_anomaly,0.0,17.066666666666666,0.10923526666633131,winter 2016/17 vs normal
+p80,B2p,apparent_tmin_hs,0.0,28.133333333333333,0.0550659759930243,feels-like min (winter)
+p80,B2p,cdd_normal,0.0,20.0,0.0550659759930243,CDD normal 1991-2020
+p80,B2p,cdd_s2017,0.0,26.066666666666666,0.0550659759930243,CDD summer 2017
+p80,B2p,cdd_x_ac,0.0,9.533333333333333,0.0550659759930243,hot summer x air conditioning
+p80,B2p,cloud_hs,0.0,17.6,0.0550659759930243,cloud cover (winter)
+p80,B2p,cold_spell_max,0.0,24.666666666666668,0.0550659759930243,longest cold spell
+p80,B2p,density_x_urban,0.4666666666666667,3.7333333333333334,0.0550659759930243,density x urban area
+p80,B2p,frost_days_hs,0.0,24.866666666666667,0.0550659759930243,frost days (winter)
+p80,B2p,gust_max_hs,0.0,11.8,0.0550659759930243,wind gusts (winter)
+p80,B2p,hdd_hs1617,0.0,26.933333333333334,0.0550659759930243,HDD winter 2016/17
+p80,B2p,hdd_normal,0.0,18.933333333333334,0.0550659759930243,HDD normal 1991-2020
+p80,B2p,hdd_x_electric,0.0,12.866666666666667,0.0550659759930243,cold winter x electric heating
+p80,B2p,hdd_x_old,0.4,5.666666666666667,0.0550659759930243,cold winter x old home
+p80,B2p,hdd_x_solid,0.0,11.466666666666667,0.0550659759930243,cold winter x solid-fuel heating
+p80,B2p,hdd_x_uninsulated,0.3333333333333333,8.266666666666667,0.0550659759930243,cold winter x no insulation
+p80,B2p,heating_need_kwh,1.0,1.0666666666666667,0.0550659759930243,heating need (kWh)
+p80,B2p,heating_need_pp,0.4666666666666667,3.933333333333333,0.0550659759930243,heating need per person
+p80,B2p,heatwave_days,0.0,23.4,0.0550659759930243,heatwave days 2017
+p80,B2p,precip_hs,0.0,17.866666666666667,0.0550659759930243,precipitation (winter)
+p80,B2p,rh_hs,0.0,15.866666666666667,0.0550659759930243,relative humidity (winter)
+p80,B2p,rh_x_old,0.0,13.866666666666667,0.0550659759930243,humidity x old home
+p80,B2p,snowfall_hs,0.0,14.333333333333334,0.0550659759930243,snowfall (winter)
+p80,B2p,solar_hs,0.0,13.133333333333333,0.0550659759930243,solar radiation (winter)
+p80,B2p,summer_anomaly,0.0,16.866666666666667,0.0550659759930243,summer 2017 minus normal (CDD)
+p80,B2p,sunshine_hs,0.0,19.066666666666666,0.0550659759930243,sunshine hours (winter)
+p80,B2p,tmin_hs,0.0,24.066666666666666,0.0550659759930243,min temperature (winter)
+p80,B2p,tropical_nights,0.0,19.8,0.0550659759930243,tropical nights 2017
+p80,B2p,wind_hs,0.0,14.733333333333333,0.0550659759930243,wind speed (winter)
+p80,B2p,wind_x_detached,0.2,6.6,0.0550659759930243,wind x detached house
+p80,B2p,winter_anomaly,0.13333333333333333,9.866666666666667,0.0550659759930243,winter 2016/17 vs normal

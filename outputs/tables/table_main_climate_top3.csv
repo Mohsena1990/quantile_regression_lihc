@@ -1,0 +1,28 @@
+label,feature,top3_rate,feature_name,median_k_one_se
+burden,density_x_urban,0.8666666666666667,density x urban area,8.0
+burden,heating_need_kwh,1.0,heating need (kWh),8.0
+burden,heating_need_pp,0.26666666666666666,heating need per person,8.0
+burden,solar_hs,0.7333333333333333,solar radiation (winter),8.0
+burden,wind_hs,0.13333333333333333,wind speed (winter),8.0
+needqr,cdd_x_ac,0.5333333333333333,hot summer x air conditioning,0.0
+needqr,density_x_urban,0.6,density x urban area,0.0
+needqr,hdd_x_electric,0.7333333333333333,cold winter x electric heating,0.0
+needqr,hdd_x_solid,0.2,cold winter x solid-fuel heating,0.0
+needqr,heating_need_kwh,0.06666666666666667,heating need (kWh),0.0
+needqr,heating_need_pp,0.8666666666666667,heating need per person,0.0
+needqr_noclim,cdd_x_ac,0.4666666666666667,hot summer x air conditioning,0.0
+needqr_noclim,density_x_urban,0.5333333333333333,density x urban area,0.0
+needqr_noclim,hdd_x_electric,0.8,cold winter x electric heating,0.0
+needqr_noclim,hdd_x_solid,0.13333333333333333,cold winter x solid-fuel heating,0.0
+needqr_noclim,hdd_x_uninsulated,0.06666666666666667,cold winter x no insulation,0.0
+needqr_noclim,heating_need_kwh,0.06666666666666667,heating need (kWh),0.0
+needqr_noclim,heating_need_pp,0.8666666666666667,heating need per person,0.0
+needqr_noclim,solar_hs,0.06666666666666667,solar radiation (winter),0.0
+p80,cold_spell_max,0.06666666666666667,longest cold spell,0.0
+p80,density_x_urban,0.4666666666666667,density x urban area,0.0
+p80,hdd_x_old,0.06666666666666667,cold winter x old home,0.0
+p80,hdd_x_uninsulated,0.3333333333333333,cold winter x no insulation,0.0
+p80,heating_need_kwh,1.0,heating need (kWh),0.0
+p80,heating_need_pp,0.4666666666666667,heating need per person,0.0
+p80,rh_hs,0.26666666666666666,relative humidity (winter),0.0
+p80,wind_x_detached,0.3333333333333333,wind x detached house,0.0

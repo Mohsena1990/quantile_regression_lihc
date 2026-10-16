@@ -1,0 +1,136 @@
+country,feature,mean_shap_double_risk,label,feature_name
+Bulgaria,region,-0.011888013,p80,region (NUTS2)
+Hungary,region,0.011234555,p80,region (NUTS2)
+Italy,region,-0.014329245,p80,region (NUTS2)
+Poland,region,0.007086922,p80,region (NUTS2)
+Spain,region,-0.02888755,p80,region (NUTS2)
+Bulgaria,wealth_index,-0.0007436185,p80,wealth index (house-value stand-in)
+Hungary,wealth_index,0.00069486967,p80,wealth index (house-value stand-in)
+Italy,wealth_index,-0.0030834782,p80,wealth index (house-value stand-in)
+Poland,wealth_index,0.00040147372,p80,wealth index (house-value stand-in)
+Spain,wealth_index,-0.004674902,p80,wealth index (house-value stand-in)
+Bulgaria,income_eur_equiv,0.0016038637,p80,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.00052628043,p80,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.002389979,p80,income per adult equivalent (EUR)
+Poland,income_eur_equiv,8.446207e-05,p80,income per adult equivalent (EUR)
+Spain,income_eur_equiv,-0.0022962322,p80,income per adult equivalent (EUR)
+Bulgaria,heating_system_type,-0.0012627856,p80,heating system type
+Hungary,heating_system_type,0.0017781834,p80,heating system type
+Italy,heating_system_type,0.0002728719,p80,heating system type
+Poland,heating_system_type,-0.0009438182,p80,heating system type
+Spain,heating_system_type,-0.0014000314,p80,heating system type
+Bulgaria,heating_need_kwh,0.00037159308,p80,heating need (kWh)
+Hungary,heating_need_kwh,0.039085254,p80,heating need (kWh)
+Italy,heating_need_kwh,-0.03546441,p80,heating need (kWh)
+Poland,heating_need_kwh,0.015908664,p80,heating need (kWh)
+Spain,heating_need_kwh,-0.0522511,p80,heating need (kWh)
+Bulgaria,density_x_urban,0.0027850245,p80,density x urban area
+Hungary,density_x_urban,0.000113309026,p80,density x urban area
+Italy,density_x_urban,-0.003686297,p80,density x urban area
+Poland,density_x_urban,0.0018780472,p80,density x urban area
+Spain,density_x_urban,-0.00037428006,p80,density x urban area
+Bulgaria,heating_need_pp,-0.00018282601,p80,heating need per person
+Hungary,heating_need_pp,0.0041907234,p80,heating need per person
+Italy,heating_need_pp,-0.0020180994,p80,heating need per person
+Poland,heating_need_pp,0.000249711,p80,heating need per person
+Spain,heating_need_pp,-0.005441258,p80,heating need per person
+Bulgaria,region,-0.024356918,needqr,region (NUTS2)
+Hungary,region,0.02545438,needqr,region (NUTS2)
+Italy,region,-0.01951135,needqr,region (NUTS2)
+Poland,region,0.035818722,needqr,region (NUTS2)
+Spain,region,-0.042318802,needqr,region (NUTS2)
+Bulgaria,wealth_index,-0.00043138044,needqr,wealth index (house-value stand-in)
+Hungary,wealth_index,0.0028724747,needqr,wealth index (house-value stand-in)
+Italy,wealth_index,-0.0031129639,needqr,wealth index (house-value stand-in)
+Poland,wealth_index,8.2958e-05,needqr,wealth index (house-value stand-in)
+Spain,wealth_index,-0.0043513495,needqr,wealth index (house-value stand-in)
+Bulgaria,vulnerability_index,-0.0016401922,needqr,household vulnerability index
+Hungary,vulnerability_index,-0.00080693304,needqr,household vulnerability index
+Italy,vulnerability_index,-0.0008077856,needqr,household vulnerability index
+Poland,vulnerability_index,0.00377049,needqr,household vulnerability index
+Spain,vulnerability_index,-0.0014395415,needqr,household vulnerability index
+Bulgaria,income_eur_equiv,0.0036021017,needqr,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.003266559,needqr,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.0073722163,needqr,income per adult equivalent (EUR)
+Poland,income_eur_equiv,0.0024542436,needqr,income per adult equivalent (EUR)
+Spain,income_eur_equiv,-0.006714895,needqr,income per adult equivalent (EUR)
+Bulgaria,inefficient_equipment_index,-3.1518473e-05,needqr,inefficient equipment index
+Hungary,inefficient_equipment_index,3.0699986e-05,needqr,inefficient equipment index
+Italy,inefficient_equipment_index,2.5222573e-05,needqr,inefficient equipment index
+Poland,inefficient_equipment_index,2.8062635e-05,needqr,inefficient equipment index
+Spain,inefficient_equipment_index,-5.1862742e-05,needqr,inefficient equipment index
+Bulgaria,heating_system_type,-0.0012767608,needqr,heating system type
+Hungary,heating_system_type,0.0014392062,needqr,heating system type
+Italy,heating_system_type,0.00048703217,needqr,heating system type
+Poland,heating_system_type,0.0008885937,needqr,heating system type
+Spain,heating_system_type,-0.0027987037,needqr,heating system type
+Bulgaria,heating_need_pp,-0.0013872567,needqr,heating need per person
+Hungary,heating_need_pp,0.0053247726,needqr,heating need per person
+Italy,heating_need_pp,-0.0032105476,needqr,heating need per person
+Poland,heating_need_pp,-0.0012923824,needqr,heating need per person
+Spain,heating_need_pp,-0.010294826,needqr,heating need per person
+Bulgaria,hdd_x_electric,-0.007429461,needqr,cold winter x electric heating
+Hungary,hdd_x_electric,0.006284524,needqr,cold winter x electric heating
+Italy,hdd_x_electric,0.0015503265,needqr,cold winter x electric heating
+Poland,hdd_x_electric,0.006513253,needqr,cold winter x electric heating
+Spain,hdd_x_electric,-0.006188532,needqr,cold winter x electric heating
+Bulgaria,density_x_urban,0.00054679177,needqr,density x urban area
+Hungary,density_x_urban,-0.00039319764,needqr,density x urban area
+Italy,density_x_urban,-0.0024758906,needqr,density x urban area
+Poland,density_x_urban,0.0025783766,needqr,density x urban area
+Spain,density_x_urban,-0.002213589,needqr,density x urban area
+Bulgaria,region,-0.042163484,needqr_noclim,region (NUTS2)
+Hungary,region,0.046238616,needqr_noclim,region (NUTS2)
+Italy,region,-0.026930833,needqr_noclim,region (NUTS2)
+Poland,region,0.046980392,needqr_noclim,region (NUTS2)
+Spain,region,-0.05530425,needqr_noclim,region (NUTS2)
+Bulgaria,heating_system_type,-0.00021683231,needqr_noclim,heating system type
+Hungary,heating_system_type,0.00032271256,needqr_noclim,heating system type
+Italy,heating_system_type,-7.526886e-05,needqr_noclim,heating system type
+Poland,heating_system_type,0.0010611053,needqr_noclim,heating system type
+Spain,heating_system_type,-0.00057447737,needqr_noclim,heating system type
+Bulgaria,heating_need_pp,-0.00024884357,needqr_noclim,heating need per person
+Hungary,heating_need_pp,0.006464727,needqr_noclim,heating need per person
+Italy,heating_need_pp,-0.0031756503,needqr_noclim,heating need per person
+Poland,heating_need_pp,-0.0010179084,needqr_noclim,heating need per person
+Spain,heating_need_pp,-0.009120218,needqr_noclim,heating need per person
+Bulgaria,hdd_x_electric,-0.006284709,needqr_noclim,cold winter x electric heating
+Hungary,hdd_x_electric,0.0058945753,needqr_noclim,cold winter x electric heating
+Italy,hdd_x_electric,0.00059060636,needqr_noclim,cold winter x electric heating
+Poland,hdd_x_electric,0.005877128,needqr_noclim,cold winter x electric heating
+Spain,hdd_x_electric,-0.005856424,needqr_noclim,cold winter x electric heating
+Bulgaria,density_x_urban,0.0008005227,needqr_noclim,density x urban area
+Hungary,density_x_urban,-0.00079456053,needqr_noclim,density x urban area
+Italy,density_x_urban,-0.0017767319,needqr_noclim,density x urban area
+Poland,density_x_urban,0.0026548114,needqr_noclim,density x urban area
+Spain,density_x_urban,-0.0015327126,needqr_noclim,density x urban area
+Bulgaria,region,-0.001783478,burden,region (NUTS2)
+Hungary,region,0.002222615,burden,region (NUTS2)
+Italy,region,-0.0013532119,burden,region (NUTS2)
+Poland,region,0.0013737637,burden,region (NUTS2)
+Spain,region,-0.0016364848,burden,region (NUTS2)
+Bulgaria,wealth_index,4.8045822e-05,burden,wealth index (house-value stand-in)
+Hungary,wealth_index,0.0006615229,burden,wealth index (house-value stand-in)
+Italy,wealth_index,-0.00068670587,burden,wealth index (house-value stand-in)
+Poland,wealth_index,2.9765632e-05,burden,wealth index (house-value stand-in)
+Spain,wealth_index,-0.0012776415,burden,wealth index (house-value stand-in)
+Bulgaria,income_eur_equiv,0.005718267,burden,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.0011805799,burden,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.004436705,burden,income per adult equivalent (EUR)
+Poland,income_eur_equiv,-0.0013317931,burden,income per adult equivalent (EUR)
+Spain,income_eur_equiv,-0.0041713035,burden,income per adult equivalent (EUR)
+Bulgaria,heating_need_kwh,-0.0014370503,burden,heating need (kWh)
+Hungary,heating_need_kwh,0.037645847,burden,heating need (kWh)
+Italy,heating_need_kwh,-0.032053534,burden,heating need (kWh)
+Poland,heating_need_kwh,-0.0013491699,burden,heating need (kWh)
+Spain,heating_need_kwh,-0.045871392,burden,heating need (kWh)
+Bulgaria,density_x_urban,0.011099864,burden,density x urban area
+Hungary,density_x_urban,0.00089338154,burden,density x urban area
+Italy,density_x_urban,-0.016343364,burden,density x urban area
+Poland,density_x_urban,0.008792307,burden,density x urban area
+Spain,density_x_urban,-0.00827884,burden,density x urban area
+Bulgaria,solar_hs,-0.047999874,burden,solar radiation (winter)
+Hungary,solar_hs,0.052568514,burden,solar radiation (winter)
+Italy,solar_hs,-0.041139532,burden,solar radiation (winter)
+Poland,solar_hs,0.045542747,burden,solar radiation (winter)
+Spain,solar_hs,-0.06445219,burden,solar radiation (winter)

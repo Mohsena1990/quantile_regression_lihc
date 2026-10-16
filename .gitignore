@@ -1,5 +1,7 @@
 # generated artifacts
-outputs/
+outputs/*
+!outputs/figures/
+!outputs/tables/
 artifacts/
 legacy-archives/
 *.pyc

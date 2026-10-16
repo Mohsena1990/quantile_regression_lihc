@@ -37,7 +37,7 @@ def region_geometries(codes) -> gpd.GeoDataFrame:
     return gpd.GeoDataFrame(geo, geometry="geometry", crs=4326)
 
 
-# ---- Version 6: regions of the extra training countries (pooled models only) ----------------------------------------------
+# ---- Regions of the extra training countries (pooled models only) -----------------------------------------------------------
 # Germany: the survey's NUTS1 is the official state number (1 Schleswig-Holstein .. 16 Thuringia; the sample shares match state
 # populations, e.g. 5 North Rhine-Westphalia 21%, 9 Bavaria 15%, 4 Bremen 0.7%).
 DE_STATE_TO_NUTS1 = {1: "DEF", 2: "DE6", 3: "DE9", 4: "DE5", 5: "DEA", 6: "DE7", 7: "DEB", 8: "DE1", 9: "DE2", 10: "DEC", 11: "DE3",

@@ -1,225 +1,186 @@
-"""Feature stages B0 -> B1 -> B2 with nested "attention + SHAP" feature selection (income is a predictor in every stage).
+"""The study design: one pooled model for the five study countries, read country by country, in three stages, with model sets
+"income only", "without income" and "full", and four improvement variants.
 
-  B0  Van Hove et al. (2022), Table 1, exactly: income bracket, floor area (H3), household size (sum of the S1 composition
-      counts), house detachment (H1), house age (H2), birth year of the respondent (S4) and heating strategy (H9: one setting /
-      manual adjustment / programmed thermostat / no control / don't know; categorical)
-  B1  B0 + the best of ALL candidate variables (B1_CANDIDATES, 82): every survey item answered in all four countries
-      (lib/features/survey_items.py), the cleaned welfare items S7 and S8, the main heating fuel and solid-fuel heating, and
-      23 engineered household features (lib/features/engineered.py)
-  B2  B1 + the best of 18 climate indices (lib/climate/b2_indices.py; NUTS3 / Polish NUTS2 regions)
-  B2p placebo control: as B2 with each region's climate moved to another region of the same country
-
-Feature selection -- "Attention Mechanisms as Embedded Selectors + SHAP" -- nested inside every OUTER training fold, so the
-households that are scored never influence the choice:
-  1. rank: the outer training rows are split 80 / 20 three times (RANK_SPLITS). Each time three models are fitted on the 80%
-     with the base set + all candidates: an FT-Transformer, whose [CLS] attention to each feature token is an EMBEDDED importance
-     (the model learns where to look), and CatBoost and XGBoost, whose exact TreeSHAP values give each feature's contribution;
-     all three are measured on the 20%. Each measure's importances are averaged over the three splits and turned into ranks.
-     RELIABILITY WEIGHTING: each measure's weight = how consistently it ranks the candidates across the three splits (mean
-     pairwise Spearman correlation, floored at 0). A measure that ranks almost at random -- the FT-Transformer's attention is
-     nearly uniform on these small samples -- therefore counts little. Score = weighted mean rank.
-  2. curve: inner repeated cross-validation (2 x 3 folds) of CatBoost on base + the k best-ranked candidates, for k in a grid,
-     scored by BALANCED ACCURACY (the study's main score)
-  3. decide: ONE-STANDARD-ERROR RULE (Breiman et al. 1984; Hastie, Tibshirani & Friedman 2009, Sec. 7.10) -- the smallest k
-     whose mean inner balanced accuracy is within one standard error of the best k. k = 0 keeps the base set.
-  4. gate (version 3): the chosen k is kept only if it beats k = 0 IN THE SAME INNER FOLDS by more than one standard error of
-     that paired difference; otherwise k = 0. A flat curve (no real signal) then adds nothing.
-Version 1 (commit a25daff) ranked on one split with equal weights and sized by macro-F1; version 2 added the three-split
-reliability-weighted ranking and balanced accuracy. Both still added variables on flat curves (Van Hove line, Bulgaria: B1 below
-B0), which the paired gate of version 3 is meant to stop.
-B2 selects climate indices on top of the B1 set chosen in that same outer fold.
-
-Placebo B2p: climate is measured per region, so any region-level number lets a model recognise regions (a dry run with random
-numbers per region raised macro-F1 by up to 0.13). B2p repeats the B2 selection with climate permuted across regions within each
-country; only B2 - B2p can be credited to climate.
-
-Each stage's selected features are then scored by all three models -- CatBoost, XGBoost and FT-Transformer -- on the outer
-held-out households, with every metric and each model's own importance (SHAP for the trees, attention for the transformer).
+Stages (ranking and sizing: lib/identification/selection.py):
+  B0   core profile -- income bracket, floor area, household size, house detachment, house age, birth year of the respondent,
+       heating strategy (H9) -- + country
+  B1   B0 + groups chosen in two levels (which groups, then which variables inside them):
+         household_indices  dwelling efficiency, inefficient equipment, heating system type, household vulnerability,
+                            wealth (house-value stand-in), income per adult equivalent (EUR)
+         enable_top3        S8 income adequacy, floor area per person, dishwasher age
+         partial_modules    environmental attitudes (H15), energy-saving behaviour (G), knows the kWh price (E1), bill too
+                            complicated (C5C) -- asked in some countries only; missing elsewhere
+         region             the region itself (NUTS2 code, one categorical variable)
+  B2   B1 + the top 3 of 30 climate candidates (20 regional measures, 10 climate x home interactions)
+  B2p  the same with climate swapped between regions of the same country (placebo)
+Model sets: income_only (income bracket alone), no_income (the stage's variables without the income-derived ones), full (with
+income). Variants of the full B1 model (model set "variant"):
+  robust      training weights for borderline and likely mislabelled households (robust.py)
+  augmented   + households whose energy cost is missing, each entered twice ("above" with weight 0.5 x P, "not above" with weight
+              0.5 x (1 - P)), P from the bill model; scored only on households with an observed bill
+  bill        "predict the bill, then classify" (bill_model.py)
+  tuned       XGBoost with Optuna-tuned hyper-parameters (tuning.py)
+Ensembles, targeting curves and "not sure" are computed afterwards from the stored probabilities (scripts/build_feature_stages.py).
 """
 from __future__ import annotations
 import numpy as np
 import pandas as pd
-import itertools
-from scipy.stats import spearmanr
-from sklearn.metrics import balanced_accuracy_score
-from sklearn.model_selection import RepeatedStratifiedKFold, train_test_split
-from lib.climate.b2_indices import B2_CLIMATE, B2_NAMES
-from lib.features.engineered import ENGINEERED
-from lib.features.survey_items import ITEM_NAMES, ITEMS
-from .models3 import MODELS3, fit as fit_model
-from .protocol import _strata
+from sklearn.model_selection import RepeatedStratifiedKFold
+from lib.climate.b2_indices import B2_CLIMATE
+from lib.features.indices import CLIMATE_CANDIDATES, INCOME_DERIVED, climate_features
+from lib.features.partial_modules import PARTIAL
+from lib.reporting.names import CORE_PROFILE
+from .bill_model import BillModel, four_class
+from .lines import fold_threshold
+from .models import MODELS3, fit as fit_model
+from .robust import robust_weight
+from .selection import _curve, one_se_choice, paired_gate, placebo_climate, rank_candidates
+from .tuning import tune_xgboost
 
-B0_FEATURES = ["income_bracket", "H3", "household_size", "H1", "H2", "birth_year", "heating_strategy"]
-HEATING_ALTERNATIVES = ["primary_heating_fuel", "has_solid_fuel_heating"]
-B1_CANDIDATES = list(ITEMS) + ["S7", "S8"] + HEATING_ALTERNATIVES + list(ENGINEERED)
-B2_CANDIDATES = list(B2_CLIMATE)
-ALL_FEATURES = B0_FEATURES + B1_CANDIDATES + B2_CANDIDATES
-FEATURE_NAMES = {"income_bracket": "income bracket", "H3": "floor area", "household_size": "household size",
-                 "H1": "house detachment", "H2": "house age", "birth_year": "birth year respondent",
-                 "heating_strategy": "heating strategy (H9)", "primary_heating_fuel": "main heating fuel",
-                 "has_solid_fuel_heating": "solid-fuel heating", "S7": "S7 energy-bill aid", "S8": "S8 income adequacy",
-                 **ITEM_NAMES, **{f: f.replace("_", " ") for f in ENGINEERED}, **B2_NAMES}
-K_GRID = {"B1": (0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, len(B1_CANDIDATES)), "B2": (0, 1, 2, 3, 4, 6, 9, 12, len(B2_CANDIDATES))}
+B0_FEATURES = list(CORE_PROFILE)
+B1_GROUPS = {"household_indices": ["dwelling_efficiency_index", "inefficient_equipment_index", "heating_system_type",
+                                   "vulnerability_index", "wealth_index", "income_eur_equiv"],
+             "enable_top3": ["S8", "floor_area_per_person", "H11B"],
+             "partial_modules": list(PARTIAL),
+             "region": ["region"]}
+B1_CANDIDATES = [f for g in B1_GROUPS.values() for f in g]
+B2_CANDIDATES = [c for c in CLIMATE_CANDIDATES if c != "need_burden"]       # need_burden divides by income: not a climate measure
+BASE = B0_FEATURES + ["country"]
+UNIVERSE = BASE + B1_CANDIDATES + B2_CANDIDATES
+CLIMATE_BASE = list(B2_CLIMATE)
+TOP_CLIMATE = 3
+L2_GRID = (1, 2, 3, 4, 6, 8, 12, 17)
+B2_GRID = (0, 1, 2, 3, 5, 8, 12, 30)
 STAGES = ("B0", "B1", "B2", "B2p")
-INNER_FOLDS, INNER_REPEATS = 3, 2
-RANK_SPLITS = 3
-MEASURES = ("attention", "shap_catboost", "shap_xgboost")
+VARIANTS = (("robust", "catboost"), ("robust", "xgboost"), ("robust", "ft_transformer"), ("augmented", "catboost"),
+            ("augmented", "xgboost"), ("augmented", "ft_transformer"), ("bill", "xgboost_regression"), ("tuned", "xgboost"))
+IMPUTED_WEIGHT = 0.5
 SEED = 20260811
 
 
-def _ranks(s: pd.Series) -> pd.Series:
-    return s.rank(ascending=False, method="average")
-
-
-def rank_candidates(train: pd.DataFrame, base: list[str], candidates: list[str], seed: int) -> pd.DataFrame:
-    """Reliability-weighted attention + SHAP ranking over RANK_SPLITS stratified 80/20 splits of `train`. Columns: the three
-    measures (mean importance), their weights (stability), score (weighted mean rank, lower = better); best first."""
-    feats = base + candidates
-    per = {m: [] for m in MEASURES}
-    for s_ in range(RANK_SPLITS):
-        tr, va = train_test_split(train, test_size=0.2, stratify=train["y"], random_state=seed + 97 * s_)
-        per["attention"].append(fit_model("ft_transformer", tr, feats, seed + s_, val=va).importance(va).loc[candidates])
-        per["shap_catboost"].append(fit_model("catboost", tr, feats, seed + s_).importance(va).loc[candidates])
-        per["shap_xgboost"].append(fit_model("xgboost", tr, feats, seed + s_).importance(va).loc[candidates])
-    t = pd.DataFrame({m: pd.concat(v, axis=1).mean(axis=1) for m, v in per.items()})
-    weights = {}
-    for m, v in per.items():
-        rhos = [spearmanr(a_, b_)[0] for a_, b_ in itertools.combinations(v, 2)]
-        weights[m] = max(0.0, float(np.nanmean(rhos))) if rhos else 1.0
-    total = sum(weights.values()) or 1.0
-    t["score"] = sum(weights[m] * _ranks(t[m]) for m in MEASURES) / total
-    for m in MEASURES:
-        t[f"weight_{m}"] = weights[m] / total
-    return t.sort_values("score")
-
-
-def _inner_folds(train: pd.DataFrame, seed: int):
-    y = train["y"].astype(int).to_numpy()
-    counts = np.bincount(y, minlength=4)
-    n_splits = max(2, min(INNER_FOLDS, int(counts[counts > 0].min())))
-    return list(RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=INNER_REPEATS, random_state=seed).split(train, y))
-
-
-def one_se_choice(curve: dict[int, tuple[float, float]]) -> int:
-    """Smallest k whose mean score is within one standard error of the best k's mean (curve: k -> (mean, se))."""
-    best_k = max(curve, key=lambda k: curve[k][0])
-    bar = curve[best_k][0] - curve[best_k][1]
-    return min(k for k, (m, _) in curve.items() if m >= bar)
-
-
-def paired_gate(k: int, per_fold: dict[int, np.ndarray]) -> int:
-    """Keep k only if its inner-fold scores beat k = 0's in the same folds by more than one standard error of the paired
-    difference; otherwise return 0."""
-    if k == 0:
-        return 0
-    diff = per_fold[k] - per_fold[0]
-    return k if diff.mean() > diff.std(ddof=1) / np.sqrt(len(diff)) else 0
-
-
-def select_features(train: pd.DataFrame, base: list[str], candidates: list[str], grid: tuple[int, ...], *, seed: int) -> dict:
-    """Nested attention + SHAP forward selection on `train` only, sized by the one-standard-error rule. Returns
-    {'selected', 'k', 'ranking' (DataFrame), 'curve' (k -> (mean inner balanced accuracy, SE))}."""
+def select_b2(train: pd.DataFrame, base: list[str], seed: int) -> dict:
+    """Top-3 climate candidates by attention + SHAP on top of the chosen B1 set; the one-SE choice is recorded too."""
     train = train.reset_index(drop=True)
-    ranking = rank_candidates(train, base, candidates, seed)
-    y = train["y"].astype(int).to_numpy()
-    folds = _inner_folds(train, seed)
-    curve, per_fold = {}, {}
-    for k in sorted(set(min(k, len(candidates)) for k in grid)):
-        f = base + list(ranking.index[:k])
-        scores = []
-        for i, (tr, te) in enumerate(folds):
-            pred = fit_model("catboost", train.iloc[tr], f, seed + i).predict_proba(train.iloc[te]).argmax(1)
-            scores.append(balanced_accuracy_score(y[te], pred))
-        curve[k] = (float(np.mean(scores)), float(np.std(scores, ddof=1) / np.sqrt(len(scores))))
-        per_fold[k] = np.asarray(scores)
-    k = paired_gate(one_se_choice(curve), per_fold)
-    return {"selected": base + list(ranking.index[:k]), "k": k, "ranking": ranking, "curve": curve}
+    ranking = rank_candidates(train, base, B2_CANDIDATES, seed)
+    sets = {k: base + list(ranking.index[:k]) for k in B2_GRID}
+    curve, per = _curve(train, sets, seed + 700)
+    return {"selected": base + list(ranking.index[:TOP_CLIMATE]), "ranking": ranking, "curve": curve,
+            "k_one_se": paired_gate(one_se_choice(curve), per)}
 
 
-def placebo_climate(frame: pd.DataFrame, cols: list[str], seed: int) -> pd.DataFrame:
-    """`frame` with the climate columns of each region replaced by those of another region of the same country
-    (random permutation of regions with no fixed point where the country has >= 2 regions)."""
-    out = frame.copy()
-    rng = np.random.default_rng(seed)
-    for _, g in frame.groupby("country"):
-        regions = g["climate_region"].drop_duplicates().to_numpy()
-        if len(regions) < 2:
-            continue
-        while True:
-            perm = rng.permutation(len(regions))
-            if not (perm == np.arange(len(regions))).any():
-                break
-        table = g.drop_duplicates("climate_region").set_index("climate_region")[cols]
-        donor = dict(zip(regions, regions[perm]))
-        out.loc[g.index, cols] = table.loc[g["climate_region"].map(donor)].to_numpy()
-    return out
+def placebo_frame(frame: pd.DataFrame, seed: int) -> pd.DataFrame:
+    """Regional climate moved to another region of the same country; climate x dwelling features recomputed."""
+    return climate_features(placebo_climate(frame, CLIMATE_BASE, seed))
 
 
-def run_stages(frame: pd.DataFrame, *, n_splits: int = 5, n_repeats: int = 3, seed: int = 1, exclude: tuple[str, ...] = ()) -> dict:
-    """Outer repeated CV over one country's labelled households. Returns
-      proba       {(stage, model): (R, n, 4)} held-out probabilities for CatBoost, XGBoost and FT-Transformer
-      shap        {stage: (R, n, 4, len(ALL_FEATURES))} held-out CatBoost SHAP (0 for features not selected in a fold)
-      importance  long table: fold x stage x model x feature, held-out importance (SHAP or attention)
-      selection   long table: fold x stage x candidate -- selected?, attention, SHAP, combined rank
-      curve       long table: fold x stage x k -- inner balanced accuracy, SE, chosen?
-    `exclude` removes candidates (sensitivity runs, e.g. without S8)."""
-    frame = frame.reset_index(drop=True)
-    n = len(frame)
-    proba = {(s, m): np.zeros((n_repeats, n, 4)) for s in STAGES for m in MODELS3}
-    shap = {s: np.zeros((n_repeats, n, 4, len(ALL_FEATURES)), dtype=np.float32) for s in STAGES}
-    col = {f: j for j, f in enumerate(ALL_FEATURES)}
-    sel_rows, curve_rows, imp_rows = [], [], []
-    placebo = {r: placebo_climate(frame, B2_CANDIDATES, SEED + 500 + r) for r in range(n_repeats)}
-    cv = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed)
-    for i, (tr, te) in enumerate(cv.split(frame, _strata(frame))):
-        r = i // n_splits
-        fp = placebo[r]
-        b1c = [c for c in B1_CANDIDATES if c not in exclude]
-        s1 = select_features(frame.iloc[tr], B0_FEATURES, b1c, K_GRID["B1"], seed=SEED + i)
-        s2 = select_features(frame.iloc[tr], s1["selected"], B2_CANDIDATES, K_GRID["B2"], seed=SEED + 1000 + i)
-        s2p = select_features(fp.iloc[tr], s1["selected"], B2_CANDIDATES, K_GRID["B2"], seed=SEED + 1000 + i)
-        sets = {"B0": B0_FEATURES, "B1": s1["selected"], "B2": s2["selected"], "B2p": s2p["selected"]}
-        for stage, sel in (("B1", s1), ("B2", s2), ("B2p", s2p)):
-            for kk, (m, se) in sel["curve"].items():
-                curve_rows.append({"repeat": r, "fold": i % n_splits, "stage": stage, "k": kk, "inner_score": m, "inner_se": se,
-                                   "chosen": kk == sel["k"]})
-            for pos, (c, row) in enumerate(sel["ranking"].iterrows(), start=1):
-                sel_rows.append({"repeat": r, "fold": i % n_splits, "stage": stage, "feature": c, "selected": c in sel["selected"],
-                                 "k": sel["k"], "rank": pos, **{m: row[m] for m in MEASURES},
-                                 **{f"weight_{m}": row[f"weight_{m}"] for m in MEASURES}})
-        for stage, feats in sets.items():
-            src = fp if stage == "B2p" else frame
-            train, test = src.iloc[tr], src.iloc[te]
-            for model in MODELS3:
-                m = fit_model(model, train, feats, SEED + i)
-                proba[(stage, model)][r, te] = m.predict_proba(test)
-                imp_rows += [{"repeat": r, "fold": i % n_splits, "stage": stage, "model": model, "feature": f, "importance": float(v)}
-                             for f, v in m.importance(test).items()]
-                if model == "catboost":
-                    block = np.zeros((len(te), 4, len(ALL_FEATURES)), dtype=np.float32)     # fancy-indexed views are copies
-                    block[:, :, [col[f] for f in feats]] = m.shap_values(test)
-                    shap[stage][r, te] = block
-    return {"proba": proba, "shap": shap, "importance": pd.DataFrame(imp_rows), "selection": pd.DataFrame(sel_rows),
-            "curve": pd.DataFrame(curve_rows)}
+def without_income(feats: list[str]) -> list[str]:
+    return [f for f in feats if f not in INCOME_DERIVED]
 
 
-def paired_delta(y: np.ndarray, proba_a: np.ndarray, proba_b: np.ndarray, metrics=("f1_macro", "balanced_accuracy", "f1_weighted"), *,
-                 n_boot: int = 500, seed: int = 11) -> dict:
-    """Difference b - a of repeat-averaged metrics with a PAIRED household bootstrap 95% CI (same resampled households
-    for both), plus the share of resamples in which b > a."""
-    from .metrics import average_over_repeats
-    y = np.asarray(y, int)
-    pa, pb = average_over_repeats(y, proba_a), average_over_repeats(y, proba_b)
-    rng = np.random.default_rng(seed)
-    draws = {m: [] for m in metrics}
-    for _ in range(n_boot):
-        idx = rng.integers(0, len(y), len(y))
-        a, b = average_over_repeats(y[idx], proba_a[:, idx]), average_over_repeats(y[idx], proba_b[:, idx])
-        for m in metrics:
-            draws[m].append(b[m] - a[m])
-    out = {}
-    for m in metrics:
-        d = np.asarray(draws[m])
-        out.update({f"delta_{m}": pb[m] - pa[m], f"delta_{m}_lo": float(np.percentile(d, 2.5)),
-                    f"delta_{m}_hi": float(np.percentile(d, 97.5)), f"p_improve_{m}": float((d > 0).mean())})
-    return out
+def outer_splits(frame: pd.DataFrame, n_splits: int = 5, n_repeats: int = 3, seed: int = 1):
+    strata = frame["country"].astype(str) + "_" + frame["y"].astype(str)
+    return list(RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed).split(frame, strata))
+
+
+def select_b1(train: pd.DataFrame, seed: int) -> dict:
+    """Two-level selection: groups first, then the variables inside the chosen groups."""
+    train = train.reset_index(drop=True)
+    ranking = rank_candidates(train, BASE, B1_CANDIDATES, seed)
+    group_score = {g: float(ranking.loc[f, "score"].mean()) for g, f in B1_GROUPS.items()}
+    order = sorted(group_score, key=group_score.get)
+    sets1 = {k: BASE + [f for g in order[:k] for f in B1_GROUPS[g]] for k in range(len(order) + 1)}
+    curve1, per1 = _curve(train, sets1, seed)
+    groups = order[:paired_gate(one_se_choice(curve1), per1)]
+    if not groups:
+        return {"selected": BASE, "groups": [], "ranking": ranking, "group_score": group_score, "curve1": curve1, "curve2": {}}
+    cands = [f for f in ranking.index if any(f in B1_GROUPS[g] for g in groups)]
+    sets2 = {k: BASE + cands[:k] for k in sorted({min(k, len(cands)) for k in L2_GRID})}
+    sets2[0] = BASE
+    curve2, per2 = _curve(train, sets2, seed + 500)
+    k2 = paired_gate(one_se_choice(curve2), per2)
+    return {"selected": BASE + cands[:k2], "groups": groups, "ranking": ranking, "group_score": group_score,
+            "curve1": curve1, "curve2": curve2}
+
+
+def _prior(y: np.ndarray) -> np.ndarray:
+    return np.bincount(np.asarray(y, int), minlength=4) / len(y)
+
+
+def augmented_training(train: pd.DataFrame, unl: pd.DataFrame, bill: BillModel, spec: dict) -> tuple[pd.DataFrame, np.ndarray]:
+    """Training households + every cost-missing household twice (above / not above its line), weighted by the bill model."""
+    thr = fold_threshold(train, unl, spec["family"], spec["tau"])
+    ok = np.isfinite(thr)
+    u = unl[ok].reset_index(drop=True)
+    p = bill.p_above(u, thr[ok])
+    hi, lo = u.assign(hc=1), u.assign(hc=0)
+    hi["y"], lo["y"] = hi.li + 2, lo.li
+    aug = pd.concat([train, hi, lo], ignore_index=True)
+    w = np.concatenate([np.ones(len(train)), IMPUTED_WEIGHT * p, IMPUTED_WEIGHT * (1 - p)])
+    return aug, w
+
+
+def run_fold(frame: pd.DataFrame, unl: pd.DataFrame, cost_only: pd.DataFrame, spec: dict, tr: np.ndarray, te: np.ndarray,
+             fold_id: int, repeat: int) -> dict:
+    """Everything for one outer fold. `unl`: households with income but no cost (imputation); `cost_only`: households with cost
+    but no income (bill model only); `spec`: the label's {family, cutoff, tau}."""
+    seed = SEED + fold_id
+    train, test = frame.iloc[tr], frame.iloc[te]
+    fp = placebo_frame(frame, SEED + 500 + repeat)
+    s1 = select_b1(train, seed)
+    s2 = select_b2(train, s1["selected"], seed + 1000)
+    s2p = select_b2(fp.iloc[tr], s1["selected"], seed + 1000)
+    stage_sets = {"B0": BASE, "B1": s1["selected"], "B2": s2["selected"], "B2p": s2p["selected"]}
+    model_sets = {("income_only", "all"): ["income_bracket"]}
+    for st in ("B0", "B1", "B2"):
+        model_sets[("no_income", st)] = without_income(stage_sets[st])
+    for st in STAGES:
+        model_sets[("full", st)] = stage_sets[st]
+    proba, imp_rows, shap = {}, [], {}
+    col = {f: j for j, f in enumerate(UNIVERSE)}
+    for (mset, st), feats in model_sets.items():
+        src = fp if st == "B2p" else frame
+        for clf in MODELS3:
+            m = fit_model(clf, src.iloc[tr], feats, seed)
+            proba[(mset, st, clf)] = m.predict_proba(src.iloc[te])
+            imp_rows += [{"model_set": mset, "stage": st, "model": clf, "feature": f, "importance": float(v)}
+                         for f, v in m.importance(src.iloc[te]).items()]
+            if clf == "catboost" and mset == "full" and st in ("B1", "B2"):
+                block = np.zeros((len(te), 4, len(UNIVERSE)), dtype=np.float32)
+                block[:, :, [col[f] for f in feats]] = m.shap_values(src.iloc[te])
+                shap[st] = block
+
+    # ---- variants of the full B1 model ----
+    feats = s1["selected"]
+    info = {}
+    w, info["robust"] = robust_weight(train, feats, seed + 7)
+    for clf in MODELS3:
+        proba[("variant", "robust", clf)] = fit_model(clf, train, feats, seed, weight=w).predict_proba(test)
+    bill = BillModel(pd.concat([train, cost_only], ignore_index=True), feats, seed + 11)
+    aug, wa = augmented_training(train, unl, bill, spec)
+    info["augmented"] = {"added_households": int((len(aug) - len(train)) // 2), "train_households": len(train)}
+    for clf in MODELS3:
+        proba[("variant", "augmented", clf)] = fit_model(clf, aug, feats, seed, weight=wa).predict_proba(test)
+    thr_te = fold_threshold(train, test, spec["family"], spec["tau"])
+    p_hi = bill.p_above(test, thr_te)
+    proba[("variant", "bill", "xgboost_regression")] = four_class(test.li.to_numpy(), p_hi, _prior(train.y))
+    resid = np.log(test.cost.clip(lower=1).to_numpy()) - bill.mu(test)
+    info["bill"] = {"rmse_log_cost": float(np.sqrt(np.mean(resid ** 2))),
+                    "r2_log_cost": float(1 - np.mean(resid ** 2) / np.var(np.log(test.cost.clip(lower=1))))}
+    params, inner = tune_xgboost(train, feats, seed + 13)
+    proba[("variant", "tuned", "xgboost")] = fit_model("xgboost", train, feats, seed, params=params).predict_proba(test)
+    info["tuned"] = {"inner_balanced_accuracy": inner, **params}
+
+    sel = []
+    for st, s in (("B1", s1), ("B2", s2), ("B2p", s2p)):
+        for pos, (f, r) in enumerate(s["ranking"].iterrows(), start=1):
+            sel.append({"stage": st, "feature": f, "selected": f in stage_sets[st], "rank": pos, "score": r.score,
+                        "attention": r.attention, "shap_catboost": r.shap_catboost, "shap_xgboost": r.shap_xgboost,
+                        "weight_attention": r.weight_attention, "weight_shap_catboost": r.weight_shap_catboost,
+                        "weight_shap_xgboost": r.weight_shap_xgboost})
+    curves = [{"stage": "B1_groups", "k": k, "score": m, "se": se} for k, (m, se) in s1["curve1"].items()]
+    curves += [{"stage": "B1_variables", "k": k, "score": m, "se": se} for k, (m, se) in s1["curve2"].items()]
+    curves += [{"stage": st, "k": k, "score": m, "se": se} for st, s in (("B2", s2), ("B2p", s2p)) for k, (m, se) in s["curve"].items()]
+    meta = {"groups": s1["groups"], "group_score": s1["group_score"], "b1": s1["selected"], "b2_top3": s2["selected"][-TOP_CLIMATE:],
+            "b2_k_one_se": s2["k_one_se"], "b2p_top3": s2p["selected"][-TOP_CLIMATE:], "b2p_k_one_se": s2p["k_one_se"], "variants": info}
+    return {"fold_id": fold_id, "repeat": repeat, "te": te, "proba": proba, "importance": imp_rows, "shap": shap,
+            "selection": sel, "curves": curves, "meta": meta}

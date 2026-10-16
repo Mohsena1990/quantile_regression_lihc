@@ -1,8 +1,9 @@
 """Acquire the stage-B2 climate inputs from the Open-Meteo historical weather API (archive-api.open-meteo.com).
 
 Open-Meteo serves the ECMWF reanalyses (ERA5, ERA5-Land, and CERRA over Europe; default "best match" model) as daily
-aggregates for any coordinate, without the CDS queue. One point per household climate region of the version-5 cohort (four countries + Spain; NUTS3, Poland NUTS2): the
-region polygon's representative point (always inside the polygon; Open-Meteo picks a land grid cell of similar elevation
+aggregates for any coordinate, without the CDS queue. One point per household climate region of the five study countries
+(NUTS3; Poland NUTS2) -- and with --extra of the extra training countries (lib/geography/climate_regions.py): the region polygon's
+representative point (always inside the polygon; Open-Meteo picks a land grid cell of similar elevation
 and downscales to the 90 m terrain height). Requests (UTC days):
   survey  2016-10-01 .. 2017-12-31, 14 daily variables (temperature mean/max/min, apparent temperature mean/min, relative
           humidity, dew point, precipitation, snowfall, wind speed, gusts, shortwave radiation, sunshine, cloud cover)
@@ -25,7 +26,7 @@ import requests_cache
 from retry_requests import retry
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from data.enable import EXTENDED_COUNTRY_CODES, HOUSEHOLD_SHEET, POOL_EXTRA_CODES, retained_cohort
+from data.enable import HOUSEHOLD_SHEET, POOL_EXTRA_CODES, retained_cohort
 from lib.geography.climate_regions import climate_region, extra_region, region_geometries, region_points as extra_points
 
 OUT = ROOT / "artifacts/climate/openmeteo"
@@ -39,7 +40,7 @@ REQUESTS = {"survey": ("2016-10-01", "2017-12-31", SURVEY_DAILY)}
 
 def region_points() -> pd.DataFrame:
     hh = retained_cohort(pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx", sheet_name=HOUSEHOLD_SHEET,
-                                       usecols=["UID", "Country", "NUTS1", "NUTS2", "NUTS3"]), EXTENDED_COUNTRY_CODES)
+                                       usecols=["UID", "Country", "NUTS1", "NUTS2", "NUTS3"]))
     hh["climate_region"] = climate_region(hh)
     geo = region_geometries(hh.climate_region.unique())
     pts = geo.geometry.representative_point()
@@ -47,7 +48,7 @@ def region_points() -> pd.DataFrame:
 
 
 def extra_region_points() -> pd.DataFrame:
-    """Version 6: the regions of the extra training countries (Germany, Norway, Serbia, Ukraine)."""
+    """The regions of the extra training countries (Germany, Norway, Serbia, Ukraine)."""
     hh = retained_cohort(pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx", sheet_name=HOUSEHOLD_SHEET,
                                        usecols=["UID", "Country", "NUTS1", "NUTS2", "NUTS3"]), POOL_EXTRA_CODES, require_nuts1=False)
     return extra_points(extra_region(hh).dropna().unique())
@@ -81,7 +82,7 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--which", choices=["survey"], default="survey")
     p.add_argument("--pause", type=float, default=2.0, help="seconds between uncached requests")
-    p.add_argument("--extra", action="store_true", help="version 6: regions of the extra training countries -> *_extra files")
+    p.add_argument("--extra", action="store_true", help="regions of the extra training countries -> *_extra files")
     a = p.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     session = retry(requests_cache.CachedSession(str(OUT / "http_cache"), expire_after=-1), retries=5, backoff_factor=0.2)

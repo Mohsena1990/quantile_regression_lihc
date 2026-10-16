@@ -30,7 +30,7 @@ RANGES = {"hdd_hs1617": (300, 6000), "cdd_s2017": (0, 800), "hdd_normal": (300, 
           "cloud_hs": (0, 100)}
 
 
-# Version 6 extra training countries (Norway's north, Ukraine's east) need wider plausibility ranges.
+# The extra training countries (Norway's north, Ukraine's east) need wider plausibility ranges.
 RANGES_EXTRA = {**RANGES, "hdd_hs1617": (300, 8000), "hdd_normal": (300, 8000), "tmin_hs": (-25, 15), "apparent_tmin_hs": (-40, 15),
                 "precip_hs": (0, 4000), "snowfall_hs": (0, 2500), "solar_hs": (0.3, 20), "sunshine_hs": (0, 12)}
 COUNTRY_OF = {"BG": "Bulgaria", "HU": "Hungary", "IT": "Italy", "PL": "Poland", "ES": "Spain", "DE": "Germany", "NO": "Norway",
@@ -39,7 +39,7 @@ COUNTRY_OF = {"BG": "Bulgaria", "HU": "Hungary", "IT": "Italy", "PL": "Poland", 
 
 def main() -> None:
     import argparse
-    ap = argparse.ArgumentParser(); ap.add_argument("--extra", action="store_true", help="version 6: extra training countries")
+    ap = argparse.ArgumentParser(); ap.add_argument("--extra", action="store_true", help="extra training countries")
     extra = ap.parse_args().extra
     sfx = "_extra" if extra else ""
     ranges = RANGES_EXTRA if extra else RANGES

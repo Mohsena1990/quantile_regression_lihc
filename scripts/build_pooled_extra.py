@@ -1,20 +1,19 @@
-"""Version 6 -- more training households from the other ENABLE countries (idea B) and a multilevel bill model (idea A), on the
-four-class labels of version 5.
+"""More training households from the other ENABLE countries, and a multilevel bill model, on the four-group lines.
 
-Scored households: the five study countries' development households, in exactly version 5's outer folds (repeated 5-fold x3,
-stratified by country x class). Two training arms per fold:
-  five   the fold's training households of the five study countries (as version 5)
-  pool   the same + every labelled household of France, Germany, Norway, Serbia, Ukraine and the United Kingdom (2,000-3,000 more;
-         their lines are computed within their own country with the same rule and thresholds; the need lines need climate, so
-         France and the UK do not enter them; the burden line needs income in EUR, so Ukraine does not enter it)
-Models (fixed feature set, no selection, so the two arms differ ONLY in the training households):
-  B0     Van Hove's seven + country
-  B1     B0 + region + wealth index + vulnerability index + income per adult (EUR) -- the variables version 5 chose most often
-  classifiers CatBoost, XGBoost, FT-Transformer; bill model (XGBoost, lib/identification/bill_model.py); multilevel bill model
-  (GPBoost with a region random effect, lib/identification/bill_mixed.py); ensemble_plus = CatBoost + XGBoost + FT-Transformer +
-  bill model; ensemble_mixed = the same with the multilevel bill model. Households with a bill but no income help both bill models.
+Scored households: the five study countries' development households, in exactly the main study's outer folds (repeated 5-fold
+x3, stratified by country x group). Two training sets per fold:
+  five   the fold's training households of the five study countries
+  pool   the same + every labelled household of France, Germany, Norway, Serbia, Ukraine and the United Kingdom
+         (lib/identification/pool.py)
+Models (fixed feature sets, no selection, so the two training sets differ ONLY in the households):
+  B0     core profile + country
+  B1     B0 + region + wealth index + vulnerability index + income per adult (EUR) -- the B1 variables chosen most often
+  classifiers CatBoost, XGBoost, FT-Transformer; bill model (XGBoost, bill_model.py); multilevel bill model (GPBoost with a
+  region random effect, bill_mixed.py); ensemble_plus = CatBoost + XGBoost + FT-Transformer + bill model; ensemble_mixed = the
+  same with the multilevel bill model. Households with a bill but no income help both bill models.
 
-Outputs: outputs/tables/table_v6_pool_sample.csv, table_v6_pool_metrics.csv, table_v6_pool_deltas.csv; figure v6_pool.
+Outputs: outputs/tables/table_pool_sample.csv, table_pool_metrics.csv, table_pool_deltas.csv; figure pool;
+artifacts/identification/pool_results.pkl (--report-only rebuilds from it; --refit-bill-mixed refits only the GPBoost models).
 """
 from __future__ import annotations
 import argparse, pickle, sys, time, warnings
@@ -30,36 +29,19 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lib.identification.bill_mixed import MixedBillModel
 from lib.identification.bill_model import BillModel, four_class
-from lib.identification.data import COUNTRIES_V5 as COUNTRIES, load_pool_frame
-from lib.identification.lines_v4 import LABEL_NAMES
-from lib.identification.lines_v4 import eligible
-from lib.identification.lines_v5 import cost_only, fold_threshold, make_labels, study_labels_v5
-from lib.identification.metrics import CLASS_KEYS
-from lib.identification.models3 import MODELS3, fit as fit_model
-from lib.identification.protocol import summarise
-from lib.identification.stages import B0_FEATURES, paired_delta
-from lib.identification.stages_v5 import outer_splits
+from lib.identification.data import COUNTRIES, load_pool_frame
+from lib.reporting.names import LINES as LABEL_NAMES
+from lib.identification.lines import STUDY_LINES, cost_only, fold_threshold, study_labels
+from lib.identification.pool import B0, B1, N_REPEATS, extra_labels
+from lib.identification.metrics import CLASS_KEYS, summarise_all as summarise
+from lib.identification.models import MODELS3, fit as fit_model
+from lib.identification.selection import paired_delta
+from lib.identification.stages import outer_splits
 from lib.reporting.figures import save_figure
 
 TAB, FIG, ART = ROOT / "outputs/tables", ROOT / "outputs/figures", ROOT / "artifacts/identification"
-LABELS = ("vh", "needqr", "needqr_noclim", "burden")
-N_REPEATS, N_BOOT = 3, 200
-B0 = B0_FEATURES + ["country"]
-B1 = B0 + ["region", "wealth_index", "vulnerability_index", "income_eur_equiv"]
-
-
-def extra_labels(extra: pd.DataFrame, spec: dict) -> pd.DataFrame:
-    e = extra
-    if spec["family"] in ("needqr", "needqr_noclim"):
-        e = e[e.hdd_hs1617.notna()] if spec["family"] == "needqr" else e
-    out = []
-    for _, g in e.groupby("country"):
-        if len(eligible(g, spec["family"])) < 50:
-            continue                                   # e.g. Ukraine has no income in EUR for the burden line
-        lab = make_labels(g, spec["family"], spec["cutoff"], spec["tau"])
-        if lab.y.nunique() == 4:
-            out.append(lab)
-    return pd.concat(out, ignore_index=True)
+LABELS = STUDY_LINES
+N_BOOT = 200
 
 
 def run_fold(label, focus, extra, conly, spec, fold, tr, te):
@@ -102,7 +84,7 @@ def main():
     a = ap.parse_args()
     pool = load_pool_frame()
     dev, ext = pool[pool.pool == "focus"].reset_index(drop=True), pool[pool.pool == "extra"].reset_index(drop=True)
-    labs = {k: v for k, v in study_labels_v5(dev).items() if k in LABELS}
+    labs = study_labels(dev)
     extras = {k: extra_labels(ext, spec) for k, (_, spec) in labs.items()}
     conly = cost_only(pool)
     rows = []
@@ -111,23 +93,23 @@ def main():
             for c, g in frame.groupby("country"):
                 rows.append({"label": k, "pool": name, "country": c, "households": len(g),
                              **{f"class_{CLASS_KEYS[j]}": int((g.y == j).sum()) for j in range(4)}})
-    sample = pd.DataFrame(rows); sample.to_csv(TAB / "table_v6_pool_sample.csv", index=False)
+    sample = pd.DataFrame(rows); sample.to_csv(TAB / "table_pool_sample.csv", index=False)
     print(sample.groupby(["label", "pool"]).households.sum().to_string(), flush=True)
     if a.report_only:
-        res = pickle.load(open(ART / "v6_pool_results.pkl", "rb"))
+        res = pickle.load(open(ART / "pool_results.pkl", "rb"))
     elif a.refit_bill_mixed:
-        old = pickle.load(open(ART / "v6_pool_results.pkl", "rb"))
+        old = pickle.load(open(ART / "pool_results.pkl", "rb"))
         splits = {k: outer_splits(f, n_repeats=N_REPEATS) for k, (f, _) in labs.items()}
         new = Parallel(n_jobs=a.jobs)(delayed(refit_mixed)(k, labs[k][0], extras[k], conly, labs[k][1], fold, *splits[k][fold])
                                       for k, fold, _, _ in old)
         upd = {(k, fold): out for k, fold, out in new}
         res = [(k, fold, te, {**out, **upd[(k, fold)]}) for k, fold, te, out in old]
-        pickle.dump(res, open(ART / "v6_pool_results.pkl", "wb"))
+        pickle.dump(res, open(ART / "pool_results.pkl", "wb"))
     else:
         jobs = [(k, f, extras[k], conly, spec, i, tr, te) for k, (f, spec) in labs.items()
                 for i, (tr, te) in enumerate(outer_splits(f, n_repeats=N_REPEATS))]
         res = Parallel(n_jobs=a.jobs)(delayed(run_fold)(*j) for j in jobs)
-        pickle.dump(res, open(ART / "v6_pool_results.pkl", "wb"))
+        pickle.dump(res, open(ART / "pool_results.pkl", "wb"))
     report(labs, res)
 
 
@@ -149,7 +131,7 @@ def report(labs, res):
         for m, d in parts:
             metrics += m; deltas += d
     m, d = pd.DataFrame(metrics), pd.DataFrame(deltas)
-    m.to_csv(TAB / "table_v6_pool_metrics.csv", index=False); d.to_csv(TAB / "table_v6_pool_deltas.csv", index=False)
+    m.to_csv(TAB / "table_pool_metrics.csv", index=False); d.to_csv(TAB / "table_pool_deltas.csv", index=False)
     figure(m)
     pd.set_option("display.width", 250)
     print(m[m.scope == "pooled"].pivot_table(index=["stage", "model"], columns=["label", "arm"], values="balanced_accuracy").round(3).to_string())
@@ -186,7 +168,7 @@ def figure(m):
         ax.set_title(LABEL_NAMES[lab], fontsize=9, loc="left"); ax.grid(color="#e1e0d9", lw=0.6)
     axes[0].set_ylabel("balanced accuracy on the five study countries"); axes[0].legend(frameon=False, fontsize=8)
     fig.suptitle("Do households from other countries help? Same scored households, same folds, two training sets", fontsize=10.5, x=0.01, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.92)); save_figure(fig, FIG / "v6_pool"); plt.close(fig)
+    fig.tight_layout(rect=(0, 0, 1, 0.92)); save_figure(fig, FIG / "pool"); plt.close(fig)
 
 
 if __name__ == "__main__":

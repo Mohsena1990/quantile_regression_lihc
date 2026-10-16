@@ -7,7 +7,7 @@ REQUIREMENTS = [l.strip() for l in (Path(__file__).parent / "requirement.txt").r
 
 setup(
     name="energy_poverty_identification",
-    version="0.3",
+    version="1.0",
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     python_requires=">=3.10",

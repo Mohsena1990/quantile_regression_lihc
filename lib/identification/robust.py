@@ -18,7 +18,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import StratifiedKFold
-from .models3 import fit as fit_model
+from .models import fit as fit_model
 
 BORDER_DELTA, BORDER_FLOOR, CL_WEIGHT, CL_MARGIN = 0.2, 0.5, 0.3, 0.15
 

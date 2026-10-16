@@ -1,4 +1,4 @@
-"""Survey modules asked in only some countries (version 5, B1 group "partial_modules").
+"""Survey modules asked in only some countries (B1 group "partial_modules").
 
 These questions are missing for whole countries, so earlier versions left them out. In the pooled model a household from a country
 where the question was not asked simply has a missing value; CatBoost and XGBoost route missing values natively, and the

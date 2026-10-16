@@ -1,27 +1,7 @@
-"""Household-conditioning feature engineering for M1/M2/M3 / screening.
-
-Audit finding: household composition detail, heating-source composition, and the
-PV/solar/heat-pump technology block exist in the ENABLE workbook but were only ever
-fed into the (since removed) BREDEM required-cost engine, never into the M1/M2/M3/screening feature set -- weakening
-the "threshold conditional on household need" claim these families make. This module
-derives a defensible subset of that raw survey information into model-ready columns.
-
-Every raw column referenced here was confirmed present in the ENABLE.EU_dataset_HH
-sheet and cross-checked against the workbook's own variable/value-label dictionary
-sheets before being added (see the variable labels: S1Ac1-3/S1Bc1-3 age-sex bands,
-H6A1-11 heating-source shares, H10A1/H10A3/H10A4 PV/solar-water/heat-pump technology
-flags, H9 heating control, SettlementSize).
-
-2026-08-17 follow-up: mutual-information audit against `observed_energy_cost_eur_reference`
-and the four-class label (see AUDIT_AND_REPAIR_REPORT.md-era SHAP audit, corroborated here)
-found has_pv/has_solar_water_heating/has_heat_pump_tech/has_heat_pump_heating carry ~zero
-signal in this cohort (rare technology adoption -> near-constant columns) -- dropped from
-config/pipeline.json's `features` whitelist (kept here in ENGINEERED_COLUMNS for anyone who
-wants them, just no longer selected by default). Added 7 previously-unused raw columns with
-verified (5-fold CV, two regression families) predictive value: H4A vehicle ownership,
-H11B/H11E/H11H appliance age (dishwasher/AC/TV), S2 education, S3 employment status,
-S6 settlement type. None overlap with the label's own inputs (income_bracket/S9MONTH/S9YEAR),
-so no leakage risk -- confirmed against tests/test_governance.py's FORBIDDEN_SCREENING_COLUMNS.
+"""Household features engineered from the raw ENABLE survey columns: household composition (age-sex bands), heating-source shares,
+technology flags, heating control (H9), respondent age, and the cleaned dwelling items (H1 type, H2 construction period, H3 floor
+area, H5 insulation). Sentinel codes become missing values. Every raw column was checked against the workbook's variable and value
+dictionaries.
 """
 from __future__ import annotations
 import numpy as np
@@ -41,15 +21,10 @@ APPLIANCE_AGE_COLUMNS = {"H11B": "dishwasher_age", "H11E": "ac_age", "H11H": "tv
 EDUCATION_COLUMN = "S2"
 EMPLOYMENT_COLUMN = "S3"
 AREA_TYPE_COLUMN = "S6"
-# Respondent gender (S5, 1=Male/2=Female) -- reporting/policy-map segmentation only,
-# deliberately NOT added to config/pipeline.json's predictor set: this project's
-# standard predictor set (A0) is built by scripts/build_a0_predictor_selection.py's
-# recursive search, not hand-added; gender is exposed here so
-# scripts/build_policy_maps_by_feature.py can show how risk concentration differs
-# by respondent gender without making it a classifier input.
+# Respondent gender (S5, 1 = male, 2 = female): available for description, not a predictor.
 GENDER_COLUMN = "S5"
-# Van Hove et al.'s "birth year of respondent" predictor -- one of their 7 base
-# predictors (see docs/methodology_sources.md / the 2026-08-26 Van Hove comparison),
+# the core profile's "birth year of respondent" predictor (one of the seven core-profile
+# variables; see lib/reporting/names.py),
 # previously missing from this project's feature set entirely. Converted to an age
 # (REFERENCE_YEAR - birth year) rather than kept as a raw year: a monotonic affine
 # transform, so it carries identical information to every model in this pipeline
@@ -92,17 +67,6 @@ ENGINEERED_COLUMNS = ["children_count", "working_age_count", "elderly_count", "d
                       "ac_age", "tv_age", "education_level", "employment_status", "area_type",
                       "respondent_age", "gender"]
 _GENDER_LABELS = {1: "Male", 2: "Female"}
-
-
-def stack_features(*groups: list[str]) -> list[str]:
-    """Concatenate feature-name lists (e.g. A0 + climate_features, or + CONTEXT_COLUMNS)
-    while de-duplicating, order preserved. Needed because A0 (config/pipeline.json's
-    `features`, built by scripts/build_a0_predictor_selection.py's recursive search)
-    can itself already contain a climate or country-context column if the search found
-    it useful -- a plain `a0 + climate_features` would then pass a duplicate column
-    name into the model design matrix, which breaks `pd.api.types.is_numeric_dtype`
-    (a duplicate label makes `frame[name]` return a DataFrame, not a Series)."""
-    return list(dict.fromkeys(x for group in groups for x in group))
 
 
 def engineer(hh: pd.DataFrame) -> pd.DataFrame:

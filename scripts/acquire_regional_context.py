@@ -9,7 +9,7 @@ these, so they come from official regional statistics:
   owner_share          % of private households owning their home, 2011     cens_11htts_r2  NUTS2 (2011 codes)
   pre1981_share        % of dwellings built before 1981, 2021 census       cens_21dwop_r3  NUTS3 (else NUTS2)
 A region missing at its own level takes its parent NUTS2 value (NUTS2 2011 codes: HU10 for HU11/HU12, PL12 for PL91/PL92).
-No consistent regional house-value statistic exists for the four countries; the household wealth index
+No consistent regional house-value statistic exists for the study countries; the household wealth index
 (lib/features/indices.py) stands in for house value.
 
 Output: artifacts/reference/regional_context.csv (one row per climate region, with the source code used per variable).

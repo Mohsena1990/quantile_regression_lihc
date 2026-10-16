@@ -1,4 +1,4 @@
-"""Version 6 -- a fair test of climate on the energy BILL with a multilevel (mixed) model (ideas A, E, F).
+"""A fair test of climate on the energy BILL with a multilevel (mixed) model.
 
 Why the bill: a continuous outcome has far more statistical power than the four-class label, and climate should act on what a
 household spends before it acts on a class.  Why multilevel: climate has ONE value per region, so it must be tested against the
@@ -23,8 +23,8 @@ Samples: "five" = the five study countries' development households; "pool" = + e
 Ukraine (the extra countries with regions; France and the UK have none) -- more regions and a far wider climate range (idea B).
 Outcomes: total energy bill, and the heating bill alone (households that pay for heating).
 
-Outputs: outputs/tables/table_v6_climate_elasticity.csv, table_v6_region_variance.csv, table_v6_country_slopes.csv,
-table_v6_region_effects.csv; outputs/figures/v6_climate_bill.
+Outputs: outputs/tables/table_climate_elasticity.csv, table_region_variance.csv, table_country_slopes.csv,
+table_region_effects.csv; outputs/figures/climate_bill.
 """
 from __future__ import annotations
 import sys, warnings
@@ -39,7 +39,7 @@ from scipy import stats
 warnings.filterwarnings("ignore")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from lib.identification.data import COUNTRIES_V5, load_pool_frame
+from lib.identification.data import COUNTRIES, load_pool_frame
 from lib.identification.multilevel import (CLIM, ECON, HH, N_PERM, REGION_CLIMATE, REGION_ECON, fit, prepare, s2_region,
                                              shuffle_climate)
 from lib.reporting.figures import save_figure
@@ -96,10 +96,10 @@ def analyse(d: pd.DataFrame, sample: str, outcome: str) -> tuple[list, list, lis
 
 def main() -> None:
     pool = load_pool_frame()
-    heat = pd.read_parquet(ROOT / "artifacts/data/harmonised_observed_cost_all.parquet")[["UID", "heating_cost_eur"]]
+    heat = pd.read_parquet(ROOT / "artifacts/data/energy_cost_all.parquet")[["UID", "heating_cost_eur"]]
     pool = pool.merge(heat, on="UID", how="left")
     pool["bill"] = pool.cost
-    samples = {"five": pool[pool.pool == "focus"], "pool": pool[pool.country.isin(COUNTRIES_V5 + ["Germany", "Norway", "Serbia", "Ukraine"])]}
+    samples = {"five": pool[pool.pool == "focus"], "pool": pool[pool.country.isin(COUNTRIES + ["Germany", "Norway", "Serbia", "Ukraine"])]}
     els, vars_, slopes, res = [], [], [], []
     for outcome in ("bill", "heating_cost_eur"):
         for sample, d in samples.items():
@@ -109,10 +109,10 @@ def main() -> None:
             print(f"{outcome} {sample}: n={len(x)} regions={x.climate_region.nunique()} elasticity={e[0]['coef']:.3f} "
                   f"({e[0]['ci_lo']:.3f}, {e[0]['ci_hi']:.3f}) share={v[0]['share_explained_climate']:.2f} placebo p={v[0]['placebo_share_p']:.3f}",
                   flush=True)
-    pd.DataFrame(els).to_csv(TAB / "table_v6_climate_elasticity.csv", index=False)
-    pd.DataFrame(vars_).to_csv(TAB / "table_v6_region_variance.csv", index=False)
-    pd.DataFrame(slopes).to_csv(TAB / "table_v6_country_slopes.csv", index=False)
-    res = pd.concat(res); res.to_csv(TAB / "table_v6_region_effects.csv", index=False)
+    pd.DataFrame(els).to_csv(TAB / "table_climate_elasticity.csv", index=False)
+    pd.DataFrame(vars_).to_csv(TAB / "table_region_variance.csv", index=False)
+    pd.DataFrame(slopes).to_csv(TAB / "table_country_slopes.csv", index=False)
+    res = pd.concat(res); res.to_csv(TAB / "table_region_effects.csv", index=False)
     figure(res, pd.DataFrame(els))
     pd.set_option("display.width", 250)
     print(pd.DataFrame(vars_).round(3).T.to_string())
@@ -144,11 +144,11 @@ def figure(res: pd.DataFrame, els: pd.DataFrame):
     axes[-1].legend(frameon=False, fontsize=6.5, ncol=2)
     fig.suptitle("Do colder regions pay more? Region effects (partially pooled) against the region's winter, within countries; "
                  "line = climate slope of the multilevel model", fontsize=10, x=0.01, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.9)); save_figure(fig, FIG / "v6_climate_bill"); plt.close(fig)
+    fig.tight_layout(rect=(0, 0, 1, 0.9)); save_figure(fig, FIG / "climate_bill"); plt.close(fig)
 
 
 if __name__ == "__main__":
     if "--figure-only" in sys.argv:
-        figure(pd.read_csv(TAB / "table_v6_region_effects.csv"), pd.read_csv(TAB / "table_v6_climate_elasticity.csv"))
+        figure(pd.read_csv(TAB / "table_region_effects.csv"), pd.read_csv(TAB / "table_climate_elasticity.csv"))
     else:
         main()

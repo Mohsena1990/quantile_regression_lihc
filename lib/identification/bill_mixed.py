@@ -17,7 +17,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
-from .models3 import categorical
+from .models import categorical
 
 PARAMS = {"learning_rate": 0.05, "max_depth": 4, "num_leaves": 15, "min_data_in_leaf": 20, "feature_fraction": 0.8,
           "verbose": -1}                         # GPBoost does not allow row bagging

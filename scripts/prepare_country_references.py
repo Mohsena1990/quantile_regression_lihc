@@ -1,6 +1,5 @@
-"""Download and govern the Eurostat national income deciles (ilc_di01, EUR) used by the dynamic income rules
-(lib/labels/income_harmonization.py: equiv60 / residual60 poverty line = 60% of the national median), and publish
-the climate reference-period table."""
+"""Eurostat national income deciles (ilc_di01, 2018, EUR) for the countries with EU-SILC data, used to put the income bracket in
+EUR (lib/features/income.py). Output: artifacts/reference/income_quantiles_2018.csv (+ outputs/tables/table_lihc_income_quantiles)."""
 from __future__ import annotations
 import argparse,itertools,json,sys
 from datetime import date
@@ -9,8 +8,8 @@ from urllib.request import urlopen
 import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 BASE="https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
-GEOS={"BG":"Bulgaria","HU":"Hungary","IT":"Italy","PL":"Poland","ES":"Spain",   # Spain: version-5 cohort
-      "FR":"France","DE":"Germany","NO":"Norway","RS":"Serbia","UK":"United Kingdom"}   # version-6 extra training pool (Ukraine: not in EU-SILC)
+GEOS={"BG":"Bulgaria","HU":"Hungary","IT":"Italy","PL":"Poland","ES":"Spain",   # the five study countries
+      "FR":"France","DE":"Germany","NO":"Norway","RS":"Serbia","UK":"United Kingdom"}   # extra training countries (Ukraine: not in EU-SILC)
 
 def parse_jsonstat(payload:dict)->pd.DataFrame:
     dims=payload["id"]; categories=[]
@@ -40,6 +39,5 @@ def main()->None:
     income['country']=income.geo.map(GEOS); income_ref=income.rename(columns={'quant_inc':'quantile','value':'cutoff_eur'})[['country','geo','time','quantile','cutoff_eur']]
     income_ref['currency']='EUR'; income_ref['source']='Eurostat ilc_di01'; income_ref['source_url']=url_income; income_ref['retrieval_date']=today
     income_ref.to_csv(ROOT/'artifacts/reference/income_quantiles_2018.csv',index=False); publish(income_ref,'table_lihc_income_quantiles')
-    climate=pd.read_csv(ROOT/'config/climate_reference_periods.csv'); publish(climate,'table_climate_reference_periods')
     print(f"income_cutoffs={len(income_ref)}")
 if __name__=='__main__': main()

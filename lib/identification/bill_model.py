@@ -7,14 +7,14 @@ number), then asks how likely that bill is to be above the household's own line:
   mu        XGBoost regression of log annual energy cost on the household's features (depth 4, learning rate 0.05, 300 trees,
             row / column subsampling 0.8; missing values and categories handled natively)
   sigma     standard deviation of the out-of-fold residuals (5-fold, training households only), per country
-  P(high expenditure) = 1 - Phi((log thr - mu) / sigma)        thr from lines_v5.fold_threshold
+  P(high expenditure) = 1 - Phi((log thr - mu) / sigma)        thr from lines.fold_threshold
 
 The income axis needs no model: income is a predictor and "low income" is the income bracket <= cut-off, so it is known exactly.
 The four-class probability puts P(high) on "low income x high spending" and 1 - P(high) on "low income x normal spending" (or the
 high-income pair). Before taking the most likely class the probabilities are divided by the training class shares and
 renormalised -- the same "balanced" decision the classifiers make through their class weights.
 
-Training households: the labelled training households plus households that reported a bill but no income (lines_v5.cost_only) --
+Training households: the labelled training households plus households that reported a bill but no income (lines.cost_only) --
 they inform the bill, not the label (idea 2, second option).
 """
 from __future__ import annotations
@@ -23,7 +23,7 @@ import pandas as pd
 import xgboost as xgb
 from scipy.stats import norm
 from sklearn.model_selection import KFold
-from .models3 import categorical
+from .models import categorical
 
 PARAMS = dict(n_estimators=300, max_depth=4, learning_rate=0.05, subsample=0.8, colsample_bytree=0.8, tree_method="hist",
               enable_categorical=True, max_cat_to_onehot=1, n_jobs=4, verbosity=0)

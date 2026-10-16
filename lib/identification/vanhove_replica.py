@@ -1,8 +1,9 @@
 """Faithful replica of Van Hove, Dalla Longa & van der Zwaan (2022) and its thesis (van Hove 2020, TUM), applied to THIS
-project's four countries (Bulgaria, Hungary, Italy, Poland), to locate where this project's numbers depart from theirs.
+study's five countries (Bulgaria, Hungary, Italy, Poland, Spain): the validation stream of the study -- does this study's pipeline
+reproduce the reference results when it is run their way?
 
 Their pipeline, as published (paper Sec. 2-3, Table 1; thesis Sec. 5.2, 5.3, 7.4, 7.5), with one change -- the countries:
-  * they pooled all 11 ENABLE countries in one model; here the same steps run on the four study countries only
+  * they pooled all 11 ENABLE countries in one model; here the same steps run on the five study countries
   * income bracket 1-10 from EITHER the monthly or the yearly income question (S9MONTH / S9YEAR); 98/99 invalid
   * energy expenditure = annual heating + annual electricity cost; heating = season total, else monthly cost x months
     paid, else monthly cost x the country's median months; electricity = annual bill, else monthly x 12; converted to
@@ -16,17 +17,16 @@ Their pipeline, as published (paper Sec. 2-3, Table 1; thesis Sec. 5.2, 5.3, 7.4
   * reported: per-class true-positive rates (recall) on test, 60-74%; best validation TotalF1 0.65 (5-fold CV 0.63)
 
 `clean=True` swaps in this project's preprocessing (don't-know codes and impossible values as missing).
-Households in this project's spent test partition (artifacts/splits) are excluded, so the lock still holds.
+Households of the study's locked test partition (config/household_split_v1.csv) are excluded.
 """
 from __future__ import annotations
-import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
 from catboost import CatBoostClassifier
 from sklearn.metrics import balanced_accuracy_score, f1_score, recall_score
 from sklearn.model_selection import train_test_split
-from data.enable import COUNTRIES, HOUSEHOLD_SHEET, RETAINED_COUNTRY_NAMES
+from data.enable import COUNTRIES, HOUSEHOLD_SHEET, STUDY_COUNTRY_NAMES
 
 ROOT = Path(__file__).resolve().parents[2]
 EUR_PER_LOCAL = {"Bulgaria": 0.511292, "France": 1, "Germany": 1, "Hungary": 0.003226, "Italy": 1, "Norway": 0.102712,
@@ -46,13 +46,13 @@ def _valid_cost(s):
     return v.where(v.ge(0) & ~v.isin(COST_SENTINELS))
 
 
-def load_frame(*, clean: bool = False, countries: tuple[str, ...] = RETAINED_COUNTRY_NAMES) -> pd.DataFrame:
+def load_frame(*, clean: bool = False, countries: tuple[str, ...] = STUDY_COUNTRY_NAMES) -> pd.DataFrame:
     cols = ["UID", "Country", "S9MONTH", "S9YEAR", "H1", "H2", "H3", "H9", "S4", "H7A1", "H7A2", "H7AA", "H7A88", "H8A", "H8B"] + COMP
     d = pd.read_excel(ROOT / "data/raw/ENABLE.EU_dataset_survey of households.xlsx", sheet_name=HOUSEHOLD_SHEET, usecols=cols)
     d["country"] = d["Country"].map(COUNTRIES)
     d = d[d.country.isin(countries)]
-    split = json.loads((ROOT / "artifacts/splits/household_split_v1.json").read_text())["assignments"]
-    spent = {str(a["household_id"]) for a in split if a["partition"] == "test"}
+    split = pd.read_csv(ROOT / "config/household_split_v1.csv", dtype={"UID": str})
+    spent = set(split.UID[split.partition == "test"])
     d = d[~d.UID.astype(str).isin(spent)].copy()
     m, y = _num(d.S9MONTH), _num(d.S9YEAR)
     d["income_bracket"] = m.where(m.between(1, 10)).fillna(y.where(y.between(1, 10)))

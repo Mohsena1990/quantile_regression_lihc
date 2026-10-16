@@ -1,4 +1,4 @@
-"""Shared terms of the version-6 multilevel climate tests (scripts/build_climate_multilevel.py, scripts/build_climate_labels.py).
+"""Shared terms of the multilevel climate tests (scripts/build_climate_multilevel.py, scripts/build_climate_labels.py).
 
 Household terms, climate terms, the mixed model (statsmodels MixedLM, maximum likelihood, random intercept per climate region) and
 the within-country climate shuffle used as placebo.

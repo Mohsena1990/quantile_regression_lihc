@@ -1,23 +1,19 @@
-"""B0 threshold sensitivity and multi-objective choice of the income cut-off and the expenditure level for every line family.
+"""Choosing the two thresholds of every line: income cut-off and expenditure level, by multi-objective optimisation.
 
-Grid: income bracket cut-off c in {2, 3, 4} x expenditure level tau in {0.60, 0.65, ..., 0.90}, for the families pct, needqr and
-burden (lib/identification/lines_v4.py; the climate-free need line reuses needqr's choice). Objectives, all to MAXIMISE, on the
-development households of the four countries:
-  f1  identifiability  balanced accuracy of the B0 model (Van Hove's seven predictors + country; CatBoost, one pooled model,
-                       5-fold CV stratified by country x class; selection seed 101, different from the evaluation seeds)
+Grid: income bracket cut-off c in {2, 3, 4} x expenditure level tau in {0.60, 0.65, ..., 0.90}, for the families pct (country
+percentile), needqr (need line) and burden (lib/identification/lines.py; the climate-free need line reuses needqr's choice).
+Objectives, all to MAXIMISE, on the development households of the five study countries:
+  f1  identifiability  balanced accuracy of the B0 core-profile model (+ country; CatBoost, one pooled model, 5-fold CV stratified
+                       by country x group; selection seed 101, different from the evaluation seeds)
   f2  validity         hardship gap on the expenditure axis: among low-income households, the share finding it (very) difficult
-                       to live on income (S8 >= 3) in Double Risk minus in Income Risk -- averaged over the four countries
-  f3  stability        minimum sample size: the smallest class of the pooled four-country data the model is trained on
-                       (Dalla Longa et al. 2021)
-Constraint: every class has >= 15 households in every country, so country-specific results still have support. (A per-country
-minimum of 30, used for per-country models, is infeasible for almost every option: Poland's sample is 83% low-income, so few
-households are high-income and high-spending, and Italy has few households below bracket 3.) Method: the grid is small, so every option is evaluated (exact
-multi-objective optimisation), the Pareto front is kept, and one option is chosen by TOPSIS (vector-normalised objectives, equal
-weights). f2 is what stops the optimisation from simply choosing lines that are easy to predict because they measure home size.
+                       to live on income (S8 >= 3) in Double Risk minus in Income Risk -- averaged over the countries
+  f3  stability        the smallest group of the pooled data the model is trained on
+Constraint: every group has >= 15 households in every country. Every option is evaluated (exact multi-objective optimisation),
+the Pareto front is kept, and one option is chosen by TOPSIS (vector-normalised objectives, equal weights). f2 stops the
+optimisation from choosing lines that are easy to predict only because they measure home size. The P80 baseline (c = 3,
+tau = 0.80) is kept whatever the optimisation chooses, and its scores are recorded.
 
 Outputs: outputs/tables/table_threshold_moo.csv; artifacts/identification/moo_thresholds.json; outputs/figures/threshold_moo.
-With --v5 the same optimisation runs on the version-5 cohort (the four countries + Spain): table_threshold_moo_v5.csv,
-moo_thresholds_v5.json, threshold_moo_v5.
 """
 from __future__ import annotations
 import json, sys, warnings
@@ -33,9 +29,8 @@ warnings.filterwarnings("ignore")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lib.identification.data import COUNTRIES, load_development_frame
-from lib.identification.lines_v4 import MOO_PATH, eligible, expenditure_flag, make_labels
-from lib.identification.lines_v5 import MOO_PATH_V5
-from lib.identification.models3 import fit as fit_model
+from lib.identification.lines import MOO_PATH, eligible, expenditure_threshold, make_labels
+from lib.identification.models import fit as fit_model
 from lib.identification.stages import B0_FEATURES
 from lib.reporting.figures import save_figure
 
@@ -84,19 +79,14 @@ def topsis(df: pd.DataFrame, cols: list[str]) -> np.ndarray:
 
 
 def main() -> None:
-    import argparse
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--v5", action="store_true", help="version-5 cohort: the four countries + Spain")
-    v5 = ap.parse_args().v5
-    suffix, moo_path = ("_v5", MOO_PATH_V5) if v5 else ("", MOO_PATH)
-    dev = load_development_frame(extended=v5)
+    dev = load_development_frame()
     rows = []
     for fam in FAMILIES:
         e = eligible(dev, fam)
         for tau in TAUS:
-            hc = expenditure_flag(e, fam, tau)
+            thr = expenditure_threshold(e, fam, tau)
             for c in CUTOFFS:
-                lab = make_labels(dev, fam, c, tau, hc=hc)
+                lab = make_labels(dev, fam, c, tau, thr=thr)
                 counts = lab.groupby(["country", "y"]).size().unstack(fill_value=0).reindex(columns=range(4), fill_value=0)
                 country_min = int(counts.to_numpy().min())
                 rec = {"family": fam, "cutoff": c, "tau": float(tau), "n": len(lab), "f3_min_class": int(counts.sum().min()),
@@ -118,11 +108,11 @@ def main() -> None:
         t.loc[best, "chosen"] = True
         chosen[fam] = {k: (int(t.loc[best, k]) if k in ("cutoff", "f3_min_class") else float(t.loc[best, k]))
                        for k in ["cutoff", "tau"] + objs}
-    vh = t[(t.family == "pct") & (t.cutoff == 3) & (t.tau == 0.80)].iloc[0]
-    chosen["van_hove_benchmark"] = {"cutoff": 3, "tau": 0.80, **{k: float(vh[k]) for k in objs}}
-    moo_path.parent.mkdir(parents=True, exist_ok=True)
-    moo_path.write_text(json.dumps(chosen, indent=2) + "\n")
-    t.to_csv(ROOT / f"outputs/tables/table_threshold_moo{suffix}.csv", index=False)
+    p80 = t[(t.family == "pct") & (t.cutoff == 3) & (t.tau == 0.80)].iloc[0]
+    chosen["p80_baseline"] = {"cutoff": 3, "tau": 0.80, "feasible": bool(p80.feasible), **{k: float(p80[k]) for k in objs}}
+    MOO_PATH.parent.mkdir(parents=True, exist_ok=True)
+    MOO_PATH.write_text(json.dumps(chosen, indent=2) + "\n")
+    t.to_csv(ROOT / "outputs/tables/table_threshold_moo.csv", index=False)
 
     fig, axes = plt.subplots(1, len(FAMILIES), figsize=(16, 4.6))
     names = {"pct": "Country percentile", "needqr": "Quantile Regression on need", "burden": "Energy burden"}
@@ -135,16 +125,16 @@ def main() -> None:
         c = g[g.chosen]
         ax.scatter(c.f1_b0_balanced_accuracy, c.f2_hardship_gap, marker="*", s=260, color="#d1342f", label="chosen (TOPSIS)")
         if fam == "pct":
-            ax.scatter(vh.f1_b0_balanced_accuracy, vh.f2_hardship_gap, marker="X", s=120, color="black", label="Van Hove (3, 0.80)")
+            ax.scatter(p80.f1_b0_balanced_accuracy, p80.f2_hardship_gap, marker="X", s=120, color="black", label="P80 baseline (3, 0.80)")
         for _, r in c.iterrows():
             ax.annotate(f"bracket <= {int(r.cutoff)}, tau {r.tau:.2f}", (r.f1_b0_balanced_accuracy, r.f2_hardship_gap),
                         xytext=(6, 6), textcoords="offset points", fontsize=8)
         ax.set_title(names[fam], fontsize=10, loc="left")
-        ax.set_xlabel("f1: B0 balanced accuracy", fontsize=8.5); ax.set_ylabel("f2: hardship gap (Double vs Income Risk)", fontsize=8.5)
+        ax.set_xlabel("f1: B0 core profile, balanced accuracy", fontsize=8.5); ax.set_ylabel("f2: hardship gap (Double vs Income Risk)", fontsize=8.5)
         ax.grid(color="#e1e0d9", lw=0.6); ax.legend(frameon=False, fontsize=7.5, loc="lower left")
     fig.colorbar(sc, ax=axes, label="income cut-off (bracket)", shrink=0.8)
     fig.suptitle("Choosing the thresholds: every option (size = smallest class, f3); red rings = Pareto front", fontsize=10.5, x=0.01, ha="left")
-    save_figure(fig, ROOT / f"outputs/figures/threshold_moo{suffix}")
+    save_figure(fig, ROOT / "outputs/figures/threshold_moo")
     plt.close(fig)
     print(json.dumps(chosen, indent=2))
 

@@ -1,5 +1,5 @@
 """1991-2020 climate normals for stage B2: one Copernicus CDS request, ERA5-Land monthly mean 2m temperature 1991-2020
-over the four countries, sampled at each climate region's representative point (the point used for the Open-Meteo
+over the study countries (and with --extra the extra training countries), sampled at each climate region's representative point (the point used for the Open-Meteo
 series, artifacts/climate/openmeteo/points.csv; nearest valid land grid cell).
 
 Why not Open-Meteo: 30 years of daily data per region counts as ~780 API calls under its fair-use weighting, i.e. more
@@ -19,8 +19,8 @@ import xarray as xr
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "artifacts/climate/era5_normals"
 AREA = [55.5, 6.0, 35.0, 30.0]
-AREA_SPAIN = [44.5, -18.5, 27.5, 4.5]          # mainland Spain, Balearic and Canary Islands (version-5 cohort)
-AREA_EXTRA = [71.5, 4.0, 41.5, 41.0]           # Norway, Ukraine, Serbia (version-6 extra training countries; Germany is in AREA)
+AREA_SPAIN = [44.5, -18.5, 27.5, 4.5]          # mainland Spain, Balearic and Canary Islands (study country)
+AREA_EXTRA = [71.5, 4.0, 41.5, 41.0]           # Norway, Ukraine, Serbia (extra training countries; Germany is in AREA)
 REQUEST = {"product_type": ["monthly_averaged_reanalysis"], "variable": ["2m_temperature"],
            "year": [str(y) for y in range(1991, 2021)], "month": [f"{m:02d}" for m in range(1, 13)], "time": ["00:00"],
            "data_format": "netcdf", "download_format": "unarchived", "area": AREA}
@@ -28,7 +28,7 @@ REQUEST = {"product_type": ["monthly_averaged_reanalysis"], "variable": ["2m_tem
 
 def main() -> None:
     import argparse, cdsapi
-    ap = argparse.ArgumentParser(); ap.add_argument("--extra", action="store_true", help="version 6: extra training countries")
+    ap = argparse.ArgumentParser(); ap.add_argument("--extra", action="store_true", help="extra training countries")
     extra = ap.parse_args().extra
     suffix = "_extra" if extra else ""
     OUT.mkdir(parents=True, exist_ok=True)

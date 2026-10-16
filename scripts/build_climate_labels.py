@@ -1,4 +1,5 @@
-"""Version 6 -- climate-sensitive outcomes (idea G), with the extra countries as training households (idea B).
+"""Climate-sensitive outcomes (cold and hot homes, winter and summer energy poverty, hidden under-heating), with the extra countries
+as training households.
 
 The four-class label asks about SPENDING, and spending lines remove most of what climate would explain. Climate should matter
 more for COMFORT and for under-heating. ENABLE asked the usual indoor temperature (C1A winter, C1B summer: 24 C or above, 22-23,
@@ -18,7 +19,7 @@ Two tests:
     (log HDD, CDD/100, heatwave days/10), standard errors clustered by region; placebo = climate shuffled between regions of the
     same country (N_PERM runs); p = share of placebo runs whose log-likelihood gain is at least the real one.
   2 Machine learning (CatBoost, XGBoost; balanced class weights), repeated 5-fold CV x3 on the scored households, feature sets:
-      H      Van Hove's seven + country + household indices (+ air conditioning)
+      H      core profile + country + household indices (+ air conditioning)
       H+R    + region
       H+C    + 14 climate measures (regional and climate x home)
       H+Cp   + the same, shuffled between regions of a country (placebo)
@@ -26,8 +27,8 @@ Two tests:
     arms "five" (train on the scored countries only) and "pool" (+ extra countries). ROC AUC and balanced accuracy, paired
     household bootstrap for differences.
 
-Outputs: outputs/tables/table_v6_climate_labels_sample.csv, table_v6_climate_labels_glm.csv, table_v6_climate_labels_ml.csv,
-table_v6_climate_labels_deltas.csv; outputs/figures/v6_climate_labels.
+Outputs: outputs/tables/table_climate_labels_sample.csv, table_climate_labels_glm.csv, table_climate_labels_ml.csv,
+table_climate_labels_deltas.csv; outputs/figures/climate_labels.
 Only CPU models run here; the GPU is hidden (more than four CUDA processes crash under WSL, and the FT-Transformer module opens
 a CUDA context on import).
 """
@@ -51,17 +52,18 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lib.climate.b2_indices import B2_CLIMATE
 from lib.features.indices import climate_features
-from lib.identification.data import COUNTRIES_V5, load_pool_frame
-from lib.identification.models3 import fit as fit_model
+from lib.identification.data import COUNTRIES, load_pool_frame
+from lib.identification.models import fit as fit_model
 from lib.identification.required_heat import hidden_underheating
-from lib.identification.stages import B0_FEATURES, placebo_climate
+from lib.identification.selection import placebo_climate
+from lib.identification.stages import B0_FEATURES
 from lib.reporting.figures import save_figure
 from lib.identification.multilevel import HH, prepare as prepare_terms, shuffle_climate
 
 TAB, FIG = ROOT / "outputs/tables", ROOT / "outputs/figures"
 LABELS = ("cold_home", "hot_home", "winter_ep", "summer_ep", "underheat")
 SCORED = {"cold_home": ["Hungary", "Spain"], "hot_home": ["Hungary", "Spain"], "winter_ep": ["Hungary", "Spain"],
-          "summer_ep": ["Hungary", "Spain"], "underheat": list(COUNTRIES_V5)}
+          "summer_ep": ["Hungary", "Spain"], "underheat": list(COUNTRIES)}
 HOUSEHOLD = B0_FEATURES + ["country", "dwelling_efficiency_index", "inefficient_equipment_index", "heating_system_type",
                            "vulnerability_index", "wealth_index", "income_eur_equiv", "has_air_conditioning"]
 CLIMATE = ["hdd_hs1617", "cdd_s2017", "hdd_normal", "cdd_normal", "tmin_hs", "heatwave_days", "tropical_nights", "rh_hs",
@@ -250,23 +252,23 @@ def figure(ml: pd.DataFrame):
         ax.grid(color="#e1e0d9", lw=0.6)
     axes[0].set_ylabel("ROC AUC"); axes[0].legend(frameon=False, fontsize=6.5)
     fig.suptitle("Climate-sensitive outcomes: household (H), + region (R), + climate (C), + placebo climate (Cp)", fontsize=10, x=0.01, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.9)); save_figure(fig, FIG / "v6_climate_labels"); plt.close(fig)
+    fig.tight_layout(rect=(0, 0, 1, 0.9)); save_figure(fig, FIG / "climate_labels"); plt.close(fig)
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=4, help="12 workers crashed (SIGSEGV) next to the GPU run; 4 are safe")
-    ap.add_argument("--skip-glm", action="store_true", help="reuse table_v6_climate_labels_glm.csv")
+    ap.add_argument("--skip-glm", action="store_true", help="reuse table_climate_labels_glm.csv")
     a = ap.parse_args()
     d = build_labels(load_pool_frame())
-    sample_table(d).to_csv(TAB / "table_v6_climate_labels_sample.csv", index=False)
+    sample_table(d).to_csv(TAB / "table_climate_labels_sample.csv", index=False)
     print(sample_table(d).to_string(), flush=True)
     if a.skip_glm:
-        glm = pd.read_csv(TAB / "table_v6_climate_labels_glm.csv")
+        glm = pd.read_csv(TAB / "table_climate_labels_glm.csv")
     else:
-        glm = glm_tests(d); glm.to_csv(TAB / "table_v6_climate_labels_glm.csv", index=False)
+        glm = glm_tests(d); glm.to_csv(TAB / "table_climate_labels_glm.csv", index=False)
     ml, dl = ml_tests(d, a.jobs)
-    ml.to_csv(TAB / "table_v6_climate_labels_ml.csv", index=False); dl.to_csv(TAB / "table_v6_climate_labels_deltas.csv", index=False)
+    ml.to_csv(TAB / "table_climate_labels_ml.csv", index=False); dl.to_csv(TAB / "table_climate_labels_deltas.csv", index=False)
     figure(ml)
     pd.set_option("display.width", 250)
     print(glm.round(3).to_string())

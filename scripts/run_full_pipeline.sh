@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-# Runs the whole study end to end, in order, from a clean checkout (plus the raw ENABLE workbook at
-# data/raw/, see README "Data"). Stops on the first failing step (`set -e`).
-#
-# Deliberately does NOT run scripts/run_final_test.py: the single evaluation on the locked test partition is a one-time,
-# human-authorised step (config/final_selection.json; see README "Reproducibility locks"). This script only *freezes*
-# (pre-registers) the model choices from development results.
-# Does not run `pip install -r requirement.txt`: install dependencies once, separately.
+# Runs the whole study end to end, in order, from a clean checkout plus the raw ENABLE workbook at
+# data/raw/ENABLE.EU_dataset_survey of households.xlsx (see README "How to run it"). Stops at the first failing step.
+# Network: Eurostat, GISCO, Open-Meteo (cached after the first run) and the Copernicus CDS (credentials in ~/.cdsapirc).
+# Does not install dependencies: `pip install -r requirement.txt` once, separately.
 #
 # Usage:  bash scripts/run_full_pipeline.sh
 #         START_AT=scripts/<name>.py bash scripts/run_full_pipeline.sh     # resume at that step
@@ -20,84 +17,39 @@ run() {
   fi
   echo "[$(date +%T)] >>> $*"; "$@"
 }
-# Generated-output directories (git-ignored) do not exist on a fresh checkout.
-mkdir -p artifacts/{data,predictions,manifests,identification,splits,reference,climate} outputs/tables outputs/figures
+mkdir -p artifacts/{data,identification,reference,climate} outputs/tables outputs/figures
 
-# --- 1. Data, labels, climate -----------------------------------------------------------------------------------------
-run python scripts/audit_enable_workbook.py           # dictionary / coverage audit, cohort tables
-run python scripts/validate_nuts.py                   # every cohort NUTS1 region exists in GISCO (network for first download)
-run python scripts/prepare_country_references.py      # Eurostat national income deciles (network)
-run python scripts/build_expenditure_m0.py            # observed cost, immutable split, Van Hove M0 benchmark (network: exchange rates)
-run python scripts/build_extended_cost.py            # version 5: the same observed cost for the four countries + Spain
-# Frozen cohort-wide bracket -> percentile table (needs the cost parquet above). The headline income rule (bracket <= 3) does
-# not use it; the percentile sensitivity does.
-run python scripts/build_income_bracket_reference.py
-run python scripts/acquire_era5_land.py --configuration annual_2017   # skips the download when the NetCDF files exist
-run python scripts/fuse_era5_nuts1.py --configuration annual_2017     # fuses to NUTS1, region-coverage QC gate
-# Stage-B2 climate from the Open-Meteo reanalysis API: one point per NUTS3 (Poland NUTS2) region, survey heating season
-# 2016/17, 1991-2020 normals. Responses are cached (artifacts/climate/openmeteo/http_cache), so reruns are offline.
-# Must run before any script that reads the development frame's B2 columns.
-run python scripts/acquire_openmeteo_b2.py
-run python scripts/acquire_era5_normals.py            # 1991-2020 monthly normals (one CDS request)
-run python scripts/fuse_openmeteo_b2.py
-run python scripts/acquire_regional_context.py      # Eurostat / Census regional context (density, ownership, GDP, unemployment, poverty, old dwellings)
-
-# --- 2. Predictor core and cost-threshold estimators -----------------------------------------------------------------
-# A0: recursive forward search from Van Hove's six non-income predictors. Overwrites config/pipeline.json `features`.
-run python scripts/build_a0_predictor_selection.py
-run python scripts/audit_vanhove_replication.py       # Van Hove's exact seven-predictor design (income included), pooled
-# M1/M2/M3 cost-threshold estimators: the quantile is found by an OOF calibration search, so OOF runs BEFORE the fit.
-run python scripts/build_oof_predictions.py --feature A0
-run python scripts/run_model_measurements.py --feature A0
-run python scripts/build_oof_predictions.py --feature A1
-run python scripts/run_model_measurements.py --feature A1
-run python scripts/build_threshold_estimator_comparison.py
-run python scripts/check_milestone_gates.py
-
-# --- 3. Identification study (development partitions only: train + validation) ----------------------------------------
-run python scripts/build_step_scatter_figures.py      # steps 1, 2, 2b, 4
-run python scripts/replicate_vanhove_importance.py    # credibility check against Van Hove's Fig. 7
-run python scripts/build_predictor_discovery.py       # SHAP + permutation + PDP, universal vs contextual, LOCO test
-run python scripts/build_identification_benchmark.py  # classification grid, all metrics with CIs
-run python scripts/build_identification_sensitivity.py    # income rules
-run python scripts/build_identification_q_sensitivity.py  # cost-threshold quantile
-run python scripts/build_imbalance_strategy_comparison.py           # class-imbalance strategies, round 1 (pre-declared rule)
-run python scripts/build_imbalance_strategy_comparison.py --round 2  # round 2: three further strategies, fresh confirmation seed
-run python scripts/build_factor_comparison.py
-run python scripts/build_hardship_target_check.py
-run python scripts/build_managerial_implications.py
-# Van Hove (2022) replica on all 11 countries and the factor-by-factor gap decomposition
-run python scripts/diagnose_vanhove_gap.py
-# Feature stages B0 (Van Hove) -> B1 -> B2 (income always a predictor), four expenditure lines, attention + SHAP selection,
-# CatBoost / XGBoost / FT-Transformer
-run python scripts/build_expenditure_lines.py         # Hansen tipping points; Quantile Regression / Hansen lines; SHAP of the line
-# Version 4 (current design): optimised thresholds, pooled four-country model, Models A/B/C, two-level B1 groups, top-3 climate,
-# placebo, per-country reading and maps. (Version 3, scripts/build_feature_stages.py, is superseded; its tables are archived.)
-run python scripts/build_threshold_moo.py
-run python scripts/build_feature_stages_v4.py --jobs 4   # > 4 GPU workers crash CUDA under WSL; about 1.5 hours
-# Version 5 (current design): the four countries + Spain, region variable, partial survey modules, bill model, imputed heating
-# cost, noisy-label weights, tuned XGBoost, ensembles, targeting curves, "not sure".
-run python scripts/build_threshold_moo.py --v5
-run python scripts/build_feature_stages_v5.py --jobs 4
-# Version 6: the six other ENABLE countries as extra training households (scores stay on the five study countries), multilevel
-# climate test on the energy bill, climate-sensitive labels (cold / hot home, under-heating), multilevel (GPBoost) bill model.
-run python scripts/build_extended_cost.py --all
-run python scripts/acquire_openmeteo_b2.py --extra
+# --- 1. Data -------------------------------------------------------------------------------------------------------------
+run python scripts/prepare_country_references.py      # Eurostat national income deciles
+run python scripts/build_costs.py                     # energy cost in EUR (eleven countries), checks the frozen split
+run python scripts/acquire_nuts.py                    # GISCO NUTS 2016 polygons; every study region present
+run python scripts/acquire_openmeteo_b2.py            # daily weather 2016/17 per region (cached)
+run python scripts/acquire_openmeteo_b2.py --extra    # the same for the extra training countries
+run python scripts/acquire_era5_normals.py            # 1991-2020 monthly normals (Copernicus CDS)
 run python scripts/acquire_era5_normals.py --extra
+run python scripts/fuse_openmeteo_b2.py               # climate measures per region, QC gate
 run python scripts/fuse_openmeteo_b2.py --extra
-run python scripts/build_climate_multilevel.py
-run python scripts/build_climate_labels.py --jobs 4
-run python scripts/build_pooled_extra.py --jobs 4
-run python scripts/build_v6_best_vs_v5.py
-run python scripts/build_bill_climate.py --jobs 6
-run python scripts/build_climate_power.py --jobs 6
-run python scripts/build_climate_power.py --grouped --jobs 6
-run python scripts/build_hidden_underheating.py --v5
-run python scripts/build_loco_validation.py --jobs 4
-run python scripts/build_hidden_underheating.py       # sensitivity (b): modelled heating need, hidden under-heating
-run python scripts/freeze_identification_selection.py     # pre-register model choices in config/final_selection.json
+run python scripts/acquire_regional_context.py        # Eurostat / Census regional context
 
-# --- 4. Tests ----------------------------------------------------------------------------------------------------------
+# --- 2. Validation against the reference study -------------------------------------------------------------------------
+run python scripts/validate_van_hove_replica.py       # the reference design run through this pipeline
+
+# --- 3. Main study --------------------------------------------------------------------------------------------------------
+run python scripts/build_threshold_moo.py             # thresholds of every line (multi-objective optimisation)
+run python scripts/build_feature_stages.py --jobs 4   # stages, model sets, improvements, targeting, "not sure" (GPU; ~4 h)
+
+# --- 4. More data, multilevel models, climate ----------------------------------------------------------------------------
+run python scripts/build_pooled_extra.py --jobs 4     # extra training countries, multilevel bill model (GPU; ~1.5 h)
+run python scripts/build_best_vs_main.py
+run python scripts/build_climate_multilevel.py        # climate and the energy bill
+run python scripts/build_climate_labels.py --jobs 4   # climate-sensitive outcomes
+run python scripts/build_bill_climate.py --jobs 6     # climate inside the bill models
+run python scripts/build_climate_power.py --jobs 6    # power, region known
+run python scripts/build_climate_power.py --grouped --jobs 6   # power, unseen regions
+run python scripts/build_hidden_underheating.py       # hidden under-heating
+run python scripts/build_loco_validation.py --jobs 4  # leave one country out (GPU)
+
+# --- 5. Tests -------------------------------------------------------------------------------------------------------------
 run python -m pytest tests/ -q
 
 echo "run_full_pipeline.sh: all steps complete."

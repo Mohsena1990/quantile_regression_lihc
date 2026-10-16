@@ -11,7 +11,7 @@ value always means "more of" the named property:
   vulnerability_index          + elderly living alone, + single person, + share of elderly, + share of children,
                                + respondent not employed (unemployed, retired, inactive)
   heating_system_type          dominant heating group: district / gas / solid fuel / electric / other (categorical)
-  income_eur_equiv             income per adult equivalent, EUR (bracket -> Eurostat national decile; income_proxy_frame)
+  income_eur_equiv             income per adult equivalent, EUR (bracket -> Eurostat national decile; lib/features/income.py)
 
 Regional context (artifacts/reference/regional_context.csv): pop_density, owner_share, gdp_per_capita, unemployment_rate,
 poverty_rate, pre1981_share.
@@ -37,7 +37,7 @@ import numpy as np
 import pandas as pd
 from lib.climate.b2_indices import B2_CLIMATE
 from lib.identification.required_heat import required_heat_kwh
-from lib.labels.income_harmonization import equivalence_scale, income_proxy_frame
+from lib.features.income import equivalence_scale, income_eur
 
 REGIONAL_CONTEXT = ["pop_density", "owner_share", "gdp_per_capita", "unemployment_rate", "poverty_rate", "pre1981_share"]
 INDICES = ["dwelling_efficiency_index", "wealth_index", "inefficient_equipment_index", "vulnerability_index",
@@ -87,8 +87,8 @@ def household_indices(d: pd.DataFrame) -> pd.DataFrame:
     top = shares.idxmax(axis=1).where(shares.max(axis=1) > 0, "other")
     out["heating_system_type"] = top.where(d.district_heating_share.notna(), np.nan)
     scale = equivalence_scale(d.working_age_count + d.elderly_count, d.children_count)
-    prox = income_proxy_frame(d.income_bracket, d.country, scale)
-    out["income_eur_total"], out["income_eur_equiv"] = prox.proxy_total_eur, prox.proxy_equiv_eur
+    inc = income_eur(d.income_bracket, d.country, scale)
+    out["income_eur_total"], out["income_eur_equiv"] = inc.income_eur_total, inc.income_eur_equiv
     return out
 
 

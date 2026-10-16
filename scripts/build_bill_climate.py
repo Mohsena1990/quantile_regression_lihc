@@ -1,18 +1,18 @@
-"""Version 6, step 1 -- does climate help DETECTION when it enters where it acts: the bill model?
+"""Does climate help DETECTION when it enters where it acts: the bill model?
 
-Version 6 showed that climate drives the size of the bill (a 10% colder winter: heating bill +12%) but not the four-group
-classifiers. The bill models of versions 5-6 used only household variables. Here the same bill models get the climate measures as
+The multilevel test (build_climate_multilevel.py) showed that climate drives the size of the bill (a 10% colder winter: heating bill +12%) but not the four-group
+classifiers. The bill models of the main study use only household variables. Here the same bill models get the climate measures as
 well, and are tested against a placebo with the climate swapped between regions of the same country:
 
   bill models     XGBoost bill model (lib/identification/bill_model.py) and multilevel GPBoost bill model (bill_mixed.py)
-  feature sets    B1 (as build_pooled_extra.py: Van Hove's seven + country + region + wealth + vulnerability + income in EUR)
+  feature sets    B1 (lib/identification/pool.py: core profile + country + region + wealth + vulnerability + income in EUR)
                   B1+C   + 9 climate measures (degree days of 2016/17 and the 1991-2020 normals, heating need, heating need per
                          person, cold winter x no insulation, cold winter x old home, hot summer x air conditioning)
                   B1+Cp  the same with climate swapped between regions within each country (household climate x home measures
                          recomputed); the LINE (threshold) always uses the real data
   training        the "pool" arm of build_pooled_extra.py (five study countries + six extra countries), same folds
-  ensemble        CatBoost + XGBoost + FT-Transformer (from artifacts/identification/v6_pool_results.pkl) + the bill model
-Outputs: outputs/tables/table_v6_bill_climate_metrics.csv, table_v6_bill_climate_deltas.csv
+  ensemble        CatBoost + XGBoost + FT-Transformer (from artifacts/identification/pool_results.pkl) + the bill model
+Outputs: outputs/tables/table_bill_climate_metrics.csv, table_bill_climate_deltas.csv
 """
 from __future__ import annotations
 import os
@@ -29,12 +29,12 @@ from lib.climate.b2_indices import B2_CLIMATE
 from lib.features.indices import climate_features
 from lib.identification.bill_mixed import MixedBillModel
 from lib.identification.bill_model import BillModel, four_class
-from lib.identification.data import COUNTRIES_V5 as COUNTRIES, load_pool_frame
-from lib.identification.lines_v5 import cost_only, fold_threshold, study_labels_v5
-from lib.identification.protocol import summarise
-from lib.identification.stages import paired_delta, placebo_climate
-from lib.identification.stages_v5 import outer_splits
-from build_pooled_extra import B1, LABELS, N_REPEATS, extra_labels
+from lib.identification.data import COUNTRIES, load_pool_frame
+from lib.identification.lines import STUDY_LINES as LABELS, cost_only, fold_threshold, study_labels
+from lib.identification.metrics import summarise_all as summarise
+from lib.identification.selection import paired_delta, placebo_climate
+from lib.identification.stages import outer_splits
+from lib.identification.pool import B1, N_REPEATS, extra_labels
 
 TAB, ART = ROOT / "outputs/tables", ROOT / "artifacts/identification"
 CLIMATE = ["hdd_hs1617", "cdd_s2017", "hdd_normal", "cdd_normal", "heating_need_kwh", "heating_need_pp", "hdd_x_uninsulated",
@@ -82,16 +82,20 @@ def _scope(k, scope, idx, y, P):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=6)
+    ap.add_argument("--report-only", action="store_true", help="rebuild the tables from artifacts/identification/bill_climate_results.pkl")
     a = ap.parse_args()
     pool = load_pool_frame()
     dev, ext = pool[pool.pool == "focus"].reset_index(drop=True), pool[pool.pool == "extra"].reset_index(drop=True)
-    labs = {k: v for k, v in study_labels_v5(dev).items() if k in LABELS}
+    labs = study_labels(dev)
     conly = cost_only(pool)
     jobs = [(k, f, extra_labels(ext, spec), conly, spec, i, tr, te) for k, (f, spec) in labs.items()
             for i, (tr, te) in enumerate(outer_splits(f, n_repeats=N_REPEATS))]
-    res = Parallel(n_jobs=a.jobs)(delayed(run_fold)(*j) for j in jobs)
-    pickle.dump(res, open(ART / "v6_bill_climate_results.pkl", "wb"))
-    clf = pickle.load(open(ART / "v6_pool_results.pkl", "rb"))
+    if a.report_only:
+        res = pickle.load(open(ART / "bill_climate_results.pkl", "rb"))
+    else:
+        res = Parallel(n_jobs=a.jobs)(delayed(run_fold)(*j) for j in jobs)
+        pickle.dump(res, open(ART / "bill_climate_results.pkl", "wb"))
+    clf = pickle.load(open(ART / "pool_results.pkl", "rb"))
     rows, deltas = [], []
     for k, (f, _) in labs.items():
         y = f.y.to_numpy()
@@ -114,7 +118,7 @@ def main():
         for r, d in Parallel(n_jobs=24)(delayed(_scope)(k, s, idx, y, P) for s, idx in scopes.items()):
             rows += r; deltas += d
     m, d = pd.DataFrame(rows), pd.DataFrame(deltas)
-    m.to_csv(TAB / "table_v6_bill_climate_metrics.csv", index=False); d.to_csv(TAB / "table_v6_bill_climate_deltas.csv", index=False)
+    m.to_csv(TAB / "table_bill_climate_metrics.csv", index=False); d.to_csv(TAB / "table_bill_climate_deltas.csv", index=False)
     pd.set_option("display.width", 250)
     print(m[m.scope == "pooled"].pivot_table(index=["model", "set"], columns="label", values="balanced_accuracy").round(3).to_string())
     d["sig"] = np.where(d.delta_balanced_accuracy_lo > 0, "+", np.where(d.delta_balanced_accuracy_hi < 0, "-", ""))

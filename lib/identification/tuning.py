@@ -11,7 +11,7 @@ import optuna
 import pandas as pd
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.model_selection import StratifiedKFold
-from .models3 import fit as fit_model
+from .models import fit as fit_model
 
 N_TRIALS = 25
 optuna.logging.set_verbosity(optuna.logging.WARNING)

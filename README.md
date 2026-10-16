@@ -2,62 +2,64 @@ Finding energy-poor households with machine learning
 =====================================================
 
 **The question.** Which households are energy poor -- they have a low income *and* spend a lot on energy -- and can we find
-them from information a government could collect? We study **Bulgaria, Hungary, Italy and Poland**, and from version 5 also **Spain**.
+them from information a government could collect? We study five countries of the ENABLE.EU household survey (2018):
+**Bulgaria, Hungary, Italy, Poland and Spain**.
 
-**The two studies we build on.**
+**The two studies that inspired this work.**
 
-* **Van Hove, Dalla Longa & van der Zwaan (2022)**, *Energy & Buildings* 264:112064 -- the same ENABLE.EU survey, four groups of
-  households (low income x high spending), seven predictors, CatBoost.
+* **Van Hove, Dalla Longa & van der Zwaan (2022)**, *Energy & Buildings* 264:112064 -- the same ENABLE.EU survey; four groups of
+  households (low income x high spending); a country percentile of energy spending as the "high spending" line; seven household
+  predictors; CatBoost.
 * **Dalla Longa, Sweerts & van der Zwaan (2021)**, *Energy Policy* 156:112373 -- the same four groups for the Netherlands; spending
-  as a *share of income*; area context (house value, ownership, building year, household size, population density); Models A / B / C
-  (income only / other features only / both); a sensitivity check of both thresholds; and the finding that about 1,000
-  training households are needed for stable results.
+  as a share of income (the energy burden); area context; a comparison of models with income only, without income, and with both;
+  and the finding that about 1,000 training households are needed for stable results.
 
-**What this version does (version 5).** It keeps the version-4 design (optimised thresholds, one pooled model read country by
-country, Models A / B / C, stages B0 -> B1 -> B2 with placebo checks) and adds:
+**How this study names its own parts.** The study starts from these ideas but has its own baseline and its own names; the
+references appear where we explain what inspired a choice (here and in Section 9, *Validation against the reference studies*):
 
-1. **A fifth country, Spain** -- every piece of data it needs could be downloaded. Now 2,278 labelled households.
-2. **Predict the bill, then classify:** a model learns each household's energy bill in euros and compares it with the line.
-3. **More households:** households whose energy cost is missing are added to training with an estimated spending side;
-   households that gave a bill but no income help the bill model.
-4. **The region itself** as one variable, instead of six regional statistics that only worked as region labels.
-5. **Borderline and likely mislabelled households** count less in training.
-6. **Averages of models** (ensembles) and a **tuned XGBoost** (Optuna).
-7. **Questions asked in only some countries** (environmental attitudes, energy-saving behaviour, energy literacy).
-8. **Targeting curves:** if a scheme helps the top k% of households, how many Double-Risk households does it reach?
-9. **"Not sure":** the least certain households are flagged for a follow-up check.
+| This study | What it is | Inspired by |
+|---|---|---|
+| **P80 line** (baseline line) | low income = bracket <= 3; high spending = above the country's 80th percentile | Van Hove et al.'s definition |
+| **B0 core profile** (baseline stage) | income bracket, floor area, household size, house detachment, house age, birth year of the respondent, heating strategy | Van Hove et al.'s seven predictors |
+| **Energy-burden line** | high spending = above the country's percentile of spending as a share of income | Dalla Longa et al. |
+| **Income only / Without income / Full model** | the same stage with the income bracket alone, without income, and with income | Dalla Longa et al.'s Models A / B / C |
+| **Need line**, **need line without climate** | high spending = above what similar homes spend (quantile regression on physical need) | this study |
 
-Models throughout: **CatBoost**, **XGBoost** and **FT-Transformer**; variables chosen with **Attention Mechanisms as Embedded
-Selectors + SHAP**.
+**What the study does.**
 
-**Version 6** (Section 8) adds the six other ENABLE countries as extra training households, a **multilevel (mixed) model** with a
-random effect per region, a test of climate on the **energy bill itself**, and outcomes where climate should matter (cold and hot
-homes, summer energy poverty, under-heating). Main finding: **a 10% colder winter raises the heating bill by about 12%**, a real
-climate effect that the four-group labels could not show.
+1. **Chooses both thresholds of every line** (who is "low income", who "spends a lot") by **multi-objective optimisation**.
+2. Trains **one pooled model** for the five countries and **reads it country by country**.
+3. Adds information in **stages**: B0 core profile -> B1 household and region information -> B2 climate, with **placebo checks**.
+4. Compares **CatBoost**, **XGBoost** and **FT-Transformer**, choosing variables with **Attention Mechanisms as Embedded Selectors
+   + SHAP**.
+5. Tests improvements: **predict the bill, then classify**; **multilevel models**; **model averages**; **tuning**; extra
+   households from **six other ENABLE countries**; weighting of uncertain labels.
+6. Asks for policy: **targeting curves** and a **"not sure"** option.
+7. Tests **climate** properly: on the four groups, on the **energy bill itself**, on **comfort outcomes**, with a **power analysis**.
+8. Checks how far the results carry: **validation against the reference study** and **leave one country out**.
 
 
 1. The data
 -----------
 
 * **ENABLE.EU household survey (2018).** About 1,000 households per country (Spain 760). We use the development part (train +
-  validation of a fixed 60/20/20 split; 3,845 households in five countries). The 20% test part was used once, earlier, and is not
-  touched again. Place the workbook at `data/raw/ENABLE.EU_dataset_survey of households.xlsx` (not shared).
+  validation of a fixed 60/20/20 split, `config/household_split_v1.csv`; 3,845 households). The 20% test part was used once, on
+  2026-09-20, before the final design, and stays locked (`config/final_selection.json`). Place the workbook at
+  `data/raw/ENABLE.EU_dataset_survey of households.xlsx` (not shared).
 * **Labelled households** (income bracket and energy cost both reported): 2,278 -- Bulgaria 584, Hungary 646, Italy 382, Poland 384,
-  Spain 282. A further **533** households gave their income but no energy cost (mostly Italy 187, Spain 138, Poland 125), and **567**
-  gave an energy cost but no income (`table_v5_sample.csv`).
-* **Why Spain.** Of the other survey countries, Spain was the one where every input could be downloaded: costs in euros, Eurostat
-  income deciles, NUTS3 regions in the survey, Open-Meteo weather, ERA5-Land normals and Eurostat regional data. It was left out
-  earlier because it has too few Double-Risk households for a *separate* Spanish model; in the pooled model it can take part.
+  Spain 282. A further 533 households gave their income but no energy cost, and 567 gave a cost but no income
+  (`table_main_sample.csv`).
+* **Energy cost** = yearly heating + electricity cost, converted to euros with Eurostat 2017 exchange rates (`build_costs.py`).
 * **Climate.** Daily weather for October 2016 - December 2017 (the survey asked about the winter of 2016/17) from the Open-Meteo
   historical weather API, one point per region (NUTS3; Poland NUTS2 -- the survey has no finer location there): 132 regions.
-  30-year averages (1991-2020) from ERA5-Land monthly data (Copernicus; two requests, one for Spain incl. the Canary Islands).
-* **Area context (Eurostat).** Population density and GDP per head (NUTS3), unemployment and poverty rates (NUTS2), home ownership
-  (Census 2011) and old dwellings (Census 2021). In version 5 these are no longer B1 candidates (see Section 3); population density
-  is still used in one climate x home feature.
+  30-year averages (1991-2020) from ERA5-Land monthly data (Copernicus).
+* **Area context (Eurostat).** Population density, GDP per head, unemployment, poverty rate, home ownership, old dwellings.
+* **Six extra training countries** -- France, Germany, Norway, Serbia, Ukraine, the UK (6,458 households) -- used only to *train*
+  pooled models (Section 8), never to score them.
 
 
-2. Who counts as energy poor: the four lines and their thresholds
------------------------------------------------------------------
+2. Who counts as energy poor: four lines and their thresholds
+-------------------------------------------------------------
 
 Every household gets one of four labels:
 
@@ -67,116 +69,114 @@ Every household gets one of four labels:
 | **Income is low** | Income Risk | **Double Risk** (energy poor) |
 
 "Low income" means an income bracket (1-10) at or below a cut-off. "High spending" means a yearly energy cost above the household's
-**expenditure line**. We compare four lines:
+**expenditure line**, stored as a threshold in euros for each household (`lib/identification/lines.py`):
 
-| Line | High spending means | Where it comes from |
-|---|---|---|
-| **Van Hove** | above the country's 80th percentile of yearly energy spending | Van Hove et al. (2022) |
-| **Quantile Regression on need** | above what similar homes spend -- a linear quantile regression of spending on floor area, household size, dwelling type and age, insulation and local heating/cooling degree days | this study |
-| **Quantile Regression on need, no climate** | the same, without the climate variables | a fair test of climate (see Section 3) |
-| **Energy burden** | above the country's percentile of *spending as a share of income* (income in euros from the bracket and Eurostat deciles) | Dalla Longa et al. (2021) |
-
-Every line is stored as **a threshold in euros for each household** (`lines_v5.py`), so a predicted bill can be compared with it.
+| Line | High spending means |
+|---|---|
+| **P80 line** (baseline) | above the country's 80th percentile of yearly energy spending |
+| **Need line** | above what similar homes spend -- a linear quantile regression of spending on floor area, household size, dwelling type and age, insulation and local heating/cooling degree days |
+| **Need line without climate** | the same, without the degree days -- the fair test of climate (Section 3) |
+| **Energy-burden line** | above the country's percentile of spending as a share of income (income in euros from the bracket and Eurostat deciles) |
 
 **How the thresholds were chosen (multi-objective optimisation).** For each line we tried every income cut-off (bracket 2, 3 or 4)
 with every expenditure level (60th to 90th percentile in steps of 5) and scored each option on three goals: **easy to identify**
-(balanced accuracy of Van Hove's seven predictors), **meaningful** (the "hardship gap": among low-income households, how much more
-often Double Risk households say they find it difficult to live on their income than Income Risk households), and **stable** (size
-of the smallest group). Options with fewer than 15 households in any group in any country were dropped. From the options no other
-option beats on all three goals (the Pareto front), the best balance was chosen by **TOPSIS** (equal weights). Figure
-`threshold_moo_v5`, table `table_threshold_moo_v5.csv`.
+(balanced accuracy of the B0 core profile), **meaningful** (the "hardship gap": among low-income households, how much more often
+Double Risk households say they find it difficult to live on their income than Income Risk households), and **stable** (size of the
+smallest group). Options with fewer than 15 households in any group in any country were dropped. From the options no other option
+beats on all three goals (the Pareto front), the best balance was chosen by **TOPSIS** (equal weights). Figure `threshold_moo`, table
+`table_threshold_moo.csv`.
 
-| Line | Chosen threshold (five countries) | Identifiability | Hardship gap | Smallest group |
+| Line | Threshold | Identifiability | Hardship gap | Smallest group |
 |---|---|---|---|---|
-| Van Hove (benchmark, kept as published) | bracket <= 3, 80th percentile | -- | 0.025 | 199 |
-| Quantile Regression on need | bracket <= 3, 60th conditional percentile (same as version 4) | 0.516 | 0.047 | 453 |
-| Energy burden | bracket <= 3, 60th percentile (version 4: bracket <= 2, 70th) | 0.663 | 0.049 | 303 |
+| P80 line (baseline, fixed) | bracket <= 3, 80th percentile | -- (below the 15-per-group minimum in Spain) | 0.025 | 199 |
+| Need line | bracket <= 3, 60th conditional percentile (chosen) | 0.516 | 0.047 | 453 |
+| Energy-burden line | bracket <= 3, 60th percentile (chosen) | 0.663 | 0.049 | 303 |
 
-**Spain changes one thing:** with Spain included, Van Hove's own threshold no longer has 15 households in every group -- Spain has
-only **5 Double-Risk households** under it -- and the only country-percentile option that passes is the 60th percentile, whose
-hardship gap is negative (-0.010). We keep Van Hove's line as the benchmark, but its Spanish results rest on 5 households.
+The country-percentile family itself has only one option that passes the minimum, the 60th percentile, and its hardship gap is
+negative (-0.010): a pure spending percentile does not single out households in hardship. We keep the P80 line as the baseline;
+Spain has only **5 Double-Risk households** under it, so Spain's own P80 results should not be read alone.
 
 
 3. What the models are allowed to see
 -------------------------------------
 
-| Step | Included |
+| Stage | Included |
 |---|---|
-| **B0** | Van Hove's seven predictors, as in his Table 1 (income bracket, floor area, household size, house detachment, house age, birth year of the respondent, heating strategy = how heating is controlled) + country |
-| **B1** | B0 + the best of four groups: **household indices** (dwelling efficiency, inefficient equipment, heating system type, household vulnerability, wealth as house-value stand-in, income per adult in euros); **ENABLE top 3** (difficulty living on income, floor area per person, dishwasher age); **partly asked questions** (environmental attitudes H15 -- not asked in Bulgaria; energy-saving behaviour G1/G3 -- not asked in Italy and Spain; "knows the price of 1 kWh" E1 -- Bulgaria only; "my energy bill is too complicated" C5C -- Hungary and Spain; missing answers are handled by the models); **region** (the NUTS2 region code as one variable) |
+| **B0 core profile** | income bracket, floor area, household size, house detachment, house age, birth year of the respondent, heating strategy (how heating is controlled, H9) + country |
+| **B1** | B0 + the best of four groups: **household indices** (dwelling efficiency, inefficient equipment, heating system type, household vulnerability, wealth as house-value stand-in, income per adult in euros); **top survey items** (difficulty living on income, floor area per person, dishwasher age); **partly asked questions** (environmental attitudes H15 -- not asked in Bulgaria; energy-saving behaviour G1/G3 -- not asked in Italy and Spain; "knows the price of 1 kWh" E1 -- Bulgaria only; "my energy bill is too complicated" C5C -- Hungary and Spain); **region** (the NUTS2 code as one variable) |
 | **B2** | B1 + the **top 3** of 30 climate features: 20 regional (degree days of the survey year and the 30-year normal, how unusual the winter and summer were, cold, frost, cold spells, heatwaves, tropical nights, humidity, rain, snow, wind, gusts, sun, cloud) and 10 **climate x home** features that differ for every household (heating need = floor area x heat loss for the building's age and type x degree days; heating need per person; cold winter x old home / no insulation / solid-fuel / electric heating; hot summer x air conditioning; humidity x old home; wind x detached house; population density x urban area) |
-| **B2p** | **placebo for B2**: each region's climate is swapped with another region of the same country (household climate x home features recomputed). Only gains *beyond* B2p count as a climate effect. |
+| **B2p** | **placebo for B2**: each region's climate is swapped with another region of the same country. Only gains *beyond* B2p count as a climate effect. |
 
-**Why "region" replaces the regional statistics.** In version 4 the regional statistics (GDP, unemployment, poverty, density,
-ownership, old dwellings) did exactly as well when their values were scrambled between regions (placebo B1p): they helped only by
-telling regions apart. Saying "region" directly gets the same gain with one honest variable that any government has.
+**Model sets:** **income only** (the income bracket alone), **without income** (the stage's variables without the income-derived
+ones), **full model** (the stage's variables with income).
+
+**Why "region" is a variable.** Regional statistics (GDP, unemployment, poverty, density, ownership, old dwellings) did exactly as
+well when their values were scrambled between regions: they helped only by telling regions apart. Saying "region" directly gets the
+same gain with one honest variable that any government has.
 
 
 4. How the variables are chosen
 -------------------------------
 
-**Attention Mechanisms as Embedded Selectors + SHAP**, inside each training round only (the households used for scoring are never seen):
+**Attention Mechanisms as Embedded Selectors + SHAP**, inside each training round only (the households used for scoring are never
+seen; `lib/identification/selection.py`):
 
 1. Three models learn from all candidates on three different 80/20 splits: an **FT-Transformer**, whose **attention** shows which
    variables it looks at, and **CatBoost** and **XGBoost**, whose **SHAP values** show how much each variable moves each prediction.
 2. **Reliability weighting:** each importance measure gets a weight equal to how consistently it ranks the variables across the
    splits. Each variable's score is the weighted average rank.
-3. **Two levels for B1:** first the groups (ranked by their variables' scores), then the variables inside the chosen groups. Each
-   time we keep the smallest number whose accuracy is within one standard error of the best (the one-standard-error rule), and only
-   if it beats the previous step in the same test folds.
-4. **B2:** the 3 best-ranked climate features (as agreed). The number the one-standard-error rule would have kept is recorded too.
+3. **Two levels for B1:** first the groups, then the variables inside the chosen groups. Each time we keep the smallest number whose
+   accuracy is within one standard error of the best (the one-standard-error rule), and only if it beats the previous step in the
+   same test folds.
+4. **B2:** the 3 best-ranked climate features; the number the one-standard-error rule would have kept is recorded too.
 
 
 5. Models and testing
 ---------------------
 
-* **One pooled model** for all five countries (with a country variable). Every score is computed **per country** on that country's
+* **One pooled model** for the five countries (with a country variable). Every score is computed per country on that country's
   held-out households, and for all five together.
-* **Models A / B / C** (Dalla Longa et al.): **A** = income bracket only; **B** = the step's variables *without* income;
-  **C** = the step's variables *with* income.
 * **Classifiers:** CatBoost (depth 4, learning rate 0.05, balanced class weights), XGBoost (depth 4, learning rate 0.05, 300 trees,
   balanced weights), FT-Transformer (2 layers, 4 attention heads, early stopping).
 * **Testing:** repeated 5-fold cross-validation (3 times), stratified by country x group; 95% ranges from 200 bootstrap resamples;
   differences between two models from a *paired* bootstrap (same households for both).
 
-**The version-5 improvements** -- all built on the B1 variables chosen in each round, and all trained on training households only:
+**Improvements of the full B1 model** (all trained on training households only):
 
 | Idea | Name in the tables | What it does |
 |---|---|---|
-| Predict the bill, then classify | `bill` | **XGBoost regression** of the yearly energy bill (log euros) on the B1 variables, trained on the training households plus those who gave a bill but no income. The prediction error is treated as normal, with its spread estimated per country from 5-fold out-of-fold errors, giving each household a **probability that its bill is above its own line**. The income side needs no model: income is a predictor, so "low income" is known. Before picking a group the probabilities are divided by each group's share (the same "balanced" decision the classifiers make). |
-| More households | `augmented` | The 533 households with income but no energy cost join the training data. The bill model gives each one a probability p of being above its line; it enters twice, once as "above" with weight 0.5 x p and once as "not above" with weight 0.5 x (1 - p). Scores are still computed only on households with a reported bill. |
-| Region as a variable | B1 group `region` | See Section 3. |
-| Borderline / noisy labels | `robust` | Training weight 0.5 for a household exactly on its line, rising to 1 at 20% away. **Confident learning** (Northcutt et al. 2021) finds likely mislabelled households from out-of-fold predictions; they get weight 0.3. As published, the rule flagged about 38% of households -- a sign of weak models, not of 38% wrong labels -- so we also require the model to prefer the other spending side by at least 0.15. |
-| Average of the models | `ensemble`, `ensemble_plus` | `ensemble` = average probability of CatBoost, XGBoost and FT-Transformer; `ensemble_plus` = average of CatBoost, tuned XGBoost, FT-Transformer and the bill model. |
-| Tuned XGBoost | `tuned` | **Optuna** (tree-structured Parzen estimator, 25 trials) searches trees, depth, learning rate, subsampling, minimum child weight, L2 penalty and minimum split gain, judged by balanced accuracy on 3 folds of the training households. |
-| Partly asked questions | B1 group `partial_modules` | See Section 3. |
-| Targeting curves | `table_v5_targeting.csv` | Households ranked by their probability of Double Risk; for the top 5%, 10%, ... we count the share of all Double-Risk households reached, and the share of those helped who really are Double Risk. |
-| "Not sure" | `table_v5_abstention.csv` | The households with the lowest top probability are flagged "not sure" (0-50%); scores are computed on the rest. |
+| Predict the bill, then classify | `bill` | **XGBoost regression** of the yearly energy bill (log euros), trained on the training households plus those who gave a bill but no income. The prediction error is treated as normal (spread per country from out-of-fold errors), giving each household a **probability that its bill is above its own line**. Income is a predictor, so "low income" is known. Probabilities are divided by each group's share before picking a group (the classifiers' "balanced" decision). |
+| More households | `augmented` | The 533 households with income but no cost join training: each enters twice, "above its line" with weight 0.5 x p and "not above" with weight 0.5 x (1 - p), p from the bill model. Scores use only households with a reported bill. |
+| Uncertain labels | `robust` | Weight 0.5 for a household exactly on its line, rising to 1 at 20% away; **confident learning** (Northcutt et al. 2021) finds likely mislabelled households, weight 0.3 (with a margin rule, Section 10). |
+| Model averages | `ensemble`, `ensemble_plus` | `ensemble` = CatBoost + XGBoost + FT-Transformer; `ensemble_plus` = CatBoost + tuned XGBoost + FT-Transformer + bill model. |
+| Tuned XGBoost | `tuned` | **Optuna** (tree-structured Parzen estimator, 25 trials) on 3 folds of the training households. |
+| Targeting curves | `table_main_targeting.csv` | Households ranked by their probability of Double Risk: the share of all Double-Risk households among the top 5%, 10%, ... |
+| "Not sure" | `table_main_abstention.csv` | The households with the lowest top probability are flagged for a follow-up check; scores on the rest. |
 
 **How to read the scores.**
 
 | Score | Meaning |
 |---|---|
-| Recall (sensitivity), per class | Of the households that truly are in a group, the share the model finds |
-| Precision, per class | Of the households the model puts in a group, the share that really belong there |
+| Recall (sensitivity), per group | Of the households that truly are in a group, the share the model finds |
+| Precision, per group | Of the households the model puts in a group, the share that really belong there |
 | Accuracy | Share of all households labelled correctly |
 | Balanced accuracy | Average of the four recalls -- every group counts equally. **Our main score** (chance = 0.25) |
-| Weighted F1 | Balance of precision and recall, averaged by group size (the score Van Hove reported) |
+| Weighted F1 | Balance of precision and recall, averaged by group size |
 | ROC AUC | How well the model ranks households of a group above the others (0.5 = chance) |
 
 
 6. Results
 ----------
 
-**Balanced accuracy, all five countries together** (`table_v5_metrics.csv`). "sig." = paired 95% range above (+) or below (-) zero.
+**Balanced accuracy, all five countries together** (`table_main_metrics.csv`, figure `main_model_sets`):
 
-| Line | Model | A: income only | B: B0 / B1 / B2 without income | C: B0 | C: B1 | C: B2 | C: B2p placebo |
+| Line | Model | Income only | Without income: B0 / B1 / B2 | Full: B0 core profile | Full: B1 | Full: B2 | Full: B2p placebo |
 |---|---|---|---|---|---|---|---|
-| Van Hove | CatBoost | 0.509 | 0.477 / 0.496 / 0.495 | 0.637 | 0.651 | 0.647 | 0.646 |
+| P80 line | CatBoost | 0.509 | 0.477 / 0.496 / 0.495 | 0.637 | 0.651 | 0.647 | 0.646 |
 | | XGBoost | 0.504 | 0.462 / 0.495 / 0.513 | 0.604 | 0.648 | 0.654 | 0.670 |
 | | FT-Transformer | 0.508 | 0.465 / 0.493 / 0.489 | 0.641 | 0.659 | 0.665 | 0.662 |
 | | ensemble (3 models) | 0.514 | 0.475 / 0.520 / 0.521 | 0.638 | 0.678 | 0.676 | 0.679 |
-| Quantile Regression on need | CatBoost | 0.511 | 0.385 / 0.432 / 0.431 | 0.513 | 0.565 | 0.567 | 0.566 |
+| Need line | CatBoost | 0.511 | 0.385 / 0.432 / 0.431 | 0.513 | 0.565 | 0.567 | 0.566 |
 | | XGBoost | 0.508 | 0.400 / 0.456 / 0.479 | 0.514 | 0.581 | 0.603 | 0.595 |
 | | FT-Transformer | 0.502 | 0.387 / 0.420 / 0.423 | 0.523 | 0.551 | 0.557 | 0.563 |
 | | ensemble (3 models) | 0.507 | 0.398 / 0.462 / 0.477 | 0.521 | 0.582 | 0.591 | 0.597 |
@@ -184,49 +184,40 @@ telling regions apart. Saying "region" directly gets the same gain with one hone
 | | XGBoost | 0.513 | 0.414 / 0.474 / 0.497 | 0.541 | 0.613 | 0.631 | 0.629 |
 | | FT-Transformer | 0.514 | 0.393 / 0.442 / 0.442 | 0.533 | 0.587 | 0.587 | 0.585 |
 | | ensemble (3 models) | 0.512 | 0.413 / 0.476 / 0.490 | 0.546 | 0.619 | 0.622 | 0.627 |
-| Energy burden | CatBoost | 0.587 | 0.475 / 0.480 / 0.494 | 0.665 | 0.667 | 0.675 | 0.668 |
+| Energy-burden line | CatBoost | 0.587 | 0.475 / 0.480 / 0.494 | 0.665 | 0.667 | 0.675 | 0.668 |
 | | XGBoost | 0.585 | 0.474 / 0.481 / 0.536 | 0.655 | 0.663 | 0.704 | 0.700 |
 | | FT-Transformer | 0.590 | 0.492 / 0.494 / 0.491 | 0.667 | 0.670 | 0.673 | 0.668 |
 | | ensemble (3 models) | 0.587 | 0.488 / 0.498 / 0.534 | 0.671 | 0.678 | 0.705 | 0.699 |
 
-**The improvements, on the B1 variables** (balanced accuracy, all five countries; difference to the plain model in brackets;
-`table_v5_deltas.csv`, figure `v5_variants`):
+**The improvements, on the full B1 model** (difference to plain XGBoost in brackets; "sig." = paired 95% range above or below zero;
+`table_main_deltas.csv`, figure `main_variants`):
 
-| Line | XGBoost (plain) | bill model | tuned XGBoost | robust XGBoost | augmented XGBoost | ensemble (3) | ensemble_plus |
+| Line | XGBoost | bill model | tuned XGBoost | robust XGBoost | augmented XGBoost | ensemble (3) | ensemble_plus |
 |---|---|---|---|---|---|---|---|
-| Van Hove | 0.648 | 0.665 (+0.017) | **0.669 (+0.021 sig.)** | 0.662 (+0.013 sig.) | 0.636 (-0.012 sig.) | 0.678 | **0.683** |
+| P80 line | 0.648 | 0.665 (+0.017) | **0.669 (+0.021 sig.)** | 0.662 (+0.013 sig.) | 0.636 (-0.012 sig.) | 0.678 | **0.683** |
 | Need line | 0.581 | **0.598 (+0.017 sig.)** | 0.573 (-0.008) | 0.579 (-0.001) | 0.590 (+0.009 sig.) | 0.582 | 0.596 |
 | Need, no climate | 0.613 | 0.615 (+0.002) | 0.610 (-0.003) | 0.613 (0.000) | 0.611 (-0.002) | 0.619 | **0.625** |
-| Energy burden | 0.663 | **0.688 (+0.025 sig.)** | 0.674 (+0.011) | 0.669 (+0.005) | 0.662 (-0.001) | 0.678 | 0.685 |
+| Energy-burden line | 0.663 | **0.688 (+0.025 sig.)** | 0.674 (+0.011) | 0.669 (+0.005) | 0.662 (-0.001) | 0.678 | 0.685 |
 
 **What this means.**
 
-* **Averaging helps most, and reliably.** `ensemble_plus` beats each of the three classifiers on every line (+0.012 to +0.046,
-  significant in the pooled data in 11 of 12 comparisons and borderline in the 12th; better in 21 of 80 country comparisons,
-  never worse). The plain three-model average adds +0.01 to +0.03 over CatBoost and the FT-Transformer, less over XGBoost.
-  On the need and burden lines the bill model alone is as good as `ensemble_plus`.
-* **Predicting the bill moves the model towards the spending side.** On the need line, recall of Expenditure Risk rises from
-  0.51 to 0.72 and of **Double Risk from 0.52 to 0.74**, while recall of No Risk and Income Risk falls (0.63 -> 0.49, 0.67 -> 0.44)
-  and Double-Risk precision falls slightly (0.48 -> 0.44). Balanced accuracy gains +0.017 to +0.025 on three lines. This is the
-  expected gain "on the spending axis" -- bought with more false alarms, so it is a choice of operating point as much as a better model.
-* **Tuning XGBoost pays off only on Van Hove's line** (+0.021); on the need lines the defaults are as good.
-* **Down-weighting borderline households changes little** (on average -0.001; 6 better, 3 worse of 80 comparisons).
-* **Adding the 533 households with an estimated bill does not help** (on average -0.006; 2 better, 11 worse of 80), and it hurts the
-  FT-Transformer. The estimated bills are too uncertain (the bill model explains 32-39% of the variation in log cost) to add
-  information. The second option -- households with a bill but no income -- is used inside the bill model, which does help.
-* **The region is what B1 picks.** On both need lines, the region group is chosen in **100%** of training rounds (Van Hove 87%,
-  burden 60%); B1 beats B0 significantly in 39 of 80 comparisons (+0.05 to +0.07 on the need lines). With the region in, the
-  household indices are chosen less often than in version 4 (7-47% of rounds).
-* **The partly asked questions are almost never chosen** (group 0-13% of rounds; no single variable selected): attitudes,
-  energy-saving behaviour and literacy do not help find the four groups.
-* **Climate still adds nothing beyond the region.** B2 beats B1 for XGBoost on the need and burden lines (+0.02 to +0.04), but **B2 against its placebo is
-  +0.001 on average** (4 better, 2 worse of 60). The gain comes from the household-level "heating need" features, which mostly
-  measure home size and type; they stay just as useful when the climate in them is swapped between regions. Section 8 shows where climate *does* matter: on the size of the
-  bill, for summer energy poverty and for under-heating.
-* **Income is essential, Van Hove's six other predictors help his own kind of line.** Model B scores 0.39-0.54; income alone
-  0.50-0.59; the other B0 predictors add +0.07 to +0.13 for Van Hove's and the burden line and 0.00 to +0.03 for the need lines.
+* **Income is essential.** Without income scores fall to 0.39-0.54; income alone reaches 0.50-0.59. The other six core-profile
+  variables add +0.07 to +0.13 on the P80 and burden lines but 0.00 to +0.03 on the need lines, which already account for home size.
+* **The region is what B1 adds.** On both need lines the region group is chosen in **100%** of training rounds; B1 beats B0
+  significantly in 39 of 80 comparisons (+0.05 to +0.07 on the need lines). Household indices add a little; the partly asked
+  questions (attitudes, energy-saving behaviour, literacy) are almost never chosen.
+* **Averaging helps most, and reliably.** `ensemble_plus` beats each of the three classifiers on every line (+0.012 to +0.046;
+  better in 21 of 80 country comparisons, never worse).
+* **Predicting the bill moves the model towards the spending side.** On the need line, Double-Risk recall rises from 0.52 to 0.74
+  and Expenditure-Risk recall from 0.51 to 0.72, while No-Risk and Income-Risk recall fall and Double-Risk precision falls slightly
+  (0.48 -> 0.44): a different operating point as much as a better model.
+* **Tuning pays off only on the P80 line** (+0.021); **down-weighting uncertain labels changes little** (-0.001 on average);
+  **imputed households do not help** (-0.006; the bill model explains only a third of the variation in cost).
+* **Climate adds nothing beyond the region in the four groups.** B2 beats B1 for XGBoost on the need and burden lines (+0.02 to
+  +0.04), but **B2 against its placebo is +0.001 on average** (4 better, 2 worse of 60): the gain comes from the household "heating
+  need" features, which mostly measure home size. Section 8 shows where climate *does* matter.
 
-**All scores, Quantile Regression on need, ensemble_plus** (`table_v5_report.csv` has every line, step, model and country):
+**All scores, need line, ensemble_plus** (`table_main_report.csv` has every line, stage, model and country):
 
 | Scope | Accuracy | Balanced accuracy | Weighted F1 | ROC AUC | Recall: No / Income / Expenditure / Double Risk | Precision: No / Income / Expenditure / Double Risk |
 |---|---|---|---|---|---|---|
@@ -237,96 +228,62 @@ telling regions apart. Saying "region" directly gets the same gain with one hone
 | Poland | 0.64 | 0.62 | 0.64 | 0.89 | 0.50 / 0.59 / 0.65 / 0.75 | 0.61 / 0.79 / 0.54 / 0.54 |
 | Spain | 0.60 | 0.60 | 0.60 | 0.86 | 0.60 / 0.69 / 0.57 / 0.53 | 0.66 / 0.74 / 0.50 / 0.47 |
 
-**Spain** scores in line with the other countries (balanced accuracy 0.60-0.66 with `ensemble_plus` on the need, burden and
-Van Hove lines), but its Double-Risk group is small (22 households on the need line, 5 on Van Hove's).
+**Targeting: how many households must a scheme help to reach 70% of Double Risk?** (`table_main_targeting_rule.csv`, figure
+`main_targeting`; Double Risk is 9% of households on the P80 line, 20% on the need line, 27% on the burden line)
 
-**Targeting: how many households must a scheme help to reach 70% of Double Risk?** (`table_v5_targeting_rule.csv`, figure
-`v5_targeting`; all five countries; the share of households that are Double Risk is 9% for Van Hove's line, 20% for the need line,
-27% for the burden line)
-
-| Line | Income only (A) | Van Hove B0 | B1 ensemble_plus | Of those helped, really Double Risk (ensemble_plus) |
+| Line | Income only | B0 core profile | B1 ensemble_plus | Of those helped, really Double Risk |
 |---|---|---|---|---|
-| Van Hove | top 40% | top 25% | **top 25%** | 27% |
+| P80 line | top 40% | top 25% | **top 25%** | 27% |
 | Need line | top 40% | top 40% | **top 35%** | 43% |
 | Need, no climate | top 40% | top 40% | **top 30%** | 48% |
-| Energy burden | top 35% | top 30% | **top 30%** | 66% |
+| Energy-burden line | top 35% | top 30% | **top 30%** | 66% |
 
-Helping the top 20% reaches 50% of Double-Risk households on the need line with `ensemble_plus` (bill model the same), against 36%
-with income alone. Per country, reaching 70% takes the top 15% in Spain, 25% in Bulgaria, 30% in Italy, 45-50% in Hungary and Poland
-(need line), because Double Risk is much more common there.
-
-**"Not sure"** (`table_v5_abstention.csv`, figure `v5_abstention`; `ensemble_plus`, all five countries):
-
-| Line | Flag 0% | Flag 10% | Flag 20% | Flag 30% | Flag 50% |
-|---|---|---|---|---|---|
-| Van Hove | 0.683 | 0.704 | 0.724 | 0.743 | 0.784 |
-| Need line | 0.596 | 0.608 | 0.617 | 0.635 | 0.663 |
-| Need, no climate | 0.625 | 0.638 | 0.651 | 0.662 | 0.696 |
-| Energy burden | 0.685 | 0.704 | 0.728 | 0.747 | 0.794 |
-
-(balanced accuracy on the households not flagged). Flagging the least certain 20% for a follow-up check raises balanced accuracy by
-0.02-0.04. The flagged households come from all four groups in about equal shares, so a follow-up does not single out Double Risk.
-
-**Best combination:** `ensemble_plus` on every line (0.60-0.68); for one single model, the bill model on the need and burden lines and
-the tuned XGBoost on Van Hove's line.
+**"Not sure"** (`table_main_abstention.csv`, figure `main_abstention`): flagging the least certain 20% of households for a follow-up
+check raises balanced accuracy on the rest by 0.02-0.04 (need line 0.596 -> 0.617; P80 0.683 -> 0.724); the flagged households come
+from all four groups in similar shares.
 
 
 7. Which variables matter, and where
 ------------------------------------
 
-**Groups chosen in B1** (share of training rounds; `table_v5_selection_groups.csv`):
+**Groups chosen in B1** (share of training rounds; `table_main_selection_groups.csv`):
 
-| Group | Van Hove | Need line | Need, no climate | Energy burden |
+| Group | P80 line | Need line | Need, no climate | Energy-burden line |
 |---|---|---|---|---|
 | Region (NUTS2) | 87% | 100% | 100% | 60% |
 | Household indices | 47% | 33% | 7% | 27% |
-| ENABLE top 3 | 13% | 13% | 0% | 13% |
+| Top survey items | 13% | 13% | 0% | 13% |
 | Partly asked questions | 13% | 7% | 0% | 0% |
 
-Within the chosen groups the region is kept almost every time; next come the wealth index and the vulnerability index (27% of
-rounds on the need line). `table_v5_selection_features.csv`. Attention again gets a small weight (7-15%).
+Within the chosen groups the region is kept almost every time; next come the wealth and vulnerability indices. Attention gets 7-15%
+of the selection weight, SHAP the rest. **Top climate features** (`table_main_climate_top3.csv`): heating need, heating need per
+person, cold winter x electric heating, population density x urban area, winter solar radiation -- none beats the placebo.
 
-**Top 3 climate features** (`table_v5_climate_top3.csv`): **heating need** (Van Hove and burden lines, every round), **heating need per
-person** and **cold winter x electric heating** (need lines), **population density x urban area** and **winter solar radiation**
-(burden). None of them beats the placebo.
-
-**Maps.** For each line, `v5_effect_maps_<line>` shows, region by region, how much each chosen variable pushes households
-**towards (red) or away from (blue) Double Risk** (average SHAP value, CatBoost, pooled model); `v5_value_maps` shows the
-variables' regional averages; `v5_country_effects` summarises the effect per country (`table_v5_country_effects.csv`,
-`table_v5_region_effects.csv`). On the need line the **region** has by far the largest effect (up to +-0.15), strongest in Poland,
-where neighbouring regions push in opposite directions; the household variables move predictions by 0.01-0.03. The maps show the
-mainland; the Canary Islands are left off.
+**Maps.** `main_effect_maps_<line>` shows, region by region, how much each chosen variable pushes households **towards (red) or away
+from (blue) Double Risk** (average SHAP value, CatBoost, pooled model); `main_value_maps` the variables' regional averages;
+`main_country_effects` the effect per country. On the need line the **region** has by far the largest effect (up to +-0.15),
+strongest in Poland; the household variables move predictions by 0.01-0.03.
 
 
-8. Version 6: more households, a multilevel model and a fair test of climate
----------------------------------------------------------------------------
+8. More households, a multilevel model and a fair test of climate
+-----------------------------------------------------------------
 
-Version 5 left two questions: can we get around the small samples, and does climate really not matter? Version 6 answers them
-with four additions. **All scores are still computed only on the five study countries.**
+All scores are still computed only on the five study countries.
 
-**A. A multilevel (mixed) model.** Households are grouped in regions, and each region gets its own effect, estimated with *partial
-pooling*: a region with few households is pulled towards the average instead of being fitted to a handful of bills. We use it
-twice: a **linear mixed model** (statsmodels MixedLM) for the climate test below, and **GPBoost** (Sigrist 2022), tree boosting
-with a region random effect, as a second "predict the bill" model.
+* **A multilevel (mixed) model.** Households are grouped in regions, and each region's effect is estimated with *partial pooling*.
+  Used twice: a **linear mixed model** (statsmodels MixedLM) for the climate test, and **GPBoost** (Sigrist 2022) -- tree boosting
+  with a region random effect -- as a second bill model ("multilevel bill model").
+* **Six extra training countries** (France, Germany, Norway, Serbia, Ukraine, the UK; regions decoded for Germany, Norway, Serbia and
+  Ukraine; France and the UK have none).
+* **Climate tested on the energy bill itself**: the log bill regressed on household characteristics, country (so only differences
+  *within* a country count) and the region's winter and summer degree days, with a random effect per region; the share of the
+  regional differences explained by climate; a **placebo** that shuffles climate between regions of the same country 200 times.
+* **Outcomes where climate should matter**: the usual indoor temperature (asked in Hungary and Spain, and in Germany, France,
+  Ukraine) -- **cold home** (winter 19 C or below), **hot home** (summer 24 C or above), each also combined with low income
+  (**winter / summer energy poverty**) -- and **hidden under-heating** (all five countries).
 
-**B. The six other ENABLE countries as extra training households** -- France, Germany, Norway, Serbia, Ukraine and the UK (6,458
-households; costs converted with Eurostat 2017 exchange rates; regions decoded for Germany, Norway, Serbia and Ukraine; France and
-the UK have no region codes). They are used only to *train* pooled models; they never enter a score.
-
-**E. Climate tested on the energy bill itself**, where it has far more statistical power than on a four-group label: the log bill
-is regressed on household characteristics, country (so only differences *within* a country count), and the region's winter
-(heating degree days) and summer (cooling degree days), with a random effect per region.
-
-**F. The region effect split up.** How much of the difference between regions does climate explain, compared with the regional
-economy? Tested against a **placebo**: the climate values are shuffled between regions of the same country 200 times.
-
-**G. Outcomes where climate should matter:** the usual indoor temperature, asked in Hungary and Spain (and in Germany, France and
-Ukraine): **cold home** (winter 19 C or below), **hot home** (summer 24 C or above), **winter energy poverty** (cold home + low income),
-**summer energy poverty** (hot home + low income), and **hidden under-heating** (spending less than half of what similar homes spend
-for the same heating need; all five countries).
-
-**Results: climate matters for what households pay, especially for heating** (`table_v6_climate_elasticity.csv`,
-`table_v6_region_variance.csv`, figure `v6_climate_bill`)
+**Climate drives what households pay, especially for heating** (`table_climate_elasticity.csv`, `table_region_variance.csv`,
+figure `climate_bill`):
 
 | Outcome | Countries | Households / regions | 10% colder winter changes the bill by | Share of regional differences explained by climate | Placebo |
 |---|---|---|---|---|---|
@@ -335,145 +292,126 @@ for the same heating need; all five countries).
 | Heating bill | five | 2,904 / 130 | **+12.7%** (6.5 to 19.3) | **19%** | **p < 0.005** |
 | Heating bill | + DE, NO, RS, UA | 5,723 / 193 | **+11.8%** (6.9 to 16.9) | **16%** | **p < 0.005** |
 
-* **Colder regions pay more, within the same country.** The heating bill rises about one-for-one with the winter's severity
-  (elasticity 1.2). This is a real climate effect: no shuffled placebo came close.
-* **Climate is one of several regional factors.** Of the regional differences in heating bills, climate explains 19%, the regional
-  economy (GDP, unemployment, poverty, population density) 25%, both together 29%; climate stays significant next to the economy
-  (p = 0.02). The rest is other regional differences (fuel prices and networks, building stock, habits).
-* **Where the effect shows country by country:** clearly in **Italy and Spain** (wide climate range inside the country); in the
-  others the range is too narrow to measure it precisely (`table_v6_country_slopes.csv`).
-* **The extra countries narrow the uncertainty** (more regions, wider climate range) and give the same answer.
+Of the regional differences in heating bills, climate explains 19%, the regional economy 25%, both together 29%; climate stays
+significant next to the economy (p = 0.02). Country by country the effect is measurable in Italy and Spain, the countries with a
+wide climate range inside their borders (`table_country_slopes.csv`).
 
-**Why this did not show up in the four groups.** The four-group label only asks whether spending is above a line; the need line
-already adjusts for degree days, and the country-percentile and burden lines compare households within a country, where most of
-the climate range is small. Climate shapes the *level* of the bill; it does little to sort households into the four groups.
-
-**Climate-sensitive outcomes** (`table_v6_climate_labels_glm.csv`, `table_v6_climate_labels_ml.csv`, figure `v6_climate_labels`):
+**Climate-sensitive outcomes** (`table_climate_labels_glm.csv`, `table_climate_labels_ml.csv`, figure `climate_labels`):
 
 | Outcome | Share (Hungary / Spain) | Climate adds (ROC AUC, CatBoost / XGBoost) | Beyond the placebo? |
 |---|---|---|---|
-| Cold home | 7% / 32% | +0.03 / +0.04 | no (0.00 / +0.01) |
+| Cold home | 7% / 32% | +0.03 / +0.04 | no |
 | Hot home | 44% / 34% | +0.05 / +0.06 | no |
 | Winter energy poverty | 5% / 9% | +0.01 / +0.02 | partly (XGBoost +0.02) |
 | **Summer energy poverty** | 30% / 9% | +0.02 / +0.02 | **yes (+0.01 both)** |
 | **Hidden under-heating** (five countries) | 8-16% | +0.04 / +0.07 | **yes (CatBoost +0.02; regression p < 0.005)** |
 
-* **Cold homes are more common in mild Spain (32%) than in cold Hungary (7%)** -- and, within countries, less common in colder
-  regions (odds 0.63 per 10% colder winter). Homes in cold places are built and heated for the cold; homes in mild places are not.
-  With only 31 regions in two countries this cannot be separated from other regional differences (placebo p = 0.46).
-* **Summer energy poverty and under-heating carry a real climate signal** beyond "which region". Under-heating is partly built
-  in -- its heating need rises one-for-one with degree days while bills rise more slowly -- which is itself the finding: in colder
-  regions, spending keeps up less with what the home needs.
-* Climate also describes regions **better than the region code** for hot homes, summer energy poverty and under-heating (+0.01 to
-  +0.04 AUC).
+Cold homes are more common in mild Spain (32%) than in cold Hungary (7%) and, within countries, less common in colder regions: homes
+in cold places are built and heated for the cold. With 31 regions in two countries this cannot be separated from other regional
+differences.
 
-**More households and the multilevel bill model, on the four groups** (`table_v6_pool_metrics.csv`, `table_v6_pool_deltas.csv`,
-`table_v6_best_vs_v5best.csv`, figure `v6_pool`; same households and folds as version 5; balanced accuracy, all five countries):
+**More households and the multilevel bill model, on the four groups** (`table_pool_metrics.csv`, `table_best_vs_main.csv`, figure
+`pool`; same households and folds as the main study; fixed B1 variables):
 
-| Line | Version-5 recipe (ensemble_plus, fixed B1 variables, five countries) | + extra countries | + multilevel bill model and extra countries (**ensemble_mixed**) |
+| Line | Main study's recipe (ensemble_plus, five countries) | + extra countries | + multilevel bill model and extra countries (**ensemble_mixed**) |
 |---|---|---|---|
-| Van Hove | 0.703 | 0.702 | **0.713** (+0.010, not significant) |
+| P80 line | 0.703 | 0.702 | **0.713** (+0.010, not significant) |
 | Need line | 0.599 | 0.599 | **0.616** (+0.017, significant) |
 | Need, no climate | 0.633 | 0.623 | 0.637 (+0.005) |
-| Energy burden | 0.711 | 0.709 | 0.710 (-0.001) |
+| Energy-burden line | 0.711 | 0.709 | 0.710 (-0.001) |
 
-* **Extra countries alone hardly help** (on average +0.004; better in 23, worse in 18 of 240 comparisons). They help XGBoost on Van
-  Hove's line (+0.03) but hurt CatBoost and the FT-Transformer slightly: households in Norway or the UK differ from those in the
-  study countries in ways the models cannot fully separate.
-* **The multilevel bill model needs the extra households.** Trained on five countries it is worse than the plain bill model
-  (-0.03); with the extra countries it is as good, and inside the model average it gives the best scores so far -- significantly
-  better than the version-5 recipe only on the need line (+0.017). The gain is clear in Bulgaria and Italy; Poland loses (-0.03 to
-  -0.05). (GPBoost's region variance is estimated by Fisher scoring; its default optimiser crashed on one training set.)
-* For the comfort outcomes, extra countries **hurt** (up to -0.05 AUC): indoor temperatures in France, Germany and Ukraine follow
-  other patterns.
+Extra countries alone hardly help (+0.004 on average; better in 23, worse in 18 of 240 comparisons). The multilevel bill model needs
+them: trained on five countries it is worse than the plain bill model (-0.03); with them it is as good, and inside the model average
+gives the best need-line score. For comfort outcomes the extra countries hurt (up to -0.05 AUC).
 
-**Follow-up checks (version 6b)** -- four further tests of the climate question and of how far the results carry:
+**Further checks of the climate question.**
 
-* **Climate inside the bill model** (`build_bill_climate.py`, `table_v6_bill_climate_deltas.csv`). Since climate drives the bill,
-  the bill models were given the climate measures too. They gain 0.01-0.02, but **the placebo climate gains exactly as much**
-  (-0.007 to +0.002; significantly better in 0 of 60 comparisons): the gain is region identity and home size, not climate.
-* **Power** (`build_climate_power.py`, `table_v6_power_bill.csv`, `table_v6_power_detection*.csv`, figures `v6_power`,
-  `v6_power_grouped`). *The bill:* pooled over countries the test detects an elasticity of 0.67-0.85 for the heating bill (observed
-  1.2: detected) and 0.51-0.62 for the total bill (observed 0.48-0.57: borderline). Within single countries only Italy and Spain have
-  enough climate range; elsewhere only a bill rising by more than 50% per 10% colder winter would show. *The four groups:* we made
-  the bills artificially more climate-dependent and reran the test. **With the region known, even an added elasticity of 2 is not
-  detected** -- climate has one value per region, so the region variable (and the placebo, whose shuffled values still identify
-  regions) absorbs any regional effect. That test can only ask whether the exact climate adds anything once the region is known.
-  The test that *can* see a regional effect scores households in **regions the model never saw** (region left out). It detects an
-  added elasticity of 1 in 6 of 9 cases and 2 in all. On the real data it finds a small, not significant gain for the bill model
-  (+0.012 to +0.020 against the placebo on Van Hove's and the climate-free need line, positive in 88-97% of resamples) and none for
-  the classifiers. **The real climate effect on the bill (about 0.5) is about half what this sample can detect in the four groups.**
-* **Hidden under-heating on five countries** (`build_hidden_underheating.py --v5`, `table_hidden_underheating_v5.csv`): 5-14% of
-  households and 6-20% of low-income ones; adding the low-income ones would enlarge Double Risk by 13-52% (need line); they report
-  no more income difficulty than other low-income households (Spain: less, 33% against 72%).
-* **An unseen country** (`build_loco_validation.py`, `table_v6_loco.csv`, figure `v6_loco`) -- the strictest check left, since the
-  locked test partition was used once before this design. Trained on the other four study countries + the six extra countries:
+* **Climate inside the bill model** (`table_bill_climate_deltas.csv`): +0.01 to +0.02 over none, but the placebo climate gains as
+  much (-0.007 to +0.002; 0 of 60 comparisons significant).
+* **Power** (`table_power_bill.csv`, `table_power_detection*.csv`, figures `power`, `power_grouped`). The bill test, pooled, detects
+  an elasticity of 0.67-0.85 for the heating bill (observed 1.2) and 0.51-0.62 for the total bill (observed 0.48-0.57); within
+  single countries only Italy and Spain have enough climate range. For the four groups, bills were made artificially more
+  climate-dependent: **with the region known, even an added elasticity of 2 is not detected** -- climate has one value per region,
+  so the region variable (and the placebo) absorbs any regional effect. Scoring households in **regions the model never saw**
+  detects an added elasticity of 1 in 6 of 9 cases and 2 in all; on the real data the bill model gains +0.012 to +0.020 over the
+  placebo there (positive in 88-97% of resamples, not significant). **The real climate effect on the bill is about half of what
+  this sample can detect in the four groups.**
+
+**Bottom line.** Climate *does* matter -- for the size of the energy bill (+12% heating bill per 10% colder winter), for summer
+energy poverty and for under-heating. For sorting households into the four expenditure-based groups its effect is real but small and
+fully captured once the region is known.
+
+
+9. Validation against the reference studies
+-------------------------------------------
+
+**Van Hove et al. (2022): does our pipeline reproduce their results when run their way?** (`validate_van_hove_replica.py`,
+`table_validation_van_hove_summary.csv`, figure `validation_van_hove`). The reference design -- P80 line, core profile, CatBoost, one
+stratified 20% test split, best validation iteration -- run on the five study countries over 20 random splits:
+
+| Design (20 random splits) | Recall: No / Income / Expenditure / Double Risk | Weighted F1 | Balanced accuracy |
+|---|---|---|---|
+| **Van Hove et al. (2022), as published** (one split, 11 countries) | 0.60-0.74 per group | about 0.65 (validation), 0.63 (5-fold CV) | -- |
+| Reference design, five countries pooled, their settings | 0.66 / 0.64 / 0.58 / 0.67 | 0.68 +- 0.03 | 0.64 +- 0.03 |
+| the same with this study's CatBoost settings | 0.67 / 0.64 / 0.59 / 0.70 | 0.68 +- 0.02 | 0.65 +- 0.03 |
+| the same with "don't know" codes as missing | 0.66 / 0.66 / 0.58 / 0.67 | 0.68 +- 0.02 | 0.64 +- 0.03 |
+| one model per country, their settings | -- | 0.64-0.77 | 0.54 (Italy) - 0.75 (Poland) |
+
+**Our pipeline reproduces the reference results.** Run their way, the pooled model's per-group recall (0.58-0.67) and weighted F1
+(0.68) sit within the range they report. The spread over 20 random splits (+-0.03, up to +-0.12 for Spain alone) is as large as
+most differences between single-split studies, and per-country models are weaker in Bulgaria and Italy -- the countries' difficulty,
+not the pipeline, explains lower numbers there.
+
+**Leave one country out** (`build_loco_validation.py`, `table_loco.csv`, figure `loco`). The locked test partition is not reused, so
+the strictest remaining check is a country the model has never seen: trained on the other four study countries + the six extra
+countries.
 
 | Line | Balanced accuracy in the unseen country (ensemble_mixed) | Same country inside training (cross-validation) |
 |---|---|---|
-| Van Hove | 0.52-0.70 | 0.66-0.78 |
-| Energy burden | 0.56-0.69 | 0.64-0.80 |
+| P80 line | 0.52-0.70 | 0.66-0.78 |
+| Energy-burden line | 0.56-0.69 | 0.64-0.80 |
 | Need line | 0.51-0.53 | 0.56-0.67 |
 | Need, no climate | 0.50-0.59 | 0.61-0.68 |
 
-  **Models do not carry over to a new country**, least of all for need-based lines (no better than income alone). The income side
-  transfers (brackets are national deciles), the spending side does not: prices, fuel mix and what counts as "high" are national. In
-  an unseen country the simple Van Hove model (B0 CatBoost) does as well as the ensemble. Each country needs its own survey data.
+**Models do not carry over to a new country**, least of all for the need lines (no better than income alone): the income side
+transfers (brackets are national deciles), the spending side does not -- prices, fuel mix and what counts as "high" are national.
+In an unseen country the simple B0 core-profile CatBoost does as well as the ensemble.
 
-**Bottom line of version 6.** Climate *does* matter -- for the size of the energy bill (+12% heating bill per 10% colder winter),
-for summer energy poverty and for under-heating. For sorting households into the four expenditure-based groups its effect is real but
-small -- about half of what 2,278 households in 131 regions can detect -- and fully captured once the region is known. More data helps only when the model can tell countries and regions apart
-(the multilevel model); simply adding households from other countries does not.
+**Compared with Van Hove et al. and Dalla Longa et al.: what this study adds.**
 
-
-9. Problems found and how they were handled
--------------------------------------------
-
-* **Confident learning flagged 38% of households.** With models this weak, the published rule marks almost every uncertain
-  household as "mislabelled". We added a margin rule (about 3% flagged on the need lines; 19% on Van Hove's and the burden line,
-  where the models are more confident). Both shares are in `table_v5_variant_info.csv`.
-* **Van Hove's threshold fails the group minimum once Spain is in** (5 Spanish Double-Risk households). Kept as the benchmark;
-  Spanish Van Hove results should not be read on their own.
-* **The threshold optimisation crashed when only one option was feasible** (the country-percentile family on five countries):
-  fixed, a single option is now chosen by default.
-* **The imputed households did not help.** The bill model explains only a third of the variation in energy cost, so their
-  estimated spending side is close to a coin toss for many of them. Kept as a sensitivity check, not in the recommended model.
-* **Version 6:** the mixed model's default optimiser stopped at a degenerate fit (region variance 0, infinite likelihood); it now
-  starts with Powell's method and refuses non-finite fits. GPBoost does not allow row subsampling (removed). Twelve parallel CPU
-  workers crashed next to the GPU run (segmentation fault); four are used. The first climate-label regression failed on constant
-  terms and rare categories (now dropped / merged).
-* From version 4: "heating need per euro of income" is not a climate candidate (it was income in disguise); the regional statistics
-  worked only as region labels (now replaced by the region itself); attention remains a weak selector (7-15% of the weight);
-  house value and home ownership are not in the survey (wealth index as stand-in); the per-country group minimum is 15, not 30.
+* **Thresholds.** Optimising both thresholds shows that a pure spending percentile does not track hardship (hardship gap close to
+  zero for the P80 line, negative for the optimised percentile); the need and burden lines do. Dalla Longa et al. moved their
+  thresholds by +-20% and found stable accuracy; we show that accuracy alone is the wrong goal -- the easiest threshold to predict is
+  not the one that means hardship.
+* **Variables.** Under the P80 line the core profile captures most of what can be learned, as in Van Hove et al. Under need lines,
+  extra information adds 5-7 points, mostly "which region is this". Area statistics, central in Dalla Longa et al.'s neighbourhood
+  study, help single households only by identifying the region; household-level indices add a little.
+* **Income only / without income / full** behave as in Dalla Longa et al.: income is indispensable, and without it scores fall close
+  to their single-household results.
+* **Sample size.** Following Dalla Longa et al.'s finding that about 1,000 training households are needed, one pooled model lets
+  Spain take part although it is too small for a model of its own. More households from other countries help only through the
+  multilevel model, and do not make a model portable.
+* **Methods and policy.** Model averages and the bill model improve on the B0 core-profile baseline by 0.02-0.10; a scheme helping the
+  top 30-35% of households reaches 70% of Double-Risk households on the need lines (40% with income alone).
+* **Climate**, untested in either reference study: a real driver of the bill, not of the four-group classification.
 
 
-10. Compared with Van Hove and Dalla Longa: what this work adds
----------------------------------------------------------------
+10. Problems found and how they were handled
+--------------------------------------------
 
-* **Thresholds.** Optimising both thresholds confirms Van Hove's choice *for his kind of line* on four countries, but shows that line
-  does not track hardship; need-based and burden lines do. Dalla Longa et al. moved the thresholds by +-20% and found stable
-  accuracy; we show that accuracy alone is the wrong goal -- the threshold that is easiest to predict is not the one that means hardship.
-* **Variables.** Under Van Hove's line, his seven predictors capture most of what can be learned. Under a need-based line, extra
-  information adds 5-7 points of balanced accuracy, and most of it is **"which region is this"**. Area statistics (Dalla Longa et
-  al.'s density and ownership, regional economy) give the same gain only because they identify the region; saying the region
-  directly is simpler and honest. Household-level indices (wealth, vulnerability) add a little on top. Questions on attitudes,
-  energy-saving behaviour and energy literacy add nothing.
-* **Methods.** Averaging CatBoost, a tuned XGBoost, the FT-Transformer and a bill model gives the best scores on every line (+0.01
-  to +0.05 over a single classifier). Predicting the bill in euros and comparing it with the line finds far more of the
-  Double-Risk households (recall 0.74 against 0.52 on the need line) at the price of more false alarms.
-* **For policy.** Ranking households by the model's probability of Double Risk, a scheme that helps the top 30-35% reaches 70% of
-  Double-Risk households on the need lines, against 40% of households with income alone. Flagging the least certain 20% for a
-  follow-up check raises accuracy on the rest by 2-4 points.
-* **Pooling and Spain.** One pooled model (Dalla Longa et al.'s sample-size argument) lets Spain take part although it is too small
-  for a model of its own; Spain scores like the other countries.
-* **Climate.** For sorting households into the four groups, climate adds nothing beyond knowing the region, even measured per
-  household and with a line that leaves climate out. But tested where it has the power to show -- on the bill itself, with a
-  multilevel model and a placebo -- climate is a clear driver: **a 10% colder winter raises the heating bill by about 12%**, and
-  climate explains about a fifth of the differences between regions. It also carries a real signal for summer energy poverty and
-  under-heating (Section 8).
-* **Our pipeline matches Van Hove's.** Rebuilt their way on our four countries, we get their numbers (balanced accuracy 0.626 +- 0.028
-  against their about 0.655 on one split); earlier differences came from the metric, single-split noise and country difficulty
-  (`diagnose_vanhove_gap.py`).
+* **Confident learning flagged 38% of households** as mislabelled -- a sign of weak models, not of 38% wrong labels. A margin rule
+  (the model must prefer the other spending side by 0.15) flags about 3% on the need lines and 19% on the P80 and burden lines.
+* **The P80 line fails the group minimum in Spain** (5 Double-Risk households); kept as the baseline, Spain's own P80 results are
+  not read alone.
+* **The threshold optimisation crashed when only one option was feasible**; fixed.
+* **Imputed households did not help**; kept as a sensitivity check.
+* **The mixed model's default optimiser stopped at a degenerate fit** (region variance 0, infinite likelihood): it now starts with
+  Powell's method and refuses non-finite fits. **GPBoost's default optimiser aborted** on one training set: Fisher scoring is used
+  everywhere (the gain of the best recipe on the P80 line changed from +0.014, significant, to +0.010, not significant).
+* **The frozen split could not be regenerated** by the split code in its final form (only 44% of households matched), and it lived
+  in a git-ignored folder: it is now a committed input (`config/household_split_v1.csv`).
+* "Heating need per euro of income" is not a climate feature (it was income in disguise); regional statistics worked only as region
+  labels (replaced by the region itself); house value and home ownership are not in the survey (wealth index as stand-in).
 
 
 11. Households that heat too little
@@ -481,8 +419,9 @@ small -- about half of what 2,278 households in 131 regions can detect -- and fu
 
 A household that keeps its home cold to save money spends little, so no expenditure line can mark it as high spending. We estimate
 each home's heating *need* (floor area x heat loss for its age and type x local heating degree days) and flag households that spend
-less than half of what similar households spend for the same need (`build_hidden_underheating.py`): 5-14% of households and 6-20% of
-low-income ones. They do not report more income difficulty than other low-income households, so part of this may be free fuel (own
+less than half of what similar households spend for the same need (`build_hidden_underheating.py`, `table_hidden_underheating.csv`):
+5-14% of households and 6-20% of low-income ones. Adding the low-income ones would enlarge Double Risk by 13-52% on the need line.
+They do not report more income difficulty than other low-income households (Spain: less), so part of this may be free fuel (own
 wood) or incomplete bills.
 
 
@@ -491,15 +430,13 @@ wood) or incomplete bills.
 
 * One survey round from 2018; 2,278 labelled households in five countries. Results show links, not causes.
 * Income is only known as a bracket (1-10); energy costs are self-reported; income in euros is an estimate.
-* Climate and area variables have one value per region (132 regions), so they cannot separate climate from other regional
-  differences; the placebo shows how much of a gain is region identity.
+* Climate and area variables have one value per region (132 regions); the placebo shows how much of a gain is region identity.
 * Small groups in some countries (Poland's high-income households, Italy's lowest brackets, Spain's Double Risk) limit
   country-specific results.
-* Section 11 (households that heat too little) is the four-country analysis; version 6 repeats it on five countries as a label.
-* The comfort outcomes rest on one question (usual indoor temperature) in two study countries (31 regions), too few to separate
-  climate from other regional differences for cold homes.
-* The extra countries' energy costs use 2017 exchange rates; Ukraine's prices were heavily subsidised and it has no Eurostat income
-  deciles. France and the UK have no regions, so no climate.
+* The comfort outcomes rest on one question in two study countries (31 regions).
+* The extra countries' costs use 2017 exchange rates; Ukraine's prices were subsidised and it has no Eurostat income deciles.
+* The locked test partition was used once, before the final design; later results are cross-validated, with leave one country out
+  as the independent check.
 
 
 13. How to run it
@@ -507,63 +444,33 @@ wood) or incomplete bills.
 
 ```bash
 pip install -r requirement.txt
-bash scripts/run_full_pipeline.sh        # every step in order; stops at the first error
-python -m pytest tests/ -q               # 134 tests
+bash scripts/run_full_pipeline.sh        # every step in order; stops at the first error (about 7 hours with a GPU)
+python -m pytest tests/ -q               # automatic checks
 ```
 
-The version-5 steps, in order:
-
-```bash
-python scripts/prepare_country_references.py # Eurostat income deciles (incl. Spain)
-python scripts/build_extended_cost.py       # energy cost in euros for the five countries
-python scripts/acquire_openmeteo_b2.py      # daily weather per region (cached; reruns work offline)
-python scripts/acquire_era5_normals.py      # 1991-2020 monthly temperature (two Copernicus requests)
-python scripts/fuse_openmeteo_b2.py         # climate measures per region
-python scripts/acquire_regional_context.py  # Eurostat / Census area context
-python scripts/build_threshold_moo.py --v5  # Section 2: threshold optimisation (five countries)
-python scripts/build_feature_stages_v5.py   # Sections 5-7 (GPU; about 4 hours with 4 workers; --report-only rebuilds the tables)
-# version 6 (Section 8)
-python scripts/build_extended_cost.py --all # energy cost in euros for all eleven ENABLE countries
-python scripts/acquire_openmeteo_b2.py --extra && python scripts/acquire_era5_normals.py --extra && python scripts/fuse_openmeteo_b2.py --extra
-python scripts/build_climate_multilevel.py  # climate and the energy bill (about 20 minutes)
-python scripts/build_climate_labels.py      # cold / hot home, summer energy poverty, under-heating (about 30 minutes)
-python scripts/build_pooled_extra.py        # extra countries and the multilevel bill model on the four groups (GPU; about 1.5 hours)
-python scripts/build_v6_best_vs_v5.py       # paired comparison with the version-5 recipe
-python scripts/build_bill_climate.py        # climate inside the bill models (about 10 minutes)
-python scripts/build_climate_power.py && python scripts/build_climate_power.py --grouped   # power: region known / unseen regions
-python scripts/build_hidden_underheating.py --v5   # under-heating, five countries
-python scripts/build_loco_validation.py     # leave one country out (GPU; about 40 minutes)
-python scripts/build_hidden_underheating.py # Section 11
-```
-
-Tables go to `outputs/tables/`, figures to `outputs/figures/`. Details: [`docs/running_the_pipeline.md`](docs/running_the_pipeline.md).
-The record of every check and correction: [`AUDIT_AND_REPAIR_REPORT.md`](AUDIT_AND_REPAIR_REPORT.md).
+Step-by-step guide with every script and its outputs: [`docs/running_the_pipeline.md`](docs/running_the_pipeline.md). Draft paper:
+[`docs/paper_draft.md`](docs/paper_draft.md). Record of every check and correction: [`AUDIT_AND_REPAIR_REPORT.md`](AUDIT_AND_REPAIR_REPORT.md).
 
 | Folder | What is inside |
 |---|---|
-| `data/` | Reading the survey and choosing the countries (four, plus Spain for version 5, plus six training-only countries for version 6) |
-| `lib/identification/` | Lines and thresholds (`lines_v4.py`, `lines_v5.py`), the version-5 design (`stages_v5.py`), bill model (`bill_model.py`), noisy-label weights (`robust.py`), Optuna tuning (`tuning.py`), multilevel model (`multilevel.py`, `bill_mixed.py`), the version-4 design (`stages_v4.py`), shared selection tools (`stages.py`), the three models (`models3.py`, `ft_transformer.py`), Hansen's Threshold Regression (`hansen.py`), Van Hove rebuild (`vanhove_replica.py`), scores (`metrics.py`) |
-| `lib/features/` | Survey variables (`survey_items.py`), built features (`engineered.py`), indices and climate x home features (`indices.py`), partly asked questions (`partial_modules.py`) |
-| `lib/climate/` | Climate measures (`b2_indices.py`) |
-| `scripts/` | Every runnable step |
-| `tests/` | Automatic checks |
+| `config/` | the frozen train / validation / test split; the record of the one test-set evaluation |
+| `data/` | reading the ENABLE workbook; the study and extra countries |
+| `lib/identification/` | lines and thresholds (`lines.py`), the study design (`stages.py`), variable selection (`selection.py`), the classifiers (`models.py`, `ft_transformer.py`), bill models (`bill_model.py`, `bill_mixed.py`), uncertain labels (`robust.py`), tuning (`tuning.py`), extra countries (`pool.py`), multilevel climate test (`multilevel.py`), heating need (`required_heat.py`), reference replica (`vanhove_replica.py`), scores (`metrics.py`), the data frames (`data.py`) |
+| `lib/features/` | survey items, engineered features, household indices and climate x home features, partly asked modules, income in euros |
+| `lib/climate/`, `lib/geography/` | climate measures per region; regions of every country |
+| `lib/reporting/` | figure helper; the names used in every table and figure (`names.py`) |
+| `scripts/` | every runnable step |
+| `tests/` | automatic checks |
 
 
 14. Earlier versions
 --------------------
 
-* **Version 4 / 4b** (commits `7464ceb`, `673b0fe`): the same pooled design on the four countries, with Dalla Longa's area
-  variables and regional statistics as B1 groups and a placebo for them (B1p). Findings: B1 helped the need lines by +0.03 to
-  +0.08; the regional statistics worked only as region labels (B1 - B1p = +0.003); climate added nothing beyond the placebo; one
-  pooled model was as good as one model per country. Script `build_feature_stages_v4.py`; tables `table_v4_*`, figures `v4_*`.
-* **Version 3** (commits `a25daff`, `dca549d`, `ad666d3`): one model per country; B1 chosen from all 82 survey variables; four lines
-  including **Quantile Regression** at the 80th percentile, **Hansen's Threshold Regression** (Hansen 2000; the tipping point where
-  hardship rises, 0.58 among homes with similar need, p = 0.042) and the integrated **Hansen + Quantile Regression** line. Findings:
-  extra variables helped the Hansen + Quantile Regression line by up to 8 points and Van Hove's line not at all; climate added
-  nothing beyond the region; attention was an unreliable selector. Scripts `build_expenditure_lines.py`, `build_feature_stages.py`;
-  tables archived in `outputs/tables/archive_v1`, `archive_v2`.
-* **The first identification study** (`AUDIT_AND_REPAIR_REPORT.md`, sections 1-27): income with and without the model, information
-  levels, targeting errors, and one pre-registered test on the 20% test households (done once on 2026-09-20).
+The project went through earlier designs; their code was removed in the clean-up of 2026-10-16 and remains in the git history:
+the first identification study with information tiers, cost-threshold estimators and one pre-registered test (commits up to
+`a25daff`); per-country models with Hansen threshold regression lines (`dca549d`, `ad666d3`); a four-country pooled design with area
+statistics and their placebo (`7464ceb`, `673b0fe`); and the developments that led to this version (`6e8aad9`, `9ed3560`,
+`a6ee86c`). Their outputs are archived locally in `legacy-archives/pre_cleanup_2026-10-16/`.
 
 
 References
@@ -573,8 +480,6 @@ References
   learning. *Energy & Buildings* 264, 112064. https://doi.org/10.1016/j.enbuild.2022.112064
 * Dalla Longa, F., Sweerts, B., van der Zwaan, B. (2021). Exploring the complex origins of energy poverty in The Netherlands with
   machine learning. *Energy Policy* 156, 112373. https://doi.org/10.1016/j.enpol.2021.112373
-* Hansen, B. E. (1996). Inference when a nuisance parameter is not identified under the null hypothesis. *Econometrica* 64, 413-430.
-* Hansen, B. E. (2000). Sample splitting and threshold estimation. *Econometrica* 68, 575-603.
 * Koenker, R., Bassett, G. (1978). Regression quantiles. *Econometrica* 46, 33-50.
 * Hwang, C.-L., Yoon, K. (1981). *Multiple Attribute Decision Making: Methods and Applications* (TOPSIS). Springer.
 * Gorishniy, Y., Rubachev, I., Khrulkov, V., Babenko, A. (2021). Revisiting deep learning models for tabular data. *NeurIPS*.
@@ -582,14 +487,15 @@ References
 * Chen, T., Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *KDD*.
 * Prokhorenkova, L., et al. (2018). CatBoost: unbiased boosting with categorical features. *NeurIPS*.
 * Akiba, T., Sano, S., Yanase, T., Ohta, T., Koyama, M. (2019). Optuna: A next-generation hyperparameter optimization framework. *KDD*.
-* Sigrist, F. (2022). Gaussian process boosting. *Journal of Machine Learning Research* 23(232), 1-46.
-* Seabold, S., Perktold, J. (2010). statsmodels: Econometric and statistical modeling with Python. *Proceedings of the 9th Python in
-  Science Conference* (MixedLM, GLM).
 * Northcutt, C. G., Jiang, L., Chuang, I. L. (2021). Confident learning: estimating uncertainty in dataset labels. *Journal of
   Artificial Intelligence Research* 70, 1373-1411.
+* Sigrist, F. (2022). Gaussian process boosting. *Journal of Machine Learning Research* 23(232), 1-46.
+* Seabold, S., Perktold, J. (2010). statsmodels: Econometric and statistical modeling with Python. *Proceedings of the 9th Python in
+  Science Conference*.
 * Breiman, L., Friedman, J., Olshen, R., Stone, C. (1984). *Classification and Regression Trees*. Hastie, T., Tibshirani, R.,
   Friedman, J. (2009). *The Elements of Statistical Learning*, Sec. 7.10.
-* Eurostat regional statistics: demo_r_d3dens, nama_10r_3gdp, lfst_r_lfu3rt, ilc_li41, cens_11htts_r2, cens_21dwop_r3.
+* Eurostat: ilc_di01, ert_bil_eur_a, demo_r_d3dens, nama_10r_3gdp, lfst_r_lfu3rt, ilc_li41, cens_11htts_r2, cens_21dwop_r3; GISCO NUTS
+  2016.
 
 **Climate data -- please cite when using it:**
 

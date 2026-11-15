@@ -1,0 +1,1558 @@
+variable,column,label,value,value_label,is_missing_code
+UID,1,Unique ID (unique key),,,False
+T1,2,Interview unique number,,,False
+T1cluster,3,Number of cluster,,,False
+T3,5,Interview date,,,False
+T4,6,Interview start time,,,False
+T5,7,"Interview duration, minutes",,,False
+NUTS1,8,NUTS1 regions: Please use the latest Eurostat NUTS classification,,,False
+NUTS2,9,NUTS2 regions: Please use the latest Eurostat NUTS classification,,,False
+NUTS3,10,NUTS3 regions: Please use the latest Eurostat NUTS classification,,,False
+SettlementSize,11,Size of the settlement (in terms of population),1,Up to 500,False
+SettlementSize,11,Size of the settlement (in terms of population),2,501-9999,False
+SettlementSize,11,Size of the settlement (in terms of population),3,10000-49999,False
+SettlementSize,11,Size of the settlement (in terms of population),4,Over 50000,False
+SettlementSize,11,Size of the settlement (in terms of population),5,Capital,False
+Country,12,Country,1,Bulgaria,False
+Country,12,Country,2,France,False
+Country,12,Country,3,Germany,False
+Country,12,Country,4,Hungary,False
+Country,12,Country,5,Italy,False
+Country,12,Country,6,Norway,False
+Country,12,Country,7,Poland,False
+Country,12,Country,8,Serbia,False
+Country,12,Country,9,Spain,False
+Country,12,Country,10,Ukraine,False
+Country,12,Country,11,United Kingdom,False
+H1,13,Which best describes your home? ,1,Single-family house detached from any other house,False
+H1,13,Which best describes your home? ,2,"Single-family house attached to one or more other houses (for example: duplex, row or terraced house, or townhome)",False
+H1,13,Which best describes your home? ,3,Apartment in a building with 2 to 5 flats,False
+H1,13,Which best describes your home? ,4,Apartment in a building with 6 or more flats,False
+H1,13,Which best describes your home? ,9,No answer,True
+H2,14,"As far as you know, when was your home built?",1,Before 1950,False
+H2,14,"As far as you know, when was your home built?",2,1950 to 1959,False
+H2,14,"As far as you know, when was your home built?",3,1960 to 1969,False
+H2,14,"As far as you know, when was your home built?",4,1970 to 1979,False
+H2,14,"As far as you know, when was your home built?",5,1980 to 1989,False
+H2,14,"As far as you know, when was your home built?",6,1990 to 1999,False
+H2,14,"As far as you know, when was your home built?",7,2000 to 2009,False
+H2,14,"As far as you know, when was your home built?",8,2010 to 2016,False
+H2,14,"As far as you know, when was your home built?",99,(Do not know),True
+H3,15,In which group does your home belong?,1,Up to 42 m2,False
+H3,15,In which group does your home belong?,2,43 – 65 m2,False
+H3,15,In which group does your home belong?,3,66 – 90 m2,False
+H3,15,In which group does your home belong?,4,91 – 120 m2,False
+H3,15,In which group does your home belong?,5,120 – 200 m2,False
+H3,15,In which group does your home belong?,6,More than 200 m2,False
+H3,15,In which group does your home belong?,7,does not know/ did not answer,True
+H4A,16,Petrol car,1,Do not have,False
+H4A,16,Petrol car,2,Number of vehicles: 1,False
+H4A,16,Petrol car,3,Number of vehicles: 2,False
+H4A,16,Petrol car,4,Number of vehicles: 3+,False
+H4A,16,Petrol car,99,(Do not know),True
+H4B,17,Diesel car,1,Do not have,False
+H4B,17,Diesel car,2,Number of vehicles: 1,False
+H4B,17,Diesel car,3,Number of vehicles: 2,False
+H4B,17,Diesel car,4,Number of vehicles: 3+,False
+H4B,17,Diesel car,99,(Do not know),True
+H4C,18,"Alternative fuelled car (methan, LPG)",1,Do not have,False
+H4C,18,"Alternative fuelled car (methan, LPG)",2,Number of vehicles: 1,False
+H4C,18,"Alternative fuelled car (methan, LPG)",3,Number of vehicles: 2,False
+H4C,18,"Alternative fuelled car (methan, LPG)",4,Number of vehicles: 3+,False
+H4C,18,"Alternative fuelled car (methan, LPG)",99,(Do not know),True
+H4D,19,Electric car,1,Do not have,False
+H4D,19,Electric car,2,Number of vehicles: 1,False
+H4D,19,Electric car,3,Number of vehicles: 2,False
+H4D,19,Electric car,4,Number of vehicles: 3+,False
+H4D,19,Electric car,99,(Do not know),True
+H4E,20,Hybrid car,1,Do not have,False
+H4E,20,Hybrid car,2,Number of vehicles: 1,False
+H4E,20,Hybrid car,3,Number of vehicles: 2,False
+H4E,20,Hybrid car,4,Number of vehicles: 3+,False
+H4E,20,Hybrid car,99,(Do not know),True
+H4F,21,Motorcycle (or Scooters),1,Do not have,False
+H4F,21,Motorcycle (or Scooters),2,Number of vehicles: 1,False
+H4F,21,Motorcycle (or Scooters),3,Number of vehicles: 2,False
+H4F,21,Motorcycle (or Scooters),4,Number of vehicles: 3+,False
+H4F,21,Motorcycle (or Scooters),99,(Do not know),True
+H4G,22,Electric Motorcycle (or Scooter),1,Do not have,False
+H4G,22,Electric Motorcycle (or Scooter),2,Number of vehicles: 1,False
+H4G,22,Electric Motorcycle (or Scooter),3,Number of vehicles: 2,False
+H4G,22,Electric Motorcycle (or Scooter),4,Number of vehicles: 3+,False
+H4G,22,Electric Motorcycle (or Scooter),99,(Do not know),True
+H4H,23,"Van, truck, caravan",1,Do not have,False
+H4H,23,"Van, truck, caravan",2,Number of vehicles: 1,False
+H4H,23,"Van, truck, caravan",3,Number of vehicles: 2,False
+H4H,23,"Van, truck, caravan",4,Number of vehicles: 3+,False
+H4H,23,"Van, truck, caravan",99,(Do not know),True
+H4I,24,Bicycle,1,Do not have,False
+H4I,24,Bicycle,2,Number of vehicles: 1,False
+H4I,24,Bicycle,3,Number of vehicles: 2,False
+H4I,24,Bicycle,4,Number of vehicles: 3+,False
+H4I,24,Bicycle,99,(Do not know),True
+H4J,25,Electric bicycle,1,Do not have,False
+H4J,25,Electric bicycle,2,Number of vehicles: 1,False
+H4J,25,Electric bicycle,3,Number of vehicles: 2,False
+H4J,25,Electric bicycle,4,Number of vehicles: 3+,False
+H4J,25,Electric bicycle,99,(Do not know),True
+H5A1,26,Types of insulation: Attic and/or roof insulation,0,Not Mentioned,False
+H5A1,26,Types of insulation: Attic and/or roof insulation,1,Mentioned,False
+H5A2,27,Types of insulation: Cavity wall insulation,0,Not Mentioned,False
+H5A2,27,Types of insulation: Cavity wall insulation,1,Mentioned,False
+H5A3,28,Types of insulation: External wall insulation,0,Not Mentioned,False
+H5A3,28,Types of insulation: External wall insulation,1,Mentioned,False
+H5A4,29,Types of insulation: My home does not have any additional insulation,0,Not Mentioned,False
+H5A4,29,Types of insulation: My home does not have any additional insulation,1,Mentioned,False
+H5A99,30,Types of insulation: (Don’t know),0,Not Mentioned,False
+H5A99,30,Types of insulation: (Don’t know),1,Mentioned,False
+H6A1,31,Electricity (including under floor heating),,,False
+H6A2,32,"District heating, different than using natural gas from a central source?",,,False
+H6A3,33,Natural gas from a central source / propane or bottled gas,,,False
+H6A4,34,Wood,,,False
+H6A5,35,Coal or coke,,,False
+H6A6,36,Pellets,,,False
+H6A7,37,Fuel oil,,,False
+H6A8,38,Waste/garbage,,,False
+H6A9,39,Biomass,,,False
+H6A10,40,Geothermal or air-source heat pump,,,False
+H6A11,41,"Other source, please specify",,,False
+H6A99,42,Don’t know,0,Not Mentioned,False
+H6A99,42,Don’t know,1,Mentioned,False
+H6A11_Other,43,"Other source, please specify",,,False
+H7A1,44,What was the cost of heating for your home for the last heating season?  (per month),,,False
+H7A2,45,What was the cost of heating for your home for the last heating season?  (per heating season),,,False
+H7A99,46,Don’t know,0,Not Mentioned,False
+H7A99,46,Don’t know,1,Mentioned,False
+H7A88,47,Does not have a Heating system (for Spain only),0,Not Mentioned,False
+H7A88,47,Does not have a Heating system (for Spain only),1,Mentioned,False
+H7AA,48,"Number of months, you pay for heating in the last heating season?",99,Do not know,True
+H8A,49,What was the average monthly bill for electricity of your household over the last 12 months?,99999,Do not know,True
+H8B,50,What was the last annual bill for electricity of your household?,99999,Do not know,True
+H9,51,Which of the following best describes how your household controls your main heating equipment most of the time?,1,Set one temperature and leave it there most of the time,False
+H9,51,Which of the following best describes how your household controls your main heating equipment most of the time?,2,Manually adjust the temperature (e.g. at night or when no one is at home),False
+H9,51,Which of the following best describes how your household controls your main heating equipment most of the time?,3,Program the thermostat to automatically adjust the temperature during the day and night at certain times,False
+H9,51,Which of the following best describes how your household controls your main heating equipment most of the time?,4,Our household does not have control over the equipment,False
+H9,51,Which of the following best describes how your household controls your main heating equipment most of the time?,9,Don't know / No answer,True
+H9A88,52,Does not have a Heating system (for Spain only),0,Not Mentioned,False
+H9A88,52,Does not have a Heating system (for Spain only),1,Mentioned,False
+H10A1,53,Solar photovoltaic panels (PV) for generation of electricity and/or heat,0,Not Mentioned,False
+H10A1,53,Solar photovoltaic panels (PV) for generation of electricity and/or heat,1,Mentioned,False
+H10A2,54,Using biomass for generation of electricity and/or heat,0,Not Mentioned,False
+H10A2,54,Using biomass for generation of electricity and/or heat,1,Mentioned,False
+H10A3,55,Solar collectors for water heating,0,Not Mentioned,False
+H10A3,55,Solar collectors for water heating,1,Mentioned,False
+H10A4,56,Geothermal or air-source heat pumps,0,Not Mentioned,False
+H10A4,56,Geothermal or air-source heat pumps,1,Mentioned,False
+H10A5,57,None of the previous,0,Not Mentioned,False
+H10A5,57,None of the previous,1,Mentioned,False
+H11A,58,"Cooker (stove, oven, cooktops)",1,Up to 3 years old,False
+H11A,58,"Cooker (stove, oven, cooktops)",2,4-10 years old,False
+H11A,58,"Cooker (stove, oven, cooktops)",4,Older than 10 years,False
+H11A,58,"Cooker (stove, oven, cooktops)",5,Do not have,False
+H11A,58,"Cooker (stove, oven, cooktops)",99,Do not know,True
+H11B,59,Dishwasher,1,Up to 3 years old,False
+H11B,59,Dishwasher,2,4-10 years old,False
+H11B,59,Dishwasher,4,Older than 10 years,False
+H11B,59,Dishwasher,5,Do not have,False
+H11B,59,Dishwasher,99,Do not know,True
+H11C,60,Clothes washer / Washing machine,1,Up to 3 years old,False
+H11C,60,Clothes washer / Washing machine,2,4-10 years old,False
+H11C,60,Clothes washer / Washing machine,4,Older than 10 years,False
+H11C,60,Clothes washer / Washing machine,5,Do not have,False
+H11C,60,Clothes washer / Washing machine,99,Do not know,True
+H11D,61,Refrigerator / freezer,1,Up to 3 years old,False
+H11D,61,Refrigerator / freezer,2,4-10 years old,False
+H11D,61,Refrigerator / freezer,4,Older than 10 years,False
+H11D,61,Refrigerator / freezer,5,Do not have,False
+H11D,61,Refrigerator / freezer,99,Do not know,True
+H11E,62,Air conditioning units at your home,1,Up to 3 years old,False
+H11E,62,Air conditioning units at your home,2,4-10 years old,False
+H11E,62,Air conditioning units at your home,4,Older than 10 years,False
+H11E,62,Air conditioning units at your home,5,Do not have,False
+H11E,62,Air conditioning units at your home,99,Do not know,True
+H11F,63,Portable electric heater(s),1,Up to 3 years old,False
+H11F,63,Portable electric heater(s),2,4-10 years old,False
+H11F,63,Portable electric heater(s),4,Older than 10 years,False
+H11F,63,Portable electric heater(s),5,Do not have,False
+H11F,63,Portable electric heater(s),99,Do not know,True
+H11G,64,Standalone electric water heater (boiler),1,Up to 3 years old,False
+H11G,64,Standalone electric water heater (boiler),2,4-10 years old,False
+H11G,64,Standalone electric water heater (boiler),4,Older than 10 years,False
+H11G,64,Standalone electric water heater (boiler),5,Do not have,False
+H11G,64,Standalone electric water heater (boiler),99,Do not know,True
+H11H,65,TV set / Home theater system,1,Up to 3 years old,False
+H11H,65,TV set / Home theater system,2,4-10 years old,False
+H11H,65,TV set / Home theater system,4,Older than 10 years,False
+H11H,65,TV set / Home theater system,5,Do not have,False
+H11H,65,TV set / Home theater system,99,Do not know,True
+H12A,66,Incandescent bulbs (“old” classic bulbs),1,All,False
+H12A,66,Incandescent bulbs (“old” classic bulbs),2,Most,False
+H12A,66,Incandescent bulbs (“old” classic bulbs),3,About half,False
+H12A,66,Incandescent bulbs (“old” classic bulbs),4,Some,False
+H12A,66,Incandescent bulbs (“old” classic bulbs),5,,False
+H12A,66,Incandescent bulbs (“old” classic bulbs),99,Do not know,True
+H12B,67,"Energy efficient bulbs (e.g. LED, compact fluorescent bulbs or halogen bulbs)",1,All,False
+H12B,67,"Energy efficient bulbs (e.g. LED, compact fluorescent bulbs or halogen bulbs)",2,Most,False
+H12B,67,"Energy efficient bulbs (e.g. LED, compact fluorescent bulbs or halogen bulbs)",3,About half,False
+H12B,67,"Energy efficient bulbs (e.g. LED, compact fluorescent bulbs or halogen bulbs)",4,Some,False
+H12B,67,"Energy efficient bulbs (e.g. LED, compact fluorescent bulbs or halogen bulbs)",5,,False
+H12B,67,"Energy efficient bulbs (e.g. LED, compact fluorescent bulbs or halogen bulbs)",99,Do not know,True
+H13A,68,Electricity smart meter,1,Yes,False
+H13A,68,Electricity smart meter,2,No,False
+H13A,68,Electricity smart meter,99,Do not know,True
+H13B,69,Gas smart meter,1,Yes,False
+H13B,69,Gas smart meter,2,No,False
+H13B,69,Gas smart meter,99,Do not know,True
+H13C,70,Heating smart meter,1,Yes,False
+H13C,70,Heating smart meter,2,No,False
+H13C,70,Heating smart meter,99,Do not know,True
+H14A1,71,Smart meters are still not adopted by the utility companies,0,Not Mentioned,False
+H14A1,71,Smart meters are still not adopted by the utility companies,1,Mentioned,False
+H14A2,72,Smart meters are adopted by the utility companies but they are not compulsory,0,Not Mentioned,False
+H14A2,72,Smart meters are adopted by the utility companies but they are not compulsory,1,Mentioned,False
+H14A3,73,The cost of smart meters is too high,0,Not Mentioned,False
+H14A3,73,The cost of smart meters is too high,1,Mentioned,False
+H14A4,74,"Smart meters violate my privacy, sharing information about my consumption habits",0,Not Mentioned,False
+H14A4,74,"Smart meters violate my privacy, sharing information about my consumption habits",1,Mentioned,False
+H14A5,75,The utility company could misuse the data from the smart meters,0,Not Mentioned,False
+H14A5,75,The utility company could misuse the data from the smart meters,1,Mentioned,False
+H14A6,76,I don’t know whether I can use smart meters at home,0,Not Mentioned,False
+H14A6,76,I don’t know whether I can use smart meters at home,1,Mentioned,False
+H14A7,77,I heard that smart meters can be harmful to health,0,Not Mentioned,False
+H14A7,77,I heard that smart meters can be harmful to health,1,Mentioned,False
+H14A8,78,"Other, please specify",0,Not Mentioned,False
+H14A8,78,"Other, please specify",1,Mentioned,False
+H14A8_Other,79,"[Megjegyzés]      h14.  Mi az oka annak, hogy nincs okosmérő felszerelve az otthonában?",,,False
+H15A,80,I am not willing to do anything about the environment if others don’t do the same,1,Strongly disagree,False
+H15A,80,I am not willing to do anything about the environment if others don’t do the same,2,Disagree,False
+H15A,80,I am not willing to do anything about the environment if others don’t do the same,3,Agree,False
+H15A,80,I am not willing to do anything about the environment if others don’t do the same,4,Strongly agree,False
+H15A,80,I am not willing to do anything about the environment if others don’t do the same,99,Do not know,True
+H15B,81,Environmental impacts are frequently overstated,1,Strongly disagree,False
+H15B,81,Environmental impacts are frequently overstated,2,Disagree,False
+H15B,81,Environmental impacts are frequently overstated,3,Agree,False
+H15B,81,Environmental impacts are frequently overstated,4,Strongly agree,False
+H15B,81,Environmental impacts are frequently overstated,99,Do not know,True
+H15C,82,Environmental issues should be dealt with primarily by future generations,1,Strongly disagree,False
+H15C,82,Environmental issues should be dealt with primarily by future generations,2,Disagree,False
+H15C,82,Environmental issues should be dealt with primarily by future generations,3,Agree,False
+H15C,82,Environmental issues should be dealt with primarily by future generations,4,Strongly agree,False
+H15C,82,Environmental issues should be dealt with primarily by future generations,99,Do not know,True
+H15D,83,I am willing to make compromises in my current lifestyle for the benefit of the environment,1,Strongly disagree,False
+H15D,83,I am willing to make compromises in my current lifestyle for the benefit of the environment,2,Disagree,False
+H15D,83,I am willing to make compromises in my current lifestyle for the benefit of the environment,3,Agree,False
+H15D,83,I am willing to make compromises in my current lifestyle for the benefit of the environment,4,Strongly agree,False
+H15D,83,I am willing to make compromises in my current lifestyle for the benefit of the environment,99,Do not know,True
+H15E,84,Policies introduced by the government to address environmental issues should not cost me extra money,1,Strongly disagree,False
+H15E,84,Policies introduced by the government to address environmental issues should not cost me extra money,2,Disagree,False
+H15E,84,Policies introduced by the government to address environmental issues should not cost me extra money,3,Agree,False
+H15E,84,Policies introduced by the government to address environmental issues should not cost me extra money,4,Strongly agree,False
+H15E,84,Policies introduced by the government to address environmental issues should not cost me extra money,99,Do not know,True
+H15F,85,Environmental issues will be resolved in any case through technological progress,1,Strongly disagree,False
+H15F,85,Environmental issues will be resolved in any case through technological progress,2,Disagree,False
+H15F,85,Environmental issues will be resolved in any case through technological progress,3,Agree,False
+H15F,85,Environmental issues will be resolved in any case through technological progress,4,Strongly agree,False
+H15F,85,Environmental issues will be resolved in any case through technological progress,99,Do not know,True
+H15G,86,Protecting the environment is a means of stimulating economic growth,1,Strongly disagree,False
+H15G,86,Protecting the environment is a means of stimulating economic growth,2,Disagree,False
+H15G,86,Protecting the environment is a means of stimulating economic growth,3,Agree,False
+H15G,86,Protecting the environment is a means of stimulating economic growth,4,Strongly agree,False
+H15G,86,Protecting the environment is a means of stimulating economic growth,99,Do not know,True
+M1A,87,Workplace/university,9a,No answer,True
+M1B,88,Children’s school,9a,No answer,True
+M1C,89,Location of children’s activities,9a,No answer,True
+M1D,90,Grocery/shopping,9a,No answer,True
+M1E,91,"Leisure activities (gym, sport, tours,...)",9a,No answer,True
+M2A,92,Your home,1,Urban area,False
+M2A,92,Your home,2,Periphery of the urban area,False
+M2A,92,Your home,3,Countryside,False
+M2A,92,Your home,9,No answer,True
+M2B,93,Your workplace/university,1,Urban area,False
+M2B,93,Your workplace/university,2,Periphery of the urban area,False
+M2B,93,Your workplace/university,3,Countryside,False
+M2B,93,Your workplace/university,9,No answer,True
+M2C,94,Your children’s school,1,Urban area,False
+M2C,94,Your children’s school,2,Periphery of the urban area,False
+M2C,94,Your children’s school,3,Countryside,False
+M2C,94,Your children’s school,9,No answer,True
+M2D,95,Children’s activities,1,Urban area,False
+M2D,95,Children’s activities,2,Periphery of the urban area,False
+M2D,95,Children’s activities,3,Countryside,False
+M2D,95,Children’s activities,9,No answer,True
+M2E,96,Your usual grocery/shopping,1,Urban area,False
+M2E,96,Your usual grocery/shopping,2,Periphery of the urban area,False
+M2E,96,Your usual grocery/shopping,3,Countryside,False
+M2E,96,Your usual grocery/shopping,9,No answer,True
+M2F,97,"Leisure activities (gym, sport, tours,...)",1,Urban area,False
+M2F,97,"Leisure activities (gym, sport, tours,...)",2,Periphery of the urban area,False
+M2F,97,"Leisure activities (gym, sport, tours,...)",3,Countryside,False
+M2F,97,"Leisure activities (gym, sport, tours,...)",9,No answer,True
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",1,Home,False
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",2,Workplace/University,False
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",3,Childrens school,False
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",4,Location of childrens activities,False
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",5,Grocery/Shopping,False
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",6,"Leisure activities (gym, sport, tours...)",False
+M3A1,98,"Where do you normally leave from, when you travel to the Workplace/University?",99,DK/NA,False
+M3A2_1,99,Traditional car (diesel/ gasoline),0,Not Mentioned,False
+M3A2_1,99,Traditional car (diesel/ gasoline),1,Mentioned,False
+M3A2_2,100,Alternative fueled car (Methane/ LPG),0,Not Mentioned,False
+M3A2_2,100,Alternative fueled car (Methane/ LPG),1,Mentioned,False
+M3A2_3,101,Electric/ Hybrid car,0,Not Mentioned,False
+M3A2_3,101,Electric/ Hybrid car,1,Mentioned,False
+M3A2_4,102,Motorcycle/ Scooter,0,Not Mentioned,False
+M3A2_4,102,Motorcycle/ Scooter,1,Mentioned,False
+M3A2_5,103,Carpooling,0,Not Mentioned,False
+M3A2_5,103,Carpooling,1,Mentioned,False
+M3A2_6,104,Bus,0,Not Mentioned,False
+M3A2_6,104,Bus,1,Mentioned,False
+M3A2_7,105,Train,0,Not Mentioned,False
+M3A2_7,105,Train,1,Mentioned,False
+M3A2_8,106,Metro/Tram,0,Not Mentioned,False
+M3A2_8,106,Metro/Tram,1,Mentioned,False
+M3A2_9,107,Bicycle,0,Not Mentioned,False
+M3A2_9,107,Bicycle,1,Mentioned,False
+M3A2_10,108,Walking,0,Not Mentioned,False
+M3A2_10,108,Walking,1,Mentioned,False
+M3A2_11,109,"Other, please specify",0,Not Mentioned,False
+M3A2_11,109,"Other, please specify",1,Mentioned,False
+M3A2_99,110,Not applicable,0,Not Mentioned,False
+M3A2_99,110,Not applicable,1,Mentioned,False
+M3A2_11_Other,111,Jaki inny? Proszę doprecyzować:,,,False
+M3A2_Time_1,112,Traditional car (diesel/ gasoline),,,False
+M3A2_Time_2,113,Alternative fueled car (Methane/ LPG),,,False
+M3A2_Time_3,114,Electric/ Hybrid car,,,False
+M3A2_Time_4,115,Motorcycle/ Scooter,,,False
+M3A2_Time_5,116,Carpooling,,,False
+M3A2_Time_6,117,Bus,,,False
+M3A2_Time_7,118,Train,,,False
+M3A2_Time_8,119,Metro/Tram,,,False
+M3A2_Time_9,120,Bicycle,,,False
+M3A2_Time_10,121,Walking,,,False
+M3A2_Time_11,122,Other,,,False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",1,Home,False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",2,Workplace/University,False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",3,Childrens school,False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",4,Location of childrens activities,False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",5,Grocery/Shopping,False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",6,"Leisure activities (gym, sport, tours...)",False
+M3B1,123,"Where do you normally leave from, when you travel to your Children’s school?",99,DK/NA,False
+M3B2_1,124,Traditional car (diesel/ gasoline),0,Not Mentioned,False
+M3B2_1,124,Traditional car (diesel/ gasoline),1,Mentioned,False
+M3B2_2,125,Alternative fueled car (Methane/ LPG),0,Not Mentioned,False
+M3B2_2,125,Alternative fueled car (Methane/ LPG),1,Mentioned,False
+M3B2_3,126,Electric/ Hybrid car,0,Not Mentioned,False
+M3B2_3,126,Electric/ Hybrid car,1,Mentioned,False
+M3B2_4,127,Motorcycle/ Scooter,0,Not Mentioned,False
+M3B2_4,127,Motorcycle/ Scooter,1,Mentioned,False
+M3B2_5,128,Carpooling,0,Not Mentioned,False
+M3B2_5,128,Carpooling,1,Mentioned,False
+M3B2_6,129,Bus,0,Not Mentioned,False
+M3B2_6,129,Bus,1,Mentioned,False
+M3B2_7,130,Train,0,Not Mentioned,False
+M3B2_7,130,Train,1,Mentioned,False
+M3B2_8,131,Metro/Tram,0,Not Mentioned,False
+M3B2_8,131,Metro/Tram,1,Mentioned,False
+M3B2_9,132,Bicycle,0,Not Mentioned,False
+M3B2_9,132,Bicycle,1,Mentioned,False
+M3B2_10,133,Walking,0,Not Mentioned,False
+M3B2_10,133,Walking,1,Mentioned,False
+M3B2_11,134,"Other, please specify",0,Not Mentioned,False
+M3B2_11,134,"Other, please specify",1,Mentioned,False
+M3B2_99,135,Not applicable,0,Not Mentioned,False
+M3B2_99,135,Not applicable,1,Mentioned,False
+M3B2_11_Other,136,Jaki inny? Proszę doprecyzować:,,,False
+M3B2_Time_1,137,Traditional car (diesel/ gasoline),,,False
+M3B2_Time_2,138,Alternative fueled car (Methane/ LPG),,,False
+M3B2_Time_3,139,Electric/ Hybrid car,,,False
+M3B2_Time_4,140,Motorcycle/ Scooter,,,False
+M3B2_Time_5,141,Carpooling,,,False
+M3B2_Time_6,142,Bus,,,False
+M3B2_Time_7,143,Train,,,False
+M3B2_Time_8,144,Metro/Tram,,,False
+M3B2_Time_9,145,Bicycle,,,False
+M3B2_Time_10,146,Walking,,,False
+M3B2_Time_11,147,Other,,,False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",1,Home,False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",2,Workplace/University,False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",3,Childrens school,False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",4,Location of childrens activities,False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",5,Grocery/Shopping,False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",6,"Leisure activities (gym, sport, tours...)",False
+M3C1,148,"Where do you normally leave from, when you travel to your Children’s activities location?",99,DK/NA,False
+M3C2_1,149,Traditional car (diesel/ gasoline),0,Not Mentioned,False
+M3C2_1,149,Traditional car (diesel/ gasoline),1,Mentioned,False
+M3C2_2,150,Alternative fueled car (Methane/ LPG),0,Not Mentioned,False
+M3C2_2,150,Alternative fueled car (Methane/ LPG),1,Mentioned,False
+M3C2_3,151,Electric/ Hybrid car,0,Not Mentioned,False
+M3C2_3,151,Electric/ Hybrid car,1,Mentioned,False
+M3C2_4,152,Motorcycle/ Scooter,0,Not Mentioned,False
+M3C2_4,152,Motorcycle/ Scooter,1,Mentioned,False
+M3C2_5,153,Carpooling,0,Not Mentioned,False
+M3C2_5,153,Carpooling,1,Mentioned,False
+M3C2_6,154,Bus,0,Not Mentioned,False
+M3C2_6,154,Bus,1,Mentioned,False
+M3C2_7,155,Train,0,Not Mentioned,False
+M3C2_7,155,Train,1,Mentioned,False
+M3C2_8,156,Metro/Tram,0,Not Mentioned,False
+M3C2_8,156,Metro/Tram,1,Mentioned,False
+M3C2_9,157,Bicycle,0,Not Mentioned,False
+M3C2_9,157,Bicycle,1,Mentioned,False
+M3C2_10,158,Walking,0,Not Mentioned,False
+M3C2_10,158,Walking,1,Mentioned,False
+M3C2_11,159,"Other, please specify",0,Not Mentioned,False
+M3C2_11,159,"Other, please specify",1,Mentioned,False
+M3C2_99,160,Not applicable,0,Not Mentioned,False
+M3C2_99,160,Not applicable,1,Mentioned,False
+M3C2_11_Other,161,Jaki inny? Proszę doprecyzować:,,,False
+M3C2_Time_1,162,Traditional car (diesel/ gasoline),,,False
+M3C2_Time_2,163,Alternative fueled car (Methane/ LPG),,,False
+M3C2_Time_3,164,Electric/ Hybrid car,,,False
+M3C2_Time_4,165,Motorcycle/ Scooter,,,False
+M3C2_Time_5,166,Carpooling,,,False
+M3C2_Time_6,167,Bus,,,False
+M3C2_Time_7,168,Train,,,False
+M3C2_Time_8,169,Metro/Tram,,,False
+M3C2_Time_9,170,Bicycle,,,False
+M3C2_Time_10,171,Walking,,,False
+M3C2_Time_11,172,Other,,,False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",1,Home,False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",2,Workplace/University,False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",3,Childrens school,False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",4,Location of childrens activities,False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",5,Grocery/Shopping,False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",6,"Leisure activities (gym, sport, tours...)",False
+M3D1,173,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",99,DK/NA,False
+M3D2_1,174,Traditional car (diesel/ gasoline),0,Not Mentioned,False
+M3D2_1,174,Traditional car (diesel/ gasoline),1,Mentioned,False
+M3D2_2,175,Alternative fueled car (Methane/ LPG),0,Not Mentioned,False
+M3D2_2,175,Alternative fueled car (Methane/ LPG),1,Mentioned,False
+M3D2_3,176,Electric/ Hybrid car,0,Not Mentioned,False
+M3D2_3,176,Electric/ Hybrid car,1,Mentioned,False
+M3D2_4,177,Motorcycle/ Scooter,0,Not Mentioned,False
+M3D2_4,177,Motorcycle/ Scooter,1,Mentioned,False
+M3D2_5,178,Carpooling,0,Not Mentioned,False
+M3D2_5,178,Carpooling,1,Mentioned,False
+M3D2_6,179,Bus,0,Not Mentioned,False
+M3D2_6,179,Bus,1,Mentioned,False
+M3D2_7,180,Train,0,Not Mentioned,False
+M3D2_7,180,Train,1,Mentioned,False
+M3D2_8,181,Metro/Tram,0,Not Mentioned,False
+M3D2_8,181,Metro/Tram,1,Mentioned,False
+M3D2_9,182,Bicycle,0,Not Mentioned,False
+M3D2_9,182,Bicycle,1,Mentioned,False
+M3D2_10,183,Walking,0,Not Mentioned,False
+M3D2_10,183,Walking,1,Mentioned,False
+M3D2_11,184,"Other, please specify",0,Not Mentioned,False
+M3D2_11,184,"Other, please specify",1,Mentioned,False
+M3D2_99,185,Not applicable,0,Not Mentioned,False
+M3D2_99,185,Not applicable,1,Mentioned,False
+M3D2_11_Other,186,Jaki inny? Proszę doprecyzować:,,,False
+M3D2_Time_1,187,Traditional car (diesel/ gasoline),,,False
+M3D2_Time_2,188,Alternative fueled car (Methane/ LPG),,,False
+M3D2_Time_3,189,Electric/ Hybrid car,,,False
+M3D2_Time_4,190,Motorcycle/ Scooter,,,False
+M3D2_Time_5,191,Carpooling,,,False
+M3D2_Time_6,192,Bus,,,False
+M3D2_Time_7,193,Train,,,False
+M3D2_Time_8,194,Metro/Tram,,,False
+M3D2_Time_9,195,Bicycle,,,False
+M3D2_Time_10,196,Walking,,,False
+M3D2_Time_11,197,Other,,,False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",1,Home,False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",2,Workplace/University,False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",3,Childrens school,False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",4,Location of childrens activities,False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",5,Grocery/Shopping,False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",6,"Leisure activities (gym, sport, tours...)",False
+M3E1,198,"Where do you normally leave from, when you travel to your usual grocery/shopping location?",99,DK/NA,False
+M3E2_1,199,Traditional car (diesel/ gasoline),0,Not Mentioned,False
+M3E2_1,199,Traditional car (diesel/ gasoline),1,Mentioned,False
+M3E2_2,200,Alternative fueled car (Methane/ LPG),0,Not Mentioned,False
+M3E2_2,200,Alternative fueled car (Methane/ LPG),1,Mentioned,False
+M3E2_3,201,Electric/ Hybrid car,0,Not Mentioned,False
+M3E2_3,201,Electric/ Hybrid car,1,Mentioned,False
+M3E2_4,202,Motorcycle/ Scooter,0,Not Mentioned,False
+M3E2_4,202,Motorcycle/ Scooter,1,Mentioned,False
+M3E2_5,203,Carpooling,0,Not Mentioned,False
+M3E2_5,203,Carpooling,1,Mentioned,False
+M3E2_6,204,Bus,0,Not Mentioned,False
+M3E2_6,204,Bus,1,Mentioned,False
+M3E2_7,205,Train,0,Not Mentioned,False
+M3E2_7,205,Train,1,Mentioned,False
+M3E2_8,206,Metro/Tram,0,Not Mentioned,False
+M3E2_8,206,Metro/Tram,1,Mentioned,False
+M3E2_9,207,Bicycle,0,Not Mentioned,False
+M3E2_9,207,Bicycle,1,Mentioned,False
+M3E2_10,208,Walking,0,Not Mentioned,False
+M3E2_10,208,Walking,1,Mentioned,False
+M3E2_11,209,"Other, please specify",0,Not Mentioned,False
+M3E2_11,209,"Other, please specify",1,Mentioned,False
+M3E2_99,210,Not applicable,0,Not Mentioned,False
+M3E2_99,210,Not applicable,1,Mentioned,False
+M3E2_11_Other,211,Jaki inny? Proszę doprecyzować:,,,False
+M3E2_Time_1,212,Traditional car (diesel/ gasoline),,,False
+M3E2_Time_2,213,Alternative fueled car (Methane/ LPG),,,False
+M3E2_Time_3,214,Electric/ Hybrid car,,,False
+M3E2_Time_4,215,Motorcycle/ Scooter,,,False
+M3E2_Time_5,216,Carpooling,,,False
+M3E2_Time_6,217,Bus,,,False
+M3E2_Time_7,218,Train,,,False
+M3E2_Time_8,219,Metro/Tram,,,False
+M3E2_Time_9,220,Bicycle,,,False
+M3E2_Time_10,221,Walking,,,False
+M3E2_Time_11,222,Other,,,False
+M4A,223,Workplace/University,99,Don't know/ No answer,True
+M4B,224,Children’s school,99,Don't know/ No answer,True
+M4C,225,Location of children’s activities,99,Don't know/ No answer,True
+M4D,226,Grocery/Shopping,99,Don't know/ No answer,True
+M4E,227,"Leisure activities (gym, sport, tours...)",99,Don't know/ No answer,True
+M5A,228,Cost,1,1 Not at all Important,False
+M5A,228,Cost,2,2,False
+M5A,228,Cost,3,3,False
+M5A,228,Cost,4,4,False
+M5A,228,Cost,5,5 Very Important,False
+M5A,228,Cost,99,Do not Know,True
+M5B,229,Travel time,1,1 Not at all Important,False
+M5B,229,Travel time,2,2,False
+M5B,229,Travel time,3,3,False
+M5B,229,Travel time,4,4,False
+M5B,229,Travel time,5,5 Very Important,False
+M5B,229,Travel time,99,Do not Know,True
+M5C,230,Comfort,1,1 Not at all Important,False
+M5C,230,Comfort,2,2,False
+M5C,230,Comfort,3,3,False
+M5C,230,Comfort,4,4,False
+M5C,230,Comfort,5,5 Very Important,False
+M5C,230,Comfort,99,Do not Know,True
+M5D,231,Flexibility,1,1 Not at all Important,False
+M5D,231,Flexibility,2,2,False
+M5D,231,Flexibility,3,3,False
+M5D,231,Flexibility,4,4,False
+M5D,231,Flexibility,5,5 Very Important,False
+M5D,231,Flexibility,99,Do not Know,True
+M5E,232,Safety,1,1 Not at all Important,False
+M5E,232,Safety,2,2,False
+M5E,232,Safety,3,3,False
+M5E,232,Safety,4,4,False
+M5E,232,Safety,5,5 Very Important,False
+M5E,232,Safety,99,Do not Know,True
+M5F,233,Privacy,1,1 Not at all Important,False
+M5F,233,Privacy,2,2,False
+M5F,233,Privacy,3,3,False
+M5F,233,Privacy,4,4,False
+M5F,233,Privacy,5,5 Very Important,False
+M5F,233,Privacy,99,Do not Know,True
+M5G,234,Air quality impact,1,1 Not at all Important,False
+M5G,234,Air quality impact,2,2,False
+M5G,234,Air quality impact,3,3,False
+M5G,234,Air quality impact,4,4,False
+M5G,234,Air quality impact,5,5 Very Important,False
+M5G,234,Air quality impact,99,Do not Know,True
+M5H,235,CO2 emissions impact,1,1 Not at all Important,False
+M5H,235,CO2 emissions impact,2,2,False
+M5H,235,CO2 emissions impact,3,3,False
+M5H,235,CO2 emissions impact,4,4,False
+M5H,235,CO2 emissions impact,5,5 Very Important,False
+M5H,235,CO2 emissions impact,99,Do not Know,True
+M5I,236,Reliability,1,1 Not at all Important,False
+M5I,236,Reliability,2,2,False
+M5I,236,Reliability,3,3,False
+M5I,236,Reliability,4,4,False
+M5I,236,Reliability,5,5 Very Important,False
+M5I,236,Reliability,99,Do not Know,True
+M5J,237,Availability of method,1,1 Not at all Important,False
+M5J,237,Availability of method,2,2,False
+M5J,237,Availability of method,3,3,False
+M5J,237,Availability of method,4,4,False
+M5J,237,Availability of method,5,5 Very Important,False
+M5J,237,Availability of method,99,Do not Know,True
+M5K,238,Reputation,1,1 Not at all Important,False
+M5K,238,Reputation,2,2,False
+M5K,238,Reputation,3,3,False
+M5K,238,Reputation,4,4,False
+M5K,238,Reputation,5,5 Very Important,False
+M5K,238,Reputation,99,Do not Know,True
+M5L,239,Other,1,1 Not at all Important,False
+M5L,239,Other,2,2,False
+M5L,239,Other,3,3,False
+M5L,239,Other,4,4,False
+M5L,239,Other,5,5 Very Important,False
+M5L,239,Other,99,Do not Know,True
+M5L_Other,240,Other:,,,False
+M6A,241,Company car,1,Never,False
+M6A,241,Company car,2,Occasionally,False
+M6A,241,Company car,3,Often,False
+M6A,241,Company car,4,Always,False
+M6A,241,Company car,5,Not applicable,False
+M6B,242,Car-sharing,1,Never,False
+M6B,242,Car-sharing,2,Occasionally,False
+M6B,242,Car-sharing,3,Often,False
+M6B,242,Car-sharing,4,Always,False
+M6B,242,Car-sharing,5,Not applicable,False
+M6C,243,Peer-to-peer car-sharing,1,Never,False
+M6C,243,Peer-to-peer car-sharing,2,Occasionally,False
+M6C,243,Peer-to-peer car-sharing,3,Often,False
+M6C,243,Peer-to-peer car-sharing,4,Always,False
+M6C,243,Peer-to-peer car-sharing,5,Not applicable,False
+M6D,244,Bike-sharing,1,Never,False
+M6D,244,Bike-sharing,2,Occasionally,False
+M6D,244,Bike-sharing,3,Often,False
+M6D,244,Bike-sharing,4,Always,False
+M6D,244,Bike-sharing,5,Not applicable,False
+M6E,245,Private car rental,1,Never,False
+M6E,245,Private car rental,2,Occasionally,False
+M6E,245,Private car rental,3,Often,False
+M6E,245,Private car rental,4,Always,False
+M6E,245,Private car rental,5,Not applicable,False
+M7A,246,Financial subsidy,1,Traditional car,False
+M7A,246,Financial subsidy,2,"Alternative fuelled car (LPG, methane)",False
+M7A,246,Financial subsidy,3,Electric car,False
+M7A,246,Financial subsidy,4,Hybrid car,False
+M7A,246,Financial subsidy,5,Bicycle,False
+M7A,246,Financial subsidy,6,Electric bicycle,False
+M7A,246,Financial subsidy,7,Bus,False
+M7A,246,Financial subsidy,8,"No, I did not",False
+M7A,246,Financial subsidy,9,No answer,True
+M7B,247,Tax reduction,1,Traditional car,False
+M7B,247,Tax reduction,2,"Alternative fuelled car (LPG, methane)",False
+M7B,247,Tax reduction,3,Electric car,False
+M7B,247,Tax reduction,4,Hybrid car,False
+M7B,247,Tax reduction,5,Bicycle,False
+M7B,247,Tax reduction,6,Electric bicycle,False
+M7B,247,Tax reduction,7,Bus,False
+M7B,247,Tax reduction,8,"No, I did not",False
+M7B,247,Tax reduction,9,No answer,True
+M7C,248,Mobility improvement,1,Traditional car,False
+M7C,248,Mobility improvement,2,"Alternative fuelled car (LPG, methane)",False
+M7C,248,Mobility improvement,3,Electric car,False
+M7C,248,Mobility improvement,4,Hybrid car,False
+M7C,248,Mobility improvement,5,Bicycle,False
+M7C,248,Mobility improvement,6,Electric bicycle,False
+M7C,248,Mobility improvement,7,Bus,False
+M7C,248,Mobility improvement,8,"No, I did not",False
+M7C,248,Mobility improvement,9,No answer,True
+M7D,249,Other,1,Traditional car,False
+M7D,249,Other,2,"Alternative fuelled car (LPG, methane)",False
+M7D,249,Other,3,Electric car,False
+M7D,249,Other,4,Hybrid car,False
+M7D,249,Other,5,Bicycle,False
+M7D,249,Other,6,Electric bicycle,False
+M7D,249,Other,7,Bus,False
+M7D,249,Other,8,"No, I did not",False
+M7D,249,Other,9,No answer,True
+M7D_Other,250,Other:,,,False
+M8A,251,"Improving traffic flow by building new roads, and expanding existing roads.",1,1 Strongly Opposed,False
+M8A,251,"Improving traffic flow by building new roads, and expanding existing roads.",2,2,False
+M8A,251,"Improving traffic flow by building new roads, and expanding existing roads.",3,3,False
+M8A,251,"Improving traffic flow by building new roads, and expanding existing roads.",4,4,False
+M8A,251,"Improving traffic flow by building new roads, and expanding existing roads.",5,5 Strongly Supportive,False
+M8A,251,"Improving traffic flow by building new roads, and expanding existing roads.",99,Do not Know,True
+M8B,252,"Discouraging automobile use with road tolls, gas taxes, and vehicle surcharges.",1,1 Strongly Opposed,False
+M8B,252,"Discouraging automobile use with road tolls, gas taxes, and vehicle surcharges.",2,2,False
+M8B,252,"Discouraging automobile use with road tolls, gas taxes, and vehicle surcharges.",3,3,False
+M8B,252,"Discouraging automobile use with road tolls, gas taxes, and vehicle surcharges.",4,4,False
+M8B,252,"Discouraging automobile use with road tolls, gas taxes, and vehicle surcharges.",5,5 Strongly Supportive,False
+M8B,252,"Discouraging automobile use with road tolls, gas taxes, and vehicle surcharges.",99,Do not Know,True
+M8C,253,"Making neighbourhoods more attractive to walkers and cyclists using bike lanes, and speed controls.",1,1 Strongly Opposed,False
+M8C,253,"Making neighbourhoods more attractive to walkers and cyclists using bike lanes, and speed controls.",2,2,False
+M8C,253,"Making neighbourhoods more attractive to walkers and cyclists using bike lanes, and speed controls.",3,3,False
+M8C,253,"Making neighbourhoods more attractive to walkers and cyclists using bike lanes, and speed controls.",4,4,False
+M8C,253,"Making neighbourhoods more attractive to walkers and cyclists using bike lanes, and speed controls.",5,5 Strongly Supportive,False
+M8C,253,"Making neighbourhoods more attractive to walkers and cyclists using bike lanes, and speed controls.",99,Do not Know,True
+M8D,254,"Reducing vehicle emissions with regular testing, and manufacturer emissions standards",1,1 Strongly Opposed,False
+M8D,254,"Reducing vehicle emissions with regular testing, and manufacturer emissions standards",2,2,False
+M8D,254,"Reducing vehicle emissions with regular testing, and manufacturer emissions standards",3,3,False
+M8D,254,"Reducing vehicle emissions with regular testing, and manufacturer emissions standards",4,4,False
+M8D,254,"Reducing vehicle emissions with regular testing, and manufacturer emissions standards",5,5 Strongly Supportive,False
+M8D,254,"Reducing vehicle emissions with regular testing, and manufacturer emissions standards",99,Do not Know,True
+M8E,255,"Making public car-sharing and public transport faster by giving them dedicated traffic lanes, and priority at intersections",1,1 Strongly Opposed,False
+M8E,255,"Making public car-sharing and public transport faster by giving them dedicated traffic lanes, and priority at intersections",2,2,False
+M8E,255,"Making public car-sharing and public transport faster by giving them dedicated traffic lanes, and priority at intersections",3,3,False
+M8E,255,"Making public car-sharing and public transport faster by giving them dedicated traffic lanes, and priority at intersections",4,4,False
+M8E,255,"Making public car-sharing and public transport faster by giving them dedicated traffic lanes, and priority at intersections",5,5 Strongly Supportive,False
+M8E,255,"Making public car-sharing and public transport faster by giving them dedicated traffic lanes, and priority at intersections",99,Do not Know,True
+M8F,256,"Making public transport more attractive by reducing fares, increasing frequency, and expanding route coverage",1,1 Strongly Opposed,False
+M8F,256,"Making public transport more attractive by reducing fares, increasing frequency, and expanding route coverage",2,2,False
+M8F,256,"Making public transport more attractive by reducing fares, increasing frequency, and expanding route coverage",3,3,False
+M8F,256,"Making public transport more attractive by reducing fares, increasing frequency, and expanding route coverage",4,4,False
+M8F,256,"Making public transport more attractive by reducing fares, increasing frequency, and expanding route coverage",5,5 Strongly Supportive,False
+M8F,256,"Making public transport more attractive by reducing fares, increasing frequency, and expanding route coverage",99,Do not Know,True
+M8G,257,"Reducing transportation distances by promoting mixed commercial and residential, an high density development",1,1 Strongly Opposed,False
+M8G,257,"Reducing transportation distances by promoting mixed commercial and residential, an high density development",2,2,False
+M8G,257,"Reducing transportation distances by promoting mixed commercial and residential, an high density development",3,3,False
+M8G,257,"Reducing transportation distances by promoting mixed commercial and residential, an high density development",4,4,False
+M8G,257,"Reducing transportation distances by promoting mixed commercial and residential, an high density development",5,5 Strongly Supportive,False
+M8G,257,"Reducing transportation distances by promoting mixed commercial and residential, an high density development",99,Do not Know,True
+M8H,258,Reducing transportation needs by encouraging compressed workweeks and working from home,1,1 Strongly Opposed,False
+M8H,258,Reducing transportation needs by encouraging compressed workweeks and working from home,2,2,False
+M8H,258,Reducing transportation needs by encouraging compressed workweeks and working from home,3,3,False
+M8H,258,Reducing transportation needs by encouraging compressed workweeks and working from home,4,4,False
+M8H,258,Reducing transportation needs by encouraging compressed workweeks and working from home,5,5 Strongly Supportive,False
+M8H,258,Reducing transportation needs by encouraging compressed workweeks and working from home,99,Do not Know,True
+M9A,259,Traffic congestion you experience while driving,1,1 Not at all Important,False
+M9A,259,Traffic congestion you experience while driving,2,2,False
+M9A,259,Traffic congestion you experience while driving,3,3,False
+M9A,259,Traffic congestion you experience while driving,4,4,False
+M9A,259,Traffic congestion you experience while driving,5,5 Very Important,False
+M9A,259,Traffic congestion you experience while driving,99,Do not Know,True
+M9B,260,Traffic noise you perceive at home or doing your activities,1,1 Not at all Important,False
+M9B,260,Traffic noise you perceive at home or doing your activities,2,2,False
+M9B,260,Traffic noise you perceive at home or doing your activities,3,3,False
+M9B,260,Traffic noise you perceive at home or doing your activities,4,4,False
+M9B,260,Traffic noise you perceive at home or doing your activities,5,5 Very Important,False
+M9B,260,Traffic noise you perceive at home or doing your activities,99,Do not Know,True
+M9C,261,Excessive presence of vehicles occupying urban spaces,1,1 Not at all Important,False
+M9C,261,Excessive presence of vehicles occupying urban spaces,2,2,False
+M9C,261,Excessive presence of vehicles occupying urban spaces,3,3,False
+M9C,261,Excessive presence of vehicles occupying urban spaces,4,4,False
+M9C,261,Excessive presence of vehicles occupying urban spaces,5,5 Very Important,False
+M9C,261,Excessive presence of vehicles occupying urban spaces,99,Do not Know,True
+M9D,262,"Vehicle emissions, which impact local air quality",1,1 Not at all Important,False
+M9D,262,"Vehicle emissions, which impact local air quality",2,2,False
+M9D,262,"Vehicle emissions, which impact local air quality",3,3,False
+M9D,262,"Vehicle emissions, which impact local air quality",4,4,False
+M9D,262,"Vehicle emissions, which impact local air quality",5,5 Very Important,False
+M9D,262,"Vehicle emissions, which impact local air quality",99,Do not Know,True
+M9E,263,Accidents caused by aggressive or absent minded drivers,1,1 Not at all Important,False
+M9E,263,Accidents caused by aggressive or absent minded drivers,2,2,False
+M9E,263,Accidents caused by aggressive or absent minded drivers,3,3,False
+M9E,263,Accidents caused by aggressive or absent minded drivers,4,4,False
+M9E,263,Accidents caused by aggressive or absent minded drivers,5,5 Very Important,False
+M9E,263,Accidents caused by aggressive or absent minded drivers,99,Do not Know,True
+M9F,264,"Vehicle emissions, which contribute to global warming",1,1 Not at all Important,False
+M9F,264,"Vehicle emissions, which contribute to global warming",2,2,False
+M9F,264,"Vehicle emissions, which contribute to global warming",3,3,False
+M9F,264,"Vehicle emissions, which contribute to global warming",4,4,False
+M9F,264,"Vehicle emissions, which contribute to global warming",5,5 Very Important,False
+M9F,264,"Vehicle emissions, which contribute to global warming",99,Do not Know,True
+M9G,265,Unsafe communities due to speeding traffic,1,1 Not at all Important,False
+M9G,265,Unsafe communities due to speeding traffic,2,2,False
+M9G,265,Unsafe communities due to speeding traffic,3,3,False
+M9G,265,Unsafe communities due to speeding traffic,4,4,False
+M9G,265,Unsafe communities due to speeding traffic,5,5 Very Important,False
+M9G,265,Unsafe communities due to speeding traffic,99,Do not Know,True
+M10A,266,Parking space,1,1 Very Low,False
+M10A,266,Parking space,2,2,False
+M10A,266,Parking space,3,3,False
+M10A,266,Parking space,4,4,False
+M10A,266,Parking space,5,5 Very High,False
+M10A,266,Parking space,6,Not applicable,False
+M10A,266,Parking space,99,Do not Know,True
+M10B,267,Public transport timetables,1,1 Very Low,False
+M10B,267,Public transport timetables,2,2,False
+M10B,267,Public transport timetables,3,3,False
+M10B,267,Public transport timetables,4,4,False
+M10B,267,Public transport timetables,5,5 Very High,False
+M10B,267,Public transport timetables,6,Not applicable,False
+M10B,267,Public transport timetables,99,Do not Know,True
+M10C,268,Public transport coverage,1,1 Very Low,False
+M10C,268,Public transport coverage,2,2,False
+M10C,268,Public transport coverage,3,3,False
+M10C,268,Public transport coverage,4,4,False
+M10C,268,Public transport coverage,5,5 Very High,False
+M10C,268,Public transport coverage,6,Not applicable,False
+M10C,268,Public transport coverage,99,Do not Know,True
+M10D,269,Bike lanes,1,1 Very Low,False
+M10D,269,Bike lanes,2,2,False
+M10D,269,Bike lanes,3,3,False
+M10D,269,Bike lanes,4,4,False
+M10D,269,Bike lanes,5,5 Very High,False
+M10D,269,Bike lanes,6,Not applicable,False
+M10D,269,Bike lanes,99,Do not Know,True
+M10E,270,Pedestrian lanes,1,1 Very Low,False
+M10E,270,Pedestrian lanes,2,2,False
+M10E,270,Pedestrian lanes,3,3,False
+M10E,270,Pedestrian lanes,4,4,False
+M10E,270,Pedestrian lanes,5,5 Very High,False
+M10E,270,Pedestrian lanes,6,Not applicable,False
+M10E,270,Pedestrian lanes,99,Do not Know,True
+M10F,271,Public shared-bikes,1,1 Very Low,False
+M10F,271,Public shared-bikes,2,2,False
+M10F,271,Public shared-bikes,3,3,False
+M10F,271,Public shared-bikes,4,4,False
+M10F,271,Public shared-bikes,5,5 Very High,False
+M10F,271,Public shared-bikes,6,Not applicable,False
+M10F,271,Public shared-bikes,99,Do not Know,True
+M10G,272,Public shared-cars,1,1 Very Low,False
+M10G,272,Public shared-cars,2,2,False
+M10G,272,Public shared-cars,3,3,False
+M10G,272,Public shared-cars,4,4,False
+M10G,272,Public shared-cars,5,5 Very High,False
+M10G,272,Public shared-cars,6,Not applicable,False
+M10G,272,Public shared-cars,99,Do not Know,True
+M11,273,Could you precise your municipality?,,,False
+P1,274,"If you have an installation for generation of electricity on site, is it connected to the public electricity grid, allowing you to sell the surplus electricity to the utility company?",1,Yes,False
+P1,274,"If you have an installation for generation of electricity on site, is it connected to the public electricity grid, allowing you to sell the surplus electricity to the utility company?",2,No,False
+P1,274,"If you have an installation for generation of electricity on site, is it connected to the public electricity grid, allowing you to sell the surplus electricity to the utility company?",99,Do not Know,True
+P2A1,275,Neighbours,0,Not Mentioned,False
+P2A1,275,Neighbours,1,Mentioned,False
+P2A2,276,Family/friends/colleagues,0,Not Mentioned,False
+P2A2,276,Family/friends/colleagues,1,Mentioned,False
+P2A3,277,Persons I/we know in the business,0,Not Mentioned,False
+P2A3,277,Persons I/we know in the business,1,Mentioned,False
+P2A4,278,Advertisements,0,Not Mentioned,False
+P2A4,278,Advertisements,1,Mentioned,False
+P2A5,279,Called upon by a vendor of PV systems,0,Not Mentioned,False
+P2A5,279,Called upon by a vendor of PV systems,1,Mentioned,False
+P2A6,280,Called upon by a Distribution System Operator/Power supplier,0,Not Mentioned,False
+P2A6,280,Called upon by a Distribution System Operator/Power supplier,1,Mentioned,False
+P2A7,281,Performed own investigations,0,Not Mentioned,False
+P2A7,281,Performed own investigations,1,Mentioned,False
+P2A8,282,Authorities,0,Not Mentioned,False
+P2A8,282,Authorities,1,Mentioned,False
+P2A9,283,Other,0,Not Mentioned,False
+P2A9,283,Other,1,Mentioned,False
+P2A99,284,Do not know,0,Not Mentioned,False
+P2A99,284,Do not know,1,Mentioned,False
+P2A9_Other,285,Other - TEXT,,,False
+P3,286,For how long have you had a solar photovoltaic (PV) system (approximately)?,1,Less than 1 year,False
+P3,286,For how long have you had a solar photovoltaic (PV) system (approximately)?,2,1-2 years,False
+P3,286,For how long have you had a solar photovoltaic (PV) system (approximately)?,3,3-5 years,False
+P3,286,For how long have you had a solar photovoltaic (PV) system (approximately)?,4,More than 5 years,False
+P3,286,For how long have you had a solar photovoltaic (PV) system (approximately)?,99,Do not Know,True
+P4A1,287,Interest in the technology,0,Not Mentioned,False
+P4A1,287,Interest in the technology,1,Mentioned,False
+P4A2,288,Want to get experience with the technology (Work with similar topic),0,Not Mentioned,False
+P4A2,288,Want to get experience with the technology (Work with similar topic),1,Mentioned,False
+P4A3,289,Want to save money on future,0,Not Mentioned,False
+P4A3,289,Want to save money on future,1,Mentioned,False
+P4A4,290,Want to contribute to a better environment,0,Not Mentioned,False
+P4A4,290,Want to contribute to a better environment,1,Mentioned,False
+P4A5,291,Want to contribute to an increase of the market for PV systems,0,Not Mentioned,False
+P4A5,291,Want to contribute to an increase of the market for PV systems,1,Mentioned,False
+P4A6,292,Want to have a larger independency from central power retailers,0,Not Mentioned,False
+P4A6,292,Want to have a larger independency from central power retailers,1,Mentioned,False
+P4A7,293,"Other, please specify",0,Not Mentioned,False
+P4A7,293,"Other, please specify",1,Mentioned,False
+P4A99,294,Do not know,0,Not Mentioned,False
+P4A99,294,Do not know,1,Mentioned,False
+P4A7_Other,295,"Other, please specify - TEXT",,,False
+P5A,296,Acquisition of the PV system,1,Myself,False
+P5A,296,Acquisition of the PV system,2,Partner male,False
+P5A,296,Acquisition of the PV system,3,Partner female,False
+P5A,296,Acquisition of the PV system,4,Other,False
+P5A,296,Acquisition of the PV system,5,Split between several,False
+P5A,296,Acquisition of the PV system,99,Do not know,True
+P5B,297,Installation,1,Myself,False
+P5B,297,Installation,2,Partner male,False
+P5B,297,Installation,3,Partner female,False
+P5B,297,Installation,4,Other,False
+P5B,297,Installation,5,Split between several,False
+P5B,297,Installation,99,Do not know,True
+P5C,298,Information about generated electricity,1,Myself,False
+P5C,298,Information about generated electricity,2,Partner male,False
+P5C,298,Information about generated electricity,3,Partner female,False
+P5C,298,Information about generated electricity,4,Other,False
+P5C,298,Information about generated electricity,5,Split between several,False
+P5C,298,Information about generated electricity,99,Do not know,True
+P5D,299,Contacts with vendor,1,Myself,False
+P5D,299,Contacts with vendor,2,Partner male,False
+P5D,299,Contacts with vendor,3,Partner female,False
+P5D,299,Contacts with vendor,4,Other,False
+P5D,299,Contacts with vendor,5,Split between several,False
+P5D,299,Contacts with vendor,99,Do not know,True
+P6,300,Do you consider installing a solar photovoltaic (PV) system at your home / premises in near future?,1,Yes,False
+P6,300,Do you consider installing a solar photovoltaic (PV) system at your home / premises in near future?,2,No,False
+P6,300,Do you consider installing a solar photovoltaic (PV) system at your home / premises in near future?,99,Do not Know,True
+P7A1,301,I already have,0,Not Mentioned,False
+P7A1,301,I already have,1,Mentioned,False
+P7A2,302,Do not know about the possibility,0,Not Mentioned,False
+P7A2,302,Do not know about the possibility,1,Mentioned,False
+P7A3,303,Conditions are unsuitable,0,Not Mentioned,False
+P7A3,303,Conditions are unsuitable,1,Mentioned,False
+P7A4,304,Happy with today's solution,0,Not Mentioned,False
+P7A4,304,Happy with today's solution,1,Mentioned,False
+P7A5,305,Not sure about todays regulations and support schemes,0,Not Mentioned,False
+P7A5,305,Not sure about todays regulations and support schemes,1,Mentioned,False
+P7A6,306,Nor sure about the technology,0,Not Mentioned,False
+P7A6,306,Nor sure about the technology,1,Mentioned,False
+P7A7,307,Not sure about the installation,0,Not Mentioned,False
+P7A7,307,Not sure about the installation,1,Mentioned,False
+P7A8,308,Not sure about the process to do this,0,Not Mentioned,False
+P7A8,308,Not sure about the process to do this,1,Mentioned,False
+P7A9,309,Too expensive,0,Not Mentioned,False
+P7A9,309,Too expensive,1,Mentioned,False
+P7A10,310,Too time consuming,0,Not Mentioned,False
+P7A10,310,Too time consuming,1,Mentioned,False
+P7A11,311,The house is unsuitable,0,Not Mentioned,False
+P7A11,311,The house is unsuitable,1,Mentioned,False
+P7A12,312,Dependent on other,0,Not Mentioned,False
+P7A12,312,Dependent on other,1,Mentioned,False
+P7A13,313,Doubt that the municipal will accept this,0,Not Mentioned,False
+P7A13,313,Doubt that the municipal will accept this,1,Mentioned,False
+P7A14,314,Doubt that the Distribution System Operator will be positive,0,Not Mentioned,False
+P7A14,314,Doubt that the Distribution System Operator will be positive,1,Mentioned,False
+P7A15,315,Not sure about the environmental effect,0,Not Mentioned,False
+P7A15,315,Not sure about the environmental effect,1,Mentioned,False
+P7A16,316,"Other, please specify",0,Not Mentioned,False
+P7A16,316,"Other, please specify",1,Mentioned,False
+P7A99,317,Don’t know,0,Not Mentioned,False
+P7A99,317,Don’t know,1,Mentioned,False
+P7A16_Other,318,"Other, please specify - TEXT",,,False
+P8A,319,Interest in the technology,1,Very little,False
+P8A,319,Interest in the technology,2,Quite little,False
+P8A,319,Interest in the technology,3,Neither little or much,False
+P8A,319,Interest in the technology,4,Quite much,False
+P8A,319,Interest in the technology,5,Very much,False
+P8A,319,Interest in the technology,99,Do not know,True
+P8B,320,Want to gel experience with the technology,1,Very little,False
+P8B,320,Want to gel experience with the technology,2,Quite little,False
+P8B,320,Want to gel experience with the technology,3,Neither little or much,False
+P8B,320,Want to gel experience with the technology,4,Quite much,False
+P8B,320,Want to gel experience with the technology,5,Very much,False
+P8B,320,Want to gel experience with the technology,99,Do not know,True
+P8C,321,Want to save money on future electricity costs,1,Very little,False
+P8C,321,Want to save money on future electricity costs,2,Quite little,False
+P8C,321,Want to save money on future electricity costs,3,Neither little or much,False
+P8C,321,Want to save money on future electricity costs,4,Quite much,False
+P8C,321,Want to save money on future electricity costs,5,Very much,False
+P8C,321,Want to save money on future electricity costs,99,Do not know,True
+P8D,322,Want to contribute to a better environment,1,Very little,False
+P8D,322,Want to contribute to a better environment,2,Quite little,False
+P8D,322,Want to contribute to a better environment,3,Neither little or much,False
+P8D,322,Want to contribute to a better environment,4,Quite much,False
+P8D,322,Want to contribute to a better environment,5,Very much,False
+P8D,322,Want to contribute to a better environment,99,Do not know,True
+P8E,323,Want to contribute to an increase of the market for PV systems,1,Very little,False
+P8E,323,Want to contribute to an increase of the market for PV systems,2,Quite little,False
+P8E,323,Want to contribute to an increase of the market for PV systems,3,Neither little or much,False
+P8E,323,Want to contribute to an increase of the market for PV systems,4,Quite much,False
+P8E,323,Want to contribute to an increase of the market for PV systems,5,Very much,False
+P8E,323,Want to contribute to an increase of the market for PV systems,99,Do not know,True
+P8F,324,Want to have a larger independency from central power retailers,1,Very little,False
+P8F,324,Want to have a larger independency from central power retailers,2,Quite little,False
+P8F,324,Want to have a larger independency from central power retailers,3,Neither little or much,False
+P8F,324,Want to have a larger independency from central power retailers,4,Quite much,False
+P8F,324,Want to have a larger independency from central power retailers,5,Very much,False
+P8F,324,Want to have a larger independency from central power retailers,99,Do not know,True
+P8G,325,Other,1,Very little,False
+P8G,325,Other,2,Quite little,False
+P8G,325,Other,3,Neither little or much,False
+P8G,325,Other,4,Quite much,False
+P8G,325,Other,5,Very much,False
+P8G,325,Other,99,Do not know,True
+P8G_Other,326,What was that?Please mention only one additional factor,,,False
+C1A,327,Winter temperature,1,24 C° or above,False
+C1A,327,Winter temperature,2,22-23 C°,False
+C1A,327,Winter temperature,3,20-21 C°,False
+C1A,327,Winter temperature,4,18-19 C°,False
+C1A,327,Winter temperature,5,17 C° or below,False
+C1A,327,Winter temperature,99,Do not know,True
+C1B,328,Summer temperature,1,24 C° or above,False
+C1B,328,Summer temperature,2,22-23 C°,False
+C1B,328,Summer temperature,3,20-21 C°,False
+C1B,328,Summer temperature,4,18-19 C°,False
+C1B,328,Summer temperature,5,17 C° or below,False
+C1B,328,Summer temperature,99,Do not know,True
+C2,329,Do you use air conditioner to cool your dwelling?  ,1,Yes,False
+C2,329,Do you use air conditioner to cool your dwelling?  ,2,No,False
+C2,329,Do you use air conditioner to cool your dwelling?  ,99,Do not Know,True
+C2A,330,Approximately what percentage of your electricity bill does cooling account for?,999,Do not Know,True
+C3,331,Which of the following best describes the way you heat your dwelling?,1,The room temperature is the same in all the rooms.,False
+C3,331,Which of the following best describes the way you heat your dwelling?,2,We heat only the rooms that are in use.,False
+C3,331,Which of the following best describes the way you heat your dwelling?,99,Do not Know,True
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,1,Not at all,False
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,2,Not really,False
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,3,Neutral,False
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,4,Somewhat,False
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,5,Very much,False
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,6,Not applicable,False
+C4A,332, I don’t have the money to invest into refurbishment or supplementary insulation.,99,Do not know,True
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,1,Not at all,False
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,2,Not really,False
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,3,Neutral,False
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,4,Somewhat,False
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,5,Very much,False
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,6,Not applicable,False
+C4B,333, I cannot get a loan with favourable conditions to upgrade my heating system or insulate the house.,99,Do not know,True
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,1,Not at all,False
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,2,Not really,False
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,3,Neutral,False
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,4,Somewhat,False
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,5,Very much,False
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,6,Not applicable,False
+C4C,334,There is no subsidy available which would allow me to invest in refurbishment.,99,Do not know,True
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,1,Not at all,False
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,2,Not really,False
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,3,Neutral,False
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,4,Somewhat,False
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,5,Very much,False
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,6,Not applicable,False
+C4D,335,I cannot calculate the payback of my investment in refurbishment/ renewable technology.,99,Do not know,True
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",1,Not at all,False
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",2,Not really,False
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",3,Neutral,False
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",4,Somewhat,False
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",5,Very much,False
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",6,Not applicable,False
+C4E,336,"My dwelling is too large for my family, with high heating costs, but I don’t want/can’t afford to move to another place.",99,Do not know,True
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",1,Not at all,False
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",2,Not really,False
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",3,Neutral,False
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",4,Somewhat,False
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",5,Very much,False
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",6,Not applicable,False
+C4F,337,"In the dwelling where I live, the owner and the tenant is not the same person, and at least one does not want to invest in energy-saving measures.",99,Do not know,True
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",1,Not at all,False
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",2,Not really,False
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",3,Neutral,False
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",4,Somewhat,False
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",5,Very much,False
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",6,Not applicable,False
+C4G,338," I spend a lot of time in my dwelling, so I cannot lower the temperature during daytime.",99,Do not know,True
+C4H,339,I don’t have individual metering in my dwelling.,1,Not at all,False
+C4H,339,I don’t have individual metering in my dwelling.,2,Not really,False
+C4H,339,I don’t have individual metering in my dwelling.,3,Neutral,False
+C4H,339,I don’t have individual metering in my dwelling.,4,Somewhat,False
+C4H,339,I don’t have individual metering in my dwelling.,5,Very much,False
+C4H,339,I don’t have individual metering in my dwelling.,6,Not applicable,False
+C4H,339,I don’t have individual metering in my dwelling.,99,Do not know,True
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",1,Not at all,False
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",2,Not really,False
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",3,Neutral,False
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",4,Somewhat,False
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",5,Very much,False
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",6,Not applicable,False
+C4I,340,"It is not worth to refurbish my old and inefficient dwelling, because construction works would be very expensive relative to the value of the dwelling.",99,Do not know,True
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",1,Not at all,False
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",2,Not really,False
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",3,Neutral,False
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",4,Somewhat,False
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",5,Very much,False
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",6,Not applicable,False
+C4J,341,"Besides my own energy consumption habits, my energy bill also depends on the energy consumption of other households in the house.",99,Do not know,True
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",1,Not at all,False
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",2,Not really,False
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",3,Neutral,False
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",4,Somewhat,False
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",5,Very much,False
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",6,Not applicable,False
+C4K,342,"Refurbishing our block of flats needs the consent and financial contribution of all tenants, which is difficult to obtain.",99,Do not know,True
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",1,Not at all,False
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",2,Not really,False
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",3,Neutral,False
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",4,Somewhat,False
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",5,Very much,False
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",6,Not applicable,False
+C4L,343,"I live in an old building, in which the refurbishment possibilities are limited and might need special permits due to monument protection.",99,Do not know,True
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,1,Not at all,False
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,2,Not really,False
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,3,Neutral,False
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,4,Somewhat,False
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,5,Very much,False
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,6,Not applicable,False
+C4M,344,I think that the renovation would be burdensome as it involves noise and the presence of workers.,99,Do not know,True
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,1,Not at all,False
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,2,Not really,False
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,3,Neutral,False
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,4,Somewhat,False
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,5,Very much,False
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,6,Not applicable,False
+C5A,345, I don’t get frequent enough feedback on my actual energy consumption.,99,Do not know,True
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,1,Not at all,False
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,2,Not really,False
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,3,Neutral,False
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,4,Somewhat,False
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,5,Very much,False
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,6,Not applicable,False
+C5B,346,I don’t pay much for heating; paying the bill is not a problem for me.,99,Do not know,True
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",1,Not at all,False
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",2,Not really,False
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",3,Neutral,False
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",4,Somewhat,False
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",5,Very much,False
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",6,Not applicable,False
+C5C,347,"My energy bill is too complicated, I cannot interpret it.",99,Do not know,True
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,1,Not at all,False
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,2,Not really,False
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,3,Neutral,False
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,4,Somewhat,False
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,5,Very much,False
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,6,Not applicable,False
+C5D,348,I use my garbage for heating so I’ve already managed to reduce my energy bill.,99,Do not know,True
+C5E,349,I have already done what I could to reduce my energy bill.,1,Not at all,False
+C5E,349,I have already done what I could to reduce my energy bill.,2,Not really,False
+C5E,349,I have already done what I could to reduce my energy bill.,3,Neutral,False
+C5E,349,I have already done what I could to reduce my energy bill.,4,Somewhat,False
+C5E,349,I have already done what I could to reduce my energy bill.,5,Very much,False
+C5E,349,I have already done what I could to reduce my energy bill.,6,Not applicable,False
+C5E,349,I have already done what I could to reduce my energy bill.,99,Do not know,True
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,1,Not at all,False
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,2,Not really,False
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,3,Neutral,False
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,4,Somewhat,False
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,5,Very much,False
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,6,Not applicable,False
+C5F,350,I feel discouraged because my neighbours are not energy-conscious.,99,Do not know,True
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",1,Not at all,False
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",2,Not really,False
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",3,Neutral,False
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",4,Somewhat,False
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",5,Very much,False
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",6,Not applicable,False
+C5G,351,"I can control the room temperature in my house, but I often forget to turn down the heating at night or when I am away from home.",99,Do not know,True
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",1,Not at all,False
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",2,Not really,False
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",3,Neutral,False
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",4,Somewhat,False
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",5,Very much,False
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",6,Not applicable,False
+C5H,352,"I plan to save heating costs, but always tend to postpone my saving plans.",99,Do not know,True
+C5I,353,I’m annoyed of my neighbours heating with garbage.,1,Not at all,False
+C5I,353,I’m annoyed of my neighbours heating with garbage.,2,Not really,False
+C5I,353,I’m annoyed of my neighbours heating with garbage.,3,Neutral,False
+C5I,353,I’m annoyed of my neighbours heating with garbage.,4,Somewhat,False
+C5I,353,I’m annoyed of my neighbours heating with garbage.,5,Very much,False
+C5I,353,I’m annoyed of my neighbours heating with garbage.,6,Not applicable,False
+C5I,353,I’m annoyed of my neighbours heating with garbage.,99,Do not know,True
+C6A,354,Receiving feedback on your energy consumption comparable to previous periods or to your neighbourhood/similar households.,1,Not at all,False
+C6A,354,Receiving feedback on your energy consumption comparable to previous periods or to your neighbourhood/similar households.,2,Not really,False
+C6A,354,Receiving feedback on your energy consumption comparable to previous periods or to your neighbourhood/similar households.,3,Neutral,False
+C6A,354,Receiving feedback on your energy consumption comparable to previous periods or to your neighbourhood/similar households.,4,Somewhat,False
+C6A,354,Receiving feedback on your energy consumption comparable to previous periods or to your neighbourhood/similar households.,5,Very much,False
+C6A,354,Receiving feedback on your energy consumption comparable to previous periods or to your neighbourhood/similar households.,9,Do not know,True
+C6B,355,Receiving more information on smart and easy techniques leading to lower energy consumption.,1,Not at all,False
+C6B,355,Receiving more information on smart and easy techniques leading to lower energy consumption.,2,Not really,False
+C6B,355,Receiving more information on smart and easy techniques leading to lower energy consumption.,3,Neutral,False
+C6B,355,Receiving more information on smart and easy techniques leading to lower energy consumption.,4,Somewhat,False
+C6B,355,Receiving more information on smart and easy techniques leading to lower energy consumption.,5,Very much,False
+C6B,355,Receiving more information on smart and easy techniques leading to lower energy consumption.,9,Do not know,True
+C6C,356,More frequent measuring and billing provided by your energy supplier.,1,Not at all,False
+C6C,356,More frequent measuring and billing provided by your energy supplier.,2,Not really,False
+C6C,356,More frequent measuring and billing provided by your energy supplier.,3,Neutral,False
+C6C,356,More frequent measuring and billing provided by your energy supplier.,4,Somewhat,False
+C6C,356,More frequent measuring and billing provided by your energy supplier.,5,Very much,False
+C6C,356,More frequent measuring and billing provided by your energy supplier.,9,Do not know,True
+C6D,357,Receiving regular energy-saving tips and reminders from your supplier to conduct energy-saving actions.,1,Not at all,False
+C6D,357,Receiving regular energy-saving tips and reminders from your supplier to conduct energy-saving actions.,2,Not really,False
+C6D,357,Receiving regular energy-saving tips and reminders from your supplier to conduct energy-saving actions.,3,Neutral,False
+C6D,357,Receiving regular energy-saving tips and reminders from your supplier to conduct energy-saving actions.,4,Somewhat,False
+C6D,357,Receiving regular energy-saving tips and reminders from your supplier to conduct energy-saving actions.,5,Very much,False
+C6D,357,Receiving regular energy-saving tips and reminders from your supplier to conduct energy-saving actions.,9,Do not know,True
+C7A,358,"Energy saving counsellor program, getting targeted advice on energy savings possibilities from independent experts.",1,Not at all,False
+C7A,358,"Energy saving counsellor program, getting targeted advice on energy savings possibilities from independent experts.",2,Not really,False
+C7A,358,"Energy saving counsellor program, getting targeted advice on energy savings possibilities from independent experts.",3,Neutral,False
+C7A,358,"Energy saving counsellor program, getting targeted advice on energy savings possibilities from independent experts.",4,Somewhat,False
+C7A,358,"Energy saving counsellor program, getting targeted advice on energy savings possibilities from independent experts.",5,Very much,False
+C7A,358,"Energy saving counsellor program, getting targeted advice on energy savings possibilities from independent experts.",9,Do not know,True
+C7B,359,"Household energy saving advices in the media including information on energy-saving options (information about best practices, subsidies, technological options, financial constructs (loan etc.))",1,Not at all,False
+C7B,359,"Household energy saving advices in the media including information on energy-saving options (information about best practices, subsidies, technological options, financial constructs (loan etc.))",2,Not really,False
+C7B,359,"Household energy saving advices in the media including information on energy-saving options (information about best practices, subsidies, technological options, financial constructs (loan etc.))",3,Neutral,False
+C7B,359,"Household energy saving advices in the media including information on energy-saving options (information about best practices, subsidies, technological options, financial constructs (loan etc.))",4,Somewhat,False
+C7B,359,"Household energy saving advices in the media including information on energy-saving options (information about best practices, subsidies, technological options, financial constructs (loan etc.))",5,Very much,False
+C7B,359,"Household energy saving advices in the media including information on energy-saving options (information about best practices, subsidies, technological options, financial constructs (loan etc.))",9,Do not know,True
+C7C,360,Opportunity for refurbishing dwellings with the help of an energy service company or the energy supplier in a way that the resulting energy-savings finance the investment.,1,Not at all,False
+C7C,360,Opportunity for refurbishing dwellings with the help of an energy service company or the energy supplier in a way that the resulting energy-savings finance the investment.,2,Not really,False
+C7C,360,Opportunity for refurbishing dwellings with the help of an energy service company or the energy supplier in a way that the resulting energy-savings finance the investment.,3,Neutral,False
+C7C,360,Opportunity for refurbishing dwellings with the help of an energy service company or the energy supplier in a way that the resulting energy-savings finance the investment.,4,Somewhat,False
+C7C,360,Opportunity for refurbishing dwellings with the help of an energy service company or the energy supplier in a way that the resulting energy-savings finance the investment.,5,Very much,False
+C7C,360,Opportunity for refurbishing dwellings with the help of an energy service company or the energy supplier in a way that the resulting energy-savings finance the investment.,9,Do not know,True
+C7D,361,"Refurbishing houses with the help of the local community or organisations in the construction works, at an affordable price.",1,Not at all,False
+C7D,361,"Refurbishing houses with the help of the local community or organisations in the construction works, at an affordable price.",2,Not really,False
+C7D,361,"Refurbishing houses with the help of the local community or organisations in the construction works, at an affordable price.",3,Neutral,False
+C7D,361,"Refurbishing houses with the help of the local community or organisations in the construction works, at an affordable price.",4,Somewhat,False
+C7D,361,"Refurbishing houses with the help of the local community or organisations in the construction works, at an affordable price.",5,Very much,False
+C7D,361,"Refurbishing houses with the help of the local community or organisations in the construction works, at an affordable price.",9,Do not know,True
+C7E,362,Information on the availability of national energy efficiency grants and assistance with the applications.,1,Not at all,False
+C7E,362,Information on the availability of national energy efficiency grants and assistance with the applications.,2,Not really,False
+C7E,362,Information on the availability of national energy efficiency grants and assistance with the applications.,3,Neutral,False
+C7E,362,Information on the availability of national energy efficiency grants and assistance with the applications.,4,Somewhat,False
+C7E,362,Information on the availability of national energy efficiency grants and assistance with the applications.,5,Very much,False
+C7E,362,Information on the availability of national energy efficiency grants and assistance with the applications.,9,Do not know,True
+C7F,363,"Expanding the energy subsidies’ program (e.g. financial aid for covering your heating bills, or providing free firewood for the deprived)",1,Not at all,False
+C7F,363,"Expanding the energy subsidies’ program (e.g. financial aid for covering your heating bills, or providing free firewood for the deprived)",2,Not really,False
+C7F,363,"Expanding the energy subsidies’ program (e.g. financial aid for covering your heating bills, or providing free firewood for the deprived)",3,Neutral,False
+C7F,363,"Expanding the energy subsidies’ program (e.g. financial aid for covering your heating bills, or providing free firewood for the deprived)",4,Somewhat,False
+C7F,363,"Expanding the energy subsidies’ program (e.g. financial aid for covering your heating bills, or providing free firewood for the deprived)",5,Very much,False
+C7F,363,"Expanding the energy subsidies’ program (e.g. financial aid for covering your heating bills, or providing free firewood for the deprived)",9,Do not know,True
+E1,364,How much do you think 1 kWh of electricity currently costs in [COUNTRY] on average? Please indicate your best guess without checking your bill or other resources.,99,Do not know,True
+E2A,365,A TV set for an hour,1,0-19 [cents] [pense],False
+E2A,365,A TV set for an hour,2,20-39 [cents] [pense],False
+E2A,365,A TV set for an hour,3,40-59 [cents] [pense],False
+E2A,365,A TV set for an hour,4,60-79 [cents] [pense],False
+E2A,365,A TV set for an hour,5,80-100 [cents] [pense],False
+E2A,365,A TV set for an hour,6,More than 100 [cents] [pense],False
+E2A,365,A TV set for an hour,99,Do not know,True
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,1,0-19 [cents] [pense],False
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,2,20-39 [cents] [pense],False
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,3,40-59 [cents] [pense],False
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,4,60-79 [cents] [pense],False
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,5,80-100 [cents] [pense],False
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,6,More than 100 [cents] [pense],False
+E2B,366,A washing machine (load of 5kg at 60°C) for an hour,99,Do not know,True
+E3A,367,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",1,Bringing 1 litre of water to a boil in an average pot with lid,False
+E3A,367,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",2,Running a washing machine with a load of 5kg at 60°C,False
+E3A,367,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",3,Both consume about the same,False
+E3A,367,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",99,Do not know,True
+E3B,368,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",1,Bringing 1 litre of water to a boil in an average pot with lid,False
+E3B,368,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",2,Bringing 1 litre of water to a boil in an electric kettle,False
+E3B,368,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",3,Both consume about the same,False
+E3B,368,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",99,Do not know,True
+E3C,369,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",1,Running a tube TV for 1 hour,False
+E3C,369,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",2,Running a flat screen TV for 1 hour,False
+E3C,369,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",3,Both consume about the same,False
+E3C,369,"Assuming an average household in [COUNTRY], which of the following two activities consumes more electricity?",99,Do not know,True
+E4A,370,"They are busy with other, more important, things.",1,1 not at all,False
+E4A,370,"They are busy with other, more important, things.",2,2,False
+E4A,370,"They are busy with other, more important, things.",3,3,False
+E4A,370,"They are busy with other, more important, things.",4,4,False
+E4A,370,"They are busy with other, more important, things.",5,5 very much,False
+E4A,370,"They are busy with other, more important, things.",99,Do not know,True
+E4B,371,They do not know how to save electricity.,1,1 not at all,False
+E4B,371,They do not know how to save electricity.,2,2,False
+E4B,371,They do not know how to save electricity.,3,3,False
+E4B,371,They do not know how to save electricity.,4,4,False
+E4B,371,They do not know how to save electricity.,5,5 very much,False
+E4B,371,They do not know how to save electricity.,99,Do not know,True
+E4C,372,They forget to conduct energy saving actions.,1,1 not at all,False
+E4C,372,They forget to conduct energy saving actions.,2,2,False
+E4C,372,They forget to conduct energy saving actions.,3,3,False
+E4C,372,They forget to conduct energy saving actions.,4,4,False
+E4C,372,They forget to conduct energy saving actions.,5,5 very much,False
+E4C,372,They forget to conduct energy saving actions.,99,Do not know,True
+E4D,373,They tend to postpone their electricity saving plans to tomorrow.,1,1 not at all,False
+E4D,373,They tend to postpone their electricity saving plans to tomorrow.,2,2,False
+E4D,373,They tend to postpone their electricity saving plans to tomorrow.,3,3,False
+E4D,373,They tend to postpone their electricity saving plans to tomorrow.,4,4,False
+E4D,373,They tend to postpone their electricity saving plans to tomorrow.,5,5 very much,False
+E4D,373,They tend to postpone their electricity saving plans to tomorrow.,99,Do not know,True
+E5A1,374,I do not use reminders.,0,Not Mentioned,False
+E5A1,374,I do not use reminders.,1,Mentioned,False
+E5A2,375,Note in calendar or on the fridge,0,Not Mentioned,False
+E5A2,375,Note in calendar or on the fridge,1,Mentioned,False
+E5A3,376,I ask others to remind me.,0,Not Mentioned,False
+E5A3,376,I ask others to remind me.,1,Mentioned,False
+E5A4,377,Mobile phone reminders.,0,Not Mentioned,False
+E5A4,377,Mobile phone reminders.,1,Mentioned,False
+E5A5,378,"Other reminders (please, specify)",0,Not Mentioned,False
+E5A5,378,"Other reminders (please, specify)",1,Mentioned,False
+E5A5_Other,379,"Other, please specify - TEXT",,,False
+E6A1,380,I do not have routines.,0,Not Mentioned,False
+E6A1,380,I do not have routines.,1,Mentioned,False
+E6A2,381, I check each room every time before leaving the house.,0,Not Mentioned,False
+E6A2,381, I check each room every time before leaving the house.,1,Mentioned,False
+E6A3,382,I switch lights off before leaving rooms,0,Not Mentioned,False
+E6A3,382,I switch lights off before leaving rooms,1,Mentioned,False
+E6A4,383,I unplug electronic appliances just after using them.,0,Not Mentioned,False
+E6A4,383,I unplug electronic appliances just after using them.,1,Mentioned,False
+E6A5,384,"Other routines (please, specify)",0,Not Mentioned,False
+E6A5,384,"Other routines (please, specify)",1,Mentioned,False
+E6A5_Other,385,"Other routines (please, specify) - TEXT",,,False
+E7A,386,Is anchored in my practices (through its repetition),1,Strongly Disagree,False
+E7A,386,Is anchored in my practices (through its repetition),2,Mildly Disagree,False
+E7A,386,Is anchored in my practices (through its repetition),3,Neutral,False
+E7A,386,Is anchored in my practices (through its repetition),4,Mildly Agree,False
+E7A,386,Is anchored in my practices (through its repetition),5,Strongly Agree,False
+E7A,386,Is anchored in my practices (through its repetition),99,Do not know,True
+E7B,387,I do it while thinking about something else,1,Strongly Disagree,False
+E7B,387,I do it while thinking about something else,2,Mildly Disagree,False
+E7B,387,I do it while thinking about something else,3,Neutral,False
+E7B,387,I do it while thinking about something else,4,Mildly Agree,False
+E7B,387,I do it while thinking about something else,5,Strongly Agree,False
+E7B,387,I do it while thinking about something else,99,Do not know,True
+E7C,388,I perform without being fully aware of it,1,Strongly Disagree,False
+E7C,388,I perform without being fully aware of it,2,Mildly Disagree,False
+E7C,388,I perform without being fully aware of it,3,Neutral,False
+E7C,388,I perform without being fully aware of it,4,Mildly Agree,False
+E7C,388,I perform without being fully aware of it,5,Strongly Agree,False
+E7C,388,I perform without being fully aware of it,99,Do not know,True
+E7D,389,Would be difficult to change (as it would require a lot of effort),1,Strongly Disagree,False
+E7D,389,Would be difficult to change (as it would require a lot of effort),2,Mildly Disagree,False
+E7D,389,Would be difficult to change (as it would require a lot of effort),3,Neutral,False
+E7D,389,Would be difficult to change (as it would require a lot of effort),4,Mildly Agree,False
+E7D,389,Would be difficult to change (as it would require a lot of effort),5,Strongly Agree,False
+E7D,389,Would be difficult to change (as it would require a lot of effort),99,Do not know,True
+E7E,390,I do consciously because other behaviour is too effortful for me,1,Strongly Disagree,False
+E7E,390,I do consciously because other behaviour is too effortful for me,2,Mildly Disagree,False
+E7E,390,I do consciously because other behaviour is too effortful for me,3,Neutral,False
+E7E,390,I do consciously because other behaviour is too effortful for me,4,Mildly Agree,False
+E7E,390,I do consciously because other behaviour is too effortful for me,5,Strongly Agree,False
+E7E,390,I do consciously because other behaviour is too effortful for me,99,Do not know,True
+G1A1,391,You have bought a new car and its low fuel consumption was an important factor in your choice,0,Not Mentioned,False
+G1A1,391,You have bought a new car and its low fuel consumption was an important factor in your choice,1,Mentioned,False
+G1A2,392,"You regularly use environmentally-friendly alternatives to using your private car such as walking, biking, taking public transport or car-sharing",0,Not Mentioned,False
+G1A2,392,"You regularly use environmentally-friendly alternatives to using your private car such as walking, biking, taking public transport or car-sharing",1,Mentioned,False
+G1A3,393,"When buying a new household appliance e.g. washing machine or fridge, you choose it mainly because it was more energy efficient than other models",0,Not Mentioned,False
+G1A3,393,"When buying a new household appliance e.g. washing machine or fridge, you choose it mainly because it was more energy efficient than other models",1,Mentioned,False
+G1A4,394,You have switched to an energy supplier which offers a greater share of energy from renewable sources than your previous one  ,0,Not Mentioned,False
+G1A4,394,You have switched to an energy supplier which offers a greater share of energy from renewable sources than your previous one  ,1,Mentioned,False
+G1A5,395,None of the above,0,Not Mentioned,False
+G1A5,395,None of the above,1,Mentioned,False
+G2A1,396,"The development of clean energy sources, e.g. RES (solar, wind, hydro, biomass)",0,Not Mentioned,False
+G2A1,396,"The development of clean energy sources, e.g. RES (solar, wind, hydro, biomass)",1,Mentioned,False
+G2A2,397,"Price of energy, which is socially acceptable and affordable for all people",0,Not Mentioned,False
+G2A2,397,"Price of energy, which is socially acceptable and affordable for all people",1,Mentioned,False
+G2A3,398,Energy efficiency of private and public buildings,0,Not Mentioned,False
+G2A3,398,Energy efficiency of private and public buildings,1,Mentioned,False
+G2A4,399,"Power, gas and heating prices should be regulated by the government consistent with the living standards in the country.",0,Not Mentioned,False
+G2A4,399,"Power, gas and heating prices should be regulated by the government consistent with the living standards in the country.",1,Mentioned,False
+G2A5,400,"Power markets should be fully liberalized, so that energy prices are dependent only on the market.",0,Not Mentioned,False
+G2A5,400,"Power markets should be fully liberalized, so that energy prices are dependent only on the market.",1,Mentioned,False
+G2A6,401,Phasing-out nuclear power plants (if any) in [COUNTRY] ,0,Not Mentioned,False
+G2A6,401,Phasing-out nuclear power plants (if any) in [COUNTRY] ,1,Mentioned,False
+G3A,402,"Use of energy, generated by RES (e.g. solar, wind, hydro, biomass)",1,Yes,False
+G3A,402,"Use of energy, generated by RES (e.g. solar, wind, hydro, biomass)",2,No,False
+G3A,402,"Use of energy, generated by RES (e.g. solar, wind, hydro, biomass)",3,Do not apply,False
+G3B,403,Use of electric or hybrid cars,1,Yes,False
+G3B,403,Use of electric or hybrid cars,2,No,False
+G3B,403,Use of electric or hybrid cars,3,Do not apply,False
+G3C,404,"Reducing the CO2 emissions, generated by your households",1,Yes,False
+G3C,404,"Reducing the CO2 emissions, generated by your households",2,No,False
+G3C,404,"Reducing the CO2 emissions, generated by your households",3,Do not apply,False
+G3D,405,Improving the energy efficiency,1,Yes,False
+G3D,405,Improving the energy efficiency,2,No,False
+G3D,405,Improving the energy efficiency,3,Do not apply,False
+G3E,406,"Use of motor vehicles, meeting higher environmental standards",1,Yes,False
+G3E,406,"Use of motor vehicles, meeting higher environmental standards",2,No,False
+G3E,406,"Use of motor vehicles, meeting higher environmental standards",3,Do not apply,False
+G4A,407,"Public transport, incl. underground metro if exists",1,It has improved significantly,False
+G4A,407,"Public transport, incl. underground metro if exists",2,It has improved somehow,False
+G4A,407,"Public transport, incl. underground metro if exists",3,There is no change,False
+G4A,407,"Public transport, incl. underground metro if exists",4,It has worsen somehow,False
+G4A,407,"Public transport, incl. underground metro if exists",5,It has worsen significantly,False
+G4A,407,"Public transport, incl. underground metro if exists",6,Do not apply,False
+G4A,407,"Public transport, incl. underground metro if exists",9,Do not know,True
+G4B,408,Bicycle lanes,1,It has improved significantly,False
+G4B,408,Bicycle lanes,2,It has improved somehow,False
+G4B,408,Bicycle lanes,3,There is no change,False
+G4B,408,Bicycle lanes,4,It has worsen somehow,False
+G4B,408,Bicycle lanes,5,It has worsen significantly,False
+G4B,408,Bicycle lanes,6,Do not apply,False
+G4B,408,Bicycle lanes,9,Do not know,True
+G4C,409,Pedestrian zones,1,It has improved significantly,False
+G4C,409,Pedestrian zones,2,It has improved somehow,False
+G4C,409,Pedestrian zones,3,There is no change,False
+G4C,409,Pedestrian zones,4,It has worsen somehow,False
+G4C,409,Pedestrian zones,5,It has worsen significantly,False
+G4C,409,Pedestrian zones,6,Do not apply,False
+G4C,409,Pedestrian zones,9,Do not know,True
+G4D,410,Public shared bicycles,1,It has improved significantly,False
+G4D,410,Public shared bicycles,2,It has improved somehow,False
+G4D,410,Public shared bicycles,3,There is no change,False
+G4D,410,Public shared bicycles,4,It has worsen somehow,False
+G4D,410,Public shared bicycles,5,It has worsen significantly,False
+G4D,410,Public shared bicycles,6,Do not apply,False
+G4D,410,Public shared bicycles,9,Do not know,True
+G4E,411,Public infrastructure for charging electric vehicles,1,It has improved significantly,False
+G4E,411,Public infrastructure for charging electric vehicles,2,It has improved somehow,False
+G4E,411,Public infrastructure for charging electric vehicles,3,There is no change,False
+G4E,411,Public infrastructure for charging electric vehicles,4,It has worsen somehow,False
+G4E,411,Public infrastructure for charging electric vehicles,5,It has worsen significantly,False
+G4E,411,Public infrastructure for charging electric vehicles,6,Do not apply,False
+G4E,411,Public infrastructure for charging electric vehicles,9,Do not know,True
+G5A,412,Cars’ usage in city centres should be severely limited in order to lower the air pollution,1,1  Totally agree,False
+G5A,412,Cars’ usage in city centres should be severely limited in order to lower the air pollution,2,2,False
+G5A,412,Cars’ usage in city centres should be severely limited in order to lower the air pollution,3,3,False
+G5A,412,Cars’ usage in city centres should be severely limited in order to lower the air pollution,4,4,False
+G5A,412,Cars’ usage in city centres should be severely limited in order to lower the air pollution,5,5 Totally disagree,False
+G5A,412,Cars’ usage in city centres should be severely limited in order to lower the air pollution,99,Do not know,True
+G5B,413,Only rich people can afford to install solar panels or another RES for own generation of energy at home,1,1  Totally agree,False
+G5B,413,Only rich people can afford to install solar panels or another RES for own generation of energy at home,2,2,False
+G5B,413,Only rich people can afford to install solar panels or another RES for own generation of energy at home,3,3,False
+G5B,413,Only rich people can afford to install solar panels or another RES for own generation of energy at home,4,4,False
+G5B,413,Only rich people can afford to install solar panels or another RES for own generation of energy at home,5,5 Totally disagree,False
+G5B,413,Only rich people can afford to install solar panels or another RES for own generation of energy at home,99,Do not know,True
+G5C,414,Owners of cars that meet higher environmental standards should pay smaller taxes,1,1  Totally agree,False
+G5C,414,Owners of cars that meet higher environmental standards should pay smaller taxes,2,2,False
+G5C,414,Owners of cars that meet higher environmental standards should pay smaller taxes,3,3,False
+G5C,414,Owners of cars that meet higher environmental standards should pay smaller taxes,4,4,False
+G5C,414,Owners of cars that meet higher environmental standards should pay smaller taxes,5,5 Totally disagree,False
+G5C,414,Owners of cars that meet higher environmental standards should pay smaller taxes,99,Do not know,True
+G5D,415,"I agree to pay higher price for electricity, if it is generated from renewable energy sources",1,1  Totally agree,False
+G5D,415,"I agree to pay higher price for electricity, if it is generated from renewable energy sources",2,2,False
+G5D,415,"I agree to pay higher price for electricity, if it is generated from renewable energy sources",3,3,False
+G5D,415,"I agree to pay higher price for electricity, if it is generated from renewable energy sources",4,4,False
+G5D,415,"I agree to pay higher price for electricity, if it is generated from renewable energy sources",5,5 Totally disagree,False
+G5D,415,"I agree to pay higher price for electricity, if it is generated from renewable energy sources",99,Do not know,True
+G5E,416,"There should be tax exemptions or tax reliefs, if someone buys an electric or hybrid car",1,1  Totally agree,False
+G5E,416,"There should be tax exemptions or tax reliefs, if someone buys an electric or hybrid car",2,2,False
+G5E,416,"There should be tax exemptions or tax reliefs, if someone buys an electric or hybrid car",3,3,False
+G5E,416,"There should be tax exemptions or tax reliefs, if someone buys an electric or hybrid car",4,4,False
+G5E,416,"There should be tax exemptions or tax reliefs, if someone buys an electric or hybrid car",5,5 Totally disagree,False
+G5E,416,"There should be tax exemptions or tax reliefs, if someone buys an electric or hybrid car",99,Do not know,True
+G6A,417,Supporting low-income people to satisfy their energy needs,1,1 Very successful,False
+G6A,417,Supporting low-income people to satisfy their energy needs,2,2,False
+G6A,417,Supporting low-income people to satisfy their energy needs,3,3,False
+G6A,417,Supporting low-income people to satisfy their energy needs,4,4,False
+G6A,417,Supporting low-income people to satisfy their energy needs,5,5 Very unsuccessful,False
+G6A,417,Supporting low-income people to satisfy their energy needs,99a,Do not know,True
+G6B,418,Reducing the CO2 emissions from the industry and the building sector,1,1 Very successful,False
+G6B,418,Reducing the CO2 emissions from the industry and the building sector,2,2,False
+G6B,418,Reducing the CO2 emissions from the industry and the building sector,3,3,False
+G6B,418,Reducing the CO2 emissions from the industry and the building sector,4,4,False
+G6B,418,Reducing the CO2 emissions from the industry and the building sector,5,5 Very unsuccessful,False
+G6B,418,Reducing the CO2 emissions from the industry and the building sector,99a,Do not know,True
+G6C,419,"Increasing the share of energy, generated by RES",1,1 Very successful,False
+G6C,419,"Increasing the share of energy, generated by RES",2,2,False
+G6C,419,"Increasing the share of energy, generated by RES",3,3,False
+G6C,419,"Increasing the share of energy, generated by RES",4,4,False
+G6C,419,"Increasing the share of energy, generated by RES",5,5 Very unsuccessful,False
+G6C,419,"Increasing the share of energy, generated by RES",99a,Do not know,True
+G6D,420,Improving the energy efficiency of the residential sector,1,1 Very successful,False
+G6D,420,Improving the energy efficiency of the residential sector,2,2,False
+G6D,420,Improving the energy efficiency of the residential sector,3,3,False
+G6D,420,Improving the energy efficiency of the residential sector,4,4,False
+G6D,420,Improving the energy efficiency of the residential sector,5,5 Very unsuccessful,False
+G6D,420,Improving the energy efficiency of the residential sector,99a,Do not know,True
+G6E,421,Mitigate the effects of the climate change,1,1 Very successful,False
+G6E,421,Mitigate the effects of the climate change,2,2,False
+G6E,421,Mitigate the effects of the climate change,3,3,False
+G6E,421,Mitigate the effects of the climate change,4,4,False
+G6E,421,Mitigate the effects of the climate change,5,5 Very unsuccessful,False
+G6E,421,Mitigate the effects of the climate change,99a,Do not know,True
+G6F,422,Lowering the energy intensity of the industry,1,1 Very successful,False
+G6F,422,Lowering the energy intensity of the industry,2,2,False
+G6F,422,Lowering the energy intensity of the industry,3,3,False
+G6F,422,Lowering the energy intensity of the industry,4,4,False
+G6F,422,Lowering the energy intensity of the industry,5,5 Very unsuccessful,False
+G6F,422,Lowering the energy intensity of the industry,99a,Do not know,True
+S1Ac1,423,Women - Up to 18 year old,,,False
+S1Ac2,424,Women - 18-65 year old,,,False
+S1Ac3,425,Women - Above 65 year old,,,False
+S1Bc1,426,Men - Up to 18 year old,,,False
+S1Bc2,427,Men - 18-65 year old,,,False
+S1Bc3,428,Men - Above 65 year old,,,False
+S2,429,"What is the highest level of studies, you have completed?",1,No formal education or below primary,False
+S2,429,"What is the highest level of studies, you have completed?",2,Primary education,False
+S2,429,"What is the highest level of studies, you have completed?",3,Secondary  and post-secondary non-tertiary education,False
+S2,429,"What is the highest level of studies, you have completed?",4,"Tertiary education first stage, i.e. bachelor or master",False
+S2,429,"What is the highest level of studies, you have completed?",5,Tertiary education second stage (PhD),False
+S2,429,"What is the highest level of studies, you have completed?",9,Do not know / Refusal,True
+S3,430,What best describes your current employment status?,1,Employed full-time,False
+S3,430,What best describes your current employment status?,2,Employed part-time,False
+S3,430,What best describes your current employment status?,3,Long time not employed (more than 3 months),False
+S3,430,What best describes your current employment status?,4,Retired / pensioner,False
+S3,430,What best describes your current employment status?,5,Student,False
+S3,430,What best describes your current employment status?,6,Other economically inactive person,False
+S3,430,What best describes your current employment status?,99,Do not know,True
+S4,431,What year were you born?,9999,Refusal,True
+S5,432,Gender,1,Male,False
+S5,432,Gender,2,Female,False
+S6,433,Which phrase describes best the area where you live?,1,"A big city (more than 0,5 mln people)",False
+S6,433,Which phrase describes best the area where you live?,2,The suburbs or outskirts of a big city,False
+S6,433,Which phrase describes best the area where you live?,3,A town or a small city,False
+S6,433,Which phrase describes best the area where you live?,4,A country village,False
+S6,433,Which phrase describes best the area where you live?,5,A farm or home in the countryside,False
+S6,433,Which phrase describes best the area where you live?,6,Do not know,True
+S7,434,"Has your household or any member of it received any financial aid from a public institution, which has helped you to pay your energy bills in the last 12 months (incl. so called social tariffs)?",1,Yes,False
+S7,434,"Has your household or any member of it received any financial aid from a public institution, which has helped you to pay your energy bills in the last 12 months (incl. so called social tariffs)?",2,No,False
+S7,434,"Has your household or any member of it received any financial aid from a public institution, which has helped you to pay your energy bills in the last 12 months (incl. so called social tariffs)?",9,Do not know,True
+S7UA1,435,Gas supply,0,Not Mentioned,False
+S7UA1,435,Gas supply,1,Mentioned,False
+S7UA2,436,Electricity supply,0,Not Mentioned,False
+S7UA2,436,Electricity supply,1,Mentioned,False
+S7UA3,437,Heat supply,0,Not Mentioned,False
+S7UA3,437,Heat supply,1,Mentioned,False
+S7UA4,438,Water supply,0,Not Mentioned,False
+S7UA4,438,Water supply,1,Mentioned,False
+S7UA5,439,Other (please specify),0,Not Mentioned,False
+S7UA5,439,Other (please specify),1,Mentioned,False
+S7UA5_Other,440,<none>,,,False
+S8,441,Which of the descriptions bellow comes closest to how you feel about your household’s income nowadays?,1,Living comfortably on present income,False
+S8,441,Which of the descriptions bellow comes closest to how you feel about your household’s income nowadays?,2,Coping on present income,False
+S8,441,Which of the descriptions bellow comes closest to how you feel about your household’s income nowadays?,3,Finding it difficult on present income,False
+S8,441,Which of the descriptions bellow comes closest to how you feel about your household’s income nowadays?,4,Finding it very difficult on present income,False
+S8,441,Which of the descriptions bellow comes closest to how you feel about your household’s income nowadays?,5,Refusal,True
+S8,441,Which of the descriptions bellow comes closest to how you feel about your household’s income nowadays?,99,Do not know,True
+S9MONTH,442,Income bracket per month,1,Bracket 1,False
+S9MONTH,442,Income bracket per month,2,Bracket 2,False
+S9MONTH,442,Income bracket per month,3,Bracket 3,False
+S9MONTH,442,Income bracket per month,4,Bracket 4,False
+S9MONTH,442,Income bracket per month,5,Bracket 5,False
+S9MONTH,442,Income bracket per month,6,Bracket 6,False
+S9MONTH,442,Income bracket per month,7,Bracket 7,False
+S9MONTH,442,Income bracket per month,8,Bracket 8,False
+S9MONTH,442,Income bracket per month,9,Bracket 9,False
+S9MONTH,442,Income bracket per month,10,Bracket 10,False
+S9MONTH,442,Income bracket per month,98,Refused to answer,True
+S9MONTH,442,Income bracket per month,99,Do not know,True
+S9YEAR,443,Income bracket per year,1,Bracket 1,False
+S9YEAR,443,Income bracket per year,2,Bracket 2,False
+S9YEAR,443,Income bracket per year,3,Bracket 3,False
+S9YEAR,443,Income bracket per year,4,Bracket 4,False
+S9YEAR,443,Income bracket per year,5,Bracket 5,False
+S9YEAR,443,Income bracket per year,6,Bracket 6,False
+S9YEAR,443,Income bracket per year,7,Bracket 7,False
+S9YEAR,443,Income bracket per year,8,Bracket 8,False
+S9YEAR,443,Income bracket per year,9,Bracket 9,False
+S9YEAR,443,Income bracket per year,10,Bracket 10,False
+S9YEAR,443,Income bracket per year,98,Refused to answer,True
+S9YEAR,443,Income bracket per year,99,Do not know,True
+w,444,weight,,,False
+filter_$,445,Country = 6 (FILTER),0,Not Selected,False
+filter_$,445,Country = 6 (FILTER),1,Selected,False
+H14A9,446,Nobody offered them,0,Not Mentioned,False
+H14A9,446,Nobody offered them,1,Mentioned,False
+H14A10,447,I do not know what this is,0,Not Mentioned,False
+H14A10,447,I do not know what this is,1,Mentioned,False
+H14A11,448,I am suspicious about these things,0,Not Mentioned,False
+H14A11,448,I am suspicious about these things,1,Mentioned,False
+H14A12,449,I do not decide about this,0,Not Mentioned,False
+H14A12,449,I do not decide about this,1,Mentioned,False
+H14A13,450,I do not need it,0,Not Mentioned,False
+H14A13,450,I do not need it,1,Mentioned,False
+H14A14,451,I plan to start using one soon,0,Not Mentioned,False
+H14A14,451,I plan to start using one soon,1,Mentioned,False
+H14A15,452,I do not see what is the benefit of such meters,0,Not Mentioned,False
+H14A15,452,I do not see what is the benefit of such meters,1,Mentioned,False
+H14A99,453,"Do not know, No asnwer, Refusal",0,Not Mentioned,False
+H14A99,453,"Do not know, No asnwer, Refusal",1,Mentioned,False
+H14A16,454,The instalation process is too complicated and long,0,Not Mentioned,False
+H14A16,454,The instalation process is too complicated and long,1,Mentioned,False
+H14A17,455,Could make changing the utility company more difficult / smart meter of my utility company is not compatible with other utility companies,0,Not Mentioned,False
+H14A17,455,Could make changing the utility company more difficult / smart meter of my utility company is not compatible with other utility companies,1,Mentioned,False
+H14A18,456,"Cannot be installed in my dwelling (cannot receive signal; old instalation; not compatible with PV, etc.)",0,Not Mentioned,False
+H14A18,456,"Cannot be installed in my dwelling (cannot receive signal; old instalation; not compatible with PV, etc.)",1,Mentioned,False
+M3A2_12,457,Taxi,0,Not Mentioned,False
+M3A2_12,457,Taxi,1,Mentioned,False
+M3A2_13,458,Boat,0,Not Mentioned,False
+M3A2_13,458,Boat,1,Mentioned,False
+M3D2_12,459,Taxi,0,Not Mentioned,False
+M3D2_12,459,Taxi,1,Mentioned,False
+M3E2_12,460,Taxi,0,Not Mentioned,False
+M3E2_12,460,Taxi,1,Mentioned,False
+M5M,461,Habit,1,1 Not at all Important,False
+M5M,461,Habit,2,2,False
+M5M,461,Habit,3,3,False
+M5M,461,Habit,4,4,False
+M5M,461,Habit,5,5 Very Important,False
+M5M,461,Habit,99,Do not Know,True
+M5N,462,Having luggage,1,1 Not at all Important,False
+M5N,462,Having luggage,2,2,False
+M5N,462,Having luggage,3,3,False
+M5N,462,Having luggage,4,4,False
+M5N,462,Having luggage,5,5 Very Important,False
+M5N,462,Having luggage,99,Do not Know,True
+M5O,463,Good for my health (I need the physical activity),1,1 Not at all Important,False
+M5O,463,Good for my health (I need the physical activity),2,2,False
+M5O,463,Good for my health (I need the physical activity),3,3,False
+M5O,463,Good for my health (I need the physical activity),4,4,False
+M5O,463,Good for my health (I need the physical activity),5,5 Very Important,False
+M5O,463,Good for my health (I need the physical activity),99,Do not Know,True
+M5P,464,Parking is difficult,1,1 Not at all Important,False
+M5P,464,Parking is difficult,2,2,False
+M5P,464,Parking is difficult,3,3,False
+M5P,464,Parking is difficult,4,4,False
+M5P,464,Parking is difficult,5,5 Very Important,False
+M5P,464,Parking is difficult,99,Do not Know,True
+P2A10,465,Тhe dwelling was bought with these already installed,0,Not Mentioned,False
+P2A10,465,Тhe dwelling was bought with these already installed,1,Mentioned,False
+P4A10,466,Тhe dwelling was bought with these already installed,0,Not Mentioned,False
+P4A10,466,Тhe dwelling was bought with these already installed,1,Mentioned,False
+P7A17,467,They look bad (ugly),0,Not Mentioned,False
+P7A17,467,They look bad (ugly),1,Mentioned,False
+E5A6,468,Green lamp turns on for cheaper electricity.,0,Not Mentioned,False
+E5A6,468,Green lamp turns on for cheaper electricity.,1,Mentioned,False
+E5A7,469,My electricity meter has a pointer for it.,0,Not Mentioned,False
+E5A7,469,My electricity meter has a pointer for it.,1,Mentioned,False
+E5A8,470,Timer for the TV,0,Not Mentioned,False
+E5A8,470,Timer for the TV,1,Mentioned,False
+E5A9,471,Smart meter alerts,0,Not Mentioned,False
+E5A9,471,Smart meter alerts,1,Mentioned,False
+E6A6,472,I use cheap tariff.,0,Not Mentioned,False
+E6A6,472,I use cheap tariff.,1,Mentioned,False
+E6A7,473,"I turn off heating when not needed (including room heating, water heaters, etc.)",0,Not Mentioned,False
+E6A7,473,"I turn off heating when not needed (including room heating, water heaters, etc.)",1,Mentioned,False
+E6A8,474,Do not fill the kettle to the top (heat just the needed amount of water),0,Not Mentioned,False
+E6A8,474,Do not fill the kettle to the top (heat just the needed amount of water),1,Mentioned,False

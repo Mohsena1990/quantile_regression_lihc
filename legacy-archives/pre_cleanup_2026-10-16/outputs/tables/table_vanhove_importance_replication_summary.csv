@@ -1,0 +1,4 @@
+method,spearman_vs_vanhove_order,top3
+mean |SHAP|,0.6071428571428572,"income bracket, house detachment, floor area"
+permutation (balanced accuracy),0.7142857142857144,"income bracket, floor area, house detachment"
+permutation (log-loss),0.7142857142857144,"income bracket, floor area, house detachment"

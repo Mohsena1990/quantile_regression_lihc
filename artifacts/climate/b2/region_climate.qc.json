@@ -1,0 +1,9 @@
+{
+  "source": "Open-Meteo historical weather API (best-match ECMWF reanalysis) + ERA5-Land monthly normals, one representative point per region",
+  "regions": 132,
+  "finite": true,
+  "out_of_range": {},
+  "survey_sha256": "fe02b349b471323ef7432311eedee39708de70bb9e4922643230b5d548d7649d",
+  "normal_sha256": "720daced68e4bad143b5c58ec63a4961d744527fd06ef03e4b5f4150e4c84e1d",
+  "qc_all_clear": true
+}

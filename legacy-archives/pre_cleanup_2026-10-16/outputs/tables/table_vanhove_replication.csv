@@ -1,0 +1,3 @@
+classifier,predictors,n_predictors,macro_f1,double_risk_f1,double_risk_recall,balanced_accuracy,log_loss,n_test,accuracy
+catboost,harmonized_income_percentile;H3;household_size;H1;H2;birth_year;heating_strategy,7,0.5742957998310525,0.2376237623762376,0.27906976744186046,0.5715215300937521,0.6653154057216625,500,0.716
+hierarchical_catboost,harmonized_income_percentile;H3;household_size;H1;H2;birth_year;heating_strategy,7,0.6187455578557124,0.30434782608695654,0.32558139534883723,0.6154523614188753,0.5628439398142,500,0.766

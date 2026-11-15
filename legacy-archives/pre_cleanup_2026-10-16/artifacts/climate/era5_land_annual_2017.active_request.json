@@ -1,0 +1,11 @@
+{
+  "request_id": "e0bb4fcc-a60b-4799-b6ab-2e0ad35345a8",
+  "status": "RECEIVED_COVERAGE_GAP",
+  "duplicate_requests_forbidden": true,
+  "daily_mean_received": true,
+  "daily_minimum_received": true,
+  "dataset": "derived-era5-land-daily-statistics",
+  "start": "2017-01-01",
+  "end": "2017-12-31",
+  "notes": "Both daily statistics received and fused for 23/24 NUTS1 regions (audit 2026-08-11). NUTS1 region ES7 (Canarias) falls outside the requested bounding box area=[72,-25,34,45] (ES7 is at approx. 27.6-29.4N, -18.2 to -13.4E, south of the box's 34N boundary) and has 44 ENABLE households. A supplementary CDS request with an expanded/second bounding box covering the Canary Islands is required before 24/24 coverage and HC experiments can proceed. See artifacts/climate/nuts1_annual_2017.qc.json for the current 23/24 fusion QC result."
+}

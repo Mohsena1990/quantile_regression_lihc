@@ -1,0 +1,13 @@
+country,rho,cheapest_tier,cost_index
+Bulgaria,1,T3 + income (register),170.09132420091325
+Bulgaria,2,T3 + income (register),226.02739726027397
+Bulgaria,5,T3 + income (register),393.83561643835617
+Hungary,1,T3 + income (register),326.62538699690407
+Hungary,2,T3 + income (register),451.4963880288958
+Hungary,5,T3 + income (register),826.1093911248711
+Italy,1,T3 + income (register),197.20767888307154
+Italy,2,T3 + income (register),270.5061082024433
+Italy,5,T3 + income (register),490.4013961605584
+Poland,1,T2 + socio-economic,360.24305555555554
+Poland,2,T3 + income (register),510.4166666666667
+Poland,5,T3 + income (register),937.5

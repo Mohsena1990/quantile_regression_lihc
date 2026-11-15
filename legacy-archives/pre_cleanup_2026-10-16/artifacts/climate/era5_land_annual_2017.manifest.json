@@ -1,0 +1,81 @@
+{
+  "configuration": "annual_2017",
+  "start": "2017-01-01",
+  "end": "2017-12-31",
+  "role": "PRIMARY",
+  "dataset": "derived-era5-land-daily-statistics",
+  "doi": "10.24381/cds.e9c9c792",
+  "request_base": {
+    "variable": [
+      "2m_temperature"
+    ],
+    "year": [
+      "2017"
+    ],
+    "month": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12"
+    ],
+    "day": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31"
+    ],
+    "time_zone": "utc+00:00",
+    "frequency": "1_hourly",
+    "area": [
+      72,
+      -25,
+      34,
+      45
+    ]
+  },
+  "outputs": {
+    "daily_mean": {
+      "path": "artifacts/climate/era5_land_annual_2017_daily_mean.nc",
+      "sha256": "31b90e2ff096cb9c33a5bd64aff6f60bb3263c2e3328e58727f6955c1d34fc0f"
+    },
+    "daily_minimum": {
+      "path": "artifacts/climate/era5_land_annual_2017_daily_minimum.nc",
+      "sha256": "1f13712790340826aa2b4ea9405ef9501c616de8c4d0f96d6adc34cd6741ef4a"
+    }
+  }
+}

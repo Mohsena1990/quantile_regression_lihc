@@ -1,0 +1,31 @@
+{
+  "burden": {
+    "cutoff": 3,
+    "tau": 0.6,
+    "f1_b0_balanced_accuracy": 0.6676719704210119,
+    "f2_hardship_gap": 0.048630864375906524,
+    "f3_min_class": 303
+  },
+  "needqr": {
+    "cutoff": 3,
+    "tau": 0.6,
+    "f1_b0_balanced_accuracy": 0.5161710301213795,
+    "f2_hardship_gap": 0.047195615689698,
+    "f3_min_class": 453
+  },
+  "pct": {
+    "cutoff": 3,
+    "tau": 0.6,
+    "f1_b0_balanced_accuracy": 0.6436701571946292,
+    "f2_hardship_gap": -0.009751943339958569,
+    "f3_min_class": 406
+  },
+  "p80_baseline": {
+    "cutoff": 3,
+    "tau": 0.8,
+    "feasible": false,
+    "f1_b0_balanced_accuracy": NaN,
+    "f2_hardship_gap": 0.024603249450508513,
+    "f3_min_class": 199.0
+  }
+}

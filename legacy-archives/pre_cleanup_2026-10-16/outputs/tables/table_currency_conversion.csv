@@ -1,0 +1,5 @@
+country,currency,reference_year,local_currency_per_eur,conversion_equation,source,source_url,retrieval_date,notes
+Bulgaria,BGN,2017,1.95583,EUR = local currency / local_currency_per_eur,EU irrevocable/fixed EUR-BGN rate applicable in 2017,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-13,Primary expenditure reference year
+Hungary,HUF,2017,309.19,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-13,Primary expenditure reference year
+Italy,EUR,2017,1.0,EUR = local currency / local_currency_per_eur,Euro-area currency,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-13,Primary expenditure reference year
+Poland,PLN,2017,4.257,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-13,Primary expenditure reference year

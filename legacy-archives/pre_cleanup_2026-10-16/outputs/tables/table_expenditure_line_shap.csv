@@ -1,0 +1,29 @@
+country,feature,feature_name,mean_abs_shap_eur
+Bulgaria,H3,floor area,59.39778353903884
+Bulgaria,household_size,household size,59.19434874261668
+Bulgaria,H1,dwelling type,24.458496371640592
+Bulgaria,H2,dwelling age,27.73509019393108
+Bulgaria,insulation_count,insulation types,7.670062691994882
+Bulgaria,hdd_hs1617,heating degree days,21.205391823946318
+Bulgaria,cdd_s2017,cooling degree days,117.24283465584472
+Hungary,H3,floor area,137.18625002634684
+Hungary,household_size,household size,67.51398194871047
+Hungary,H1,dwelling type,7.18892234679753
+Hungary,H2,dwelling age,0.11937639623043862
+Hungary,insulation_count,insulation types,31.76955072042958
+Hungary,hdd_hs1617,heating degree days,48.966140822558
+Hungary,cdd_s2017,cooling degree days,19.015415044128815
+Italy,H3,floor area,72.32589196614285
+Italy,household_size,household size,133.7198659374997
+Italy,H1,dwelling type,150.90723557503821
+Italy,H2,dwelling age,39.69912763020687
+Italy,insulation_count,insulation types,7.0407899551869315
+Italy,hdd_hs1617,heating degree days,182.78242220659496
+Italy,cdd_s2017,cooling degree days,46.60223072123139
+Poland,H3,floor area,115.68696448038425
+Poland,household_size,household size,44.62030218724231
+Poland,H1,dwelling type,169.6095271747549
+Poland,H2,dwelling age,34.921212657370745
+Poland,insulation_count,insulation types,29.12977345563132
+Poland,hdd_hs1617,heating degree days,13.672489851293399
+Poland,cdd_s2017,cooling degree days,52.441304364528946

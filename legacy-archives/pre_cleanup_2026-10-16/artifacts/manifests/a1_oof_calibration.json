@@ -1,0 +1,31 @@
+{
+  "status": "AVAILABLE",
+  "feature_configuration": "A1",
+  "folds": 5,
+  "assignment": "sha256(oof-v1|UID) modulo 5",
+  "quantile_search_bounds": [
+    0.5,
+    0.8
+  ],
+  "quantile_search_xatol": 0.005,
+  "experiments": 3,
+  "rows": 15,
+  "max_absolute_calibration_error": 0.09511252403311132,
+  "evaluations": [
+    {
+      "family": "M1",
+      "quantile": 0.5045084971874737,
+      "n_evaluations": 15
+    },
+    {
+      "family": "M2",
+      "quantile": 0.5,
+      "n_evaluations": 14
+    },
+    {
+      "family": "M3",
+      "quantile": 0.5,
+      "n_evaluations": 15
+    }
+  ]
+}

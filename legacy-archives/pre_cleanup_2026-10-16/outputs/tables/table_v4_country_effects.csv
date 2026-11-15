@@ -1,0 +1,145 @@
+country,feature,mean_shap_double_risk,label,feature_name
+Bulgaria,pre1981_share,0.007156514,vh,share of dwellings built before 1981 (region)
+Hungary,pre1981_share,-0.0039855135,vh,share of dwellings built before 1981 (region)
+Italy,pre1981_share,-0.0036207684,vh,share of dwellings built before 1981 (region)
+Poland,pre1981_share,-0.00017403031,vh,share of dwellings built before 1981 (region)
+Bulgaria,poverty_rate,-0.0062509,vh,poverty rate (region)
+Hungary,poverty_rate,0.0048989938,vh,poverty rate (region)
+Italy,poverty_rate,-0.0014073619,vh,poverty rate (region)
+Poland,poverty_rate,0.004860464,vh,poverty rate (region)
+Bulgaria,wealth_index,-0.0028187206,vh,wealth index (house-value stand-in)
+Hungary,wealth_index,0.00140529,vh,wealth index (house-value stand-in)
+Italy,wealth_index,-0.008440176,vh,wealth index (house-value stand-in)
+Poland,wealth_index,-0.0005786928,vh,wealth index (house-value stand-in)
+Bulgaria,gdp_per_capita,-0.0050836015,vh,GDP per head (region)
+Hungary,gdp_per_capita,0.0030541166,vh,GDP per head (region)
+Italy,gdp_per_capita,-0.004303649,vh,GDP per head (region)
+Poland,gdp_per_capita,0.0069461167,vh,GDP per head (region)
+Bulgaria,unemployment_rate,-0.0009527234,vh,unemployment rate (region)
+Hungary,unemployment_rate,0.0023986523,vh,unemployment rate (region)
+Italy,unemployment_rate,-0.0064313705,vh,unemployment rate (region)
+Poland,unemployment_rate,0.0021475928,vh,unemployment rate (region)
+Bulgaria,income_eur_equiv,0.008424785,vh,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.004454726,vh,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.018586906,vh,income per adult equivalent (EUR)
+Poland,income_eur_equiv,-0.00047023175,vh,income per adult equivalent (EUR)
+Bulgaria,heating_need_kwh,-0.007163245,vh,heating need (kWh)
+Hungary,heating_need_kwh,0.03143359,vh,heating need (kWh)
+Italy,heating_need_kwh,-0.042218402,vh,heating need (kWh)
+Poland,heating_need_kwh,0.0017480868,vh,heating need (kWh)
+Bulgaria,wind_x_detached,-0.013239998,vh,wind x detached house
+Hungary,wind_x_detached,0.030073196,vh,wind x detached house
+Italy,wind_x_detached,-0.031754993,vh,wind x detached house
+Poland,wind_x_detached,0.0048490968,vh,wind x detached house
+Bulgaria,density_x_urban,0.0043456675,vh,density x urban area
+Hungary,density_x_urban,-0.000994688,vh,density x urban area
+Italy,density_x_urban,-0.008107822,vh,density x urban area
+Poland,density_x_urban,0.0028763793,vh,density x urban area
+Bulgaria,income_eur_equiv,0.019166488,needqr,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.020717325,needqr,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.069223136,needqr,income per adult equivalent (EUR)
+Poland,income_eur_equiv,0.0072643855,needqr,income per adult equivalent (EUR)
+Bulgaria,gdp_per_capita,-0.015069396,needqr,GDP per head (region)
+Hungary,gdp_per_capita,0.012486884,needqr,GDP per head (region)
+Italy,gdp_per_capita,-0.01609282,needqr,GDP per head (region)
+Poland,gdp_per_capita,0.02569486,needqr,GDP per head (region)
+Bulgaria,vulnerability_index,-0.010706957,needqr,household vulnerability index
+Hungary,vulnerability_index,-0.006028764,needqr,household vulnerability index
+Italy,vulnerability_index,-0.004401423,needqr,household vulnerability index
+Poland,vulnerability_index,0.015693123,needqr,household vulnerability index
+Bulgaria,pre1981_share,0.0015452362,needqr,share of dwellings built before 1981 (region)
+Hungary,pre1981_share,-2.9372164e-05,needqr,share of dwellings built before 1981 (region)
+Italy,pre1981_share,-0.00088617956,needqr,share of dwellings built before 1981 (region)
+Poland,pre1981_share,-0.0017506918,needqr,share of dwellings built before 1981 (region)
+Bulgaria,inefficient_equipment_index,0.001285264,needqr,inefficient equipment index
+Hungary,inefficient_equipment_index,5.9243303e-06,needqr,inefficient equipment index
+Italy,inefficient_equipment_index,-0.00019374191,needqr,inefficient equipment index
+Poland,inefficient_equipment_index,-0.0019103888,needqr,inefficient equipment index
+Bulgaria,wealth_index,-0.0036059038,needqr,wealth index (house-value stand-in)
+Hungary,wealth_index,0.010138503,needqr,wealth index (house-value stand-in)
+Italy,wealth_index,-0.0149989985,needqr,wealth index (house-value stand-in)
+Poland,wealth_index,6.2345076e-05,needqr,wealth index (house-value stand-in)
+Bulgaria,heating_need_pp,-0.0019778768,needqr,heating need per person
+Hungary,heating_need_pp,0.0058844807,needqr,heating need per person
+Italy,heating_need_pp,-0.0043870946,needqr,heating need per person
+Poland,heating_need_pp,-0.0032907417,needqr,heating need per person
+Bulgaria,solar_hs,-0.037433945,needqr,solar radiation (winter)
+Hungary,solar_hs,0.03229735,needqr,solar radiation (winter)
+Italy,solar_hs,-0.03964966,needqr,solar radiation (winter)
+Poland,solar_hs,0.046203565,needqr,solar radiation (winter)
+Bulgaria,cdd_x_ac,-0.0047471207,needqr,hot summer x air conditioning
+Hungary,cdd_x_ac,0.007350551,needqr,hot summer x air conditioning
+Italy,cdd_x_ac,-0.009109487,needqr,hot summer x air conditioning
+Poland,cdd_x_ac,0.010613547,needqr,hot summer x air conditioning
+Bulgaria,wealth_index,-0.003764587,burden,wealth index (house-value stand-in)
+Hungary,wealth_index,0.009457772,burden,wealth index (house-value stand-in)
+Italy,wealth_index,-0.01561502,burden,wealth index (house-value stand-in)
+Poland,wealth_index,-0.002643143,burden,wealth index (house-value stand-in)
+Bulgaria,income_eur_equiv,0.02921058,burden,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.008790432,burden,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.04068406,burden,income per adult equivalent (EUR)
+Poland,income_eur_equiv,-0.011397079,burden,income per adult equivalent (EUR)
+Bulgaria,pre1981_share,0.0040671886,burden,share of dwellings built before 1981 (region)
+Hungary,pre1981_share,0.00086165644,burden,share of dwellings built before 1981 (region)
+Italy,pre1981_share,0.0018532779,burden,share of dwellings built before 1981 (region)
+Poland,pre1981_share,-0.0053806,burden,share of dwellings built before 1981 (region)
+Bulgaria,gdp_per_capita,0.0023840321,burden,GDP per head (region)
+Hungary,gdp_per_capita,0.00020368483,burden,GDP per head (region)
+Italy,gdp_per_capita,-0.0026109093,burden,GDP per head (region)
+Poland,gdp_per_capita,-0.00015727546,burden,GDP per head (region)
+Bulgaria,inefficient_equipment_index,0.0003757348,burden,inefficient equipment index
+Hungary,inefficient_equipment_index,7.7098e-05,burden,inefficient equipment index
+Italy,inefficient_equipment_index,-0.00023761172,burden,inefficient equipment index
+Poland,inefficient_equipment_index,-0.00050462194,burden,inefficient equipment index
+Bulgaria,vulnerability_index,-0.0009079447,burden,household vulnerability index
+Hungary,vulnerability_index,-0.0001390843,burden,household vulnerability index
+Italy,vulnerability_index,-0.00017791727,burden,household vulnerability index
+Poland,vulnerability_index,0.0015932509,burden,household vulnerability index
+Bulgaria,heating_need_kwh,-0.0070674536,burden,heating need (kWh)
+Hungary,heating_need_kwh,0.020484146,burden,heating need (kWh)
+Italy,heating_need_kwh,-0.020505114,burden,heating need (kWh)
+Poland,heating_need_kwh,-0.0033077383,burden,heating need (kWh)
+Bulgaria,density_x_urban,0.024911098,burden,density x urban area
+Hungary,density_x_urban,0.00028916413,burden,density x urban area
+Italy,density_x_urban,-0.034562748,burden,density x urban area
+Poland,density_x_urban,0.006209098,burden,density x urban area
+Bulgaria,hdd_x_electric,0.0067932755,burden,cold winter x electric heating
+Hungary,hdd_x_electric,-0.0023812237,burden,cold winter x electric heating
+Italy,hdd_x_electric,-0.0010686596,burden,cold winter x electric heating
+Poland,hdd_x_electric,-0.0038260005,burden,cold winter x electric heating
+Bulgaria,gdp_per_capita,-0.01820096,needqr_noclim,GDP per head (region)
+Hungary,gdp_per_capita,0.015224823,needqr_noclim,GDP per head (region)
+Italy,gdp_per_capita,-0.018627835,needqr_noclim,GDP per head (region)
+Poland,gdp_per_capita,0.031888984,needqr_noclim,GDP per head (region)
+Bulgaria,pre1981_share,0.002640863,needqr_noclim,share of dwellings built before 1981 (region)
+Hungary,pre1981_share,0.0012051959,needqr_noclim,share of dwellings built before 1981 (region)
+Italy,pre1981_share,0.00012925053,needqr_noclim,share of dwellings built before 1981 (region)
+Poland,pre1981_share,-0.0047066216,needqr_noclim,share of dwellings built before 1981 (region)
+Bulgaria,poverty_rate,-0.019181602,needqr_noclim,poverty rate (region)
+Hungary,poverty_rate,0.02036337,needqr_noclim,poverty rate (region)
+Italy,poverty_rate,-0.009878704,needqr_noclim,poverty rate (region)
+Poland,poverty_rate,0.008498439,needqr_noclim,poverty rate (region)
+Bulgaria,wealth_index,-0.002599293,needqr_noclim,wealth index (house-value stand-in)
+Hungary,wealth_index,0.006773425,needqr_noclim,wealth index (house-value stand-in)
+Italy,wealth_index,-0.0116294315,needqr_noclim,wealth index (house-value stand-in)
+Poland,wealth_index,-0.00036428985,needqr_noclim,wealth index (house-value stand-in)
+Bulgaria,income_eur_equiv,0.007303537,needqr_noclim,income per adult equivalent (EUR)
+Hungary,income_eur_equiv,0.008659289,needqr_noclim,income per adult equivalent (EUR)
+Italy,income_eur_equiv,-0.026028266,needqr_noclim,income per adult equivalent (EUR)
+Poland,income_eur_equiv,0.0039369413,needqr_noclim,income per adult equivalent (EUR)
+Bulgaria,vulnerability_index,-0.0035124433,needqr_noclim,household vulnerability index
+Hungary,vulnerability_index,-0.002137213,needqr_noclim,household vulnerability index
+Italy,vulnerability_index,-0.00044090507,needqr_noclim,household vulnerability index
+Poland,vulnerability_index,0.0072900485,needqr_noclim,household vulnerability index
+Bulgaria,hdd_x_electric,-0.0137429405,needqr_noclim,cold winter x electric heating
+Hungary,hdd_x_electric,0.011037028,needqr_noclim,cold winter x electric heating
+Italy,hdd_x_electric,0.0005517189,needqr_noclim,cold winter x electric heating
+Poland,hdd_x_electric,0.012484759,needqr_noclim,cold winter x electric heating
+Bulgaria,solar_hs,-0.04875982,needqr_noclim,solar radiation (winter)
+Hungary,solar_hs,0.04798102,needqr_noclim,solar radiation (winter)
+Italy,solar_hs,-0.057955977,needqr_noclim,solar radiation (winter)
+Poland,solar_hs,0.060284037,needqr_noclim,solar radiation (winter)
+Bulgaria,heating_need_pp,-0.0021307906,needqr_noclim,heating need per person
+Hungary,heating_need_pp,0.0059889173,needqr_noclim,heating need per person
+Italy,heating_need_pp,-0.0039620264,needqr_noclim,heating need per person
+Poland,heating_need_pp,-0.003805842,needqr_noclim,heating need per person

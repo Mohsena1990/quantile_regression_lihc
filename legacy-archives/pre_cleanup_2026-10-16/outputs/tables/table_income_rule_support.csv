@@ -1,0 +1,17 @@
+country,No Risk,Income Risk,Expenditure Risk,Double Risk,n,low_income_n,high_cost_n,min_class_n,four_class_ok,axis_ok,cost_kind,income_rule,low_income_share
+Bulgaria,222,146,146,70,584,216,216,70,True,True,need_adjusted,bracket3,0.3698630136986301
+Hungary,104,305,77,160,646,465,237,77,True,True,need_adjusted,bracket3,0.7198142414860681
+Italy,124,111,99,48,382,159,147,48,True,True,need_adjusted,bracket3,0.4162303664921466
+Poland,37,208,30,109,384,317,139,30,True,True,need_adjusted,bracket3,0.8255208333333334
+Bulgaria,251,117,161,55,584,172,216,55,True,True,need_adjusted,percentile,0.2945205479452055
+Hungary,292,117,178,59,646,176,237,59,True,True,need_adjusted,percentile,0.2724458204334365
+Italy,124,111,99,48,382,159,147,48,True,True,need_adjusted,percentile,0.4162303664921466
+Poland,145,100,92,47,384,147,139,47,True,True,need_adjusted,percentile,0.3828125
+Bulgaria,306,62,178,38,584,100,216,38,True,True,need_adjusted,equiv60,0.17123287671232876
+Hungary,314,95,184,53,646,148,237,53,True,True,need_adjusted,equiv60,0.22910216718266255
+Italy,193,42,122,25,382,67,147,25,False,True,need_adjusted,equiv60,0.17539267015706805
+Poland,185,60,110,29,384,89,139,29,False,True,need_adjusted,equiv60,0.23177083333333334
+Bulgaria,265,103,111,105,584,208,216,103,True,True,need_adjusted,residual60,0.3561643835616438
+Hungary,219,190,124,113,646,303,237,113,True,True,need_adjusted,residual60,0.46904024767801855
+Italy,181,54,110,37,382,91,147,37,True,True,need_adjusted,residual60,0.23821989528795812
+Poland,158,87,84,55,384,142,139,55,True,True,need_adjusted,residual60,0.3697916666666667

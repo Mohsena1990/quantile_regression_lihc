@@ -1,0 +1,3 @@
+model,challenger,cells,mean_d_f1,share_cells_f1_up,share_ci_excludes_0_up,share_ci_excludes_0_down,mean_d_mcc,mean_d_accuracy,mean_d_double_risk_recall,mean_d_log_loss,rule_a_gain_ge_0.02,rule_b_share_ge_75pct,rule_c_mcc_not_lower,genuine_improvement
+cb4,alpha_tuned,48,0.01007365082091328,0.7083333333333334,0.14583333333333334,0.0,0.02328506241768492,0.04835412947246922,-0.1094168298976587,-0.0577027025929639,False,False,True,False
+lr4,alpha_tuned,48,0.010059260408139878,0.7291666666666666,0.16666666666666666,0.0,0.024806611314390076,0.053379216882847184,-0.1360229772150813,-0.0668357538036507,False,False,True,False

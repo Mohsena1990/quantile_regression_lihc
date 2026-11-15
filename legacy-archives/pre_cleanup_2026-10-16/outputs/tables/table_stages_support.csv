@@ -1,0 +1,17 @@
+country,No Risk,Income Risk,Expenditure Risk,Double Risk,n,low_income_n,high_cost_n,min_class_n,four_class_ok,axis_ok,label
+Bulgaria,290,177,78,39,584,216,117,39,True,True,vh
+Hungary,132,386,49,79,646,465,128,49,True,True,vh
+Italy,168,137,55,22,382,159,77,22,False,True,vh
+Poland,44,263,23,54,384,317,77,23,False,True,vh
+Bulgaria,289,173,79,43,584,216,122,43,True,True,qr80
+Hungary,141,378,40,87,646,465,127,40,True,True,qr80
+Italy,167,134,56,25,382,159,81,25,False,True,qr80
+Poland,50,253,17,64,384,317,81,17,False,True,qr80
+Bulgaria,169,121,199,95,584,216,294,95,True,True,hansen
+Hungary,64,256,117,209,646,465,326,64,True,True,hansen
+Italy,79,110,144,49,382,159,193,49,True,True,hansen
+Poland,23,167,44,150,384,317,194,23,False,True,hansen
+Bulgaria,201,134,167,82,584,216,249,82,True,True,hansen_qr
+Hungary,98,277,83,188,646,465,271,83,True,True,hansen_qr
+Italy,109,110,114,49,382,159,163,49,True,True,hansen_qr
+Poland,34,189,33,128,384,317,161,33,True,True,hansen_qr

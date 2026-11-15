@@ -1,0 +1,35 @@
+label,feature,top3_rate,feature_name,median_k_one_se
+burden,density_x_urban,1.0,density x urban area,8.0
+burden,hdd_x_electric,0.3333333333333333,cold winter x electric heating,8.0
+burden,hdd_x_old,0.06666666666666667,cold winter x old home,8.0
+burden,hdd_x_solid,0.26666666666666666,cold winter x solid-fuel heating,8.0
+burden,hdd_x_uninsulated,0.13333333333333333,cold winter x no insulation,8.0
+burden,heating_need_kwh,1.0,heating need (kWh),8.0
+burden,heating_need_pp,0.13333333333333333,heating need per person,8.0
+burden,wind_hs,0.06666666666666667,wind speed (winter),8.0
+needqr,cdd_x_ac,0.6,hot summer x air conditioning,1.0
+needqr,density_x_urban,0.06666666666666667,density x urban area,1.0
+needqr,hdd_x_electric,0.4,cold winter x electric heating,1.0
+needqr,hdd_x_solid,0.2,cold winter x solid-fuel heating,1.0
+needqr,heating_need_kwh,0.06666666666666667,heating need (kWh),1.0
+needqr,heating_need_pp,0.8,heating need per person,1.0
+needqr,rh_hs,0.06666666666666667,relative humidity (winter),1.0
+needqr,solar_hs,0.6666666666666666,solar radiation (winter),1.0
+needqr,wind_hs,0.13333333333333333,wind speed (winter),1.0
+needqr_noclim,cdd_x_ac,0.3333333333333333,hot summer x air conditioning,3.0
+needqr_noclim,density_x_urban,0.13333333333333333,density x urban area,3.0
+needqr_noclim,hdd_x_electric,0.8,cold winter x electric heating,3.0
+needqr_noclim,heating_need_pp,0.6666666666666666,heating need per person,3.0
+needqr_noclim,rh_hs,0.13333333333333333,relative humidity (winter),3.0
+needqr_noclim,solar_hs,0.7333333333333333,solar radiation (winter),3.0
+needqr_noclim,wind_hs,0.2,wind speed (winter),3.0
+vh,density_x_urban,0.5333333333333333,density x urban area,8.0
+vh,hdd_x_old,0.13333333333333333,cold winter x old home,8.0
+vh,hdd_x_solid,0.06666666666666667,cold winter x solid-fuel heating,8.0
+vh,hdd_x_uninsulated,0.13333333333333333,cold winter x no insulation,8.0
+vh,heating_need_kwh,1.0,heating need (kWh),8.0
+vh,heating_need_pp,0.3333333333333333,heating need per person,8.0
+vh,rh_hs,0.06666666666666667,relative humidity (winter),8.0
+vh,solar_hs,0.13333333333333333,solar radiation (winter),8.0
+vh,wind_hs,0.06666666666666667,wind speed (winter),8.0
+vh,wind_x_detached,0.5333333333333333,wind x detached house,8.0

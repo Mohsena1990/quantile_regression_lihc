@@ -1,0 +1,16 @@
+label,groups,selection_rate
+burden,dalla_longa,0.8
+burden,enable_top3,0.13333333333333333
+burden,indices,0.5333333333333333
+burden,regional,0.4666666666666667
+needqr,dalla_longa,0.5333333333333333
+needqr,enable_top3,0.3333333333333333
+needqr,indices,0.9333333333333333
+needqr,regional,0.9333333333333333
+needqr_noclim,dalla_longa,0.3333333333333333
+needqr_noclim,enable_top3,0.2
+needqr_noclim,indices,0.4
+needqr_noclim,regional,1.0
+vh,dalla_longa,0.3333333333333333
+vh,indices,0.26666666666666666
+vh,regional,0.8666666666666667

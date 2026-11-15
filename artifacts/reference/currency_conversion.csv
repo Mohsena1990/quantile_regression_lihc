@@ -1,0 +1,12 @@
+country,currency,reference_year,local_currency_per_eur,conversion_equation,source,source_url,retrieval_date
+Bulgaria,BGN,2017,1.95583,EUR = local currency / local_currency_per_eur,EU irrevocable/fixed EUR-BGN rate,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+France,EUR,2017,1.0,EUR = local currency / local_currency_per_eur,Euro-area currency,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Germany,EUR,2017,1.0,EUR = local currency / local_currency_per_eur,Euro-area currency,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Hungary,HUF,2017,309.19,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Italy,EUR,2017,1.0,EUR = local currency / local_currency_per_eur,Euro-area currency,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Norway,NOK,2017,9.327,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Poland,PLN,2017,4.257,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Serbia,RSD,2017,121.3367,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Spain,EUR,2017,1.0,EUR = local currency / local_currency_per_eur,Euro-area currency,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+Ukraine,UAH,2017,30.05313,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16
+United Kingdom,GBP,2017,0.87667,EUR = local currency / local_currency_per_eur,Eurostat ert_bil_eur_a annual average,https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ert_bil_eur_a?lang=EN&time=2017,2026-10-16

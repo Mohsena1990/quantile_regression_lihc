@@ -1,0 +1,8 @@
+enable_variable,enable_concept,bredem_parameter,mapping_status,assigned_value_or_range,unit,source,source_page_or_table,mapping_confidence,sensitivity_requirement
+H1,dwelling type,envelope archetype,ARCHETYPE_APPROXIMATION,,,BREDEM 2012 + mapping source pending,,low,required
+H2,building age,envelope archetype,ARCHETYPE_APPROXIMATION,,,BREDEM 2012 + mapping source pending,,low,required
+H3,floor area band,heated floor area,DIRECT_MAPPING,closed-band midpoint,m2,ENABLE dictionary,,medium,open-ended band unavailable
+H5A1:H5A4,insulation indicators,fabric characteristics,UNAVAILABLE,,,physical coefficient source required,,none,required
+H6A1:H6A11,heating shares,fuel allocation,DIRECT_MAPPING,reported percentage,percent,ENABLE dictionary,,high,composition QC
+S1Ac*:S1Bc*,occupancy bands,occupancy/heating regime,ARCHETYPE_APPROXIMATION,,,Fuel Poverty Methodology Handbook 2020,,medium,age bands do not match exact regime inputs
+NUTS1,region,climate region,DIRECT_MAPPING,,,Eurostat GISCO NUTS 2016,,high,ERA5 pending

@@ -1,0 +1,5 @@
+country,No Risk,Income Risk,Expenditure Risk,Double Risk,n,low_income_n,high_cost_n,min_class_n,four_class_ok,axis_ok,label
+Bulgaria,201,134,167,82,584,216,249,82,True,True,hansen_qr
+Hungary,98,277,83,188,646,465,271,83,True,True,hansen_qr
+Italy,109,110,114,49,382,159,163,49,True,True,hansen_qr
+Poland,34,189,33,128,384,317,161,33,True,True,hansen_qr

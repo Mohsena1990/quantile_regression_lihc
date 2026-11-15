@@ -1,0 +1,30 @@
+{
+  "burden": {
+    "cutoff": 2,
+    "tau": 0.7,
+    "f1_b0_balanced_accuracy": 0.6410283003784017,
+    "f2_hardship_gap": 0.040297378904752545,
+    "f3_min_class": 297
+  },
+  "needqr": {
+    "cutoff": 3,
+    "tau": 0.6,
+    "f1_b0_balanced_accuracy": 0.5135821718454866,
+    "f2_hardship_gap": 0.055031104977976156,
+    "f3_min_class": 369
+  },
+  "pct": {
+    "cutoff": 3,
+    "tau": 0.8,
+    "f1_b0_balanced_accuracy": 0.6384335985694553,
+    "f2_hardship_gap": 0.0011487986552408957,
+    "f3_min_class": 194
+  },
+  "van_hove_benchmark": {
+    "cutoff": 3,
+    "tau": 0.8,
+    "f1_b0_balanced_accuracy": 0.6384335985694553,
+    "f2_hardship_gap": 0.0011487986552408957,
+    "f3_min_class": 194.0
+  }
+}

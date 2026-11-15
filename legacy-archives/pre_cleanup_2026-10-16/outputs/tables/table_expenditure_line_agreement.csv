@@ -1,0 +1,25 @@
+pair,country,kappa
+Van Hove (80th percentile) vs Quantile Regression (80th),Bulgaria,0.8264221637785063
+Van Hove (80th percentile) vs Quantile Regression (80th),Hungary,0.5749292834561104
+Van Hove (80th percentile) vs Quantile Regression (80th),Italy,0.7447057349317071
+Van Hove (80th percentile) vs Quantile Regression (80th),Poland,0.47416905265778664
+Van Hove (80th percentile) vs Hansen Threshold,Bulgaria,0.3963136870138062
+Van Hove (80th percentile) vs Hansen Threshold,Hungary,0.39041500657681527
+Van Hove (80th percentile) vs Hansen Threshold,Italy,0.39644228935683334
+Van Hove (80th percentile) vs Hansen Threshold,Poland,0.394403407559174
+Van Hove (80th percentile) vs Hansen + Quantile Regression,Bulgaria,0.5041870875622274
+Van Hove (80th percentile) vs Hansen + Quantile Regression,Hungary,0.4753208973447006
+Van Hove (80th percentile) vs Hansen + Quantile Regression,Italy,0.5065637297605816
+Van Hove (80th percentile) vs Hansen + Quantile Regression,Poland,0.43493798612570955
+Quantile Regression (80th) vs Hansen Threshold,Bulgaria,0.3860099995327321
+Quantile Regression (80th) vs Hansen Threshold,Hungary,0.34425307624121926
+Quantile Regression (80th) vs Hansen Threshold,Italy,0.40671916296558674
+Quantile Regression (80th) vs Hansen Threshold,Poland,0.3010839669956318
+Quantile Regression (80th) vs Hansen + Quantile Regression,Bulgaria,0.5018087590117248
+Quantile Regression (80th) vs Hansen + Quantile Regression,Hungary,0.5059115969278818
+Quantile Regression (80th) vs Hansen + Quantile Regression,Italy,0.5310918834765426
+Quantile Regression (80th) vs Hansen + Quantile Regression,Poland,0.5404362265505789
+Hansen Threshold vs Hansen + Quantile Regression,Bulgaria,0.7160398359695372
+Hansen Threshold vs Hansen + Quantile Regression,Hungary,0.5888500741733262
+Hansen Threshold vs Hansen + Quantile Regression,Italy,0.7595314338889345
+Hansen Threshold vs Hansen + Quantile Regression,Poland,0.39164816118723933

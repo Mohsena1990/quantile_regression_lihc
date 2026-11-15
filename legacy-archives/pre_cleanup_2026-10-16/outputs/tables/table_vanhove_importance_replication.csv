@@ -1,0 +1,22 @@
+method,feature,importance_norm,fold_sd,feature_name
+mean |SHAP|,H1,7.515185614400594,1.1137177400899838,house detachment
+mean |SHAP|,H2,3.2616886090900414,0.6843128644641696,house age
+mean |SHAP|,H3,7.009901551923673,0.8053853394718054,floor area
+mean |SHAP|,birth_year,2.19244509294786,0.5053412638072714,birth year respondent
+mean |SHAP|,heating_strategy,1.2517944387585014,0.43877475634668184,heating strategy
+mean |SHAP|,household_size,2.8525725263994146,0.5660751430417098,household size
+mean |SHAP|,income_bracket,100.00000000000003,3.1413026260257775,income bracket
+permutation (log-loss),H1,0.7941221288571783,0.44258319331921286,house detachment
+permutation (log-loss),H2,0.7817744741164179,0.19705464522776,house age
+permutation (log-loss),H3,2.0890352306848334,0.6373505104288851,floor area
+permutation (log-loss),birth_year,0.02207695451308944,0.11289519232238601,birth year respondent
+permutation (log-loss),heating_strategy,0.053701817781022426,0.055750065672156957,heating strategy
+permutation (log-loss),household_size,0.38520604770778377,0.15231148222605198,household size
+permutation (log-loss),income_bracket,100.0,4.9816594206470235,income bracket
+permutation (balanced accuracy),H1,14.74586646134888,6.045142739306092,house detachment
+permutation (balanced accuracy),H2,2.1954258679641514,3.8162488702407815,house age
+permutation (balanced accuracy),H3,16.60642366406386,5.767633690910965,floor area
+permutation (balanced accuracy),birth_year,-0.8457420860791522,2.69395490067651,birth year respondent
+permutation (balanced accuracy),heating_strategy,0.22851776483556888,2.1331911921049866,heating strategy
+permutation (balanced accuracy),household_size,1.922054893938204,3.652243144340526,household size
+permutation (balanced accuracy),income_bracket,100.0,6.455525351436589,income bracket

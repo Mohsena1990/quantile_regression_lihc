@@ -1,0 +1,2 @@
+legacy-archives/pre_cleanup_2026-10-16/artifacts/climate/era5_land_annual_2017_daily_minimum.nc filter=lfs diff=lfs merge=lfs -text
+legacy-archives/pre_cleanup_2026-10-16/artifacts/climate/era5_land_annual_2017_daily_mean.nc filter=lfs diff=lfs merge=lfs -text

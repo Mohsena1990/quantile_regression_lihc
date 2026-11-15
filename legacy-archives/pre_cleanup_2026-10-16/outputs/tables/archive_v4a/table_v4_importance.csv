@@ -1,0 +1,1549 @@
+label,model_set,stage,model,feature,share,feature_name
+burden,A,all,catboost,income_bracket,1.0,income bracket
+burden,A,all,ft_transformer,income_bracket,1.0,income bracket
+burden,A,all,xgboost,income_bracket,1.0,income bracket
+burden,B,B0,catboost,H1,0.1543003545408509,house detachment
+burden,B,B0,catboost,H2,0.04343406663915344,house age
+burden,B,B0,catboost,H3,0.11648389281986114,floor area
+burden,B,B0,catboost,birth_year,0.14252123880900985,birth year respondent
+burden,B,B0,catboost,country,0.3091322862993946,country
+burden,B,B0,catboost,heating_strategy,0.026727078999872627,heating strategy (H9)
+burden,B,B0,catboost,household_size,0.20740108189185744,household size
+burden,B,B0,ft_transformer,H1,0.13359993549891439,house detachment
+burden,B,B0,ft_transformer,H2,0.12654315595785928,house age
+burden,B,B0,ft_transformer,H3,0.12739785086276115,floor area
+burden,B,B0,ft_transformer,birth_year,0.12503026317824384,birth year respondent
+burden,B,B0,ft_transformer,country,0.18384982036240144,country
+burden,B,B0,ft_transformer,heating_strategy,0.1526003827768674,heating strategy (H9)
+burden,B,B0,ft_transformer,household_size,0.15097859136295252,household size
+burden,B,B0,xgboost,H1,0.11249348623408248,house detachment
+burden,B,B0,xgboost,H2,0.07875358569746285,house age
+burden,B,B0,xgboost,H3,0.12807951034657658,floor area
+burden,B,B0,xgboost,birth_year,0.16486647620761644,birth year respondent
+burden,B,B0,xgboost,country,0.2422224598620285,country
+burden,B,B0,xgboost,heating_strategy,0.08469434235470298,heating strategy (H9)
+burden,B,B0,xgboost,household_size,0.18889013929753015,household size
+burden,B,B1,catboost,H1,0.14423874020420743,house detachment
+burden,B,B1,catboost,H2,0.03283877276065238,house age
+burden,B,B1,catboost,H3,0.08648993417464568,floor area
+burden,B,B1,catboost,birth_year,0.11613359173431972,birth year respondent
+burden,B,B1,catboost,country,0.24768556240609285,country
+burden,B,B1,catboost,gdp_per_capita,0.07296265854860516,GDP per head (region)
+burden,B,B1,catboost,heating_strategy,0.01940193256094253,heating strategy (H9)
+burden,B,B1,catboost,household_size,0.1823575715293371,household size
+burden,B,B1,catboost,inefficient_equipment_index,0.0258039790917284,inefficient equipment index
+burden,B,B1,catboost,owner_share,0.09239606812836663,home-ownership share (region)
+burden,B,B1,catboost,pop_density,0.09087450061004367,population density
+burden,B,B1,catboost,pre1981_share,0.042870564107219636,share of dwellings built before 1981 (region)
+burden,B,B1,catboost,vulnerability_index,0.1234956003508312,household vulnerability index
+burden,B,B1,catboost,wealth_index,0.23910383721749698,wealth index (house-value stand-in)
+burden,B,B1,ft_transformer,H1,0.11861590591522769,house detachment
+burden,B,B1,ft_transformer,H2,0.11341057752767156,house age
+burden,B,B1,ft_transformer,H3,0.11013363365905889,floor area
+burden,B,B1,ft_transformer,birth_year,0.10918291713931087,birth year respondent
+burden,B,B1,ft_transformer,country,0.15956841953551743,country
+burden,B,B1,ft_transformer,gdp_per_capita,0.09944277388479544,GDP per head (region)
+burden,B,B1,ft_transformer,heating_strategy,0.13661051511498282,heating strategy (H9)
+burden,B,B1,ft_transformer,household_size,0.13158699839209825,household size
+burden,B,B1,ft_transformer,inefficient_equipment_index,0.09567177440747589,inefficient equipment index
+burden,B,B1,ft_transformer,owner_share,0.10500356220301141,home-ownership share (region)
+burden,B,B1,ft_transformer,pop_density,0.08351815106452226,population density
+burden,B,B1,ft_transformer,pre1981_share,0.09928005276808625,share of dwellings built before 1981 (region)
+burden,B,B1,ft_transformer,vulnerability_index,0.07260263633442647,household vulnerability index
+burden,B,B1,ft_transformer,wealth_index,0.10757045098632698,wealth index (house-value stand-in)
+burden,B,B1,xgboost,H1,0.09482971947509931,house detachment
+burden,B,B1,xgboost,H2,0.06521029584860785,house age
+burden,B,B1,xgboost,H3,0.0967495342906107,floor area
+burden,B,B1,xgboost,birth_year,0.1345200487446653,birth year respondent
+burden,B,B1,xgboost,country,0.19353375525105268,country
+burden,B,B1,xgboost,gdp_per_capita,0.13510820171567473,GDP per head (region)
+burden,B,B1,xgboost,heating_strategy,0.06491790635238766,heating strategy (H9)
+burden,B,B1,xgboost,household_size,0.16591900599329376,household size
+burden,B,B1,xgboost,inefficient_equipment_index,0.07344396629027482,inefficient equipment index
+burden,B,B1,xgboost,owner_share,0.08585353979300633,home-ownership share (region)
+burden,B,B1,xgboost,pop_density,0.13786103903944696,population density
+burden,B,B1,xgboost,pre1981_share,0.112576048343881,share of dwellings built before 1981 (region)
+burden,B,B1,xgboost,vulnerability_index,0.09019299816681554,household vulnerability index
+burden,B,B1,xgboost,wealth_index,0.20711548382097797,wealth index (house-value stand-in)
+burden,B,B2,catboost,H1,0.07681564432604389,house detachment
+burden,B,B2,catboost,H2,0.030615027903375988,house age
+burden,B,B2,catboost,H3,0.07010505472448252,floor area
+burden,B,B2,catboost,birth_year,0.1120167380556334,birth year respondent
+burden,B,B2,catboost,country,0.2326917028074095,country
+burden,B,B2,catboost,density_x_urban,0.07574249750808008,density x urban area
+burden,B,B2,catboost,gdp_per_capita,0.0840800670843917,GDP per head (region)
+burden,B,B2,catboost,hdd_x_solid,0.06838311624740588,cold winter x solid-fuel heating
+burden,B,B2,catboost,heating_need_kwh,0.061038730002418884,heating need (kWh)
+burden,B,B2,catboost,heating_need_pp,0.08199684278520863,heating need per person
+burden,B,B2,catboost,heating_strategy,0.015886994929843627,heating strategy (H9)
+burden,B,B2,catboost,household_size,0.16351010698349674,household size
+burden,B,B2,catboost,inefficient_equipment_index,0.02505821521347659,inefficient equipment index
+burden,B,B2,catboost,owner_share,0.05392621470524484,home-ownership share (region)
+burden,B,B2,catboost,pop_density,0.06989257590183165,population density
+burden,B,B2,catboost,pre1981_share,0.03821532850171482,share of dwellings built before 1981 (region)
+burden,B,B2,catboost,vulnerability_index,0.1339450958553688,household vulnerability index
+burden,B,B2,catboost,wealth_index,0.2276155034400265,wealth index (house-value stand-in)
+burden,B,B2,ft_transformer,H1,0.09525211941964064,house detachment
+burden,B,B2,ft_transformer,H2,0.09392637768472617,house age
+burden,B,B2,ft_transformer,H3,0.08711527588267341,floor area
+burden,B,B2,ft_transformer,birth_year,0.09060948427436841,birth year respondent
+burden,B,B2,ft_transformer,country,0.13665929112926634,country
+burden,B,B2,ft_transformer,density_x_urban,0.08902565924996438,density x urban area
+burden,B,B2,ft_transformer,gdp_per_capita,0.07495466540268367,GDP per head (region)
+burden,B,B2,ft_transformer,hdd_x_solid,0.09193930815436338,cold winter x solid-fuel heating
+burden,B,B2,ft_transformer,heating_need_kwh,0.0898265862407662,heating need (kWh)
+burden,B,B2,ft_transformer,heating_need_pp,0.0937322907588158,heating need per person
+burden,B,B2,ft_transformer,heating_strategy,0.10561682630979109,heating strategy (H9)
+burden,B,B2,ft_transformer,household_size,0.1117755299186491,household size
+burden,B,B2,ft_transformer,inefficient_equipment_index,0.07535667496954078,inefficient equipment index
+burden,B,B2,ft_transformer,owner_share,0.08281639132980509,home-ownership share (region)
+burden,B,B2,ft_transformer,pop_density,0.07647719422776371,population density
+burden,B,B2,ft_transformer,pre1981_share,0.08280637553115064,share of dwellings built before 1981 (region)
+burden,B,B2,ft_transformer,vulnerability_index,0.07639161426478464,household vulnerability index
+burden,B,B2,ft_transformer,wealth_index,0.08788697002714997,wealth index (house-value stand-in)
+burden,B,B2,xgboost,H1,0.043084326564810656,house detachment
+burden,B,B2,xgboost,H2,0.046414192664882496,house age
+burden,B,B2,xgboost,H3,0.05850698111582234,floor area
+burden,B,B2,xgboost,birth_year,0.10946060157891344,birth year respondent
+burden,B,B2,xgboost,country,0.1612684092292348,country
+burden,B,B2,xgboost,density_x_urban,0.12827731087277972,density x urban area
+burden,B,B2,xgboost,gdp_per_capita,0.11884348321002,GDP per head (region)
+burden,B,B2,xgboost,hdd_x_solid,0.09856874724652046,cold winter x solid-fuel heating
+burden,B,B2,xgboost,heating_need_kwh,0.10233918100617133,heating need (kWh)
+burden,B,B2,xgboost,heating_need_pp,0.13397624125575647,heating need per person
+burden,B,B2,xgboost,heating_strategy,0.048161213575437636,heating strategy (H9)
+burden,B,B2,xgboost,household_size,0.1446414547448957,household size
+burden,B,B2,xgboost,inefficient_equipment_index,0.06259008496706568,inefficient equipment index
+burden,B,B2,xgboost,owner_share,0.08206564948688626,home-ownership share (region)
+burden,B,B2,xgboost,pop_density,0.08595889428613367,population density
+burden,B,B2,xgboost,pre1981_share,0.07999550041801237,share of dwellings built before 1981 (region)
+burden,B,B2,xgboost,vulnerability_index,0.08533381582071904,household vulnerability index
+burden,B,B2,xgboost,wealth_index,0.18976089378702082,wealth index (house-value stand-in)
+burden,C,B0,catboost,H1,0.04485349146704591,house detachment
+burden,C,B0,catboost,H2,0.0141437724737722,house age
+burden,C,B0,catboost,H3,0.049097451091961154,floor area
+burden,C,B0,catboost,birth_year,0.021205755830776225,birth year respondent
+burden,C,B0,catboost,country,0.049653977572923905,country
+burden,C,B0,catboost,heating_strategy,0.007669386947913462,heating strategy (H9)
+burden,C,B0,catboost,household_size,0.03144757491561549,household size
+burden,C,B0,catboost,income_bracket,0.7819285896999916,income bracket
+burden,C,B0,ft_transformer,H1,0.11476746605328268,house detachment
+burden,C,B0,ft_transformer,H2,0.10711979624821212,house age
+burden,C,B0,ft_transformer,H3,0.10456072902042149,floor area
+burden,C,B0,ft_transformer,birth_year,0.10593052409391163,birth year respondent
+burden,C,B0,ft_transformer,country,0.14499104286047595,country
+burden,C,B0,ft_transformer,heating_strategy,0.11204549938760817,heating strategy (H9)
+burden,C,B0,ft_transformer,household_size,0.10646700568664183,household size
+burden,C,B0,ft_transformer,income_bracket,0.20411793664944616,income bracket
+burden,C,B0,xgboost,H1,0.03427963622412699,house detachment
+burden,C,B0,xgboost,H2,0.026838307748914755,house age
+burden,C,B0,xgboost,H3,0.036116986621689925,floor area
+burden,C,B0,xgboost,birth_year,0.04712254830455962,birth year respondent
+burden,C,B0,xgboost,country,0.051265246545539725,country
+burden,C,B0,xgboost,heating_strategy,0.024986130080935434,heating strategy (H9)
+burden,C,B0,xgboost,household_size,0.03462961908274731,household size
+burden,C,B0,xgboost,income_bracket,0.7447615253914862,income bracket
+burden,C,B1,catboost,H1,0.04362524325719087,house detachment
+burden,C,B1,catboost,H2,0.013395628148826314,house age
+burden,C,B1,catboost,H3,0.044389706014595846,floor area
+burden,C,B1,catboost,birth_year,0.020578052399506004,birth year respondent
+burden,C,B1,catboost,country,0.038288773798215464,country
+burden,C,B1,catboost,gdp_per_capita,0.022816211855943763,GDP per head (region)
+burden,C,B1,catboost,heating_strategy,0.005977193785415032,heating strategy (H9)
+burden,C,B1,catboost,household_size,0.028964031840426965,household size
+burden,C,B1,catboost,income_bracket,0.7466588360439528,income bracket
+burden,C,B1,catboost,income_eur_equiv,0.0458065303144005,income per adult equivalent (EUR)
+burden,C,B1,catboost,inefficient_equipment_index,0.020732851203617474,inefficient equipment index
+burden,C,B1,catboost,owner_share,0.030021807142286597,home-ownership share (region)
+burden,C,B1,catboost,pop_density,0.02516197525953499,population density
+burden,C,B1,catboost,pre1981_share,0.01989383547557405,share of dwellings built before 1981 (region)
+burden,C,B1,catboost,vulnerability_index,0.024734535726819523,household vulnerability index
+burden,C,B1,catboost,wealth_index,0.04639248798065187,wealth index (house-value stand-in)
+burden,C,B1,ft_transformer,H1,0.10368241601007955,house detachment
+burden,C,B1,ft_transformer,H2,0.0969740319538326,house age
+burden,C,B1,ft_transformer,H3,0.09195302050365246,floor area
+burden,C,B1,ft_transformer,birth_year,0.09243688330627711,birth year respondent
+burden,C,B1,ft_transformer,country,0.12343215865171707,country
+burden,C,B1,ft_transformer,gdp_per_capita,0.06741177026699188,GDP per head (region)
+burden,C,B1,ft_transformer,heating_strategy,0.09952081155457396,heating strategy (H9)
+burden,C,B1,ft_transformer,household_size,0.09173299132858163,household size
+burden,C,B1,ft_transformer,income_bracket,0.1767585433409139,income bracket
+burden,C,B1,ft_transformer,income_eur_equiv,0.08248417715379962,income per adult equivalent (EUR)
+burden,C,B1,ft_transformer,inefficient_equipment_index,0.06346463759085463,inefficient equipment index
+burden,C,B1,ft_transformer,owner_share,0.07401826762481888,home-ownership share (region)
+burden,C,B1,ft_transformer,pop_density,0.07768344440883591,population density
+burden,C,B1,ft_transformer,pre1981_share,0.07686092475117322,share of dwellings built before 1981 (region)
+burden,C,B1,ft_transformer,vulnerability_index,0.06278586053249313,household vulnerability index
+burden,C,B1,ft_transformer,wealth_index,0.07968907970463744,wealth index (house-value stand-in)
+burden,C,B1,xgboost,H1,0.03025257806682724,house detachment
+burden,C,B1,xgboost,H2,0.022903254517178808,house age
+burden,C,B1,xgboost,H3,0.030984211597737756,floor area
+burden,C,B1,xgboost,birth_year,0.039626059519601124,birth year respondent
+burden,C,B1,xgboost,country,0.03862816807783631,country
+burden,C,B1,xgboost,gdp_per_capita,0.033259952778816555,GDP per head (region)
+burden,C,B1,xgboost,heating_strategy,0.02154952050772719,heating strategy (H9)
+burden,C,B1,xgboost,household_size,0.028633878721474874,household size
+burden,C,B1,xgboost,income_bracket,0.7165641452628779,income bracket
+burden,C,B1,xgboost,income_eur_equiv,0.047834198235317905,income per adult equivalent (EUR)
+burden,C,B1,xgboost,inefficient_equipment_index,0.035233876917735156,inefficient equipment index
+burden,C,B1,xgboost,owner_share,0.034121983407108,home-ownership share (region)
+burden,C,B1,xgboost,pop_density,0.0547221419166663,population density
+burden,C,B1,xgboost,pre1981_share,0.04638237211308445,share of dwellings built before 1981 (region)
+burden,C,B1,xgboost,vulnerability_index,0.023184664420047678,household vulnerability index
+burden,C,B1,xgboost,wealth_index,0.047069438230955656,wealth index (house-value stand-in)
+burden,C,B2,catboost,H1,0.011042691155265178,house detachment
+burden,C,B2,catboost,H2,0.011745340645543223,house age
+burden,C,B2,catboost,H3,0.02745249689750347,floor area
+burden,C,B2,catboost,birth_year,0.0182800263913903,birth year respondent
+burden,C,B2,catboost,country,0.036096557004067456,country
+burden,C,B2,catboost,density_x_urban,0.02247678351656058,density x urban area
+burden,C,B2,catboost,gdp_per_capita,0.01258747614353356,GDP per head (region)
+burden,C,B2,catboost,hdd_x_solid,0.022915373876278816,cold winter x solid-fuel heating
+burden,C,B2,catboost,heating_need_kwh,0.021524195285915017,heating need (kWh)
+burden,C,B2,catboost,heating_need_pp,0.02602477970627056,heating need per person
+burden,C,B2,catboost,heating_strategy,0.006044258791249623,heating strategy (H9)
+burden,C,B2,catboost,household_size,0.022176919824553457,household size
+burden,C,B2,catboost,income_bracket,0.721022282384641,income bracket
+burden,C,B2,catboost,income_eur_equiv,0.031695664299882145,income per adult equivalent (EUR)
+burden,C,B2,catboost,inefficient_equipment_index,0.011025024154207908,inefficient equipment index
+burden,C,B2,catboost,need_burden,0.05434874301299039,heating need per EUR income
+burden,C,B2,catboost,owner_share,0.015084574540736674,home-ownership share (region)
+burden,C,B2,catboost,pop_density,0.01480865874695096,population density
+burden,C,B2,catboost,pre1981_share,0.016236774148394154,share of dwellings built before 1981 (region)
+burden,C,B2,catboost,vulnerability_index,0.02135692992483675,household vulnerability index
+burden,C,B2,catboost,wealth_index,0.04628597096983867,wealth index (house-value stand-in)
+burden,C,B2,ft_transformer,H1,0.07777125682964976,house detachment
+burden,C,B2,ft_transformer,H2,0.06840020624071587,house age
+burden,C,B2,ft_transformer,H3,0.06822446236551902,floor area
+burden,C,B2,ft_transformer,birth_year,0.07192280030219325,birth year respondent
+burden,C,B2,ft_transformer,country,0.09677335663854277,country
+burden,C,B2,ft_transformer,density_x_urban,0.07843144735155641,density x urban area
+burden,C,B2,ft_transformer,gdp_per_capita,0.05996763965963604,GDP per head (region)
+burden,C,B2,ft_transformer,hdd_x_solid,0.08423881567825085,cold winter x solid-fuel heating
+burden,C,B2,ft_transformer,heating_need_kwh,0.06736982153579543,heating need (kWh)
+burden,C,B2,ft_transformer,heating_need_pp,0.07673246934597662,heating need per person
+burden,C,B2,ft_transformer,heating_strategy,0.0844195166031429,heating strategy (H9)
+burden,C,B2,ft_transformer,household_size,0.07400364494364614,household size
+burden,C,B2,ft_transformer,income_bracket,0.14026301126444268,income bracket
+burden,C,B2,ft_transformer,income_eur_equiv,0.059335500354246805,income per adult equivalent (EUR)
+burden,C,B2,ft_transformer,inefficient_equipment_index,0.05261504315145647,inefficient equipment index
+burden,C,B2,ft_transformer,need_burden,0.07457064564275205,heating need per EUR income
+burden,C,B2,ft_transformer,owner_share,0.057835397725338786,home-ownership share (region)
+burden,C,B2,ft_transformer,pop_density,0.06718987870645698,population density
+burden,C,B2,ft_transformer,pre1981_share,0.06361099924199273,share of dwellings built before 1981 (region)
+burden,C,B2,ft_transformer,vulnerability_index,0.04675302799661583,household vulnerability index
+burden,C,B2,ft_transformer,wealth_index,0.06360667973961867,wealth index (house-value stand-in)
+burden,C,B2,xgboost,H1,0.009738225979683095,house detachment
+burden,C,B2,xgboost,H2,0.014809891778424464,house age
+burden,C,B2,xgboost,H3,0.017052182867679937,floor area
+burden,C,B2,xgboost,birth_year,0.029373912788641633,birth year respondent
+burden,C,B2,xgboost,country,0.03373581436618336,country
+burden,C,B2,xgboost,density_x_urban,0.04038925858649124,density x urban area
+burden,C,B2,xgboost,gdp_per_capita,0.028648695411410297,GDP per head (region)
+burden,C,B2,xgboost,hdd_x_solid,0.028598658582579057,cold winter x solid-fuel heating
+burden,C,B2,xgboost,heating_need_kwh,0.04051793746505547,heating need (kWh)
+burden,C,B2,xgboost,heating_need_pp,0.0344323676774889,heating need per person
+burden,C,B2,xgboost,heating_strategy,0.019182784470144276,heating strategy (H9)
+burden,C,B2,xgboost,household_size,0.02411211720220736,household size
+burden,C,B2,xgboost,income_bracket,0.6650820326021182,income bracket
+burden,C,B2,xgboost,income_eur_equiv,0.03145469724068045,income per adult equivalent (EUR)
+burden,C,B2,xgboost,inefficient_equipment_index,0.028034815175521567,inefficient equipment index
+burden,C,B2,xgboost,need_burden,0.05257694203094968,heating need per EUR income
+burden,C,B2,xgboost,owner_share,0.02727358651415884,home-ownership share (region)
+burden,C,B2,xgboost,pop_density,0.03287645880220886,population density
+burden,C,B2,xgboost,pre1981_share,0.03457256105043798,share of dwellings built before 1981 (region)
+burden,C,B2,xgboost,vulnerability_index,0.018537534991308915,household vulnerability index
+burden,C,B2,xgboost,wealth_index,0.04101784686217267,wealth index (house-value stand-in)
+burden,C,B2p,catboost,H1,0.01649903627650617,house detachment
+burden,C,B2p,catboost,H2,0.010808767393081422,house age
+burden,C,B2p,catboost,H3,0.029902993772605888,floor area
+burden,C,B2p,catboost,birth_year,0.017131004383247883,birth year respondent
+burden,C,B2p,catboost,country,0.03065824817244586,country
+burden,C,B2p,catboost,density_x_urban,0.02287722378979968,density x urban area
+burden,C,B2p,catboost,gdp_per_capita,0.010572173271720373,GDP per head (region)
+burden,C,B2p,catboost,heating_need_kwh,0.016367884438476445,heating need (kWh)
+burden,C,B2p,catboost,heating_need_pp,0.019632058893307602,heating need per person
+burden,C,B2p,catboost,heating_strategy,0.007245297382173393,heating strategy (H9)
+burden,C,B2p,catboost,household_size,0.022821008115169746,household size
+burden,C,B2p,catboost,income_bracket,0.7126071943759946,income bracket
+burden,C,B2p,catboost,income_eur_equiv,0.035964683364113174,income per adult equivalent (EUR)
+burden,C,B2p,catboost,inefficient_equipment_index,0.014272557148684877,inefficient equipment index
+burden,C,B2p,catboost,need_burden,0.057966313255529686,heating need per EUR income
+burden,C,B2p,catboost,owner_share,0.01462582461150014,home-ownership share (region)
+burden,C,B2p,catboost,pop_density,0.01376789059735724,population density
+burden,C,B2p,catboost,pre1981_share,0.015383203147842247,share of dwellings built before 1981 (region)
+burden,C,B2p,catboost,vulnerability_index,0.027437174553146374,household vulnerability index
+burden,C,B2p,catboost,wealth_index,0.04462459355999249,wealth index (house-value stand-in)
+burden,C,B2p,catboost,wind_hs,0.035947044540394255,wind speed (winter)
+burden,C,B2p,ft_transformer,H1,0.07603562048085752,house detachment
+burden,C,B2p,ft_transformer,H2,0.06687328043766304,house age
+burden,C,B2p,ft_transformer,H3,0.06959055013538461,floor area
+burden,C,B2p,ft_transformer,birth_year,0.07288612405592552,birth year respondent
+burden,C,B2p,ft_transformer,country,0.0915803085952421,country
+burden,C,B2p,ft_transformer,density_x_urban,0.08181347412550188,density x urban area
+burden,C,B2p,ft_transformer,gdp_per_capita,0.05269660884177603,GDP per head (region)
+burden,C,B2p,ft_transformer,heating_need_kwh,0.06936625144290157,heating need (kWh)
+burden,C,B2p,ft_transformer,heating_need_pp,0.06680275771105891,heating need per person
+burden,C,B2p,ft_transformer,heating_strategy,0.08799119109264958,heating strategy (H9)
+burden,C,B2p,ft_transformer,household_size,0.07292805029578374,household size
+burden,C,B2p,ft_transformer,income_bracket,0.137002968164356,income bracket
+burden,C,B2p,ft_transformer,income_eur_equiv,0.05959939549809917,income per adult equivalent (EUR)
+burden,C,B2p,ft_transformer,inefficient_equipment_index,0.05795800687168779,inefficient equipment index
+burden,C,B2p,ft_transformer,need_burden,0.07167630684062268,heating need per EUR income
+burden,C,B2p,ft_transformer,owner_share,0.04882158604635773,home-ownership share (region)
+burden,C,B2p,ft_transformer,pop_density,0.07460184799914257,population density
+burden,C,B2p,ft_transformer,pre1981_share,0.061854895188143126,share of dwellings built before 1981 (region)
+burden,C,B2p,ft_transformer,vulnerability_index,0.04836008609960345,household vulnerability index
+burden,C,B2p,ft_transformer,wealth_index,0.06203115622332231,wealth index (house-value stand-in)
+burden,C,B2p,ft_transformer,wind_hs,0.08936658354298735,wind speed (winter)
+burden,C,B2p,xgboost,H1,0.011668397666430118,house detachment
+burden,C,B2p,xgboost,H2,0.015826592587179427,house age
+burden,C,B2p,xgboost,H3,0.020258582039091276,floor area
+burden,C,B2p,xgboost,birth_year,0.029522294223522334,birth year respondent
+burden,C,B2p,xgboost,country,0.0246369609662053,country
+burden,C,B2p,xgboost,density_x_urban,0.04112493074735287,density x urban area
+burden,C,B2p,xgboost,gdp_per_capita,0.028290325073811684,GDP per head (region)
+burden,C,B2p,xgboost,heating_need_kwh,0.03467538723725016,heating need (kWh)
+burden,C,B2p,xgboost,heating_need_pp,0.03327131117979521,heating need per person
+burden,C,B2p,xgboost,heating_strategy,0.019042426206918213,heating strategy (H9)
+burden,C,B2p,xgboost,household_size,0.024472386259528547,household size
+burden,C,B2p,xgboost,income_bracket,0.666856107079294,income bracket
+burden,C,B2p,xgboost,income_eur_equiv,0.030557969193840472,income per adult equivalent (EUR)
+burden,C,B2p,xgboost,inefficient_equipment_index,0.02780874311683566,inefficient equipment index
+burden,C,B2p,xgboost,need_burden,0.05404158170589227,heating need per EUR income
+burden,C,B2p,xgboost,owner_share,0.025226356585567992,home-ownership share (region)
+burden,C,B2p,xgboost,pop_density,0.028075056005877206,population density
+burden,C,B2p,xgboost,pre1981_share,0.034176108536194204,share of dwellings built before 1981 (region)
+burden,C,B2p,xgboost,vulnerability_index,0.019291914006173458,household vulnerability index
+burden,C,B2p,xgboost,wealth_index,0.04109912498112033,wealth index (house-value stand-in)
+burden,C,B2p,xgboost,wind_hs,0.04741366848897578,wind speed (winter)
+needqr,A,all,catboost,income_bracket,1.0,income bracket
+needqr,A,all,ft_transformer,income_bracket,1.0,income bracket
+needqr,A,all,xgboost,income_bracket,1.0,income bracket
+needqr,B,B0,catboost,H1,0.014282609124015811,house detachment
+needqr,B,B0,catboost,H2,0.030975317854846994,house age
+needqr,B,B0,catboost,H3,0.05467598002305842,floor area
+needqr,B,B0,catboost,birth_year,0.14179962474970628,birth year respondent
+needqr,B,B0,catboost,country,0.4638776325712435,country
+needqr,B,B0,catboost,heating_strategy,0.05590287736691327,heating strategy (H9)
+needqr,B,B0,catboost,household_size,0.23848595831021574,household size
+needqr,B,B0,ft_transformer,H1,0.13370201788824027,house detachment
+needqr,B,B0,ft_transformer,H2,0.13627014764025125,house age
+needqr,B,B0,ft_transformer,H3,0.12828108835045388,floor area
+needqr,B,B0,ft_transformer,birth_year,0.1300273806062712,birth year respondent
+needqr,B,B0,ft_transformer,country,0.18186432404856845,country
+needqr,B,B0,ft_transformer,heating_strategy,0.14962283983500255,heating strategy (H9)
+needqr,B,B0,ft_transformer,household_size,0.14023220163121236,household size
+needqr,B,B0,xgboost,H1,0.0662625869233359,house detachment
+needqr,B,B0,xgboost,H2,0.08072799305861086,house age
+needqr,B,B0,xgboost,H3,0.09074243000054548,floor area
+needqr,B,B0,xgboost,birth_year,0.15997439419464504,birth year respondent
+needqr,B,B0,xgboost,country,0.29408634856283816,country
+needqr,B,B0,xgboost,heating_strategy,0.09933789738070965,heating strategy (H9)
+needqr,B,B0,xgboost,household_size,0.20886834987931494,household size
+needqr,B,B1,catboost,H1,0.005452584590959384,house detachment
+needqr,B,B1,catboost,H11B,0.04991418795031727,dishwasher age
+needqr,B,B1,catboost,H2,0.01350257179830044,house age
+needqr,B,B1,catboost,H3,0.027384219750989522,floor area
+needqr,B,B1,catboost,S8,0.19750482190702767,S8 income adequacy
+needqr,B,B1,catboost,birth_year,0.04845636382215787,birth year respondent
+needqr,B,B1,catboost,country,0.3280073200347889,country
+needqr,B,B1,catboost,dwelling_efficiency_index,0.033642316142129515,dwelling efficiency index
+needqr,B,B1,catboost,floor_area_per_person,0.01873760465255494,floor area per person
+needqr,B,B1,catboost,gdp_per_capita,0.03024555811016027,GDP per head (region)
+needqr,B,B1,catboost,heating_strategy,0.012198327517684564,heating strategy (H9)
+needqr,B,B1,catboost,heating_system_type,0.009171511283237201,heating system type
+needqr,B,B1,catboost,household_size,0.14356707047115858,household size
+needqr,B,B1,catboost,inefficient_equipment_index,0.027481920270562604,inefficient equipment index
+needqr,B,B1,catboost,owner_share,0.01306286900408956,home-ownership share (region)
+needqr,B,B1,catboost,pop_density,0.01130860610733528,population density
+needqr,B,B1,catboost,poverty_rate,0.02157450392726673,poverty rate (region)
+needqr,B,B1,catboost,pre1981_share,0.0242071322718809,share of dwellings built before 1981 (region)
+needqr,B,B1,catboost,unemployment_rate,0.020608475910637417,unemployment rate (region)
+needqr,B,B1,catboost,vulnerability_index,0.1831180359672125,household vulnerability index
+needqr,B,B1,catboost,wealth_index,0.1677829590153435,wealth index (house-value stand-in)
+needqr,B,B1,ft_transformer,H1,0.07160132256926456,house detachment
+needqr,B,B1,ft_transformer,H11B,0.06080161160815924,dishwasher age
+needqr,B,B1,ft_transformer,H2,0.0743753339486499,house age
+needqr,B,B1,ft_transformer,H3,0.06967843843561734,floor area
+needqr,B,B1,ft_transformer,S8,0.07655140333085927,S8 income adequacy
+needqr,B,B1,ft_transformer,birth_year,0.07191197652715425,birth year respondent
+needqr,B,B1,ft_transformer,country,0.1033012526886259,country
+needqr,B,B1,ft_transformer,dwelling_efficiency_index,0.05548026951801868,dwelling efficiency index
+needqr,B,B1,ft_transformer,floor_area_per_person,0.05998171087552823,floor area per person
+needqr,B,B1,ft_transformer,gdp_per_capita,0.07539082591769773,GDP per head (region)
+needqr,B,B1,ft_transformer,heating_strategy,0.08494767728017862,heating strategy (H9)
+needqr,B,B1,ft_transformer,heating_system_type,0.06625153484949464,heating system type
+needqr,B,B1,ft_transformer,household_size,0.07703436503726871,household size
+needqr,B,B1,ft_transformer,inefficient_equipment_index,0.0660141524310776,inefficient equipment index
+needqr,B,B1,ft_transformer,owner_share,0.05509479469315601,home-ownership share (region)
+needqr,B,B1,ft_transformer,pop_density,0.05929593970218077,population density
+needqr,B,B1,ft_transformer,poverty_rate,0.05895255881847713,poverty rate (region)
+needqr,B,B1,ft_transformer,pre1981_share,0.06813704458656067,share of dwellings built before 1981 (region)
+needqr,B,B1,ft_transformer,unemployment_rate,0.06450617111534428,unemployment rate (region)
+needqr,B,B1,ft_transformer,vulnerability_index,0.06752172600775627,household vulnerability index
+needqr,B,B1,ft_transformer,wealth_index,0.06410323492288861,wealth index (house-value stand-in)
+needqr,B,B1,xgboost,H1,0.02241933466977012,house detachment
+needqr,B,B1,xgboost,H11B,0.03363577289876235,dishwasher age
+needqr,B,B1,xgboost,H2,0.041978039539909404,house age
+needqr,B,B1,xgboost,H3,0.04675651617741565,floor area
+needqr,B,B1,xgboost,S8,0.14372801633724666,S8 income adequacy
+needqr,B,B1,xgboost,birth_year,0.06732319510885881,birth year respondent
+needqr,B,B1,xgboost,country,0.1469579115996242,country
+needqr,B,B1,xgboost,dwelling_efficiency_index,0.04609950252138185,dwelling efficiency index
+needqr,B,B1,xgboost,floor_area_per_person,0.06442080120203156,floor area per person
+needqr,B,B1,xgboost,gdp_per_capita,0.09000738307641422,GDP per head (region)
+needqr,B,B1,xgboost,heating_strategy,0.04165643469442772,heating strategy (H9)
+needqr,B,B1,xgboost,heating_system_type,0.038448663620853855,heating system type
+needqr,B,B1,xgboost,household_size,0.12050245380625856,household size
+needqr,B,B1,xgboost,inefficient_equipment_index,0.05942535030075369,inefficient equipment index
+needqr,B,B1,xgboost,owner_share,0.027851825779476494,home-ownership share (region)
+needqr,B,B1,xgboost,pop_density,0.049286086773081154,population density
+needqr,B,B1,xgboost,poverty_rate,0.036868672149679295,poverty rate (region)
+needqr,B,B1,xgboost,pre1981_share,0.07182361433029345,share of dwellings built before 1981 (region)
+needqr,B,B1,xgboost,unemployment_rate,0.040426526909242796,unemployment rate (region)
+needqr,B,B1,xgboost,vulnerability_index,0.11714608574202887,household vulnerability index
+needqr,B,B1,xgboost,wealth_index,0.14595049928291493,wealth index (house-value stand-in)
+needqr,B,B2,catboost,H1,0.005966133312598876,house detachment
+needqr,B,B2,catboost,H11B,0.041044137320848474,dishwasher age
+needqr,B,B2,catboost,H2,0.01283548098700665,house age
+needqr,B,B2,catboost,H3,0.026785242537635232,floor area
+needqr,B,B2,catboost,S8,0.18151367080124123,S8 income adequacy
+needqr,B,B2,catboost,birth_year,0.04851047400326247,birth year respondent
+needqr,B,B2,catboost,cdd_x_ac,0.051883559873022914,hot summer x air conditioning
+needqr,B,B2,catboost,country,0.25537354103228255,country
+needqr,B,B2,catboost,dwelling_efficiency_index,0.03135927188797308,dwelling efficiency index
+needqr,B,B2,catboost,floor_area_per_person,0.01740913530257284,floor area per person
+needqr,B,B2,catboost,gdp_per_capita,0.02420555028451604,GDP per head (region)
+needqr,B,B2,catboost,hdd_x_electric,0.04137542042191676,cold winter x electric heating
+needqr,B,B2,catboost,hdd_x_solid,0.02326932356075843,cold winter x solid-fuel heating
+needqr,B,B2,catboost,heating_need_pp,0.03757452444355323,heating need per person
+needqr,B,B2,catboost,heating_strategy,0.010148451379958375,heating strategy (H9)
+needqr,B,B2,catboost,heating_system_type,0.004854218786998715,heating system type
+needqr,B,B2,catboost,household_size,0.1320871663463312,household size
+needqr,B,B2,catboost,inefficient_equipment_index,0.02684137941008554,inefficient equipment index
+needqr,B,B2,catboost,owner_share,0.011894729638419,home-ownership share (region)
+needqr,B,B2,catboost,pop_density,0.010585977043771256,population density
+needqr,B,B2,catboost,poverty_rate,0.02223880438207118,poverty rate (region)
+needqr,B,B2,catboost,pre1981_share,0.022030330522191718,share of dwellings built before 1981 (region)
+needqr,B,B2,catboost,solar_hs,0.105299515691612,solar radiation (winter)
+needqr,B,B2,catboost,unemployment_rate,0.022614147986128062,unemployment rate (region)
+needqr,B,B2,catboost,vulnerability_index,0.16935917804289471,household vulnerability index
+needqr,B,B2,catboost,wealth_index,0.16500172901234497,wealth index (house-value stand-in)
+needqr,B,B2,ft_transformer,H1,0.06740346489637575,house detachment
+needqr,B,B2,ft_transformer,H11B,0.05847115368465126,dishwasher age
+needqr,B,B2,ft_transformer,H2,0.06053007065901118,house age
+needqr,B,B2,ft_transformer,H3,0.06113085180141134,floor area
+needqr,B,B2,ft_transformer,S8,0.06962218638582707,S8 income adequacy
+needqr,B,B2,ft_transformer,birth_year,0.06377746632894433,birth year respondent
+needqr,B,B2,ft_transformer,cdd_x_ac,0.06482200114712822,hot summer x air conditioning
+needqr,B,B2,ft_transformer,country,0.08401453801535437,country
+needqr,B,B2,ft_transformer,dwelling_efficiency_index,0.05192817919645145,dwelling efficiency index
+needqr,B,B2,ft_transformer,floor_area_per_person,0.05286520010294501,floor area per person
+needqr,B,B2,ft_transformer,gdp_per_capita,0.07005890209744957,GDP per head (region)
+needqr,B,B2,ft_transformer,hdd_x_electric,0.06677694371959117,cold winter x electric heating
+needqr,B,B2,ft_transformer,hdd_x_solid,0.05486284901518562,cold winter x solid-fuel heating
+needqr,B,B2,ft_transformer,heating_need_pp,0.06601055655763306,heating need per person
+needqr,B,B2,ft_transformer,heating_strategy,0.07203316158459486,heating strategy (H9)
+needqr,B,B2,ft_transformer,heating_system_type,0.06033588991261477,heating system type
+needqr,B,B2,ft_transformer,household_size,0.06465846169529695,household size
+needqr,B,B2,ft_transformer,inefficient_equipment_index,0.05725375034114668,inefficient equipment index
+needqr,B,B2,ft_transformer,owner_share,0.04802391664427993,home-ownership share (region)
+needqr,B,B2,ft_transformer,pop_density,0.05143746367378049,population density
+needqr,B,B2,ft_transformer,poverty_rate,0.0510766649691555,poverty rate (region)
+needqr,B,B2,ft_transformer,pre1981_share,0.0651483438223094,share of dwellings built before 1981 (region)
+needqr,B,B2,ft_transformer,solar_hs,0.05916910598929758,solar radiation (winter)
+needqr,B,B2,ft_transformer,unemployment_rate,0.05693515972203675,unemployment rate (region)
+needqr,B,B2,ft_transformer,vulnerability_index,0.05811245119895872,household vulnerability index
+needqr,B,B2,ft_transformer,wealth_index,0.051906636753379046,wealth index (house-value stand-in)
+needqr,B,B2,xgboost,H1,0.015123009803414288,house detachment
+needqr,B,B2,xgboost,H11B,0.030451535178057265,dishwasher age
+needqr,B,B2,xgboost,H2,0.035756428142851356,house age
+needqr,B,B2,xgboost,H3,0.041193827956387256,floor area
+needqr,B,B2,xgboost,S8,0.1331306300383601,S8 income adequacy
+needqr,B,B2,xgboost,birth_year,0.060925646117020484,birth year respondent
+needqr,B,B2,xgboost,cdd_x_ac,0.050954860842856754,hot summer x air conditioning
+needqr,B,B2,xgboost,country,0.08767044067125299,country
+needqr,B,B2,xgboost,dwelling_efficiency_index,0.04256141253796592,dwelling efficiency index
+needqr,B,B2,xgboost,floor_area_per_person,0.05129606846183761,floor area per person
+needqr,B,B2,xgboost,gdp_per_capita,0.07565052573207919,GDP per head (region)
+needqr,B,B2,xgboost,hdd_x_electric,0.04736268149953702,cold winter x electric heating
+needqr,B,B2,xgboost,hdd_x_solid,0.03955352327857706,cold winter x solid-fuel heating
+needqr,B,B2,xgboost,heating_need_pp,0.07343283150949748,heating need per person
+needqr,B,B2,xgboost,heating_strategy,0.037416213640742664,heating strategy (H9)
+needqr,B,B2,xgboost,heating_system_type,0.031891823379022265,heating system type
+needqr,B,B2,xgboost,household_size,0.1081037447692372,household size
+needqr,B,B2,xgboost,inefficient_equipment_index,0.05479332698130995,inefficient equipment index
+needqr,B,B2,xgboost,owner_share,0.022600782482185628,home-ownership share (region)
+needqr,B,B2,xgboost,pop_density,0.043278311708231376,population density
+needqr,B,B2,xgboost,poverty_rate,0.0344177810317211,poverty rate (region)
+needqr,B,B2,xgboost,pre1981_share,0.06521135076623284,share of dwellings built before 1981 (region)
+needqr,B,B2,xgboost,solar_hs,0.13586509061461335,solar radiation (winter)
+needqr,B,B2,xgboost,unemployment_rate,0.03419429366832268,unemployment rate (region)
+needqr,B,B2,xgboost,vulnerability_index,0.11091166724144184,household vulnerability index
+needqr,B,B2,xgboost,wealth_index,0.14280758048619324,wealth index (house-value stand-in)
+needqr,C,B0,catboost,H1,0.00699178475775637,house detachment
+needqr,C,B0,catboost,H2,0.014205031046877491,house age
+needqr,C,B0,catboost,H3,0.01627638935957059,floor area
+needqr,C,B0,catboost,birth_year,0.023169444848989085,birth year respondent
+needqr,C,B0,catboost,country,0.042756158709664746,country
+needqr,C,B0,catboost,heating_strategy,0.005368456587749542,heating strategy (H9)
+needqr,C,B0,catboost,household_size,0.02467919813890347,household size
+needqr,C,B0,catboost,income_bracket,0.8665535365504887,income bracket
+needqr,C,B0,ft_transformer,H1,0.12119032245977933,house detachment
+needqr,C,B0,ft_transformer,H2,0.13139731652482872,house age
+needqr,C,B0,ft_transformer,H3,0.11103529791787933,floor area
+needqr,C,B0,ft_transformer,birth_year,0.12641711893196725,birth year respondent
+needqr,C,B0,ft_transformer,country,0.1261331140009781,country
+needqr,C,B0,ft_transformer,heating_strategy,0.11854787660600444,heating strategy (H9)
+needqr,C,B0,ft_transformer,household_size,0.11663641498615093,household size
+needqr,C,B0,ft_transformer,income_bracket,0.1486425385724119,income bracket
+needqr,C,B0,xgboost,H1,0.011427827059467282,house detachment
+needqr,C,B0,xgboost,H2,0.026478489081043954,house age
+needqr,C,B0,xgboost,H3,0.022124455450124262,floor area
+needqr,C,B0,xgboost,birth_year,0.041599610532340604,birth year respondent
+needqr,C,B0,xgboost,country,0.033293976762652625,country
+needqr,C,B0,xgboost,heating_strategy,0.021208475876235606,heating strategy (H9)
+needqr,C,B0,xgboost,household_size,0.02915143096455085,household size
+needqr,C,B0,xgboost,income_bracket,0.8147157342735849,income bracket
+needqr,C,B1,catboost,H1,0.004224684946148709,house detachment
+needqr,C,B1,catboost,H11B,0.020578402998556566,dishwasher age
+needqr,C,B1,catboost,H2,0.008796533046081417,house age
+needqr,C,B1,catboost,H3,0.010955286161429899,floor area
+needqr,C,B1,catboost,S8,0.028655027450104266,S8 income adequacy
+needqr,C,B1,catboost,birth_year,0.012417284193039982,birth year respondent
+needqr,C,B1,catboost,country,0.011362376677870455,country
+needqr,C,B1,catboost,dwelling_efficiency_index,0.009655124729834074,dwelling efficiency index
+needqr,C,B1,catboost,floor_area_per_person,0.015086271746987533,floor area per person
+needqr,C,B1,catboost,gdp_per_capita,0.014670006248518651,GDP per head (region)
+needqr,C,B1,catboost,heating_strategy,0.004197019975402905,heating strategy (H9)
+needqr,C,B1,catboost,heating_system_type,0.003459891405034638,heating system type
+needqr,C,B1,catboost,household_size,0.014261211832056482,household size
+needqr,C,B1,catboost,income_bracket,0.8065271211771253,income bracket
+needqr,C,B1,catboost,income_eur_equiv,0.02291347267858615,income per adult equivalent (EUR)
+needqr,C,B1,catboost,inefficient_equipment_index,0.013076498248156015,inefficient equipment index
+needqr,C,B1,catboost,owner_share,0.005257647110348527,home-ownership share (region)
+needqr,C,B1,catboost,pop_density,0.008804457972417228,population density
+needqr,C,B1,catboost,poverty_rate,0.010634911349948097,poverty rate (region)
+needqr,C,B1,catboost,pre1981_share,0.009090262923108997,share of dwellings built before 1981 (region)
+needqr,C,B1,catboost,unemployment_rate,0.01082182518037043,unemployment rate (region)
+needqr,C,B1,catboost,vulnerability_index,0.030430539587344,household vulnerability index
+needqr,C,B1,catboost,wealth_index,0.031197244099647633,wealth index (house-value stand-in)
+needqr,C,B1,ft_transformer,H1,0.06200544034967877,house detachment
+needqr,C,B1,ft_transformer,H11B,0.05711326238405623,dishwasher age
+needqr,C,B1,ft_transformer,H2,0.06949713532973849,house age
+needqr,C,B1,ft_transformer,H3,0.060617088235697565,floor area
+needqr,C,B1,ft_transformer,S8,0.060607724640897045,S8 income adequacy
+needqr,C,B1,ft_transformer,birth_year,0.06280796601370915,birth year respondent
+needqr,C,B1,ft_transformer,country,0.06710195044421852,country
+needqr,C,B1,ft_transformer,dwelling_efficiency_index,0.05200310172243417,dwelling efficiency index
+needqr,C,B1,ft_transformer,floor_area_per_person,0.05298343199137481,floor area per person
+needqr,C,B1,ft_transformer,gdp_per_capita,0.07205141552577875,GDP per head (region)
+needqr,C,B1,ft_transformer,heating_strategy,0.06752352793346089,heating strategy (H9)
+needqr,C,B1,ft_transformer,heating_system_type,0.059574211567519575,heating system type
+needqr,C,B1,ft_transformer,household_size,0.060130253495749034,household size
+needqr,C,B1,ft_transformer,income_bracket,0.09832427574144935,income bracket
+needqr,C,B1,ft_transformer,income_eur_equiv,0.05690724019586087,income per adult equivalent (EUR)
+needqr,C,B1,ft_transformer,inefficient_equipment_index,0.055668236118650315,inefficient equipment index
+needqr,C,B1,ft_transformer,owner_share,0.04642042859015956,home-ownership share (region)
+needqr,C,B1,ft_transformer,pop_density,0.0497243133148444,population density
+needqr,C,B1,ft_transformer,poverty_rate,0.060653627061827135,poverty rate (region)
+needqr,C,B1,ft_transformer,pre1981_share,0.06163833378891007,share of dwellings built before 1981 (region)
+needqr,C,B1,ft_transformer,unemployment_rate,0.05574235853340525,unemployment rate (region)
+needqr,C,B1,ft_transformer,vulnerability_index,0.059905516234196265,household vulnerability index
+needqr,C,B1,ft_transformer,wealth_index,0.05295618422332712,wealth index (house-value stand-in)
+needqr,C,B1,xgboost,H1,0.006363276167113312,house detachment
+needqr,C,B1,xgboost,H11B,0.008587647073832461,dishwasher age
+needqr,C,B1,xgboost,H2,0.016848249000065,house age
+needqr,C,B1,xgboost,H3,0.0166552968134248,floor area
+needqr,C,B1,xgboost,S8,0.018645438886024747,S8 income adequacy
+needqr,C,B1,xgboost,birth_year,0.026493404538344464,birth year respondent
+needqr,C,B1,xgboost,country,0.015864721428296723,country
+needqr,C,B1,xgboost,dwelling_efficiency_index,0.016704814097270062,dwelling efficiency index
+needqr,C,B1,xgboost,floor_area_per_person,0.022888277913158804,floor area per person
+needqr,C,B1,xgboost,gdp_per_capita,0.035931277595238856,GDP per head (region)
+needqr,C,B1,xgboost,heating_strategy,0.01540055427300138,heating strategy (H9)
+needqr,C,B1,xgboost,heating_system_type,0.01825000544984202,heating system type
+needqr,C,B1,xgboost,household_size,0.016948220560989397,household size
+needqr,C,B1,xgboost,income_bracket,0.6931425558696339,income bracket
+needqr,C,B1,xgboost,income_eur_equiv,0.03399974097132408,income per adult equivalent (EUR)
+needqr,C,B1,xgboost,inefficient_equipment_index,0.02390991541452523,inefficient equipment index
+needqr,C,B1,xgboost,owner_share,0.009340446084513277,home-ownership share (region)
+needqr,C,B1,xgboost,pop_density,0.019098837803989438,population density
+needqr,C,B1,xgboost,poverty_rate,0.01620106420247391,poverty rate (region)
+needqr,C,B1,xgboost,pre1981_share,0.027738876863776296,share of dwellings built before 1981 (region)
+needqr,C,B1,xgboost,unemployment_rate,0.013959414699512963,unemployment rate (region)
+needqr,C,B1,xgboost,vulnerability_index,0.027167694726158362,household vulnerability index
+needqr,C,B1,xgboost,wealth_index,0.031609747222097195,wealth index (house-value stand-in)
+needqr,C,B2,catboost,H1,0.0035278917371579697,house detachment
+needqr,C,B2,catboost,H11B,0.015048594600949282,dishwasher age
+needqr,C,B2,catboost,H2,0.006651809351090503,house age
+needqr,C,B2,catboost,H3,0.008286563415420568,floor area
+needqr,C,B2,catboost,S8,0.02200812862548137,S8 income adequacy
+needqr,C,B2,catboost,birth_year,0.011692185423989938,birth year respondent
+needqr,C,B2,catboost,cdd_x_ac,0.019909433386126406,hot summer x air conditioning
+needqr,C,B2,catboost,country,0.008390022375513567,country
+needqr,C,B2,catboost,dwelling_efficiency_index,0.007078007858173541,dwelling efficiency index
+needqr,C,B2,catboost,floor_area_per_person,0.009658445572147544,floor area per person
+needqr,C,B2,catboost,gdp_per_capita,0.010599813093191182,GDP per head (region)
+needqr,C,B2,catboost,hdd_x_electric,0.02130201142103945,cold winter x electric heating
+needqr,C,B2,catboost,hdd_x_solid,0.011935450172324474,cold winter x solid-fuel heating
+needqr,C,B2,catboost,heating_need_pp,0.012851406594658754,heating need per person
+needqr,C,B2,catboost,heating_strategy,0.0016547663383671206,heating strategy (H9)
+needqr,C,B2,catboost,heating_system_type,0.0028646452181808855,heating system type
+needqr,C,B2,catboost,household_size,0.011144337255925136,household size
+needqr,C,B2,catboost,income_bracket,0.7803771645251292,income bracket
+needqr,C,B2,catboost,income_eur_equiv,0.01984275710722137,income per adult equivalent (EUR)
+needqr,C,B2,catboost,inefficient_equipment_index,0.011745553324168479,inefficient equipment index
+needqr,C,B2,catboost,need_burden,0.02041155758670899,heating need per EUR income
+needqr,C,B2,catboost,owner_share,0.004373451584203433,home-ownership share (region)
+needqr,C,B2,catboost,pop_density,0.0074209360508050385,population density
+needqr,C,B2,catboost,poverty_rate,0.010331890604982004,poverty rate (region)
+needqr,C,B2,catboost,pre1981_share,0.00825680122675877,share of dwellings built before 1981 (region)
+needqr,C,B2,catboost,solar_hs,0.024863936694108475,solar radiation (winter)
+needqr,C,B2,catboost,unemployment_rate,0.010974042009174916,unemployment rate (region)
+needqr,C,B2,catboost,vulnerability_index,0.026789662980815643,household vulnerability index
+needqr,C,B2,catboost,wealth_index,0.02874986761268475,wealth index (house-value stand-in)
+needqr,C,B2,ft_transformer,H1,0.048525418949166656,house detachment
+needqr,C,B2,ft_transformer,H11B,0.04801430109738193,dishwasher age
+needqr,C,B2,ft_transformer,H2,0.059664082852374185,house age
+needqr,C,B2,ft_transformer,H3,0.05083233731832822,floor area
+needqr,C,B2,ft_transformer,S8,0.05298114867568712,S8 income adequacy
+needqr,C,B2,ft_transformer,birth_year,0.05446534236462837,birth year respondent
+needqr,C,B2,ft_transformer,cdd_x_ac,0.054412761606167995,hot summer x air conditioning
+needqr,C,B2,ft_transformer,country,0.05124171945494594,country
+needqr,C,B2,ft_transformer,dwelling_efficiency_index,0.04366089416077936,dwelling efficiency index
+needqr,C,B2,ft_transformer,floor_area_per_person,0.04730307024873773,floor area per person
+needqr,C,B2,ft_transformer,gdp_per_capita,0.05969870685407249,GDP per head (region)
+needqr,C,B2,ft_transformer,hdd_x_electric,0.05738439777964064,cold winter x electric heating
+needqr,C,B2,ft_transformer,hdd_x_solid,0.0429120092562192,cold winter x solid-fuel heating
+needqr,C,B2,ft_transformer,heating_need_pp,0.051806992260597984,heating need per person
+needqr,C,B2,ft_transformer,heating_strategy,0.05847780709711413,heating strategy (H9)
+needqr,C,B2,ft_transformer,heating_system_type,0.04545670587777826,heating system type
+needqr,C,B2,ft_transformer,household_size,0.05249088186689157,household size
+needqr,C,B2,ft_transformer,income_bracket,0.07719192512028945,income bracket
+needqr,C,B2,ft_transformer,income_eur_equiv,0.04752395594141702,income per adult equivalent (EUR)
+needqr,C,B2,ft_transformer,inefficient_equipment_index,0.050760251337226815,inefficient equipment index
+needqr,C,B2,ft_transformer,need_burden,0.05545769685102491,heating need per EUR income
+needqr,C,B2,ft_transformer,owner_share,0.040283215827530604,home-ownership share (region)
+needqr,C,B2,ft_transformer,pop_density,0.04532413065189226,population density
+needqr,C,B2,ft_transformer,poverty_rate,0.051565280943321586,poverty rate (region)
+needqr,C,B2,ft_transformer,pre1981_share,0.05373662822430092,share of dwellings built before 1981 (region)
+needqr,C,B2,ft_transformer,solar_hs,0.046636843400944324,solar radiation (winter)
+needqr,C,B2,ft_transformer,unemployment_rate,0.0488299586657069,unemployment rate (region)
+needqr,C,B2,ft_transformer,vulnerability_index,0.05365532754946013,household vulnerability index
+needqr,C,B2,ft_transformer,wealth_index,0.044230210150878524,wealth index (house-value stand-in)
+needqr,C,B2,xgboost,H1,0.0042852890967624395,house detachment
+needqr,C,B2,xgboost,H11B,0.006776977783573261,dishwasher age
+needqr,C,B2,xgboost,H2,0.012952911759455213,house age
+needqr,C,B2,xgboost,H3,0.01023465136727952,floor area
+needqr,C,B2,xgboost,S8,0.016489478859575378,S8 income adequacy
+needqr,C,B2,xgboost,birth_year,0.022457134876762565,birth year respondent
+needqr,C,B2,xgboost,cdd_x_ac,0.01894283161117122,hot summer x air conditioning
+needqr,C,B2,xgboost,country,0.00835346047869726,country
+needqr,C,B2,xgboost,dwelling_efficiency_index,0.016051831604778518,dwelling efficiency index
+needqr,C,B2,xgboost,floor_area_per_person,0.016848998967133932,floor area per person
+needqr,C,B2,xgboost,gdp_per_capita,0.029960143747201292,GDP per head (region)
+needqr,C,B2,xgboost,hdd_x_electric,0.01622082968019642,cold winter x electric heating
+needqr,C,B2,xgboost,hdd_x_solid,0.015893469560940607,cold winter x solid-fuel heating
+needqr,C,B2,xgboost,heating_need_pp,0.02303634930214654,heating need per person
+needqr,C,B2,xgboost,heating_strategy,0.014518779562667157,heating strategy (H9)
+needqr,C,B2,xgboost,heating_system_type,0.015805613644629204,heating system type
+needqr,C,B2,xgboost,household_size,0.012728984210424439,household size
+needqr,C,B2,xgboost,income_bracket,0.677939490097102,income bracket
+needqr,C,B2,xgboost,income_eur_equiv,0.025995168117602944,income per adult equivalent (EUR)
+needqr,C,B2,xgboost,inefficient_equipment_index,0.021048661810280634,inefficient equipment index
+needqr,C,B2,xgboost,need_burden,0.031306604234710746,heating need per EUR income
+needqr,C,B2,xgboost,owner_share,0.007489953890306178,home-ownership share (region)
+needqr,C,B2,xgboost,pop_density,0.014543808287118418,population density
+needqr,C,B2,xgboost,poverty_rate,0.01540819398938767,poverty rate (region)
+needqr,C,B2,xgboost,pre1981_share,0.024381176882603398,share of dwellings built before 1981 (region)
+needqr,C,B2,xgboost,solar_hs,0.02387877846687681,solar radiation (winter)
+needqr,C,B2,xgboost,unemployment_rate,0.012078819894943152,unemployment rate (region)
+needqr,C,B2,xgboost,vulnerability_index,0.02508052988224416,household vulnerability index
+needqr,C,B2,xgboost,wealth_index,0.029121091706615095,wealth index (house-value stand-in)
+needqr,C,B2p,catboost,H1,0.002431699559473723,house detachment
+needqr,C,B2p,catboost,H11B,0.015976754357977484,dishwasher age
+needqr,C,B2p,catboost,H2,0.007008434432545533,house age
+needqr,C,B2p,catboost,H3,0.007774529831761804,floor area
+needqr,C,B2p,catboost,S8,0.023035400648830077,S8 income adequacy
+needqr,C,B2p,catboost,birth_year,0.011503250935128197,birth year respondent
+needqr,C,B2p,catboost,cdd_x_ac,0.02102536922052562,hot summer x air conditioning
+needqr,C,B2p,catboost,country,0.010839948878157006,country
+needqr,C,B2p,catboost,dwelling_efficiency_index,0.007436098389624716,dwelling efficiency index
+needqr,C,B2p,catboost,floor_area_per_person,0.00913519822854501,floor area per person
+needqr,C,B2p,catboost,gdp_per_capita,0.010792770484024963,GDP per head (region)
+needqr,C,B2p,catboost,hdd_x_electric,0.03511674074328018,cold winter x electric heating
+needqr,C,B2p,catboost,hdd_x_solid,0.009916861731892984,cold winter x solid-fuel heating
+needqr,C,B2p,catboost,heating_need_pp,0.012122335122496412,heating need per person
+needqr,C,B2p,catboost,heating_strategy,0.0024071596140851654,heating strategy (H9)
+needqr,C,B2p,catboost,heating_system_type,0.0053397743496428,heating system type
+needqr,C,B2p,catboost,household_size,0.009673176222180533,household size
+needqr,C,B2p,catboost,income_bracket,0.7825840648529974,income bracket
+needqr,C,B2p,catboost,income_eur_equiv,0.021037733117331443,income per adult equivalent (EUR)
+needqr,C,B2p,catboost,inefficient_equipment_index,0.011846802822184675,inefficient equipment index
+needqr,C,B2p,catboost,need_burden,0.01961782367612802,heating need per EUR income
+needqr,C,B2p,catboost,owner_share,0.004494112014245083,home-ownership share (region)
+needqr,C,B2p,catboost,pop_density,0.007462316240491901,population density
+needqr,C,B2p,catboost,poverty_rate,0.010948138375121132,poverty rate (region)
+needqr,C,B2p,catboost,pre1981_share,0.008499835562946952,share of dwellings built before 1981 (region)
+needqr,C,B2p,catboost,rh_hs,0.015236367537532212,relative humidity (winter)
+needqr,C,B2p,catboost,snowfall_hs,0.0158196689399338,snowfall (winter)
+needqr,C,B2p,catboost,solar_hs,0.03421964503400596,solar radiation (winter)
+needqr,C,B2p,catboost,sunshine_hs,0.03290587244882671,sunshine hours (winter)
+needqr,C,B2p,catboost,unemployment_rate,0.011603911445366087,unemployment rate (region)
+needqr,C,B2p,catboost,vulnerability_index,0.02729804053170922,household vulnerability index
+needqr,C,B2p,catboost,wealth_index,0.024324883984207596,wealth index (house-value stand-in)
+needqr,C,B2p,ft_transformer,H1,0.047972816024075444,house detachment
+needqr,C,B2p,ft_transformer,H11B,0.04636875814441015,dishwasher age
+needqr,C,B2p,ft_transformer,H2,0.05574192207166119,house age
+needqr,C,B2p,ft_transformer,H3,0.0503286266828366,floor area
+needqr,C,B2p,ft_transformer,S8,0.05004874499387908,S8 income adequacy
+needqr,C,B2p,ft_transformer,birth_year,0.051005180792420085,birth year respondent
+needqr,C,B2p,ft_transformer,cdd_x_ac,0.060387783045984335,hot summer x air conditioning
+needqr,C,B2p,ft_transformer,country,0.050988549808347154,country
+needqr,C,B2p,ft_transformer,dwelling_efficiency_index,0.043104395985329204,dwelling efficiency index
+needqr,C,B2p,ft_transformer,floor_area_per_person,0.04736403274354287,floor area per person
+needqr,C,B2p,ft_transformer,gdp_per_capita,0.06136184117649942,GDP per head (region)
+needqr,C,B2p,ft_transformer,hdd_x_electric,0.06959249343428164,cold winter x electric heating
+needqr,C,B2p,ft_transformer,hdd_x_solid,0.05645786914204331,cold winter x solid-fuel heating
+needqr,C,B2p,ft_transformer,heating_need_pp,0.047499428789687194,heating need per person
+needqr,C,B2p,ft_transformer,heating_strategy,0.05630723341929956,heating strategy (H9)
+needqr,C,B2p,ft_transformer,heating_system_type,0.05099489234700433,heating system type
+needqr,C,B2p,ft_transformer,household_size,0.049456708927381444,household size
+needqr,C,B2p,ft_transformer,income_bracket,0.08517738929589877,income bracket
+needqr,C,B2p,ft_transformer,income_eur_equiv,0.048006608075040466,income per adult equivalent (EUR)
+needqr,C,B2p,ft_transformer,inefficient_equipment_index,0.0487229468313493,inefficient equipment index
+needqr,C,B2p,ft_transformer,need_burden,0.05322422457741963,heating need per EUR income
+needqr,C,B2p,ft_transformer,owner_share,0.03921956428131079,home-ownership share (region)
+needqr,C,B2p,ft_transformer,pop_density,0.052126212674840314,population density
+needqr,C,B2p,ft_transformer,poverty_rate,0.056791502724138875,poverty rate (region)
+needqr,C,B2p,ft_transformer,pre1981_share,0.05309826805134495,share of dwellings built before 1981 (region)
+needqr,C,B2p,ft_transformer,rh_hs,0.04681789608186347,relative humidity (winter)
+needqr,C,B2p,ft_transformer,snowfall_hs,0.04366784280983862,snowfall (winter)
+needqr,C,B2p,ft_transformer,solar_hs,0.05865828243913637,solar radiation (winter)
+needqr,C,B2p,ft_transformer,sunshine_hs,0.07449967726055151,sunshine hours (winter)
+needqr,C,B2p,ft_transformer,unemployment_rate,0.04988380126921454,unemployment rate (region)
+needqr,C,B2p,ft_transformer,vulnerability_index,0.053020138697697554,household vulnerability index
+needqr,C,B2p,ft_transformer,wealth_index,0.04444762543741606,wealth index (house-value stand-in)
+needqr,C,B2p,xgboost,H1,0.00411101269353953,house detachment
+needqr,C,B2p,xgboost,H11B,0.007264273131735898,dishwasher age
+needqr,C,B2p,xgboost,H2,0.012923309415671281,house age
+needqr,C,B2p,xgboost,H3,0.010151212670774495,floor area
+needqr,C,B2p,xgboost,S8,0.01737062015234451,S8 income adequacy
+needqr,C,B2p,xgboost,birth_year,0.022103605236560058,birth year respondent
+needqr,C,B2p,xgboost,cdd_x_ac,0.018165455306345675,hot summer x air conditioning
+needqr,C,B2p,xgboost,country,0.01010375802760713,country
+needqr,C,B2p,xgboost,dwelling_efficiency_index,0.014479864787710545,dwelling efficiency index
+needqr,C,B2p,xgboost,floor_area_per_person,0.015027995600288967,floor area per person
+needqr,C,B2p,xgboost,gdp_per_capita,0.02911990069975296,GDP per head (region)
+needqr,C,B2p,xgboost,hdd_x_electric,0.025712532877632335,cold winter x electric heating
+needqr,C,B2p,xgboost,hdd_x_solid,0.017668170164273217,cold winter x solid-fuel heating
+needqr,C,B2p,xgboost,heating_need_pp,0.024081168614384606,heating need per person
+needqr,C,B2p,xgboost,heating_strategy,0.013936744811604899,heating strategy (H9)
+needqr,C,B2p,xgboost,heating_system_type,0.01791823070445271,heating system type
+needqr,C,B2p,xgboost,household_size,0.011418482830517432,household size
+needqr,C,B2p,xgboost,income_bracket,0.6767812402561082,income bracket
+needqr,C,B2p,xgboost,income_eur_equiv,0.025385520824577113,income per adult equivalent (EUR)
+needqr,C,B2p,xgboost,inefficient_equipment_index,0.0204595407875876,inefficient equipment index
+needqr,C,B2p,xgboost,need_burden,0.027250507126485416,heating need per EUR income
+needqr,C,B2p,xgboost,owner_share,0.008634562005074526,home-ownership share (region)
+needqr,C,B2p,xgboost,pop_density,0.015797795072477177,population density
+needqr,C,B2p,xgboost,poverty_rate,0.014667469106154851,poverty rate (region)
+needqr,C,B2p,xgboost,pre1981_share,0.02452358526171516,share of dwellings built before 1981 (region)
+needqr,C,B2p,xgboost,rh_hs,0.025558268462482617,relative humidity (winter)
+needqr,C,B2p,xgboost,snowfall_hs,0.028280143328445806,snowfall (winter)
+needqr,C,B2p,xgboost,solar_hs,0.03406939913690045,solar radiation (winter)
+needqr,C,B2p,xgboost,sunshine_hs,0.03258291691186718,sunshine hours (winter)
+needqr,C,B2p,xgboost,unemployment_rate,0.011989712203106873,unemployment rate (region)
+needqr,C,B2p,xgboost,vulnerability_index,0.024750171586964794,household vulnerability index
+needqr,C,B2p,xgboost,wealth_index,0.02835270748677839,wealth index (house-value stand-in)
+needqr_noclim,A,all,catboost,income_bracket,1.0,income bracket
+needqr_noclim,A,all,ft_transformer,income_bracket,1.0,income bracket
+needqr_noclim,A,all,xgboost,income_bracket,1.0,income bracket
+needqr_noclim,B,B0,catboost,H1,0.011693604811596599,house detachment
+needqr_noclim,B,B0,catboost,H2,0.028711713824944692,house age
+needqr_noclim,B,B0,catboost,H3,0.05327539482024416,floor area
+needqr_noclim,B,B0,catboost,birth_year,0.1437036818788976,birth year respondent
+needqr_noclim,B,B0,catboost,country,0.4687940518625851,country
+needqr_noclim,B,B0,catboost,heating_strategy,0.05415118867933411,heating strategy (H9)
+needqr_noclim,B,B0,catboost,household_size,0.2396703641223978,household size
+needqr_noclim,B,B0,ft_transformer,H1,0.1343589643128077,house detachment
+needqr_noclim,B,B0,ft_transformer,H2,0.13551891296455615,house age
+needqr_noclim,B,B0,ft_transformer,H3,0.12190456759516304,floor area
+needqr_noclim,B,B0,ft_transformer,birth_year,0.13475280164784922,birth year respondent
+needqr_noclim,B,B0,ft_transformer,country,0.18198985096008033,country
+needqr_noclim,B,B0,ft_transformer,heating_strategy,0.15013273905338428,heating strategy (H9)
+needqr_noclim,B,B0,ft_transformer,household_size,0.14134216346615924,household size
+needqr_noclim,B,B0,xgboost,H1,0.065143710081731,house detachment
+needqr_noclim,B,B0,xgboost,H2,0.08600658301522356,house age
+needqr_noclim,B,B0,xgboost,H3,0.08447489500139471,floor area
+needqr_noclim,B,B0,xgboost,birth_year,0.1673794769780577,birth year respondent
+needqr_noclim,B,B0,xgboost,country,0.2930475895002598,country
+needqr_noclim,B,B0,xgboost,heating_strategy,0.09875365892137086,heating strategy (H9)
+needqr_noclim,B,B0,xgboost,household_size,0.20519408650196239,household size
+needqr_noclim,B,B1,catboost,H1,0.006963431467550801,house detachment
+needqr_noclim,B,B1,catboost,H11B,0.027743867853435154,dishwasher age
+needqr_noclim,B,B1,catboost,H2,0.017897201631068328,house age
+needqr_noclim,B,B1,catboost,H3,0.03729755136075917,floor area
+needqr_noclim,B,B1,catboost,S8,0.1754711933078656,S8 income adequacy
+needqr_noclim,B,B1,catboost,birth_year,0.100677406460668,birth year respondent
+needqr_noclim,B,B1,catboost,country,0.38132285856122655,country
+needqr_noclim,B,B1,catboost,floor_area_per_person,0.017514268600128415,floor area per person
+needqr_noclim,B,B1,catboost,gdp_per_capita,0.040923997080336304,GDP per head (region)
+needqr_noclim,B,B1,catboost,heating_strategy,0.02476911497418415,heating strategy (H9)
+needqr_noclim,B,B1,catboost,heating_system_type,0.01325160485537932,heating system type
+needqr_noclim,B,B1,catboost,household_size,0.18774508928333541,household size
+needqr_noclim,B,B1,catboost,inefficient_equipment_index,0.03364037805353657,inefficient equipment index
+needqr_noclim,B,B1,catboost,pop_density,0.018553253576209603,population density
+needqr_noclim,B,B1,catboost,poverty_rate,0.029875873581431917,poverty rate (region)
+needqr_noclim,B,B1,catboost,pre1981_share,0.0334295127695468,share of dwellings built before 1981 (region)
+needqr_noclim,B,B1,catboost,unemployment_rate,0.039837167832958154,unemployment rate (region)
+needqr_noclim,B,B1,catboost,vulnerability_index,0.1831322076761182,household vulnerability index
+needqr_noclim,B,B1,catboost,wealth_index,0.1740709888323455,wealth index (house-value stand-in)
+needqr_noclim,B,B1,ft_transformer,H1,0.08281810685693618,house detachment
+needqr_noclim,B,B1,ft_transformer,H11B,0.04944732518042077,dishwasher age
+needqr_noclim,B,B1,ft_transformer,H2,0.08431894246064436,house age
+needqr_noclim,B,B1,ft_transformer,H3,0.0825227253160254,floor area
+needqr_noclim,B,B1,ft_transformer,S8,0.06280814195816779,S8 income adequacy
+needqr_noclim,B,B1,ft_transformer,birth_year,0.0866141316121451,birth year respondent
+needqr_noclim,B,B1,ft_transformer,country,0.1228063479177223,country
+needqr_noclim,B,B1,ft_transformer,floor_area_per_person,0.04804726682432108,floor area per person
+needqr_noclim,B,B1,ft_transformer,gdp_per_capita,0.0923179348580408,GDP per head (region)
+needqr_noclim,B,B1,ft_transformer,heating_strategy,0.10322207238741966,heating strategy (H9)
+needqr_noclim,B,B1,ft_transformer,heating_system_type,0.07807858384141576,heating system type
+needqr_noclim,B,B1,ft_transformer,household_size,0.09494995803708757,household size
+needqr_noclim,B,B1,ft_transformer,inefficient_equipment_index,0.07121860384237776,inefficient equipment index
+needqr_noclim,B,B1,ft_transformer,pop_density,0.076535901856768,population density
+needqr_noclim,B,B1,ft_transformer,poverty_rate,0.09764641970648288,poverty rate (region)
+needqr_noclim,B,B1,ft_transformer,pre1981_share,0.08579520194283508,share of dwellings built before 1981 (region)
+needqr_noclim,B,B1,ft_transformer,unemployment_rate,0.08294802471090659,unemployment rate (region)
+needqr_noclim,B,B1,ft_transformer,vulnerability_index,0.072990103103313,household vulnerability index
+needqr_noclim,B,B1,ft_transformer,wealth_index,0.07732584735386669,wealth index (house-value stand-in)
+needqr_noclim,B,B1,xgboost,H1,0.03250236335281075,house detachment
+needqr_noclim,B,B1,xgboost,H11B,0.015612363852993937,dishwasher age
+needqr_noclim,B,B1,xgboost,H2,0.05424069524357304,house age
+needqr_noclim,B,B1,xgboost,H3,0.0530129258147326,floor area
+needqr_noclim,B,B1,xgboost,S8,0.1171259305258218,S8 income adequacy
+needqr_noclim,B,B1,xgboost,birth_year,0.10704373843573202,birth year respondent
+needqr_noclim,B,B1,xgboost,country,0.17341760226870376,country
+needqr_noclim,B,B1,xgboost,floor_area_per_person,0.04963745235433348,floor area per person
+needqr_noclim,B,B1,xgboost,gdp_per_capita,0.10952428847884857,GDP per head (region)
+needqr_noclim,B,B1,xgboost,heating_strategy,0.05411628197672571,heating strategy (H9)
+needqr_noclim,B,B1,xgboost,heating_system_type,0.03919678224260008,heating system type
+needqr_noclim,B,B1,xgboost,household_size,0.15279066979253117,household size
+needqr_noclim,B,B1,xgboost,inefficient_equipment_index,0.06301016310935825,inefficient equipment index
+needqr_noclim,B,B1,xgboost,pop_density,0.06623150876201415,population density
+needqr_noclim,B,B1,xgboost,poverty_rate,0.06440134242774843,poverty rate (region)
+needqr_noclim,B,B1,xgboost,pre1981_share,0.09443855399390051,share of dwellings built before 1981 (region)
+needqr_noclim,B,B1,xgboost,unemployment_rate,0.055711662349982885,unemployment rate (region)
+needqr_noclim,B,B1,xgboost,vulnerability_index,0.11594479551059171,household vulnerability index
+needqr_noclim,B,B1,xgboost,wealth_index,0.1585111333365261,wealth index (house-value stand-in)
+needqr_noclim,B,B2,catboost,H1,0.0033556558752473957,house detachment
+needqr_noclim,B,B2,catboost,H11B,0.027212108286676376,dishwasher age
+needqr_noclim,B,B2,catboost,H2,0.01525718658469822,house age
+needqr_noclim,B,B2,catboost,H3,0.03545363176187273,floor area
+needqr_noclim,B,B2,catboost,S8,0.16543743488585722,S8 income adequacy
+needqr_noclim,B,B2,catboost,birth_year,0.091423777199973,birth year respondent
+needqr_noclim,B,B2,catboost,cdd_x_ac,0.07778068830735803,hot summer x air conditioning
+needqr_noclim,B,B2,catboost,country,0.2872830636626694,country
+needqr_noclim,B,B2,catboost,density_x_urban,0.039307560494702944,density x urban area
+needqr_noclim,B,B2,catboost,floor_area_per_person,0.02509161634000499,floor area per person
+needqr_noclim,B,B2,catboost,gdp_per_capita,0.03315207208648272,GDP per head (region)
+needqr_noclim,B,B2,catboost,hdd_x_electric,0.03193149209371794,cold winter x electric heating
+needqr_noclim,B,B2,catboost,heating_need_pp,0.03681734001916173,heating need per person
+needqr_noclim,B,B2,catboost,heating_strategy,0.024613769447439187,heating strategy (H9)
+needqr_noclim,B,B2,catboost,heating_system_type,0.0034033414190958225,heating system type
+needqr_noclim,B,B2,catboost,household_size,0.18000196845352423,household size
+needqr_noclim,B,B2,catboost,inefficient_equipment_index,0.03302605988056285,inefficient equipment index
+needqr_noclim,B,B2,catboost,pop_density,0.016670966462231946,population density
+needqr_noclim,B,B2,catboost,poverty_rate,0.03376060328276359,poverty rate (region)
+needqr_noclim,B,B2,catboost,pre1981_share,0.02972498375526432,share of dwellings built before 1981 (region)
+needqr_noclim,B,B2,catboost,rh_hs,0.05890371360025174,relative humidity (winter)
+needqr_noclim,B,B2,catboost,solar_hs,0.16680553771705742,solar radiation (winter)
+needqr_noclim,B,B2,catboost,unemployment_rate,0.030351067418111975,unemployment rate (region)
+needqr_noclim,B,B2,catboost,vulnerability_index,0.16915628831339619,household vulnerability index
+needqr_noclim,B,B2,catboost,wealth_index,0.16627681907103353,wealth index (house-value stand-in)
+needqr_noclim,B,B2,catboost,wind_hs,0.08413013093392652,wind speed (winter)
+needqr_noclim,B,B2,ft_transformer,H1,0.07303981319242009,house detachment
+needqr_noclim,B,B2,ft_transformer,H11B,0.057386598656733324,dishwasher age
+needqr_noclim,B,B2,ft_transformer,H2,0.07519915819639426,house age
+needqr_noclim,B,B2,ft_transformer,H3,0.06862505052245904,floor area
+needqr_noclim,B,B2,ft_transformer,S8,0.059056275884798816,S8 income adequacy
+needqr_noclim,B,B2,ft_transformer,birth_year,0.07309229932714094,birth year respondent
+needqr_noclim,B,B2,ft_transformer,cdd_x_ac,0.06980651085625586,hot summer x air conditioning
+needqr_noclim,B,B2,ft_transformer,country,0.09416038605150481,country
+needqr_noclim,B,B2,ft_transformer,density_x_urban,0.07918007933534262,density x urban area
+needqr_noclim,B,B2,ft_transformer,floor_area_per_person,0.04946380759058142,floor area per person
+needqr_noclim,B,B2,ft_transformer,gdp_per_capita,0.08442648395064543,GDP per head (region)
+needqr_noclim,B,B2,ft_transformer,hdd_x_electric,0.06483336623318871,cold winter x electric heating
+needqr_noclim,B,B2,ft_transformer,heating_need_pp,0.07217304635173566,heating need per person
+needqr_noclim,B,B2,ft_transformer,heating_strategy,0.08797620688092021,heating strategy (H9)
+needqr_noclim,B,B2,ft_transformer,heating_system_type,0.05001674077319741,heating system type
+needqr_noclim,B,B2,ft_transformer,household_size,0.07823010563789932,household size
+needqr_noclim,B,B2,ft_transformer,inefficient_equipment_index,0.06017570791911635,inefficient equipment index
+needqr_noclim,B,B2,ft_transformer,pop_density,0.054493320252150784,population density
+needqr_noclim,B,B2,ft_transformer,poverty_rate,0.0860495940280334,poverty rate (region)
+needqr_noclim,B,B2,ft_transformer,pre1981_share,0.07731401549697094,share of dwellings built before 1981 (region)
+needqr_noclim,B,B2,ft_transformer,rh_hs,0.08367857549376106,relative humidity (winter)
+needqr_noclim,B,B2,ft_transformer,solar_hs,0.0825574903460281,solar radiation (winter)
+needqr_noclim,B,B2,ft_transformer,unemployment_rate,0.0704544418156211,unemployment rate (region)
+needqr_noclim,B,B2,ft_transformer,vulnerability_index,0.06437254686502937,household vulnerability index
+needqr_noclim,B,B2,ft_transformer,wealth_index,0.06959096354801274,wealth index (house-value stand-in)
+needqr_noclim,B,B2,ft_transformer,wind_hs,0.09252102614520447,wind speed (winter)
+needqr_noclim,B,B2,xgboost,H1,0.020494487559142616,house detachment
+needqr_noclim,B,B2,xgboost,H11B,0.014546649235088202,dishwasher age
+needqr_noclim,B,B2,xgboost,H2,0.04355735233525029,house age
+needqr_noclim,B,B2,xgboost,H3,0.046802493655139284,floor area
+needqr_noclim,B,B2,xgboost,S8,0.10861198129021553,S8 income adequacy
+needqr_noclim,B,B2,xgboost,birth_year,0.09891768854355987,birth year respondent
+needqr_noclim,B,B2,xgboost,cdd_x_ac,0.06520412555675066,hot summer x air conditioning
+needqr_noclim,B,B2,xgboost,country,0.10369884519720607,country
+needqr_noclim,B,B2,xgboost,density_x_urban,0.08108142211881837,density x urban area
+needqr_noclim,B,B2,xgboost,floor_area_per_person,0.04538545874365248,floor area per person
+needqr_noclim,B,B2,xgboost,gdp_per_capita,0.08634194470748119,GDP per head (region)
+needqr_noclim,B,B2,xgboost,hdd_x_electric,0.05175070757168718,cold winter x electric heating
+needqr_noclim,B,B2,xgboost,heating_need_pp,0.08495175503399843,heating need per person
+needqr_noclim,B,B2,xgboost,heating_strategy,0.047373644372436505,heating strategy (H9)
+needqr_noclim,B,B2,xgboost,heating_system_type,0.030454567671956652,heating system type
+needqr_noclim,B,B2,xgboost,household_size,0.13699764629433175,household size
+needqr_noclim,B,B2,xgboost,inefficient_equipment_index,0.05717693103823478,inefficient equipment index
+needqr_noclim,B,B2,xgboost,pop_density,0.061050733259446176,population density
+needqr_noclim,B,B2,xgboost,poverty_rate,0.05869261662472256,poverty rate (region)
+needqr_noclim,B,B2,xgboost,pre1981_share,0.07896764952486329,share of dwellings built before 1981 (region)
+needqr_noclim,B,B2,xgboost,rh_hs,0.08844711114755173,relative humidity (winter)
+needqr_noclim,B,B2,xgboost,solar_hs,0.1745332283922713,solar radiation (winter)
+needqr_noclim,B,B2,xgboost,unemployment_rate,0.0472846491358057,unemployment rate (region)
+needqr_noclim,B,B2,xgboost,vulnerability_index,0.11058186608448757,household vulnerability index
+needqr_noclim,B,B2,xgboost,wealth_index,0.1542560811881053,wealth index (house-value stand-in)
+needqr_noclim,B,B2,xgboost,wind_hs,0.12429745415764067,wind speed (winter)
+needqr_noclim,C,B0,catboost,H1,0.005883486016767281,house detachment
+needqr_noclim,C,B0,catboost,H2,0.013818686710456572,house age
+needqr_noclim,C,B0,catboost,H3,0.016022592546488794,floor area
+needqr_noclim,C,B0,catboost,birth_year,0.023639341563170855,birth year respondent
+needqr_noclim,C,B0,catboost,country,0.042028861623960176,country
+needqr_noclim,C,B0,catboost,heating_strategy,0.007942454192698782,heating strategy (H9)
+needqr_noclim,C,B0,catboost,household_size,0.02593612417484089,household size
+needqr_noclim,C,B0,catboost,income_bracket,0.8647284531716167,income bracket
+needqr_noclim,C,B0,ft_transformer,H1,0.12377709166766233,house detachment
+needqr_noclim,C,B0,ft_transformer,H2,0.1231654649648741,house age
+needqr_noclim,C,B0,ft_transformer,H3,0.11265526987719778,floor area
+needqr_noclim,C,B0,ft_transformer,birth_year,0.12929571842856813,birth year respondent
+needqr_noclim,C,B0,ft_transformer,country,0.12349291903999778,country
+needqr_noclim,C,B0,ft_transformer,heating_strategy,0.11826585080674791,heating strategy (H9)
+needqr_noclim,C,B0,ft_transformer,household_size,0.12273480550642904,household size
+needqr_noclim,C,B0,ft_transformer,income_bracket,0.14661287970852296,income bracket
+needqr_noclim,C,B0,xgboost,H1,0.010823034367487194,house detachment
+needqr_noclim,C,B0,xgboost,H2,0.02922455789465278,house age
+needqr_noclim,C,B0,xgboost,H3,0.018477189464201748,floor area
+needqr_noclim,C,B0,xgboost,birth_year,0.04599611550650557,birth year respondent
+needqr_noclim,C,B0,xgboost,country,0.03335768079484953,country
+needqr_noclim,C,B0,xgboost,heating_strategy,0.023303788931244296,heating strategy (H9)
+needqr_noclim,C,B0,xgboost,household_size,0.028174181836096428,household size
+needqr_noclim,C,B0,xgboost,income_bracket,0.8106434512049624,income bracket
+needqr_noclim,C,B1,catboost,H1,0.002033923333200084,house detachment
+needqr_noclim,C,B1,catboost,H11B,0.01774788700781302,dishwasher age
+needqr_noclim,C,B1,catboost,H2,0.00986656194322493,house age
+needqr_noclim,C,B1,catboost,H3,0.011683538052800053,floor area
+needqr_noclim,C,B1,catboost,S8,0.017921162751145976,S8 income adequacy
+needqr_noclim,C,B1,catboost,birth_year,0.018117129603266835,birth year respondent
+needqr_noclim,C,B1,catboost,country,0.020620963512900728,country
+needqr_noclim,C,B1,catboost,floor_area_per_person,0.008828686594074424,floor area per person
+needqr_noclim,C,B1,catboost,gdp_per_capita,0.020061844589486278,GDP per head (region)
+needqr_noclim,C,B1,catboost,heating_strategy,0.005935477114289127,heating strategy (H9)
+needqr_noclim,C,B1,catboost,heating_system_type,0.012912279695957539,heating system type
+needqr_noclim,C,B1,catboost,household_size,0.01733861029925364,household size
+needqr_noclim,C,B1,catboost,income_bracket,0.8274143955309962,income bracket
+needqr_noclim,C,B1,catboost,income_eur_equiv,0.022998503639662576,income per adult equivalent (EUR)
+needqr_noclim,C,B1,catboost,inefficient_equipment_index,0.015654208833826545,inefficient equipment index
+needqr_noclim,C,B1,catboost,pop_density,0.013454623599403241,population density
+needqr_noclim,C,B1,catboost,poverty_rate,0.01953326691955923,poverty rate (region)
+needqr_noclim,C,B1,catboost,pre1981_share,0.01289472538535958,share of dwellings built before 1981 (region)
+needqr_noclim,C,B1,catboost,unemployment_rate,0.01728557354036769,unemployment rate (region)
+needqr_noclim,C,B1,catboost,vulnerability_index,0.026422955780373812,household vulnerability index
+needqr_noclim,C,B1,catboost,wealth_index,0.03801967568600506,wealth index (house-value stand-in)
+needqr_noclim,C,B1,ft_transformer,H1,0.07513353612961186,house detachment
+needqr_noclim,C,B1,ft_transformer,H11B,0.06285705679392042,dishwasher age
+needqr_noclim,C,B1,ft_transformer,H2,0.07575686017346925,house age
+needqr_noclim,C,B1,ft_transformer,H3,0.0714431026803917,floor area
+needqr_noclim,C,B1,ft_transformer,S8,0.0459728086007171,S8 income adequacy
+needqr_noclim,C,B1,ft_transformer,birth_year,0.07823392861905955,birth year respondent
+needqr_noclim,C,B1,ft_transformer,country,0.08552631146661355,country
+needqr_noclim,C,B1,ft_transformer,floor_area_per_person,0.04191603765806635,floor area per person
+needqr_noclim,C,B1,ft_transformer,gdp_per_capita,0.09205932846053691,GDP per head (region)
+needqr_noclim,C,B1,ft_transformer,heating_strategy,0.09145411850400076,heating strategy (H9)
+needqr_noclim,C,B1,ft_transformer,heating_system_type,0.0626804754739263,heating system type
+needqr_noclim,C,B1,ft_transformer,household_size,0.07464047590076726,household size
+needqr_noclim,C,B1,ft_transformer,income_bracket,0.11193083718354635,income bracket
+needqr_noclim,C,B1,ft_transformer,income_eur_equiv,0.06118689202021312,income per adult equivalent (EUR)
+needqr_noclim,C,B1,ft_transformer,inefficient_equipment_index,0.06091683555436678,inefficient equipment index
+needqr_noclim,C,B1,ft_transformer,pop_density,0.05546782286528298,population density
+needqr_noclim,C,B1,ft_transformer,poverty_rate,0.08876565815894596,poverty rate (region)
+needqr_noclim,C,B1,ft_transformer,pre1981_share,0.0823036379820382,share of dwellings built before 1981 (region)
+needqr_noclim,C,B1,ft_transformer,unemployment_rate,0.07095222084006401,unemployment rate (region)
+needqr_noclim,C,B1,ft_transformer,vulnerability_index,0.06668420885082223,household vulnerability index
+needqr_noclim,C,B1,ft_transformer,wealth_index,0.06353286735655675,wealth index (house-value stand-in)
+needqr_noclim,C,B1,xgboost,H1,0.008303719829099084,house detachment
+needqr_noclim,C,B1,xgboost,H11B,0.007283611482436574,dishwasher age
+needqr_noclim,C,B1,xgboost,H2,0.02070224980641126,house age
+needqr_noclim,C,B1,xgboost,H3,0.015144926707632587,floor area
+needqr_noclim,C,B1,xgboost,S8,0.0183867461404798,S8 income adequacy
+needqr_noclim,C,B1,xgboost,birth_year,0.036403843898299613,birth year respondent
+needqr_noclim,C,B1,xgboost,country,0.021407081751853844,country
+needqr_noclim,C,B1,xgboost,floor_area_per_person,0.016267060662499777,floor area per person
+needqr_noclim,C,B1,xgboost,gdp_per_capita,0.043461001574020365,GDP per head (region)
+needqr_noclim,C,B1,xgboost,heating_strategy,0.017733605948040045,heating strategy (H9)
+needqr_noclim,C,B1,xgboost,heating_system_type,0.01934303439256686,heating system type
+needqr_noclim,C,B1,xgboost,household_size,0.02036245378606682,household size
+needqr_noclim,C,B1,xgboost,income_bracket,0.7242157032178104,income bracket
+needqr_noclim,C,B1,xgboost,income_eur_equiv,0.03420693329598064,income per adult equivalent (EUR)
+needqr_noclim,C,B1,xgboost,inefficient_equipment_index,0.02548424627609457,inefficient equipment index
+needqr_noclim,C,B1,xgboost,pop_density,0.02487513966314997,population density
+needqr_noclim,C,B1,xgboost,poverty_rate,0.02395027390495593,poverty rate (region)
+needqr_noclim,C,B1,xgboost,pre1981_share,0.033520178597892775,share of dwellings built before 1981 (region)
+needqr_noclim,C,B1,xgboost,unemployment_rate,0.018628959736817892,unemployment rate (region)
+needqr_noclim,C,B1,xgboost,vulnerability_index,0.024918790302982958,household vulnerability index
+needqr_noclim,C,B1,xgboost,wealth_index,0.03355383697424188,wealth index (house-value stand-in)
+needqr_noclim,C,B2,catboost,H1,0.0019298918713172009,house detachment
+needqr_noclim,C,B2,catboost,H11B,0.021289959026402926,dishwasher age
+needqr_noclim,C,B2,catboost,H2,0.007442050905976375,house age
+needqr_noclim,C,B2,catboost,H3,0.010308221609277303,floor area
+needqr_noclim,C,B2,catboost,S8,0.018179876535950486,S8 income adequacy
+needqr_noclim,C,B2,catboost,birth_year,0.01636358973064045,birth year respondent
+needqr_noclim,C,B2,catboost,cdd_x_ac,0.025812848267808577,hot summer x air conditioning
+needqr_noclim,C,B2,catboost,country,0.011107055525573225,country
+needqr_noclim,C,B2,catboost,density_x_urban,0.015692314607150832,density x urban area
+needqr_noclim,C,B2,catboost,floor_area_per_person,0.005927620767558373,floor area per person
+needqr_noclim,C,B2,catboost,gdp_per_capita,0.014071285733900398,GDP per head (region)
+needqr_noclim,C,B2,catboost,hdd_x_electric,0.02199903519948653,cold winter x electric heating
+needqr_noclim,C,B2,catboost,heating_need_pp,0.014123696250563667,heating need per person
+needqr_noclim,C,B2,catboost,heating_strategy,0.003127102851370827,heating strategy (H9)
+needqr_noclim,C,B2,catboost,heating_system_type,0.004834430779499226,heating system type
+needqr_noclim,C,B2,catboost,household_size,0.015069456014044219,household size
+needqr_noclim,C,B2,catboost,income_bracket,0.796120202734262,income bracket
+needqr_noclim,C,B2,catboost,income_eur_equiv,0.021564608351062615,income per adult equivalent (EUR)
+needqr_noclim,C,B2,catboost,inefficient_equipment_index,0.01490623018950114,inefficient equipment index
+needqr_noclim,C,B2,catboost,need_burden,0.02202418850775807,heating need per EUR income
+needqr_noclim,C,B2,catboost,pop_density,0.010712466699614065,population density
+needqr_noclim,C,B2,catboost,poverty_rate,0.015470554554924331,poverty rate (region)
+needqr_noclim,C,B2,catboost,pre1981_share,0.011502018551608817,share of dwellings built before 1981 (region)
+needqr_noclim,C,B2,catboost,rh_hs,0.021884362742439784,relative humidity (winter)
+needqr_noclim,C,B2,catboost,solar_hs,0.03297357860121835,solar radiation (winter)
+needqr_noclim,C,B2,catboost,unemployment_rate,0.015695787633974247,unemployment rate (region)
+needqr_noclim,C,B2,catboost,vulnerability_index,0.01944187268182877,household vulnerability index
+needqr_noclim,C,B2,catboost,wealth_index,0.02809599833710021,wealth index (house-value stand-in)
+needqr_noclim,C,B2,catboost,wind_hs,0.032490829253925935,wind speed (winter)
+needqr_noclim,C,B2,ft_transformer,H1,0.06063162180897393,house detachment
+needqr_noclim,C,B2,ft_transformer,H11B,0.04091832530390946,dishwasher age
+needqr_noclim,C,B2,ft_transformer,H2,0.060391326353732684,house age
+needqr_noclim,C,B2,ft_transformer,H3,0.057448269334685026,floor area
+needqr_noclim,C,B2,ft_transformer,S8,0.04205989178647446,S8 income adequacy
+needqr_noclim,C,B2,ft_transformer,birth_year,0.06616942773507514,birth year respondent
+needqr_noclim,C,B2,ft_transformer,cdd_x_ac,0.05947880408236874,hot summer x air conditioning
+needqr_noclim,C,B2,ft_transformer,country,0.06811492044279759,country
+needqr_noclim,C,B2,ft_transformer,density_x_urban,0.07679048748014693,density x urban area
+needqr_noclim,C,B2,ft_transformer,floor_area_per_person,0.03484767335851513,floor area per person
+needqr_noclim,C,B2,ft_transformer,gdp_per_capita,0.07674044989480366,GDP per head (region)
+needqr_noclim,C,B2,ft_transformer,hdd_x_electric,0.06036422040702469,cold winter x electric heating
+needqr_noclim,C,B2,ft_transformer,heating_need_pp,0.061203139497196225,heating need per person
+needqr_noclim,C,B2,ft_transformer,heating_strategy,0.06975793556177137,heating strategy (H9)
+needqr_noclim,C,B2,ft_transformer,heating_system_type,0.04187337482416295,heating system type
+needqr_noclim,C,B2,ft_transformer,household_size,0.05972239151772702,household size
+needqr_noclim,C,B2,ft_transformer,income_bracket,0.0829020403300224,income bracket
+needqr_noclim,C,B2,ft_transformer,income_eur_equiv,0.05027624506687749,income per adult equivalent (EUR)
+needqr_noclim,C,B2,ft_transformer,inefficient_equipment_index,0.05510824358360571,inefficient equipment index
+needqr_noclim,C,B2,ft_transformer,need_burden,0.0632878165431913,heating need per EUR income
+needqr_noclim,C,B2,ft_transformer,pop_density,0.04897885660097023,population density
+needqr_noclim,C,B2,ft_transformer,poverty_rate,0.07559739196007953,poverty rate (region)
+needqr_noclim,C,B2,ft_transformer,pre1981_share,0.06723481149124487,share of dwellings built before 1981 (region)
+needqr_noclim,C,B2,ft_transformer,rh_hs,0.07953997887173124,relative humidity (winter)
+needqr_noclim,C,B2,ft_transformer,solar_hs,0.07237207534951258,solar radiation (winter)
+needqr_noclim,C,B2,ft_transformer,unemployment_rate,0.061513946534651545,unemployment rate (region)
+needqr_noclim,C,B2,ft_transformer,vulnerability_index,0.05243070264822737,household vulnerability index
+needqr_noclim,C,B2,ft_transformer,wealth_index,0.056908822415614416,wealth index (house-value stand-in)
+needqr_noclim,C,B2,ft_transformer,wind_hs,0.08509311335557934,wind speed (winter)
+needqr_noclim,C,B2,xgboost,H1,0.004983813646627789,house detachment
+needqr_noclim,C,B2,xgboost,H11B,0.006984219876302611,dishwasher age
+needqr_noclim,C,B2,xgboost,H2,0.014877760329948012,house age
+needqr_noclim,C,B2,xgboost,H3,0.00951328367055087,floor area
+needqr_noclim,C,B2,xgboost,S8,0.014121576607602647,S8 income adequacy
+needqr_noclim,C,B2,xgboost,birth_year,0.030939526366311455,birth year respondent
+needqr_noclim,C,B2,xgboost,cdd_x_ac,0.018795895162291423,hot summer x air conditioning
+needqr_noclim,C,B2,xgboost,country,0.01062440441921641,country
+needqr_noclim,C,B2,xgboost,density_x_urban,0.027818538055206805,density x urban area
+needqr_noclim,C,B2,xgboost,floor_area_per_person,0.015080444602178984,floor area per person
+needqr_noclim,C,B2,xgboost,gdp_per_capita,0.03413543848164169,GDP per head (region)
+needqr_noclim,C,B2,xgboost,hdd_x_electric,0.020246392682965655,cold winter x electric heating
+needqr_noclim,C,B2,xgboost,heating_need_pp,0.02680966850983506,heating need per person
+needqr_noclim,C,B2,xgboost,heating_strategy,0.01577424989053047,heating strategy (H9)
+needqr_noclim,C,B2,xgboost,heating_system_type,0.013379599048865917,heating system type
+needqr_noclim,C,B2,xgboost,household_size,0.013934713588799953,household size
+needqr_noclim,C,B2,xgboost,income_bracket,0.7027163814222822,income bracket
+needqr_noclim,C,B2,xgboost,income_eur_equiv,0.02446661804007421,income per adult equivalent (EUR)
+needqr_noclim,C,B2,xgboost,inefficient_equipment_index,0.02283681338298479,inefficient equipment index
+needqr_noclim,C,B2,xgboost,need_burden,0.03489346904517004,heating need per EUR income
+needqr_noclim,C,B2,xgboost,pop_density,0.022191845988285285,population density
+needqr_noclim,C,B2,xgboost,poverty_rate,0.024459705475324403,poverty rate (region)
+needqr_noclim,C,B2,xgboost,pre1981_share,0.028501569560880666,share of dwellings built before 1981 (region)
+needqr_noclim,C,B2,xgboost,rh_hs,0.03092270062281211,relative humidity (winter)
+needqr_noclim,C,B2,xgboost,solar_hs,0.029677765289308138,solar radiation (winter)
+needqr_noclim,C,B2,xgboost,unemployment_rate,0.013624159758875501,unemployment rate (region)
+needqr_noclim,C,B2,xgboost,vulnerability_index,0.021315668066623984,household vulnerability index
+needqr_noclim,C,B2,xgboost,wealth_index,0.028074334765844523,wealth index (house-value stand-in)
+needqr_noclim,C,B2,xgboost,wind_hs,0.03087035541345816,wind speed (winter)
+needqr_noclim,C,B2p,catboost,H1,0.0022090347670924455,house detachment
+needqr_noclim,C,B2p,catboost,H11B,0.019566886340800067,dishwasher age
+needqr_noclim,C,B2p,catboost,H2,0.0072878957581939095,house age
+needqr_noclim,C,B2p,catboost,H3,0.01004601400895922,floor area
+needqr_noclim,C,B2p,catboost,S8,0.01998242433104498,S8 income adequacy
+needqr_noclim,C,B2p,catboost,birth_year,0.015800785442807656,birth year respondent
+needqr_noclim,C,B2p,catboost,cdd_x_ac,0.03018454519110425,hot summer x air conditioning
+needqr_noclim,C,B2p,catboost,country,0.008975771049821547,country
+needqr_noclim,C,B2p,catboost,floor_area_per_person,0.007715078582832353,floor area per person
+needqr_noclim,C,B2p,catboost,gdp_per_capita,0.015773293039871673,GDP per head (region)
+needqr_noclim,C,B2p,catboost,hdd_x_electric,0.023769169793801607,cold winter x electric heating
+needqr_noclim,C,B2p,catboost,heating_need_pp,0.015790183449031152,heating need per person
+needqr_noclim,C,B2p,catboost,heating_strategy,0.003042170954287171,heating strategy (H9)
+needqr_noclim,C,B2p,catboost,heating_system_type,0.01174424103016166,heating system type
+needqr_noclim,C,B2p,catboost,household_size,0.015221260796701858,household size
+needqr_noclim,C,B2p,catboost,income_bracket,0.7965552346680234,income bracket
+needqr_noclim,C,B2p,catboost,income_eur_equiv,0.020396020854682197,income per adult equivalent (EUR)
+needqr_noclim,C,B2p,catboost,inefficient_equipment_index,0.014940811158206793,inefficient equipment index
+needqr_noclim,C,B2p,catboost,need_burden,0.021861247368542683,heating need per EUR income
+needqr_noclim,C,B2p,catboost,pop_density,0.011339682200982254,population density
+needqr_noclim,C,B2p,catboost,poverty_rate,0.015308585978668295,poverty rate (region)
+needqr_noclim,C,B2p,catboost,pre1981_share,0.012216234951821515,share of dwellings built before 1981 (region)
+needqr_noclim,C,B2p,catboost,rh_hs,0.02840483380232968,relative humidity (winter)
+needqr_noclim,C,B2p,catboost,snowfall_hs,0.025211762559071243,snowfall (winter)
+needqr_noclim,C,B2p,catboost,solar_hs,0.02637361877213638,solar radiation (winter)
+needqr_noclim,C,B2p,catboost,sunshine_hs,0.03167729214213362,sunshine hours (winter)
+needqr_noclim,C,B2p,catboost,unemployment_rate,0.015411641271370846,unemployment rate (region)
+needqr_noclim,C,B2p,catboost,vulnerability_index,0.01988449659814474,household vulnerability index
+needqr_noclim,C,B2p,catboost,wealth_index,0.029281866110776145,wealth index (house-value stand-in)
+needqr_noclim,C,B2p,catboost,wind_hs,0.034392361253958594,wind speed (winter)
+needqr_noclim,C,B2p,catboost,winter_anomaly,0.014289338521255355,winter 2016/17 vs normal
+needqr_noclim,C,B2p,ft_transformer,H1,0.06161783635473131,house detachment
+needqr_noclim,C,B2p,ft_transformer,H11B,0.04194738213987506,dishwasher age
+needqr_noclim,C,B2p,ft_transformer,H2,0.06399275224263061,house age
+needqr_noclim,C,B2p,ft_transformer,H3,0.05994544995701897,floor area
+needqr_noclim,C,B2p,ft_transformer,S8,0.03786512774650734,S8 income adequacy
+needqr_noclim,C,B2p,ft_transformer,birth_year,0.0652049555377842,birth year respondent
+needqr_noclim,C,B2p,ft_transformer,cdd_x_ac,0.06527362393882571,hot summer x air conditioning
+needqr_noclim,C,B2p,ft_transformer,country,0.06715958019583078,country
+needqr_noclim,C,B2p,ft_transformer,floor_area_per_person,0.03460549356557828,floor area per person
+needqr_noclim,C,B2p,ft_transformer,gdp_per_capita,0.07156442164402704,GDP per head (region)
+needqr_noclim,C,B2p,ft_transformer,hdd_x_electric,0.06296335796886261,cold winter x electric heating
+needqr_noclim,C,B2p,ft_transformer,heating_need_pp,0.06224676259633808,heating need per person
+needqr_noclim,C,B2p,ft_transformer,heating_strategy,0.06892217373291275,heating strategy (H9)
+needqr_noclim,C,B2p,ft_transformer,heating_system_type,0.04489328716850233,heating system type
+needqr_noclim,C,B2p,ft_transformer,household_size,0.06033780331358601,household size
+needqr_noclim,C,B2p,ft_transformer,income_bracket,0.08966964736657036,income bracket
+needqr_noclim,C,B2p,ft_transformer,income_eur_equiv,0.047234093244220024,income per adult equivalent (EUR)
+needqr_noclim,C,B2p,ft_transformer,inefficient_equipment_index,0.05194831358603565,inefficient equipment index
+needqr_noclim,C,B2p,ft_transformer,need_burden,0.059829039283611794,heating need per EUR income
+needqr_noclim,C,B2p,ft_transformer,pop_density,0.04617674550450124,population density
+needqr_noclim,C,B2p,ft_transformer,poverty_rate,0.07249078197281396,poverty rate (region)
+needqr_noclim,C,B2p,ft_transformer,pre1981_share,0.06613055658864432,share of dwellings built before 1981 (region)
+needqr_noclim,C,B2p,ft_transformer,rh_hs,0.061821326973300714,relative humidity (winter)
+needqr_noclim,C,B2p,ft_transformer,snowfall_hs,0.07949905790460271,snowfall (winter)
+needqr_noclim,C,B2p,ft_transformer,solar_hs,0.06160324613344339,solar radiation (winter)
+needqr_noclim,C,B2p,ft_transformer,sunshine_hs,0.06258897854554886,sunshine hours (winter)
+needqr_noclim,C,B2p,ft_transformer,unemployment_rate,0.06406404006992891,unemployment rate (region)
+needqr_noclim,C,B2p,ft_transformer,vulnerability_index,0.05101758093863792,household vulnerability index
+needqr_noclim,C,B2p,ft_transformer,wealth_index,0.054003550571593506,wealth index (house-value stand-in)
+needqr_noclim,C,B2p,ft_transformer,wind_hs,0.07397634652611514,wind speed (winter)
+needqr_noclim,C,B2p,ft_transformer,winter_anomaly,0.08828858489188143,winter 2016/17 vs normal
+needqr_noclim,C,B2p,xgboost,H1,0.005324014935048179,house detachment
+needqr_noclim,C,B2p,xgboost,H11B,0.0064362325097729375,dishwasher age
+needqr_noclim,C,B2p,xgboost,H2,0.015392328814261709,house age
+needqr_noclim,C,B2p,xgboost,H3,0.009373503573870177,floor area
+needqr_noclim,C,B2p,xgboost,S8,0.01602130965821458,S8 income adequacy
+needqr_noclim,C,B2p,xgboost,birth_year,0.030672397707371547,birth year respondent
+needqr_noclim,C,B2p,xgboost,cdd_x_ac,0.0217695305896396,hot summer x air conditioning
+needqr_noclim,C,B2p,xgboost,country,0.011841696686887969,country
+needqr_noclim,C,B2p,xgboost,floor_area_per_person,0.013039250291531456,floor area per person
+needqr_noclim,C,B2p,xgboost,gdp_per_capita,0.03320308606687804,GDP per head (region)
+needqr_noclim,C,B2p,xgboost,hdd_x_electric,0.022716135662163173,cold winter x electric heating
+needqr_noclim,C,B2p,xgboost,heating_need_pp,0.027116296394215565,heating need per person
+needqr_noclim,C,B2p,xgboost,heating_strategy,0.016237285051266644,heating strategy (H9)
+needqr_noclim,C,B2p,xgboost,heating_system_type,0.018250300636925048,heating system type
+needqr_noclim,C,B2p,xgboost,household_size,0.013698543068387399,household size
+needqr_noclim,C,B2p,xgboost,income_bracket,0.6996668246582488,income bracket
+needqr_noclim,C,B2p,xgboost,income_eur_equiv,0.025141184967812803,income per adult equivalent (EUR)
+needqr_noclim,C,B2p,xgboost,inefficient_equipment_index,0.023210646806073976,inefficient equipment index
+needqr_noclim,C,B2p,xgboost,need_burden,0.033736989404632205,heating need per EUR income
+needqr_noclim,C,B2p,xgboost,pop_density,0.02060368046382483,population density
+needqr_noclim,C,B2p,xgboost,poverty_rate,0.02056600334323226,poverty rate (region)
+needqr_noclim,C,B2p,xgboost,pre1981_share,0.027913929944121594,share of dwellings built before 1981 (region)
+needqr_noclim,C,B2p,xgboost,rh_hs,0.028540694950128544,relative humidity (winter)
+needqr_noclim,C,B2p,xgboost,snowfall_hs,0.035535794253015805,snowfall (winter)
+needqr_noclim,C,B2p,xgboost,solar_hs,0.02565680759917859,solar radiation (winter)
+needqr_noclim,C,B2p,xgboost,sunshine_hs,0.02067454072724051,sunshine hours (winter)
+needqr_noclim,C,B2p,xgboost,unemployment_rate,0.014220620372236138,unemployment rate (region)
+needqr_noclim,C,B2p,xgboost,vulnerability_index,0.021362913263798453,household vulnerability index
+needqr_noclim,C,B2p,xgboost,wealth_index,0.027663106322025833,wealth index (house-value stand-in)
+needqr_noclim,C,B2p,xgboost,wind_hs,0.035781587331488146,wind speed (winter)
+needqr_noclim,C,B2p,xgboost,winter_anomaly,0.03416432194334592,winter 2016/17 vs normal
+vh,A,all,catboost,income_bracket,1.0,income bracket
+vh,A,all,ft_transformer,income_bracket,1.0,income bracket
+vh,A,all,xgboost,income_bracket,1.0,income bracket
+vh,B,B0,catboost,H1,0.1667329810016087,house detachment
+vh,B,B0,catboost,H2,0.045745848788454516,house age
+vh,B,B0,catboost,H3,0.1102031469410072,floor area
+vh,B,B0,catboost,birth_year,0.10850292610104577,birth year respondent
+vh,B,B0,catboost,country,0.34325088657870834,country
+vh,B,B0,catboost,heating_strategy,0.04439007932334746,heating strategy (H9)
+vh,B,B0,catboost,household_size,0.18117413126582804,household size
+vh,B,B0,ft_transformer,H1,0.13299231208658086,house detachment
+vh,B,B0,ft_transformer,H2,0.13110158524435941,house age
+vh,B,B0,ft_transformer,H3,0.12874889296607897,floor area
+vh,B,B0,ft_transformer,birth_year,0.12940037926494383,birth year respondent
+vh,B,B0,ft_transformer,country,0.18506299333406326,country
+vh,B,B0,ft_transformer,heating_strategy,0.1509620500063747,heating strategy (H9)
+vh,B,B0,ft_transformer,household_size,0.141731787097599,household size
+vh,B,B0,xgboost,H1,0.12415537796818663,house detachment
+vh,B,B0,xgboost,H2,0.10244267156960267,house age
+vh,B,B0,xgboost,H3,0.11692380031243137,floor area
+vh,B,B0,xgboost,birth_year,0.16319723008232925,birth year respondent
+vh,B,B0,xgboost,country,0.23381657607911518,country
+vh,B,B0,xgboost,heating_strategy,0.09222686398493866,heating strategy (H9)
+vh,B,B0,xgboost,household_size,0.16723748000339622,household size
+vh,B,B1,catboost,H1,0.14588854931721115,house detachment
+vh,B,B1,catboost,H2,0.0406400993236002,house age
+vh,B,B1,catboost,H3,0.09431063567074677,floor area
+vh,B,B1,catboost,birth_year,0.09294176019158741,birth year respondent
+vh,B,B1,catboost,country,0.30606476255628823,country
+vh,B,B1,catboost,gdp_per_capita,0.02900842745981949,GDP per head (region)
+vh,B,B1,catboost,heating_strategy,0.03226883583351439,heating strategy (H9)
+vh,B,B1,catboost,household_size,0.1627476204452475,household size
+vh,B,B1,catboost,inefficient_equipment_index,0.021332753091190246,inefficient equipment index
+vh,B,B1,catboost,pop_density,0.02475021432365279,population density
+vh,B,B1,catboost,poverty_rate,0.026843199886095046,poverty rate (region)
+vh,B,B1,catboost,pre1981_share,0.03214155494081303,share of dwellings built before 1981 (region)
+vh,B,B1,catboost,unemployment_rate,0.024943318579452825,unemployment rate (region)
+vh,B,B1,catboost,vulnerability_index,0.17031442034835506,household vulnerability index
+vh,B,B1,catboost,wealth_index,0.17893737500491508,wealth index (house-value stand-in)
+vh,B,B1,ft_transformer,H1,0.10419899524027317,house detachment
+vh,B,B1,ft_transformer,H2,0.10451906773205752,house age
+vh,B,B1,ft_transformer,H3,0.09896937232070521,floor area
+vh,B,B1,ft_transformer,birth_year,0.10305373826212501,birth year respondent
+vh,B,B1,ft_transformer,country,0.1498620080170513,country
+vh,B,B1,ft_transformer,gdp_per_capita,0.0797929032597607,GDP per head (region)
+vh,B,B1,ft_transformer,heating_strategy,0.11848358523579815,heating strategy (H9)
+vh,B,B1,ft_transformer,household_size,0.11167370075891682,household size
+vh,B,B1,ft_transformer,inefficient_equipment_index,0.10139968961270099,inefficient equipment index
+vh,B,B1,ft_transformer,pop_density,0.07031555407705793,population density
+vh,B,B1,ft_transformer,poverty_rate,0.08162876890568758,poverty rate (region)
+vh,B,B1,ft_transformer,pre1981_share,0.10310506994741139,share of dwellings built before 1981 (region)
+vh,B,B1,ft_transformer,unemployment_rate,0.09093035866069356,unemployment rate (region)
+vh,B,B1,ft_transformer,vulnerability_index,0.08485360802076153,household vulnerability index
+vh,B,B1,ft_transformer,wealth_index,0.09191782862326989,wealth index (house-value stand-in)
+vh,B,B1,xgboost,H1,0.09987347330516397,house detachment
+vh,B,B1,xgboost,H2,0.07879601669504734,house age
+vh,B,B1,xgboost,H3,0.08940825867445683,floor area
+vh,B,B1,xgboost,birth_year,0.12293347526336522,birth year respondent
+vh,B,B1,xgboost,country,0.17126256654650893,country
+vh,B,B1,xgboost,gdp_per_capita,0.09259275477177822,GDP per head (region)
+vh,B,B1,xgboost,heating_strategy,0.06467490525102809,heating strategy (H9)
+vh,B,B1,xgboost,household_size,0.13913096553587226,household size
+vh,B,B1,xgboost,inefficient_equipment_index,0.09948109161307728,inefficient equipment index
+vh,B,B1,xgboost,pop_density,0.06750213385442075,population density
+vh,B,B1,xgboost,poverty_rate,0.07296421124274416,poverty rate (region)
+vh,B,B1,xgboost,pre1981_share,0.11287140079401964,share of dwellings built before 1981 (region)
+vh,B,B1,xgboost,unemployment_rate,0.04579692414854337,unemployment rate (region)
+vh,B,B1,xgboost,vulnerability_index,0.12774627148875733,household vulnerability index
+vh,B,B1,xgboost,wealth_index,0.17596217591889624,wealth index (house-value stand-in)
+vh,B,B2,catboost,H1,0.09483751699942151,house detachment
+vh,B,B2,catboost,H2,0.045914075190127294,house age
+vh,B,B2,catboost,H3,0.07168043707743356,floor area
+vh,B,B2,catboost,birth_year,0.08207668029660033,birth year respondent
+vh,B,B2,catboost,cdd_x_ac,0.07120451792201703,hot summer x air conditioning
+vh,B,B2,catboost,country,0.2733642897870373,country
+vh,B,B2,catboost,density_x_urban,0.03945558368642778,density x urban area
+vh,B,B2,catboost,gdp_per_capita,0.026038646681754186,GDP per head (region)
+vh,B,B2,catboost,hdd_x_uninsulated,0.029645425003802118,cold winter x no insulation
+vh,B,B2,catboost,heating_need_kwh,0.06661146539223135,heating need (kWh)
+vh,B,B2,catboost,heating_strategy,0.022611162078624812,heating strategy (H9)
+vh,B,B2,catboost,household_size,0.16019336248984323,household size
+vh,B,B2,catboost,inefficient_equipment_index,0.02735638595109427,inefficient equipment index
+vh,B,B2,catboost,pop_density,0.02184915518298609,population density
+vh,B,B2,catboost,poverty_rate,0.02702991229206197,poverty rate (region)
+vh,B,B2,catboost,pre1981_share,0.029103950217318715,share of dwellings built before 1981 (region)
+vh,B,B2,catboost,solar_hs,0.08492402766837397,solar radiation (winter)
+vh,B,B2,catboost,unemployment_rate,0.02420648553283863,unemployment rate (region)
+vh,B,B2,catboost,vulnerability_index,0.18721203416782653,household vulnerability index
+vh,B,B2,catboost,wealth_index,0.19034891832458853,wealth index (house-value stand-in)
+vh,B,B2,catboost,wind_hs,0.05277790066332451,wind speed (winter)
+vh,B,B2,catboost,wind_x_detached,0.06738241080548261,wind x detached house
+vh,B,B2,ft_transformer,H1,0.0850228458920995,house detachment
+vh,B,B2,ft_transformer,H2,0.08572904870571853,house age
+vh,B,B2,ft_transformer,H3,0.08039355670196696,floor area
+vh,B,B2,ft_transformer,birth_year,0.08390174127729963,birth year respondent
+vh,B,B2,ft_transformer,cdd_x_ac,0.07629038837139065,hot summer x air conditioning
+vh,B,B2,ft_transformer,country,0.12441484625758853,country
+vh,B,B2,ft_transformer,density_x_urban,0.09761338221392998,density x urban area
+vh,B,B2,ft_transformer,gdp_per_capita,0.07568421888969554,GDP per head (region)
+vh,B,B2,ft_transformer,hdd_x_uninsulated,0.10134073376067318,cold winter x no insulation
+vh,B,B2,ft_transformer,heating_need_kwh,0.08580697827804047,heating need (kWh)
+vh,B,B2,ft_transformer,heating_strategy,0.09668144170260977,heating strategy (H9)
+vh,B,B2,ft_transformer,household_size,0.08690230691562872,household size
+vh,B,B2,ft_transformer,inefficient_equipment_index,0.09818134010023957,inefficient equipment index
+vh,B,B2,ft_transformer,pop_density,0.06389443929526271,population density
+vh,B,B2,ft_transformer,poverty_rate,0.07511421865534622,poverty rate (region)
+vh,B,B2,ft_transformer,pre1981_share,0.08194705214603197,share of dwellings built before 1981 (region)
+vh,B,B2,ft_transformer,solar_hs,0.07654230771002393,solar radiation (winter)
+vh,B,B2,ft_transformer,unemployment_rate,0.08497145974703099,unemployment rate (region)
+vh,B,B2,ft_transformer,vulnerability_index,0.06907519903330678,household vulnerability index
+vh,B,B2,ft_transformer,wealth_index,0.07343925895875895,wealth index (house-value stand-in)
+vh,B,B2,ft_transformer,wind_hs,0.08535449592806665,wind speed (winter)
+vh,B,B2,ft_transformer,wind_x_detached,0.08417551984213911,wind x detached house
+vh,B,B2,xgboost,H1,0.05510882249464614,house detachment
+vh,B,B2,xgboost,H2,0.06300725208889665,house age
+vh,B,B2,xgboost,H3,0.05174913602723512,floor area
+vh,B,B2,xgboost,birth_year,0.10709971323261416,birth year respondent
+vh,B,B2,xgboost,cdd_x_ac,0.0679388640322872,hot summer x air conditioning
+vh,B,B2,xgboost,country,0.1343066308483891,country
+vh,B,B2,xgboost,density_x_urban,0.11161545028774367,density x urban area
+vh,B,B2,xgboost,gdp_per_capita,0.0770861472045628,GDP per head (region)
+vh,B,B2,xgboost,hdd_x_uninsulated,0.07843944899738245,cold winter x no insulation
+vh,B,B2,xgboost,heating_need_kwh,0.11032476332868861,heating need (kWh)
+vh,B,B2,xgboost,heating_strategy,0.05556426323980377,heating strategy (H9)
+vh,B,B2,xgboost,household_size,0.12654791713314759,household size
+vh,B,B2,xgboost,inefficient_equipment_index,0.07872239977860257,inefficient equipment index
+vh,B,B2,xgboost,pop_density,0.05407203707425051,population density
+vh,B,B2,xgboost,poverty_rate,0.06543958199356316,poverty rate (region)
+vh,B,B2,xgboost,pre1981_share,0.0933236341095675,share of dwellings built before 1981 (region)
+vh,B,B2,xgboost,solar_hs,0.1746674933973477,solar radiation (winter)
+vh,B,B2,xgboost,unemployment_rate,0.038751496707502206,unemployment rate (region)
+vh,B,B2,xgboost,vulnerability_index,0.12229885154294172,household vulnerability index
+vh,B,B2,xgboost,wealth_index,0.16907495477420176,wealth index (house-value stand-in)
+vh,B,B2,xgboost,wind_hs,0.10228544104285701,wind speed (winter)
+vh,B,B2,xgboost,wind_x_detached,0.07263642808103915,wind x detached house
+vh,C,B0,catboost,H1,0.06040756445628226,house detachment
+vh,C,B0,catboost,H2,0.02493113158433354,house age
+vh,C,B0,catboost,H3,0.052569980010183155,floor area
+vh,C,B0,catboost,birth_year,0.015266940922571559,birth year respondent
+vh,C,B0,catboost,country,0.033980697642564214,country
+vh,C,B0,catboost,heating_strategy,0.006796906925367243,heating strategy (H9)
+vh,C,B0,catboost,household_size,0.023373579104059277,household size
+vh,C,B0,catboost,income_bracket,0.7826731993546387,income bracket
+vh,C,B0,ft_transformer,H1,0.12058217073961479,house detachment
+vh,C,B0,ft_transformer,H2,0.12821591037523444,house age
+vh,C,B0,ft_transformer,H3,0.11939454177203822,floor area
+vh,C,B0,ft_transformer,birth_year,0.12117239308571996,birth year respondent
+vh,C,B0,ft_transformer,country,0.1318469601962982,country
+vh,C,B0,ft_transformer,heating_strategy,0.12032115494617328,heating strategy (H9)
+vh,C,B0,ft_transformer,household_size,0.11775283763577553,household size
+vh,C,B0,ft_transformer,income_bracket,0.14071403124914555,income bracket
+vh,C,B0,xgboost,H1,0.04845136225264054,house detachment
+vh,C,B0,xgboost,H2,0.04080184818334752,house age
+vh,C,B0,xgboost,H3,0.04550222139997862,floor area
+vh,C,B0,xgboost,birth_year,0.05343775883114594,birth year respondent
+vh,C,B0,xgboost,country,0.034554050293715374,country
+vh,C,B0,xgboost,heating_strategy,0.027079642600201004,heating strategy (H9)
+vh,C,B0,xgboost,household_size,0.032861775726352925,household size
+vh,C,B0,xgboost,income_bracket,0.717311340712618,income bracket
+vh,C,B1,catboost,H1,0.05336187790655303,house detachment
+vh,C,B1,catboost,H2,0.022998073181328606,house age
+vh,C,B1,catboost,H3,0.050568104007397176,floor area
+vh,C,B1,catboost,birth_year,0.013577669333993325,birth year respondent
+vh,C,B1,catboost,country,0.024454965629764618,country
+vh,C,B1,catboost,gdp_per_capita,0.015719970984845448,GDP per head (region)
+vh,C,B1,catboost,heating_strategy,0.0057190500949022526,heating strategy (H9)
+vh,C,B1,catboost,household_size,0.019825661516467,household size
+vh,C,B1,catboost,income_bracket,0.758417053682519,income bracket
+vh,C,B1,catboost,income_eur_equiv,0.02987283667709291,income per adult equivalent (EUR)
+vh,C,B1,catboost,inefficient_equipment_index,0.01122492917767795,inefficient equipment index
+vh,C,B1,catboost,pop_density,0.01164971799436692,population density
+vh,C,B1,catboost,poverty_rate,0.012771614772835456,poverty rate (region)
+vh,C,B1,catboost,pre1981_share,0.013962478123011835,share of dwellings built before 1981 (region)
+vh,C,B1,catboost,unemployment_rate,0.013539133415857347,unemployment rate (region)
+vh,C,B1,catboost,vulnerability_index,0.034511064927418046,household vulnerability index
+vh,C,B1,catboost,wealth_index,0.0439426730800208,wealth index (house-value stand-in)
+vh,C,B1,ft_transformer,H1,0.09660494046582135,house detachment
+vh,C,B1,ft_transformer,H2,0.09332872867747825,house age
+vh,C,B1,ft_transformer,H3,0.08991008647513994,floor area
+vh,C,B1,ft_transformer,birth_year,0.0946015965580169,birth year respondent
+vh,C,B1,ft_transformer,country,0.1001450454329816,country
+vh,C,B1,ft_transformer,gdp_per_capita,0.07685225861624256,GDP per head (region)
+vh,C,B1,ft_transformer,heating_strategy,0.10414411231667714,heating strategy (H9)
+vh,C,B1,ft_transformer,household_size,0.0943635015870076,household size
+vh,C,B1,ft_transformer,income_bracket,0.11523980970930424,income bracket
+vh,C,B1,ft_transformer,income_eur_equiv,0.08108852509590077,income per adult equivalent (EUR)
+vh,C,B1,ft_transformer,inefficient_equipment_index,0.08343625802361819,inefficient equipment index
+vh,C,B1,ft_transformer,pop_density,0.06470573638920887,population density
+vh,C,B1,ft_transformer,poverty_rate,0.07417564080904106,poverty rate (region)
+vh,C,B1,ft_transformer,pre1981_share,0.10208699821255036,share of dwellings built before 1981 (region)
+vh,C,B1,ft_transformer,unemployment_rate,0.07747054022810751,unemployment rate (region)
+vh,C,B1,ft_transformer,vulnerability_index,0.06943886539793834,household vulnerability index
+vh,C,B1,ft_transformer,wealth_index,0.07243394158126944,wealth index (house-value stand-in)
+vh,C,B1,xgboost,H1,0.043337325785838425,house detachment
+vh,C,B1,xgboost,H2,0.03414801464778117,house age
+vh,C,B1,xgboost,H3,0.04037798098769829,floor area
+vh,C,B1,xgboost,birth_year,0.04104183936596782,birth year respondent
+vh,C,B1,xgboost,country,0.025570098089273716,country
+vh,C,B1,xgboost,gdp_per_capita,0.04092811322340063,GDP per head (region)
+vh,C,B1,xgboost,heating_strategy,0.022433161350486692,heating strategy (H9)
+vh,C,B1,xgboost,household_size,0.02733145648022268,household size
+vh,C,B1,xgboost,income_bracket,0.6599979584564727,income bracket
+vh,C,B1,xgboost,income_eur_equiv,0.04710366520787307,income per adult equivalent (EUR)
+vh,C,B1,xgboost,inefficient_equipment_index,0.038676102686868365,inefficient equipment index
+vh,C,B1,xgboost,pop_density,0.02948554033960409,population density
+vh,C,B1,xgboost,poverty_rate,0.03157811334068344,poverty rate (region)
+vh,C,B1,xgboost,pre1981_share,0.0515774895076124,share of dwellings built before 1981 (region)
+vh,C,B1,xgboost,unemployment_rate,0.018134565588908972,unemployment rate (region)
+vh,C,B1,xgboost,vulnerability_index,0.033048650152193125,household vulnerability index
+vh,C,B1,xgboost,wealth_index,0.05366308421647832,wealth index (house-value stand-in)
+vh,C,B2,catboost,H1,0.021072490889093243,house detachment
+vh,C,B2,catboost,H2,0.024839173119792193,house age
+vh,C,B2,catboost,H3,0.03449017416983226,floor area
+vh,C,B2,catboost,birth_year,0.01064417523139535,birth year respondent
+vh,C,B2,catboost,cdd_x_ac,0.01851053665258404,hot summer x air conditioning
+vh,C,B2,catboost,country,0.018659527347362592,country
+vh,C,B2,catboost,density_x_urban,0.0157079620354115,density x urban area
+vh,C,B2,catboost,gdp_per_capita,0.010658392647726495,GDP per head (region)
+vh,C,B2,catboost,hdd_x_uninsulated,0.021094163692928332,cold winter x no insulation
+vh,C,B2,catboost,heating_need_kwh,0.02902252477721247,heating need (kWh)
+vh,C,B2,catboost,heating_strategy,0.0058865279386474765,heating strategy (H9)
+vh,C,B2,catboost,household_size,0.01763851504693065,household size
+vh,C,B2,catboost,income_bracket,0.7382530715186721,income bracket
+vh,C,B2,catboost,income_eur_equiv,0.023322169857246285,income per adult equivalent (EUR)
+vh,C,B2,catboost,inefficient_equipment_index,0.009419173861016074,inefficient equipment index
+vh,C,B2,catboost,need_burden,0.02992463963169188,heating need per EUR income
+vh,C,B2,catboost,pop_density,0.010808276928789844,population density
+vh,C,B2,catboost,poverty_rate,0.0107442936712116,poverty rate (region)
+vh,C,B2,catboost,pre1981_share,0.013064575359385084,share of dwellings built before 1981 (region)
+vh,C,B2,catboost,solar_hs,0.036480859378697904,solar radiation (winter)
+vh,C,B2,catboost,unemployment_rate,0.012424695251566276,unemployment rate (region)
+vh,C,B2,catboost,vulnerability_index,0.02381168514602776,household vulnerability index
+vh,C,B2,catboost,wealth_index,0.04891571758852484,wealth index (house-value stand-in)
+vh,C,B2,catboost,wind_hs,0.021790876213465274,wind speed (winter)
+vh,C,B2,catboost,wind_x_detached,0.02729257360593752,wind x detached house
+vh,C,B2,ft_transformer,H1,0.07518135680714008,house detachment
+vh,C,B2,ft_transformer,H2,0.07720969795033784,house age
+vh,C,B2,ft_transformer,H3,0.0712332036164571,floor area
+vh,C,B2,ft_transformer,birth_year,0.07272050793738008,birth year respondent
+vh,C,B2,ft_transformer,cdd_x_ac,0.0669937017459105,hot summer x air conditioning
+vh,C,B2,ft_transformer,country,0.07301695512820254,country
+vh,C,B2,ft_transformer,density_x_urban,0.08177598533065429,density x urban area
+vh,C,B2,ft_transformer,gdp_per_capita,0.06402500032130927,GDP per head (region)
+vh,C,B2,ft_transformer,hdd_x_uninsulated,0.08802942269925923,cold winter x no insulation
+vh,C,B2,ft_transformer,heating_need_kwh,0.07250551100341159,heating need (kWh)
+vh,C,B2,ft_transformer,heating_strategy,0.07942808385253727,heating strategy (H9)
+vh,C,B2,ft_transformer,household_size,0.07011053859564632,household size
+vh,C,B2,ft_transformer,income_bracket,0.09177894340126706,income bracket
+vh,C,B2,ft_transformer,income_eur_equiv,0.07772137836657789,income per adult equivalent (EUR)
+vh,C,B2,ft_transformer,inefficient_equipment_index,0.057946542383333716,inefficient equipment index
+vh,C,B2,ft_transformer,need_burden,0.07073197030831027,heating need per EUR income
+vh,C,B2,ft_transformer,pop_density,0.056352556232262214,population density
+vh,C,B2,ft_transformer,poverty_rate,0.061486073142300375,poverty rate (region)
+vh,C,B2,ft_transformer,pre1981_share,0.07354033405988608,share of dwellings built before 1981 (region)
+vh,C,B2,ft_transformer,solar_hs,0.07942935856706577,solar radiation (winter)
+vh,C,B2,ft_transformer,unemployment_rate,0.05836203179900482,unemployment rate (region)
+vh,C,B2,ft_transformer,vulnerability_index,0.05365327768664859,household vulnerability index
+vh,C,B2,ft_transformer,wealth_index,0.06407105499117169,wealth index (house-value stand-in)
+vh,C,B2,ft_transformer,wind_hs,0.07492204396306677,wind speed (winter)
+vh,C,B2,ft_transformer,wind_x_detached,0.06875719770414222,wind x detached house
+vh,C,B2,xgboost,H1,0.02048652146757476,house detachment
+vh,C,B2,xgboost,H2,0.025676081571705662,house age
+vh,C,B2,xgboost,H3,0.02385663760177972,floor area
+vh,C,B2,xgboost,birth_year,0.03132866688818081,birth year respondent
+vh,C,B2,xgboost,cdd_x_ac,0.02231026509572636,hot summer x air conditioning
+vh,C,B2,xgboost,country,0.01804855476901656,country
+vh,C,B2,xgboost,density_x_urban,0.04705811405417942,density x urban area
+vh,C,B2,xgboost,gdp_per_capita,0.03429834071761804,GDP per head (region)
+vh,C,B2,xgboost,hdd_x_uninsulated,0.02810569951618505,cold winter x no insulation
+vh,C,B2,xgboost,heating_need_kwh,0.046214062136311254,heating need (kWh)
+vh,C,B2,xgboost,heating_strategy,0.019888553459707685,heating strategy (H9)
+vh,C,B2,xgboost,household_size,0.022645063110050732,household size
+vh,C,B2,xgboost,income_bracket,0.6261884124111139,income bracket
+vh,C,B2,xgboost,income_eur_equiv,0.03495532623599553,income per adult equivalent (EUR)
+vh,C,B2,xgboost,inefficient_equipment_index,0.030479890449613578,inefficient equipment index
+vh,C,B2,xgboost,need_burden,0.046403400494189,heating need per EUR income
+vh,C,B2,xgboost,pop_density,0.024292004452090354,population density
+vh,C,B2,xgboost,poverty_rate,0.027480755338367507,poverty rate (region)
+vh,C,B2,xgboost,pre1981_share,0.041244397866679945,share of dwellings built before 1981 (region)
+vh,C,B2,xgboost,solar_hs,0.04660528787126,solar radiation (winter)
+vh,C,B2,xgboost,unemployment_rate,0.014847241671177864,unemployment rate (region)
+vh,C,B2,xgboost,vulnerability_index,0.026435772640802525,household vulnerability index
+vh,C,B2,xgboost,wealth_index,0.04835539800302739,wealth index (house-value stand-in)
+vh,C,B2,xgboost,wind_hs,0.03465623334594525,wind speed (winter)
+vh,C,B2,xgboost,wind_x_detached,0.022018400805830618,wind x detached house
+vh,C,B2p,catboost,H1,0.03242986919744188,house detachment
+vh,C,B2p,catboost,H2,0.022576829162301113,house age
+vh,C,B2p,catboost,H3,0.03649549651584131,floor area
+vh,C,B2p,catboost,birth_year,0.010551911324568957,birth year respondent
+vh,C,B2p,catboost,country,0.01925908046353962,country
+vh,C,B2p,catboost,density_x_urban,0.015923858591256765,density x urban area
+vh,C,B2p,catboost,gdp_per_capita,0.010416733580770105,GDP per head (region)
+vh,C,B2p,catboost,hdd_x_old,0.015150799867922447,cold winter x old home
+vh,C,B2p,catboost,hdd_x_uninsulated,0.018059102998586932,cold winter x no insulation
+vh,C,B2p,catboost,heating_need_kwh,0.02454959400499173,heating need (kWh)
+vh,C,B2p,catboost,heating_need_pp,0.013514996301417897,heating need per person
+vh,C,B2p,catboost,heating_strategy,0.006304988227243462,heating strategy (H9)
+vh,C,B2p,catboost,household_size,0.017510927129701828,household size
+vh,C,B2p,catboost,income_bracket,0.7381418616747871,income bracket
+vh,C,B2p,catboost,income_eur_equiv,0.022483870450041146,income per adult equivalent (EUR)
+vh,C,B2p,catboost,inefficient_equipment_index,0.00889804676207588,inefficient equipment index
+vh,C,B2p,catboost,need_burden,0.030906167603140935,heating need per EUR income
+vh,C,B2p,catboost,pop_density,0.009956961487428882,population density
+vh,C,B2p,catboost,poverty_rate,0.011211842280311213,poverty rate (region)
+vh,C,B2p,catboost,pre1981_share,0.01323089998942598,share of dwellings built before 1981 (region)
+vh,C,B2p,catboost,snowfall_hs,0.013512461666144487,snowfall (winter)
+vh,C,B2p,catboost,unemployment_rate,0.009672558437385556,unemployment rate (region)
+vh,C,B2p,catboost,vulnerability_index,0.02310520772038357,household vulnerability index
+vh,C,B2p,catboost,wealth_index,0.04336239927395764,wealth index (house-value stand-in)
+vh,C,B2p,catboost,wind_hs,0.027062319669966667,wind speed (winter)
+vh,C,B2p,catboost,wind_x_detached,0.027429864596564654,wind x detached house
+vh,C,B2p,ft_transformer,H1,0.075057181509338,house detachment
+vh,C,B2p,ft_transformer,H2,0.07717155606100227,house age
+vh,C,B2p,ft_transformer,H3,0.07179085028028999,floor area
+vh,C,B2p,ft_transformer,birth_year,0.07189085047509867,birth year respondent
+vh,C,B2p,ft_transformer,country,0.07216261078855894,country
+vh,C,B2p,ft_transformer,density_x_urban,0.07845688067621606,density x urban area
+vh,C,B2p,ft_transformer,gdp_per_capita,0.06787555391386649,GDP per head (region)
+vh,C,B2p,ft_transformer,hdd_x_old,0.05606762531575188,cold winter x old home
+vh,C,B2p,ft_transformer,hdd_x_uninsulated,0.08634221524687816,cold winter x no insulation
+vh,C,B2p,ft_transformer,heating_need_kwh,0.07282630693792558,heating need (kWh)
+vh,C,B2p,ft_transformer,heating_need_pp,0.07139161027564346,heating need per person
+vh,C,B2p,ft_transformer,heating_strategy,0.07727075048378468,heating strategy (H9)
+vh,C,B2p,ft_transformer,household_size,0.06932337856625306,household size
+vh,C,B2p,ft_transformer,income_bracket,0.0907077406778574,income bracket
+vh,C,B2p,ft_transformer,income_eur_equiv,0.07325821019521811,income per adult equivalent (EUR)
+vh,C,B2p,ft_transformer,inefficient_equipment_index,0.06261204940741229,inefficient equipment index
+vh,C,B2p,ft_transformer,need_burden,0.07390902342267996,heating need per EUR income
+vh,C,B2p,ft_transformer,pop_density,0.05914189619875324,population density
+vh,C,B2p,ft_transformer,poverty_rate,0.06003300807496117,poverty rate (region)
+vh,C,B2p,ft_transformer,pre1981_share,0.0734595651119787,share of dwellings built before 1981 (region)
+vh,C,B2p,ft_transformer,snowfall_hs,0.0737073723229871,snowfall (winter)
+vh,C,B2p,ft_transformer,unemployment_rate,0.06199014437707134,unemployment rate (region)
+vh,C,B2p,ft_transformer,vulnerability_index,0.06363479147014811,household vulnerability index
+vh,C,B2p,ft_transformer,wealth_index,0.06367132327572005,wealth index (house-value stand-in)
+vh,C,B2p,ft_transformer,wind_hs,0.0693616764142218,wind speed (winter)
+vh,C,B2p,ft_transformer,wind_x_detached,0.07923445699038716,wind x detached house
+vh,C,B2p,xgboost,H1,0.02538791725506364,house detachment
+vh,C,B2p,xgboost,H2,0.025150600543041864,house age
+vh,C,B2p,xgboost,H3,0.027926187176200688,floor area
+vh,C,B2p,xgboost,birth_year,0.03155289649241472,birth year respondent
+vh,C,B2p,xgboost,country,0.01720621054696316,country
+vh,C,B2p,xgboost,density_x_urban,0.04297973650306147,density x urban area
+vh,C,B2p,xgboost,gdp_per_capita,0.033166459983332786,GDP per head (region)
+vh,C,B2p,xgboost,hdd_x_old,0.027560763205471545,cold winter x old home
+vh,C,B2p,xgboost,hdd_x_uninsulated,0.029730175504798687,cold winter x no insulation
+vh,C,B2p,xgboost,heating_need_kwh,0.03835940801326665,heating need (kWh)
+vh,C,B2p,xgboost,heating_need_pp,0.03417429148289979,heating need per person
+vh,C,B2p,xgboost,heating_strategy,0.019793229633356987,heating strategy (H9)
+vh,C,B2p,xgboost,household_size,0.02021280364934688,household size
+vh,C,B2p,xgboost,income_bracket,0.623187050354878,income bracket
+vh,C,B2p,xgboost,income_eur_equiv,0.03246400812530849,income per adult equivalent (EUR)
+vh,C,B2p,xgboost,inefficient_equipment_index,0.030683862421882795,inefficient equipment index
+vh,C,B2p,xgboost,need_burden,0.048974162146652504,heating need per EUR income
+vh,C,B2p,xgboost,pop_density,0.022853878931103817,population density
+vh,C,B2p,xgboost,poverty_rate,0.02770681113302949,poverty rate (region)
+vh,C,B2p,xgboost,pre1981_share,0.04218262438589308,share of dwellings built before 1981 (region)
+vh,C,B2p,xgboost,snowfall_hs,0.04039854232038445,snowfall (winter)
+vh,C,B2p,xgboost,unemployment_rate,0.01475455506636851,unemployment rate (region)
+vh,C,B2p,xgboost,vulnerability_index,0.026107687925014476,household vulnerability index
+vh,C,B2p,xgboost,wealth_index,0.04679834609212491,wealth index (house-value stand-in)
+vh,C,B2p,xgboost,wind_hs,0.047537588317619846,wind speed (winter)
+vh,C,B2p,xgboost,wind_x_detached,0.026662793110258452,wind x detached house

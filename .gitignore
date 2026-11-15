@@ -1,17 +1,7 @@
-# generated artifacts
-outputs/*
-!outputs/figures/
-!outputs/tables/
-artifacts/
-legacy-archives/
+# caches only: everything else (data, artifacts, legacy archives) is in the repo
 *.pyc
 __pycache__/
 .venv
 .env
-*.tgz
 catboost_info/
 .pytest_cache/
-
-# raw survey microdata: not redistributed here (ENABLE.EU, see README "Data")
-data/raw/
-data/external/

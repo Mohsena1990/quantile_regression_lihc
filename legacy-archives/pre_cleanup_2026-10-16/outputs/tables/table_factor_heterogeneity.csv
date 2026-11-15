@@ -1,0 +1,9 @@
+axis,factor,countries,lr_stat,df,p_heterogeneity,sign_agreement,opposite_signs
+li,solid_fuel,Bulgaria;Hungary;Italy;Poland,12.735466296753657,3,0.005245041254279112,0.75,True
+li,old_dwelling,Bulgaria;Hungary;Italy;Poland,1.747076614749858,3,0.6265187976836679,0.75,True
+li,elderly,Bulgaria;Hungary;Italy;Poland,7.810538901212567,3,0.05009395667309473,1.0,False
+li,large_hh,Bulgaria;Hungary;Italy;Poland,7.739550879940907,3,0.051712534544852785,1.0,False
+hc,solid_fuel,Bulgaria;Hungary;Italy;Poland,13.307520268340795,3,0.004016641711953183,0.5,True
+hc,old_dwelling,Bulgaria;Hungary;Italy;Poland,0.682318695604863,3,0.8773546789807134,0.75,True
+hc,elderly,Bulgaria;Hungary;Italy;Poland,0.3002023338804065,3,0.959990422270666,1.0,False
+hc,large_hh,Bulgaria;Hungary;Italy;Poland,1.311790206542355,3,0.7263352972841697,0.75,True

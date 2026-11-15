@@ -1,0 +1,13 @@
+scope,country,threshold_eur
+descriptive_full_cohort,Bulgaria,1595.2306693322016
+descriptive_full_cohort,Hungary,1222.5492415666743
+descriptive_full_cohort,Italy,2760.0
+descriptive_full_cohort,Poland,1301.3859525487433
+training,Bulgaria,1659.448929610447
+training,Hungary,1195.3814806429705
+training,Italy,2700.0
+training,Poland,1323.9370448672776
+train_validation_for_test,Bulgaria,1583.4709560646888
+train_validation_for_test,Hungary,1203.1436980497429
+train_validation_for_test,Italy,2736.0
+train_validation_for_test,Poland,1303.2652102419547

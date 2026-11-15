@@ -1,0 +1,81 @@
+{
+  "configuration": "annual_2017_canarias",
+  "start": "2017-01-01",
+  "end": "2017-12-31",
+  "role": "SUPPLEMENTARY",
+  "dataset": "derived-era5-land-daily-statistics",
+  "doi": "10.24381/cds.e9c9c792",
+  "request_base": {
+    "variable": [
+      "2m_temperature"
+    ],
+    "year": [
+      "2017"
+    ],
+    "month": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12"
+    ],
+    "day": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31"
+    ],
+    "time_zone": "utc+00:00",
+    "frequency": "1_hourly",
+    "area": [
+      30,
+      -19,
+      27,
+      -13
+    ]
+  },
+  "outputs": {
+    "daily_mean": {
+      "path": "artifacts/climate/era5_land_annual_2017_canarias_daily_mean.nc",
+      "sha256": "5701fe2719490e10dd69b469cc6b469a0c14c0ea008910b8512680857637647c"
+    },
+    "daily_minimum": {
+      "path": "artifacts/climate/era5_land_annual_2017_canarias_daily_minimum.nc",
+      "sha256": "037f7991c775846e3e2a2fd9d8d03b912d11c2662175cbd10c67b44c792430c0"
+    }
+  }
+}

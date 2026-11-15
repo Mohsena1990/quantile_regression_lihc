@@ -1,0 +1,3 @@
+step,feature_added,n_features,avg_macro_f1,avg_accuracy,delta_avg_macro_f1,catboost_macro_f1,catboost_accuracy,hierarchical_catboost_macro_f1,hierarchical_catboost_accuracy
+0,,6,0.39091604304551075,0.503,0.0,0.38005457825296923,0.46,0.4017775078380522,0.546
+1,has_solid_fuel_heating,7,0.41751465789443454,0.52,0.026598614848923785,0.4076422214602381,0.48,0.427387094328631,0.56

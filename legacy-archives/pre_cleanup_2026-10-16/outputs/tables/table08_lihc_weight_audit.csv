@@ -1,0 +1,5 @@
+country,count,nunique,min,max,mean,status
+Bulgaria,1000,24,0.67268,1.8964,0.99999991,candidate survey weight; provenance/estimand requires documentation
+Hungary,1022,12,0.5934263852044428,4.9766657476391325,1.0,candidate survey weight; provenance/estimand requires documentation
+Italy,1025,420,0.131,9.137,0.9999912195121952,candidate survey weight; provenance/estimand requires documentation
+Poland,1000,10,0.947868,1.055579,1.000001627,candidate survey weight; provenance/estimand requires documentation

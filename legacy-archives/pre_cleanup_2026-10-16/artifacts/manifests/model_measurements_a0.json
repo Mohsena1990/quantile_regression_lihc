@@ -1,0 +1,23 @@
+[
+  {
+    "experiment_id": "m1_a0",
+    "status": "AVAILABLE",
+    "eligible_n": 2473,
+    "path": "artifacts/predictions/m1_a0.parquet",
+    "quantile": 0.5757354213751997
+  },
+  {
+    "experiment_id": "m2_a0",
+    "status": "AVAILABLE",
+    "eligible_n": 2473,
+    "path": "artifacts/predictions/m2_a0.parquet",
+    "quantile": 0.582284394195974
+  },
+  {
+    "experiment_id": "m3_a0",
+    "status": "AVAILABLE",
+    "eligible_n": 2473,
+    "path": "artifacts/predictions/m3_a0.parquet",
+    "quantile": 0.6
+  }
+]

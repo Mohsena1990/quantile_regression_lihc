@@ -1,0 +1,42 @@
+{
+  "configuration": "annual_2017",
+  "dataset": "derived-era5-land-daily-statistics",
+  "request_id": "e0bb4fcc-a60b-4799-b6ab-2e0ad35345a8",
+  "source_configurations": [
+    "annual_2017"
+  ],
+  "source_request_ids": {
+    "annual_2017": null
+  },
+  "start": "2017-01-01",
+  "end": "2017-12-31",
+  "temperature_conversion": "Celsius = Kelvin - 273.15",
+  "aggregation_method": "unweighted arithmetic mean of identical ERA5 grid-point membership for daily mean and daily minimum (NaN sea/lake pixels skipped)",
+  "nuts_version": "NUTS 2016 GISCO 1M EPSG:4326",
+  "nuts_geometry_sha256": "3f985a69b0b3cbb4cf9dbb1bd0b303eae45cc94c672436d081e19c34bc3f5394",
+  "raw_sources_sha256": [
+    {
+      "source_configuration": "annual_2017",
+      "mean_sha256": "31b90e2ff096cb9c33a5bd64aff6f60bb3263c2e3328e58727f6955c1d34fc0f",
+      "minimum_sha256": "1f13712790340826aa2b4ea9405ef9501c616de8c4d0f96d6adc34cd6741ef4a"
+    }
+  ],
+  "expected_regions": 17,
+  "fused_regions": 17,
+  "coverage": 1.0,
+  "missing_regions": [],
+  "expected_days": 365,
+  "daily_rows": 6205,
+  "no_duplicate_date_region": true,
+  "all_day_counts_valid": true,
+  "no_missing_regional_temperature": true,
+  "mean_ge_minimum": true,
+  "reasonable_celsius_ranges": true,
+  "degree_day_checks": true,
+  "country_prefix_check": true,
+  "all_grid_points_positive": true,
+  "qc_all_clear": true,
+  "derived_summary_sha256": "3678f42d8fe43240626d297b6ca5b47a792e91493f04351316ab6baa3a8ae2ed",
+  "derived_daily_sha256": "df5005236210d4dfe9c1683573338ae3c9720edd024b76d6d80c2b0e86d1b458",
+  "freeze_hash": "21e130443fad6e346cfee12be64f4f90fef6ae479af90b6923b21b900075a7e1"
+}

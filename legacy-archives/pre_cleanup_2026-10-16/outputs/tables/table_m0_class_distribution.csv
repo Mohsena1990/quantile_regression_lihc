@@ -1,0 +1,21 @@
+country,risk_class_code,risk_class_name,n,share
+Bulgaria,0,No Risk,359,0.4924554183813443
+Bulgaria,1,Income Risk,225,0.30864197530864196
+Bulgaria,2,Expenditure Risk,96,0.13168724279835392
+Bulgaria,3,Double Risk,49,0.06721536351165981
+Hungary,0,No Risk,162,0.20199501246882792
+Hungary,1,Income Risk,480,0.5985037406483791
+Hungary,2,Expenditure Risk,62,0.0773067331670823
+Hungary,3,Double Risk,98,0.12219451371571072
+Italy,0,No Risk,202,0.4334763948497854
+Italy,1,Income Risk,174,0.37339055793991416
+Italy,2,Expenditure Risk,68,0.1459227467811159
+Italy,3,Double Risk,22,0.04721030042918455
+Poland,0,No Risk,58,0.12184873949579832
+Poland,1,Income Risk,323,0.6785714285714286
+Poland,2,Expenditure Risk,27,0.05672268907563025
+Poland,3,Double Risk,68,0.14285714285714285
+Five-country overall,0,No Risk,781,0.31581075616659926
+Five-country overall,1,Income Risk,1202,0.4860493327941771
+Five-country overall,2,Expenditure Risk,253,0.10230489284270117
+Five-country overall,3,Double Risk,237,0.09583501819652245

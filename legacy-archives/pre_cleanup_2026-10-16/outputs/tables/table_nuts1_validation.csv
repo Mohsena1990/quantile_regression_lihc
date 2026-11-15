@@ -1,0 +1,5 @@
+country,households,survey_nuts1,matched_nuts1,complete
+Bulgaria,1000,2,2,True
+Hungary,1022,3,3,True
+Italy,1025,5,5,True
+Poland,1000,7,7,True

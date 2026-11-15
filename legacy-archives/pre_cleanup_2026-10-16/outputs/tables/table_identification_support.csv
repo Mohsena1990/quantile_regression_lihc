@@ -1,0 +1,9 @@
+country,No Risk,Income Risk,Expenditure Risk,Double Risk,n,low_income_n,high_cost_n,min_class_n,four_class_ok,axis_ok,cost_kind,income_rule
+Bulgaria,290,177,78,39,584,216,117,39,True,True,raw_q80,bracket3
+Hungary,132,386,49,79,646,465,128,49,True,True,raw_q80,bracket3
+Italy,168,137,55,22,382,159,77,22,False,True,raw_q80,bracket3
+Poland,44,263,23,54,384,317,77,23,False,True,raw_q80,bracket3
+Bulgaria,222,146,146,70,584,216,216,70,True,True,need_adjusted,bracket3
+Hungary,104,305,77,160,646,465,237,77,True,True,need_adjusted,bracket3
+Italy,124,111,99,48,382,159,147,48,True,True,need_adjusted,bracket3
+Poland,37,208,30,109,384,317,139,30,True,True,need_adjusted,bracket3
